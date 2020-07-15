@@ -3,7 +3,11 @@ const express = require("express");
 const dotenv = require("dotenv");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
-var cors = require("cors");
+const bodyParser = require("body-parser");
+
+const apiRoute = require("./api/v1/routes/index.route");
+
+const cors = require("cors");
 
 dotenv.config();
 const app = express();
@@ -18,8 +22,13 @@ db.on("error", (err) => {
 });
 
 app.use(morgan("dev"));
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 app.use(cors());
 
+app.use("/api", apiRoute);
 app.listen(PORT, () => {
   console.log("Server started on http://localhost:" + PORT);
 });
