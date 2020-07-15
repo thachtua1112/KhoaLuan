@@ -295,6 +295,24 @@ const Hre_ProfileSchema = new Schema({
   StatusItg: { type: Schema.Types.String },
 });
 
+Hre_ProfileSchema.virtual("Position", {
+  ref: "Cat_Position",
+  localField: "PositionID",
+  foreignField: "ID",
+});
+
+Hre_ProfileSchema.virtual("OrgStructure", {
+  ref: "Cat_OrgStructure",
+  localField: "OrgStructureID",
+  foreignField: "ID",
+});
+
+Hre_ProfileSchema.virtual("ContractType", {
+  ref: "Cat_ContractType",
+  localField: "ContractTypeID",
+  foreignField: "ID",
+});
+
 const Hre_ProfileModel = mongoose.model("Hre_Profile", Hre_ProfileSchema);
 
 module.exports = Hre_ProfileModel;
