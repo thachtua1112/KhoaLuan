@@ -1,12 +1,14 @@
 const express = require("express");
 
-const ProfileController = require("../controllers/profile.controller");
+const ProfileController = require("../controllers/Hre_Profile.controller");
 
 const ProfileRoute = express.Router();
 
 ProfileRoute.get("/", ProfileController.getAll);
-ProfileRoute.get("/:ID", ProfileController.getByID);
+
 ProfileRoute.get("/filter", ProfileController.getWithFilter);
+
+ProfileRoute.get("/:ID", ProfileController.getByID);
 
 ProfileRoute.post("/", ProfileController.create);
 

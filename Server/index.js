@@ -5,7 +5,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
-const apiRoute = require("./api/v1/routes/index.route");
+const apiRoute = require("./api/v1/routes");
 
 const cors = require("cors");
 
