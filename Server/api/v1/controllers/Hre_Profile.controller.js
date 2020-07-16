@@ -2,7 +2,7 @@ const Hre_ProfileModel = require("../models/Hre_Profile.model");
 
 module.exports.getAll = async (req, res) => {
   const result = await Hre_ProfileModel.find({});
-  res.status(200).json(result);
+  return res.status(200).json(result);
 };
 
 module.exports.getByID = async (req, res) => {

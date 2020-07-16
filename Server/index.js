@@ -5,7 +5,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
-const apiRoute = require("./api/v1/routes");
+const apiRouteV1 = require("./api/v1/routes");
 
 const cors = require("cors");
 
@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
-app.use("/api", apiRoute);
+app.use("/api/v1", apiRouteV1);
 app.listen(PORT, () => {
   console.log("Server started on http://localhost:" + PORT);
 });
