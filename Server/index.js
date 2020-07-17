@@ -35,31 +35,27 @@ app.use(bodyParser.json());
 //app.use(cors());
 
 app.get("/structure-tree", async (req, res) => {
+  const { ID } = req.query;
   const listOrg = await Cat_OrgStructureModel.find();
   const listOrgStructure = listOrg.map((item) => {
     const { ID, OrgStructureName, ParentID } = item;
     return { ID, OrgStructureName, ParentID };
   });
 
-  const Tree = drawStructureTree(
-    listOrgStructure,
-    "2D51E4D9-0E27-451F-83D8-04DA7D6B9797"
-  );
+  const Tree = drawStructureTree(listOrgStructure, ID);
 
   res.json(Tree);
 });
 
 app.get("/list-unit", async (req, res) => {
+  const { ID } = req.query;
   const listOrg = await Cat_OrgStructureModel.find();
   const listOrgStructure = listOrg.map((item) => {
     const { ID, OrgStructureName, ParentID } = item;
     return { ID, OrgStructureName, ParentID };
   });
 
-  const Tree = drawStructureTree(
-    listOrgStructure,
-    "2D51E4D9-0E27-451F-83D8-04DA7D6B9797"
-  );
+  const Tree = drawStructureTree(listOrgStructure, ID);
 
   const listUnit = getListUnit(Tree);
   res.json(listUnit);
