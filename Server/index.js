@@ -10,7 +10,10 @@ const bodyParser = require("body-parser");
 const apiRouteV1 = require("./api/v1/routes");
 
 const cors = require("cors");
+
 const Cat_OrgStructureModel = require("./api/v1/models/Cat_OrgStructure.model");
+
+const { drawStructureTree, getListUnit } = require("./api/v1/utils/index");
 
 dotenv.config();
 const app = express();
@@ -31,28 +34,7 @@ app.use(bodyParser.json());
 
 //app.use(cors());
 
-const drawStructureTree = (listOrg, rootID, Tree = {}) => {
-  Tree.data = {};
-  Tree.children = [];
-
-  const dataFind = listOrg.find((item) => rootID == item.ID);
-  const childrenFilter = listOrg.filter((item) => rootID == item.ParentID);
-
-  Tree.data = dataFind;
-
-  if (childrenFilter.length <= 0) {
-    Tree.children = null;
-    return;
-  }
-
-  childrenFilter.forEach((item, index) => {
-    Tree.children[index] = {};
-    drawStructureTree(listOrg, item.ID, Tree.children[index]);
-  });
-  return Tree;
-};
-
-app.get("/structure", async (req, res) => {
+app.get("/structure-tree", async (req, res) => {
   const listOrg = await Cat_OrgStructureModel.find();
   const listOrgStructure = listOrg.map((item) => {
     const { ID, OrgStructureName, ParentID } = item;
@@ -65,6 +47,22 @@ app.get("/structure", async (req, res) => {
   );
 
   res.json(Tree);
+});
+
+app.get("/list-unit", async (req, res) => {
+  const listOrg = await Cat_OrgStructureModel.find();
+  const listOrgStructure = listOrg.map((item) => {
+    const { ID, OrgStructureName, ParentID } = item;
+    return { ID, OrgStructureName, ParentID };
+  });
+
+  const Tree = drawStructureTree(
+    listOrgStructure,
+    "2D51E4D9-0E27-451F-83D8-04DA7D6B9797"
+  );
+
+  const listUnit = getListUnit(Tree);
+  res.json(listUnit);
 });
 
 app.use("/api/v1", apiRouteV1);
