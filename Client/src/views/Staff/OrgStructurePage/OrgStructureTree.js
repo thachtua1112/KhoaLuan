@@ -398,6 +398,7 @@ const OrgStructureTree = (props) => {
       defaultExpandIcon={<ArrowRightIcon />}
       defaultExpanded={["root"]}
     >
+      Sơ đồ tổ chức
       {renderTree(data)}
     </TreeView>
   );

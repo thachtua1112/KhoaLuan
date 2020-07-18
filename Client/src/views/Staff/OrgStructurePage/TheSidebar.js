@@ -15,7 +15,7 @@ const TheSidebar = () => {
     // elevation={0}
     >
       <Button color="secondary" endIcon={<CachedIcon />} size="small">
-        Nap lai
+        Nạp lại dữ liệu
       </Button>
 
       <FormControlLabel
@@ -26,7 +26,7 @@ const TheSidebar = () => {
           />
         }
         labelPlacement="end"
-        label="Hien thi phong ban an"
+        label="Hiển thị phòng ban ẩn"
       />
       <Autocomplete
         elevation={0}
@@ -40,7 +40,7 @@ const TheSidebar = () => {
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Tim kiem phong ban"
+            label="Tìm kiếm phòng ban"
             variant="outlined"
           />
         )}
