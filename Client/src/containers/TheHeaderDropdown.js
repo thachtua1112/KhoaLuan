@@ -9,7 +9,9 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
-const TheHeaderDropdown = () => {
+const TheHeaderDropdown = (props) => {
+  const onLogout=props.onLogout;
+
   return (
     <CDropdown
       inNav
@@ -80,7 +82,7 @@ const TheHeaderDropdown = () => {
           <CBadge color="primary" className="mfs-auto">42</CBadge>
         </CDropdownItem>
         <CDropdownItem divider />
-        <CDropdownItem>
+        <CDropdownItem onClick={(e)=>{onLogout(e)}}>
           <CIcon  name="cil-lock-locked" className="mfe-2" />
           LogOut
         </CDropdownItem>
