@@ -1,18 +1,22 @@
 import React from "react";
 
 import { CDataTable } from "@coreui/react";
-import Paper from "@material-ui/core/Paper";
+
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
 
 const TheContent = () => {
   return (
-    <Paper>
-      DS NV
+    <Card>
+      <CardContent>DS NHAN VIEN</CardContent>
       <CDataTable
         size="small"
         items={[]}
         fields={["selected", "MaNV", "TenNV", "Phong ban"]}
       />
-    </Paper>
+      <CardActions>Card action</CardActions>
+    </Card>
   );
 };
 

@@ -127,7 +127,7 @@ export default [
       {
         _tag: "CSidebarNavItem",
         name: "Danh sách kỉ luật",
-        to: "/nhan-su/qua-trinh-cong-tac/ds-ki-luat",
+        to: "/nhan-su/qua-trinh-cong-tac/ds-khen-thuong",
       }
     ]
   },
