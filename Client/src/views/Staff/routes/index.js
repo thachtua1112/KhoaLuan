@@ -4,10 +4,10 @@ const OrgStructurePage = React.lazy(() => import("../OrgStructurePage"));
 
 const staffRoute = [
   {
-    path: "/nhan-su/",
+    path: "/nhan-su",
     name: "Nhân sự",
-    component: OrgStructurePage,
     exact: true,
+    component: OrgStructurePage,
   },
   {
     path: "/nhan-su/to-chuc-nhan-su",
