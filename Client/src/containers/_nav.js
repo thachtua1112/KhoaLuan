@@ -2,7 +2,7 @@ export default [
   {
     _tag: "CSidebarNavItem",
     name: "Bảng Quản lý",
-    to: "/dashboard",
+    to: "/",
     icon: "cil-speedometer",
     badge: {
       color: "info",
