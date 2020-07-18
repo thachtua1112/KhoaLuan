@@ -1,9 +1,24 @@
-import callAPI from "./callAPI";
+/*import callAPI from "./callAPI";
 
 export const login = (body) => {
-  return callAPI("/login", "POST", body);
+  return callAPI("/user/login", "POST", body);
 };
+*/import axios from "axios";
 
+export default (endpoint, method = "GET", body) => {
+  return axios({
+    method: method,
+    url: `localhost:8797${endpoint}`,
+    data: body,
+  },
+  {
+    headers : {
+      'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+  }
+   }).catch((err) => {
+    throw err;
+  });
+};
 // HAHA class AuthenticationAPI {
 //   login = (params) => {
 //     const url = "/login";

@@ -1,5 +1,7 @@
 import React,{useState} from 'react'
 import {Redirect} from 'react-router-dom'
+import axios from 'axios'
+import qs from 'qs'
 import {
   CButton,
   CCard,
@@ -15,6 +17,7 @@ import {
   CRow
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import login from '../../../callAPI/Authentication.api'
 
 const Login = () => {
   const [name,setname]=useState("");
@@ -29,8 +32,30 @@ const Login = () => {
     setPass(e.target.value)
   }
 
-  const On_login = ()=>{
-    setisRedirect(true)
+  const On_login = () =>{
+    axios
+    .post("http://localhost:8797/user/login",qs.stringify( {
+      username:name,
+      password:pass
+     }),
+    {
+     headers : {
+       'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+   }
+    })
+    .then((res) =>{
+      if ("success" === res.data.login) {
+        console.log("DANG_NHAP_THANH_CONG");
+        localStorage.setItem("token",res.data.accessToken);
+        localStorage.setItem("RefreshToken",res.data.refreshToken);
+        setisRedirect(true);
+      }
+       console.log(res)
+
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
   return   isRedirect?<Redirect to='/' />:
