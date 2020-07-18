@@ -3,12 +3,8 @@ import React from "react";
 const OrgStructurePage = React.lazy(() => import("../OrgStructurePage"));
 
 const staffRoute = [
-  {
-    path: "/org-structure",
-    name: "OrgStructure",
-    component: OrgStructurePage,
-    exact: true,
-  },
+  { path: "/nhan-su/", name: "Nhân sự", component: OrgStructurePage, exact: true},
+  { path: "/nhan-su/to-chu-nhan-su", name: "Tổ chức nhân sự",component: OrgStructurePage},
 ];
 
 export default staffRoute;
