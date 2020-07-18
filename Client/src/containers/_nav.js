@@ -1,29 +1,94 @@
 export default [
   {
     _tag: "CSidebarNavItem",
-    name: "Dashboard",
+    name: "Bảng Quản lý",
     to: "/dashboard",
     icon: "cil-speedometer",
     badge: {
       color: "info",
-      text: "NEW",
+      text: "HR",
     },
   },
   {
     _tag: "CSidebarNavTitle",
-    _children: ["Theme"],
+    _children: ["NHÂN SỰ"],
+    icon: "cil-drop"
   },
   {
     _tag: "CSidebarNavItem",
-    name: "Colors",
-    to: "/theme/colors",
+    name: "Tổ chức nhân sự",
+    to: "/nhan-su/to-chuc-nhan-su",
     icon: "cil-drop",
   },
   {
     _tag: "CSidebarNavItem",
-    name: "Typography",
-    to: "/theme/typography",
+    name: "Tiếp nhận nhân viên mới",
+    to: "/nhan-su/tiep-nhan-nhan-vien-moi",
     icon: "cil-pencil",
+  },
+  {
+    _tag: "CSidebarNavDropdown",
+    name: "Nhân viên đang làm việc",
+    to: "/nhan-su/tiep-nhan-nhan-vien-moi",
+    icon: "cil-pencil",
+    _children: [
+      {
+        _tag: "CSidebarNavItem",
+        name: "Thêm nhân viên mới",
+        to: "/nhan-su/tiep-nhan-nhan-vien-moi/them-nhan-vien-moi",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Danh sách nhân viên mới",
+        to: "/nhan-su/tiep-nhan-nhan-vien-moi/danh-sach-nhan-vien-moi",
+      }
+    ]
+  },
+  {
+    _tag: "CSidebarNavDropdown",
+    name: "Dữ liệu nhân viên",
+    to: "/nhan-su/du-lieu-nhan-vien",
+    icon: "cil-pencil",
+    _children: [
+      {
+        _tag: "CSidebarNavItem",
+        name: "Nhân viên nghỉ việc",
+        to: "/nhan-su/du-lieu-nhan-vien/nhan-vien-nghi-viec",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Nhân viên đến tuổi nghỉ hưu",
+        to: "/nhan-su/du-lieu-nhan-vien/nhan-vien-huu",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Danh sách trình độ chuyên môn",
+        to: "/nhan-su/du-lieu-nhan-vien/nhan-vien-nghi-viec",
+      }
+    ]
+  },
+  {
+    _tag: "CSidebarNavDropdown",
+    name: "Hợp đồng",
+    to: "/nhan-su/hop-dong",
+    icon: "cil-pencil",
+    _children: [
+      {
+        _tag: "CSidebarNavItem",
+        name: "Danh sách hợp đồng",
+        to: "/nhan-su/hop-dong/danh-sach-hop-dong",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Danh sách nhân viên chưa có hợp đồng",
+        to: "/nhan-su/hop-dong/danh-sach-chua-co-hop-dong",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Danh sách hợp đồng hết hạn",
+        to: "/nhan-su/hop-dong/danh-sach-hop-dong-het-han",
+      }
+    ]
   },
   {
     _tag: "CSidebarNavTitle",
