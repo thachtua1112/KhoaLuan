@@ -12,7 +12,7 @@ export default [
   {
     _tag: "CSidebarNavTitle",
     _children: ["NHÂN SỰ"],
-    icon: "cil-drop",
+    icon: "cil-drop"
   },
   {
     _tag: "CSidebarNavItem",
@@ -41,8 +41,8 @@ export default [
         _tag: "CSidebarNavItem",
         name: "Danh sách nhân viên mới",
         to: "/nhan-su/tiep-nhan-nhan-vien-moi/danh-sach-nhan-vien-moi",
-      },
-    ],
+      }
+    ]
   },
   {
     _tag: "CSidebarNavDropdown",
@@ -64,8 +64,8 @@ export default [
         _tag: "CSidebarNavItem",
         name: "Danh sách trình độ chuyên môn",
         to: "/nhan-su/du-lieu-nhan-vien/nhan-vien-nghi-viec",
-      },
-    ],
+      }
+    ]
   },
   {
     _tag: "CSidebarNavDropdown",
@@ -76,23 +76,64 @@ export default [
       {
         _tag: "CSidebarNavItem",
         name: "Danh sách hợp đồng",
-        to: "/nhan-su/hop-dong/danh-sach-hop-dong",
+        to: "/nhan-su/hop-dong/ds-hop-dong",
       },
       {
         _tag: "CSidebarNavItem",
-        name: "Danh sách nhân viên chưa có hợp đồng",
-        to: "/nhan-su/hop-dong/danh-sach-chua-co-hop-dong",
+        name: "Ds nhân viên chưa có hợp đồng",
+        to: "/nhan-su/hop-dong/ds-chua-co-hop-dong",
       },
       {
         _tag: "CSidebarNavItem",
         name: "Danh sách hợp đồng hết hạn",
-        to: "/nhan-su/hop-dong/danh-sach-hop-dong-het-han",
+        to: "/nhan-su/hop-dong/ds-hop-dong-het-han",
+      }
+    ]
+  },
+  {
+    _tag: "CSidebarNavDropdown",
+    name: "Phụ lục hợp đồng",
+    to: "/nhan-su/phu-luc-hop-dong",
+    icon: "cil-pencil",
+    _children: [
+      {
+        _tag: "CSidebarNavItem",
+        name: "Danh sách phụ lục hợp đồng",
+        to: "/nhan-su/hop-dong/ds-phu-luc-hop-dong",
       },
-    ],
+      {
+        _tag: "CSidebarNavItem",
+        name: "Ds phụ lục hợp đồng hết hạn",
+        to: "/nhan-su/phu-luc-hop-dong/ds-phu-luc-hop-dong-het-han",
+      }
+    ]
+  },
+  {
+    _tag: "CSidebarNavDropdown",
+    name: "Quá trình công tác",
+    to: "/nhan-su/qua-trinh-cong-tac",
+    icon: "cil-pencil",
+    _children: [
+      {
+        _tag: "CSidebarNavItem",
+        name: "Qtr điều động & bổ nhiệm",
+        to: "/nhan-su/qua-trinh-cong-tac/dieu-dong-bo-nhiem",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Danh sách khen thưởng",
+        to: "/nhan-su/qua-trinh-cong-tac/ds-khen-thuong",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Danh sách kỉ luật",
+        to: "/nhan-su/qua-trinh-cong-tac/ds-khen-thuong",
+      }
+    ]
   },
   {
     _tag: "CSidebarNavTitle",
-    _children: ["Components"],
+    _children: ["Chấm công"],
   },
   {
     _tag: "CSidebarNavDropdown",
