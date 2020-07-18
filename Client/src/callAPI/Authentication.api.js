@@ -1,8 +1,7 @@
-import clientAPI from "./Client.api";
+import callAPI from "./callAPI";
 
-export const login = (params) => {
-  const url = "/login";
-  return clientAPI.post(url, params);
+export const login = (body) => {
+  return callAPI("/login", "POST", body);
 };
 
 // HAHA class AuthenticationAPI {

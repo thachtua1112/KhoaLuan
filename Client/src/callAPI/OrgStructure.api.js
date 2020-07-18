@@ -1,11 +1,5 @@
-import clientAPI from "./Client.api";
+import callAPI from "./callAPI";
 
-export const getStructureTree = (params) => {
-  const url = "/org-structure";
-  return clientAPI.get(url, params);
-};
+export const getStructureTree = (body) => {};
 
-export const getListUnit = (params) => {
-  const url = "/list-unit";
-  return clientAPI.get(url, params);
-};
+export const getListUnit = (body) => {};
