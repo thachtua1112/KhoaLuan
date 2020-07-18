@@ -1,5 +1,7 @@
 import React from "react";
 
+import { connect } from "react-redux";
+
 import { Paper, FormControlLabel, Switch, Button } from "@material-ui/core";
 
 import CachedIcon from "@material-ui/icons/Cached";
