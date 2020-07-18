@@ -5,7 +5,7 @@ export const login = (params) => {
   return clientAPI.post(url, params);
 };
 
-// class AuthenticationAPI {
+// HAHA class AuthenticationAPI {
 //   login = (params) => {
 //     const url = "/login";
 //     return clientAPI.post(url, params);
