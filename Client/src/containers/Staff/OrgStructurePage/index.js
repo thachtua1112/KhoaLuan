@@ -23,7 +23,7 @@ const OrgStructurePage = () => {
   const classes = useStyles();
 
   return (
-    <Grid container className={classes.root} spacing={1}>
+    <Grid container className={classes.root} spacing={0}>
       <Grid item xs={4} lg={3} spacing={1}>
         <Paper className={classes.paper}>
           <TheSidebar />
