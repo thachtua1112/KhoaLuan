@@ -1,10 +1,9 @@
 import axios from "axios";
-
-export default (endpoint, method = "GET", body) => {
-  console.log("apicall")
-  return axios({
+import * as config from './config'
+export default function callAPI  (endpoint, method = "GET", body)  {
+   return axios({
     method: method,
-    url: `localhost:8797${endpoint}`,
+    url: `${config.REACT_URL_API}${endpoint}`,
     data: body,
   },
   {
