@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -20,11 +20,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const OrgStructurePage = () => {
+  const [structureTree, setStructureTree] = useState({});
+
   const classes = useStyles();
 
   return (
     <Grid container className={classes.root} spacing={0}>
-      <Grid item xs={4} lg={3} >
+      <Grid item xs={4} lg={3}>
         <Paper className={classes.paper}>
           <TheSidebar />
         </Paper>

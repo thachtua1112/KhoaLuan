@@ -7,30 +7,27 @@ import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 
-import getStructureTreeApi from '../../../callAPI/OrgStructure.api'
-import StyledTreeItem from "./StyledTreeItem";
+import getStructureTreeApi from "../../../callAPI/OrgStructure.api";
+import StyledTreeItem from "../OrgStructurePage/StyledTreeItem";
 
 const useStyles = makeStyles({
-    root: {
-      flexGrow: 1,
-      overflow: "auto",
-    },
-  });
+  root: {
+    flexGrow: 1,
+    overflow: "auto",
+  },
+});
 
-const OrgStructureTree = ()=>{
-  const [data1,setData]=useState([]);
+const OrgStructureTree = () => {
+  const [data1, setData] = useState([]);
 
-  useEffect(()=>{
-    getStructureTreeApi(null).then(
-      res =>{
-        if(res.data)
-        {
-          console.log(res.data)
-        }
+  useEffect(() => {
+    getStructureTreeApi(null).then((res) => {
+      if (res.data) {
+        console.log(res.data);
       }
-    )
-  })
-/*
+    });
+  });
+  /*
   const renderTree = (nodes) => (
     <StyledTreeItem
       key={nodes.data.ID}
@@ -47,8 +44,7 @@ const OrgStructureTree = ()=>{
   );
 */
   return (
-    <div>ac
-    </div>
+    <div>ac</div>
 
     /*
     <TreeView
