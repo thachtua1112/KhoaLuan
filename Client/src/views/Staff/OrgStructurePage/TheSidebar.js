@@ -2,20 +2,21 @@ import React from "react";
 
 import { Paper, FormControlLabel, Switch, Button } from "@material-ui/core";
 
-import { CSidebar, CSidebarNav } from "@coreui/react";
+import { CSidebarNav } from "@coreui/react";
 
 import CachedIcon from "@material-ui/icons/Cached";
 
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-import OrgStructureTree from "./OrgStructureTree";
-//import OrgStructureTree from "./getStructureTree";
+//import OrgStructureTree from "./OrgStructureTree";
+import OrgStructureTree from "./getStructureTree";
 
 const TheSidebar = () => {
   return (
     <Paper
-    // elevation={0}
+      // elevation={0}
+      style={{ height: "74vh" }}
     >
       <CSidebarNav>
         <Button color="secondary" endIcon={<CachedIcon />} size="small">
@@ -49,6 +50,7 @@ const TheSidebar = () => {
             />
           )}
         />
+
         <OrgStructureTree />
       </CSidebarNav>
     </Paper>
