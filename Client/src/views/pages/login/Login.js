@@ -41,18 +41,20 @@ const Login = () => {
       },
     },
   }));
+
   const On_login = () =>{
     LoginAPI(qs.stringify({
       username:name,
       password:pass
      })
     ).then(res =>{
-      if(res.data && res.data.accessToken&& res.data.login==="success")
+      if(res.data && res.data.accessToken && res.data.login==="success")
       {
        localStorage.setItem("token",res.data.accessToken);
        localStorage.setItem("RefreshToken",res.data.refreshToken);
        console.log(localStorage.getItem("token"))
        setisRedirect(true);
+       return;
       }
         setErr(res.data.err)
      })

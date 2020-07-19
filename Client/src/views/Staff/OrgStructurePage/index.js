@@ -24,7 +24,7 @@ const OrgStructurePage = () => {
 
   return (
     <Grid container className={classes.root} spacing={0}>
-      <Grid item xs={4} lg={3} spacing={1}>
+      <Grid item xs={4} lg={3} >
         <Paper className={classes.paper}>
           <TheSidebar />
         </Paper>
