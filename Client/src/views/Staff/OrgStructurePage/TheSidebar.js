@@ -16,7 +16,7 @@ const TheSidebar = () => {
   return (
     <Paper
       // elevation={0}
-      style={{ height: "74vh" }}
+      style={{ height: "98vh" }}
     >
       <CSidebarNav>
         <Button color="secondary" endIcon={<CachedIcon />} size="small">

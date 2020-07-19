@@ -8,7 +8,7 @@ import CardContent from "@material-ui/core/CardContent";
 
 const TheContent = () => {
   return (
-    <Card>
+    <Card style={{ height: "98vh" }}>
       <CardContent>DS NHAN VIEN</CardContent>
       <CDataTable
         size="small"
