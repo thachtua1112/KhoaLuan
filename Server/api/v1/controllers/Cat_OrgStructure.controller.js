@@ -1,4 +1,34 @@
 const OrgStructureModel = require("../models/Cat_OrgStructure.model");
+const Cat_OrgStructureModel = require("../models/Cat_OrgStructure.model");
+
+const { drawStructureTree, getListStructure } = require("../utils");
+
+module.exports.getStructureTree = async (req, res) => {
+  const { ID } = req.query;
+  const listOrg = await Cat_OrgStructureModel.find();
+  const listOrgStructure = listOrg.map((item) => {
+    const { ID, OrgStructureName, ParentID } = item;
+    return { ID, OrgStructureName, ParentID };
+  });
+
+  const Tree = drawStructureTree(listOrgStructure, ID);
+
+  res.json(Tree);
+};
+
+module.exports.getListStructure = async (req, res) => {
+  const { ID } = req.query;
+  const listOrg = await Cat_OrgStructureModel.find();
+  const listOrgStructure = listOrg.map((item) => {
+    const { ID, OrgStructureName, ParentID } = item;
+    return { ID, OrgStructureName, ParentID };
+  });
+
+  const Tree = drawStructureTree(listOrgStructure, ID);
+
+  const listUnit = getListStructure(Tree);
+  res.json(listUnit);
+};
 
 module.exports.getAll = async (req, res) => {
   const result = await OrgStructureModel.find({});

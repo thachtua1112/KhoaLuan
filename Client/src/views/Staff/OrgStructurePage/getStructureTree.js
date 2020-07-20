@@ -16,9 +16,9 @@ const useStyles = makeStyles({
       overflow: "auto",
     },
   });
-const OrgStructureTree = ()=>{
-  const [data1,setData]=useState([]);
 
+const OrgStructureTree = ()=>{
+  const [data1,setData]=useState("");
   useEffect(()=>{
     getStructureTreeApi(null).then(
           res =>{
@@ -26,13 +26,12 @@ const OrgStructureTree = ()=>{
             {
              // console.log(res.data)
               setData(res.data)
-              console.log("du lieu",data1)
-              return;
+              console.log(data1)
             }
           }
         )
-  })
-  const renderTree = (nodes) => (
+  },[])
+  const renderTree = (nodes) => nodes===""? "": (
     <StyledTreeItem
       key={nodes.data.ID}
       nodeId={nodes.data.ID}
@@ -46,10 +45,8 @@ const OrgStructureTree = ()=>{
         : null}
     </StyledTreeItem>
   );
-
   return (
-
-    <TreeView
+ <TreeView
       className={useStyles.root}
       //defaultParentIcon={<PeopleAltIcon />}
       defaultEndIcon={<div style={{ width: 24 }} />}

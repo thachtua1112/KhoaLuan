@@ -23,7 +23,7 @@ module.exports.drawStructureTree = (
   return Tree;
 };
 
-module.exports.getListUnit = (Tree, listUnit = []) => {
+module.exports.getListStructure = (Tree, listUnit = []) => {
   if (null == Tree.children) {
     listUnit.push(Tree.data.ID);
     return;
