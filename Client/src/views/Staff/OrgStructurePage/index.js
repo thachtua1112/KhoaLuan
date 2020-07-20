@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const OrgStructurePage = () => {
+  const [emPloyees, setemPloyees] = useState([]);
+
   const classes = useStyles();
 
   return (
@@ -33,7 +35,7 @@ const OrgStructurePage = () => {
 
       <Grid item xs={8} lg={9}>
         <Paper className={classes.paper}>
-          <TheContent />
+          <TheContent emPloyees />
         </Paper>
       </Grid>
     </Grid>
