@@ -16,9 +16,11 @@ const DB_URL = process.env.DB_URL || "mongodb://localhost:27017/HRM";
 
 const db = mongoose.connection;
 mongoose.set("useCreateIndex", true);
-mongoose.set('useUnifiedTopology', true);
+mongoose.set("useUnifiedTopology", true);
 
-mongoose.connect(DB_URL,{ useNewUrlParser: true }).then(() => console.log("DB Connected!"));
+mongoose
+  .connect(DB_URL, { useNewUrlParser: true })
+  .then(() => console.log("DB Connected!"));
 db.on("error", (err) => {
   console.log("DB connection error:", err.message);
 });

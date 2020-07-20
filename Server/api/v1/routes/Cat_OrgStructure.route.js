@@ -6,7 +6,7 @@ const OrgStructureRoute = express.Router();
 
 OrgStructureRoute.get("/", OrgStructureController.getAll);
 
-OrgStructureRoute.get("/tree", OrgStructureController.getStructureTree);
+OrgStructureRoute.get("/trees", OrgStructureController.getStructureTree);
 
 OrgStructureRoute.get(
   "/list-structures",

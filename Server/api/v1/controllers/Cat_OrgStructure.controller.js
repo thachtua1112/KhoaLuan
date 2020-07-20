@@ -31,67 +31,57 @@ module.exports.getListStructure = async (req, res) => {
 };
 
 module.exports.getAll = async (req, res) => {
-  try{
+  try {
     const result = await OrgStructureModel.find({});
     return res.status(200).json(result);
-  }
-  catch(err)
-  {
-    return res.sendStatus(403)
+  } catch (err) {
+    return res.sendStatus(403);
   }
 };
 
 module.exports.getByID = async (req, res) => {
-  try{
+  try {
     const { ID } = req.params;
     const result = await OrgStructureModel.find({ ID: ID });
     return res.status(200).json(result);
-  }
-  catch(err)
-  {
-    return res.sendStatus(403)
+  } catch (err) {
+    return res.sendStatus(403);
   }
 };
 
 module.exports.getWithFilter = async (req, res) => {
-  try{
+  try {
     const filter = req.query;
     const result = await OrgStructureModel.find(filter);
-    return res.status(200).json(result);   
-  }
-  catch(err)
-  {
-    return res.sendStatus(403)
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.sendStatus(403);
   }
 };
 
 module.exports.update = async (req, res) => {
-  try{
+  try {
     const { ID } = req.params;
     const { data } = req.body;
     const result = OrgStructureModel.findOneAndUpdate({ ID: ID }, data);
-    return res.status(200).json(result); 
-  }
-  catch(err)
-  {
-    return res.sendStatus(403)
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.sendStatus(403);
   }
 };
 
 module.exports.create = async (req, res) => {
-  try{
+  try {
     const { data } = req.body;
     const result = await OrgStructureModel.create({ data });
-    return res.status(200).json(result); 
-  }
-  catch(err)
-  {
-    return res.sendStatus(403)
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.sendStatus(403);
   }
 };
 
 module.exports.delete = async (req, res) => {
-  try{
+  try {
     const { ID } = req.params;
 
     const result = await OrgStructureModel.findOneAndUpdate(
@@ -99,9 +89,7 @@ module.exports.delete = async (req, res) => {
       { IsDelete: true }
     );
     return res.status(200).json(result);
-  }
-  catch(err)
-  {
-    return res.sendStatus(403)
+  } catch (err) {
+    return res.sendStatus(403);
   }
 };
