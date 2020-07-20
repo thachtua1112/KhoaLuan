@@ -7,8 +7,8 @@ import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import PeopleAltIcon from "@material-ui/icons/PeopleAlt";
 import PersonOutlineIcon from "@material-ui/icons/PersonOutline";
 
-import getStructureTreeApi from '../../../callAPI/OrgStructure.api'
-import StyledTreeItem from "./StyledTreeItem";
+import getStructureTreeApi from "../../../callAPI/OrgStructure.api";
+import StyledTreeItem from "../OrgStructurePage/StyledTreeItem";
 
 const useStyles = makeStyles({
     root: {
@@ -32,8 +32,6 @@ const OrgStructureTree = ()=>{
           }
         )
   })
-
-
   const renderTree = (nodes) => (
     <StyledTreeItem
       key={nodes.data.ID}

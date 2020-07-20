@@ -366,8 +366,8 @@ const data = {
 const useStyles = makeStyles({
   root: {
     //height: 264,
-    flexGrow: 1,
-    overflow: "auto",
+    //flexGrow: 1,
+    //overflow: "auto",
     //maxWidth: 400,
   },
 });
