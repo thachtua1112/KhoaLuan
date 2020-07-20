@@ -36,7 +36,7 @@ const TheSidebar = () => {
         /> */
      }
        <CImg
-            src={'avatars/ppjlogo.jpg'}
+            src= {'avatars/ppjlogo.jpg'}
             alt="ppjlogo"
             name="logo-negative"
             height={50}
