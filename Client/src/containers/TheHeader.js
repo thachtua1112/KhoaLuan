@@ -7,14 +7,12 @@ import {
   CHeaderNav,
   CHeaderNavItem,
   CHeaderNavLink,
-  CSubheader,
-  CBreadcrumbRouter,
-  CLink
+
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
 // routes config
-import routes from '../routes'
+//import routes from '../routes'
 
 import {
   TheHeaderDropdown,
@@ -43,7 +41,7 @@ const TheHeader = (props) => {
   }
 
   return (
-    <CHeader withSubheader>
+    <CHeader withSubheader >
       <CToggler
         inHeader
         className="ml-md-3 d-lg-none"
@@ -76,8 +74,8 @@ const TheHeader = (props) => {
         <TheHeaderDropdownMssg/>
         <TheHeaderDropdown onLogout={signOut}/>
       </CHeaderNav>
-
-      <CSubheader className="px-3 justify-content-between">
+{/*
+      <CSubheader  className="px-3 justify-content-between">
         <CBreadcrumbRouter
           className="border-0 c-subheader-nav m-0 px-0 px-md-3"
           routes={routes}
@@ -98,6 +96,7 @@ const TheHeader = (props) => {
             </CLink>
           </div>
       </CSubheader>
+*/}
     </CHeader>
   )
 }

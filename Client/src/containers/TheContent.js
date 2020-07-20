@@ -14,7 +14,7 @@ const loading = (
 );
 
 const TheContent = () => {
-  if(localStorage.getItem("token")==null)
+  if(localStorage.getItem("token")===null)
   {
     return <Redirect to='/login'/>
   }
