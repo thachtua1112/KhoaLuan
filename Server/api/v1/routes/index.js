@@ -11,11 +11,11 @@ const StopWorkingRoute = require("./Hre_StopWorking.route");
 
 const routeAPI = express.Router();
 routeAPI.use("/positions", PositionRoute);
-routeAPI.use(ProfileRoute);
+routeAPI.use("/profiles", ProfileRoute);
 routeAPI.use("/t-profiles", T_ProfileRoute);
 routeAPI.use("/org-structures", OrgStructureRoute);
 routeAPI.use("/org-units", OrgUnitRoute);
-routeAPI.use("/work-historys", WorkHistoryRoute);
+routeAPI.use("/work-histories", WorkHistoryRoute);
 routeAPI.use("/stop-workings", StopWorkingRoute);
 routeAPI.use("/contract-types", ContractTypeRoute);
 

@@ -6,6 +6,13 @@ const OrgStructureRoute = express.Router();
 
 OrgStructureRoute.get("/", OrgStructureController.getAll);
 
+OrgStructureRoute.get("/tree", OrgStructureController.getStructureTree);
+
+OrgStructureRoute.get(
+  "/list-structures",
+  OrgStructureController.getListStructure
+);
+
 OrgStructureRoute.get("/filter", OrgStructureController.getWithFilter);
 
 OrgStructureRoute.get("/:ID", OrgStructureController.getByID);
