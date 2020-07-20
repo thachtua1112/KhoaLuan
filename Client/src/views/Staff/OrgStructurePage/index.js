@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const OrgStructurePage = () => {
-  const [structureTree, setStructureTree] = useState({});
+  //const [structureTree, setStructureTree] = useState({});
 
   const classes = useStyles();
 
