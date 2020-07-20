@@ -4,18 +4,19 @@ const ProfileController = require("../controllers/Hre_Profile.controller");
 
 const ProfileRoute = express.Router();
 
-ProfileRoute.get("/profiles", ProfileController.getAll);
+ProfileRoute.get("/", ProfileController.getAll);
+ProfileRoute.get("/not-yet-contract", ProfileController.NotYet_THrProfile);
 
 //ProfileRoute.get("/position/:id/profiles", ProfileController.getWithPosition);
 
-ProfileRoute.get("/profiles/filter", ProfileController.getWithFilter);
+ProfileRoute.get("/filter", ProfileController.getWithFilter);
 
-ProfileRoute.get("/profiles/:ID", ProfileController.getByID);
+ProfileRoute.get("/:ID", ProfileController.getByID);
 
-ProfileRoute.post("/profiles/", ProfileController.create);
+ProfileRoute.post("/", ProfileController.create);
 
-ProfileRoute.put("/profiles/:ID", ProfileController.update);
+ProfileRoute.put("/:ID", ProfileController.update);
 
-ProfileRoute.patch("/profiles/:ID", ProfileController.delete);
+ProfileRoute.patch("/:ID", ProfileController.delete);
 
 module.exports = ProfileRoute;
