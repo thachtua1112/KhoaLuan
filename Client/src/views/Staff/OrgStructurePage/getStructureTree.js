@@ -17,22 +17,19 @@ const useStyles = makeStyles({
     },
   });
 const OrgStructureTree = ()=>{
-  const [data1,setData]=useState([]);
+  const [data1,setData]=useState("");
 
   useEffect(()=>{
     getStructureTreeApi(null).then(
           res =>{
             if(res.data)
             {
-             // console.log(res.data)
               setData(res.data)
-              console.log("du lieu",data1)
-              return;
             }
           }
         )
-  })
-  const renderTree = (nodes) => (
+  },[])
+  const renderTree = (nodes) => nodes===""?"": (
     <StyledTreeItem
       key={nodes.data.ID}
       nodeId={nodes.data.ID}
