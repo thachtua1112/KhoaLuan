@@ -11,6 +11,7 @@ import getStructureTreeApi from "../../../callAPI/OrgStructure.api";
 import StyledTreeItem from "../OrgStructurePage/StyledTreeItem";
 
 const useStyles = makeStyles({
+<<<<<<< HEAD
   root: {
     flexGrow: 1,
     overflow: "auto",
@@ -30,6 +31,30 @@ const OrgStructureTree = () => {
     });
   });
   const renderTree = (nodes) => (
+=======
+    root: {
+      flexGrow: 1,
+      overflow: "auto",
+    },
+  });
+
+const OrgStructureTree = ()=>{
+  const [data1,setData]=useState("");
+  useEffect( ()=>{
+    getStructureTreeApi(null).then(
+          res =>{
+            if(res.data)
+            {
+             // console.log(res.data)
+              setData(res.data)
+              console.log(data1)
+            }
+          }
+        )
+  },[]
+  )
+  const renderTree = (nodes) => nodes===""? "": (
+>>>>>>> 85345a64e00931c03ca08a17a67195eb039b5241
     <StyledTreeItem
       key={nodes.data.ID}
       nodeId={nodes.data.ID}
@@ -43,9 +68,12 @@ const OrgStructureTree = () => {
         : null}
     </StyledTreeItem>
   );
-
   return (
+<<<<<<< HEAD
     <TreeView
+=======
+ <TreeView
+>>>>>>> 85345a64e00931c03ca08a17a67195eb039b5241
       className={useStyles.root}
       //defaultParentIcon={<PeopleAltIcon />}
       defaultEndIcon={<div style={{ width: 24 }} />}
