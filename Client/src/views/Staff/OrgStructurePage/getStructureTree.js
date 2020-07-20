@@ -11,23 +11,27 @@ import getStructureTreeApi from "../../../callAPI/OrgStructure.api";
 import StyledTreeItem from "../OrgStructurePage/StyledTreeItem";
 
 const useStyles = makeStyles({
-  root: {
-    flexGrow: 1,
-    overflow: "auto",
-  },
-});
-
-const OrgStructureTree = () => {
-  const [data1, setData] = useState([]);
-
-  useEffect(() => {
-    getStructureTreeApi(null).then((res) => {
-      if (res.data) {
-        console.log(res.data);
-      }
-    });
+    root: {
+      flexGrow: 1,
+      overflow: "auto",
+    },
   });
-  /*
+const OrgStructureTree = ()=>{
+  const [data1,setData]=useState([]);
+
+  useEffect(()=>{
+    getStructureTreeApi(null).then(
+          res =>{
+            if(res.data)
+            {
+             // console.log(res.data)
+              setData(res.data)
+              console.log("du lieu",data1)
+              return;
+            }
+          }
+        )
+  })
   const renderTree = (nodes) => (
     <StyledTreeItem
       key={nodes.data.ID}
@@ -42,11 +46,9 @@ const OrgStructureTree = () => {
         : null}
     </StyledTreeItem>
   );
-*/
-  return (
-    <div>ac</div>
 
-    /*
+  return (
+
     <TreeView
       className={useStyles.root}
       //defaultParentIcon={<PeopleAltIcon />}
@@ -57,7 +59,7 @@ const OrgStructureTree = () => {
     >
       Sơ đồ tổ chức
       {renderTree(data1)}
-    </TreeView>*/
+    </TreeView>
   );
 };
 
