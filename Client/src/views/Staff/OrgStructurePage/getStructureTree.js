@@ -11,27 +11,6 @@ import getStructureTreeApi from "../../../callAPI/OrgStructure.api";
 import StyledTreeItem from "../OrgStructurePage/StyledTreeItem";
 
 const useStyles = makeStyles({
-<<<<<<< HEAD
-  root: {
-    flexGrow: 1,
-    overflow: "auto",
-  },
-});
-const OrgStructureTree = () => {
-  const [data1, setData] = useState([]);
-
-  useEffect(() => {
-    getStructureTreeApi(null).then((res) => {
-      if (res.data) {
-        // console.log(res.data)
-        setData(res.data);
-        console.log("du lieu", data1);
-        return;
-      }
-    });
-  });
-  const renderTree = (nodes) => (
-=======
     root: {
       flexGrow: 1,
       overflow: "auto",
@@ -40,7 +19,7 @@ const OrgStructureTree = () => {
 
 const OrgStructureTree = ()=>{
   const [data1,setData]=useState("");
-  useEffect( ()=>{
+  useEffect(()=>{
     getStructureTreeApi(null).then(
           res =>{
             if(res.data)
@@ -51,10 +30,8 @@ const OrgStructureTree = ()=>{
             }
           }
         )
-  },[]
-  )
+  },[])
   const renderTree = (nodes) => nodes===""? "": (
->>>>>>> 85345a64e00931c03ca08a17a67195eb039b5241
     <StyledTreeItem
       key={nodes.data.ID}
       nodeId={nodes.data.ID}
@@ -69,16 +46,12 @@ const OrgStructureTree = ()=>{
     </StyledTreeItem>
   );
   return (
-<<<<<<< HEAD
-    <TreeView
-=======
  <TreeView
->>>>>>> 85345a64e00931c03ca08a17a67195eb039b5241
       className={useStyles.root}
       //defaultParentIcon={<PeopleAltIcon />}
       defaultEndIcon={<div style={{ width: 24 }} />}
       defaultCollapseIcon={<ArrowDropDownIcon />}
-      defaultExpandIcon={<ArrowRightIcon />}
+      defaultExpandIcon={<ArrowRightIcon/>}
       defaultExpanded={["root"]}
     >
       Sơ đồ tổ chức
