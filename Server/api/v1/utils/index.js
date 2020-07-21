@@ -3,6 +3,7 @@ module.exports.drawStructureTree = (
   rootID = "2D51E4D9-0E27-451F-83D8-04DA7D6B9797",
   Tree = {}
 ) => {
+  // console.log("Bat dau");
   Tree.data = {};
   Tree.children = [];
 
@@ -13,23 +14,24 @@ module.exports.drawStructureTree = (
 
   if (childrenFilter.length <= 0) {
     Tree.children = null;
-    return;
+    return Tree;
   }
 
   childrenFilter.forEach((item, index) => {
     Tree.children[index] = {};
     this.drawStructureTree(listOrg, item.ID, Tree.children[index]);
   });
+
   return Tree;
 };
 
-module.exports.getListStructure = (Tree, listUnit = []) => {
+module.exports.getListOrg = (Tree, listUnit = []) => {
   if (null == Tree.children) {
     listUnit.push(Tree.data.ID);
-    return;
+    return listUnit;
   }
   Tree.children.forEach((item) => {
-    this.getListUnit(item, listUnit);
+    this.getListOrg(item, listUnit);
   });
   return listUnit;
 };

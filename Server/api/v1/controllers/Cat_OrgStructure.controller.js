@@ -1,48 +1,45 @@
 const OrgStructureModel = require("../models/Cat_OrgStructure.model");
 const Cat_OrgStructureModel = require("../models/Cat_OrgStructure.model");
 
-const { drawStructureTree, getListStructure } = require("../utils");
+const { drawStructureTree, getListOrg } = require("../utils");
 
 module.exports.getStructureTree = async (req, res) => {
-  const { ID } = req.query;
-  const listOrg = await Cat_OrgStructureModel.find();
-  const listOrgStructure = listOrg.map((item) => {
+  const { OrgStructureID } = req.params;
+  console.log("ID", OrgStructureID);
+  const listOrgStructure = await Cat_OrgStructureModel.find({});
+  const listOrgStructureMin = listOrgStructure.map((item) => {
     const { ID, OrgStructureName, ParentID } = item;
     return { ID, OrgStructureName, ParentID };
   });
 
-  const Tree = drawStructureTree(listOrgStructure, ID);
+  const Tree = drawStructureTree(listOrgStructureMin, OrgStructureID);
+
+  console.log(drawStructureTree(listOrgStructureMin, OrgStructureID));
 
   res.json(Tree);
 };
 
-module.exports.getListStructure = async (req, res) => {
-  const { ID } = req.query;
-  const listOrg = await Cat_OrgStructureModel.find();
-  const listOrgStructure = listOrg.map((item) => {
+module.exports.getListOrg = async (req, res) => {
+  const { OrgStructureID } = req.params;
+  const listOrgStructure = await Cat_OrgStructureModel.find();
+  const listOrgStructureMin = listOrgStructure.map((item) => {
     const { ID, OrgStructureName, ParentID } = item;
     return { ID, OrgStructureName, ParentID };
   });
 
-  const Tree = drawStructureTree(listOrgStructure, ID);
+  const Tree = drawStructureTree(listOrgStructureMin, OrgStructureID);
 
-  const listUnit = getListStructure(Tree);
-  res.json(listUnit);
+  const listOrg = getListOrg(Tree);
+  res.json(listOrg);
 };
 
-module.exports.getAll = async (req, res) => {
+module.exports.getOrgStructure = async (req, res) => {
   try {
-    const result = await OrgStructureModel.find({});
-    return res.status(200).json(result);
-  } catch (err) {
-    return res.sendStatus(403);
-  }
-};
+    const { OrgStructureID } = req.params;
+    const result = await OrgStructureModel.find(
+      !OrgStructureID ? {} : { ID: OrgStructureID }
+    );
 
-module.exports.getByID = async (req, res) => {
-  try {
-    const { ID } = req.params;
-    const result = await OrgStructureModel.find({ ID: ID });
     return res.status(200).json(result);
   } catch (err) {
     return res.sendStatus(403);
