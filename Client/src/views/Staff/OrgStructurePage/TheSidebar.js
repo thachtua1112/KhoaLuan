@@ -57,6 +57,8 @@ const TheSidebar = (props) => {
         />
         <Autocomplete
           elevation={0}
+          disableClearable
+          filterSelectedOptions
           options={ListOrg}
           getOptionLabel={(option) => option.OrgStructureName}
           //getOptionDisabled={(option) => option.year > 2000}

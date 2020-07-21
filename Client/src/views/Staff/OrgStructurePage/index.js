@@ -40,7 +40,7 @@ const OrgStructurePage = () => {
 
   return (
     <Grid container className={classes.root} spacing={0}>
-      <Grid item xs={4} lg={3}>
+      <Grid item xs={5} lg={4}>
         <Paper className={classes.paper}>
           <TheSidebar
             StructureTree={StructureTree}
@@ -49,7 +49,7 @@ const OrgStructurePage = () => {
         </Paper>
       </Grid>
 
-      <Grid item xs={8} lg={9}>
+      <Grid item xs={7} lg={8}>
         <Paper className={classes.paper}>
           <TheContent
             fields={fields}
