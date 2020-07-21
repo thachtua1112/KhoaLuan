@@ -5,10 +5,9 @@ const OrgStructureController = require("../controllers/Cat_OrgStructure.controll
 const OrgStructureRoute = express.Router();
 
 OrgStructureRoute.get("/", OrgStructureController.getOrgStructure);
-
 OrgStructureRoute.get("/trees", OrgStructureController.getStructureTree);
-
 OrgStructureRoute.get("/trees/orgs", OrgStructureController.getListOrg);
+OrgStructureRoute.get("/trees/profiles", OrgStructureController.getListProfile);
 
 OrgStructureRoute.get(
   "/:OrgStructureID",
@@ -23,6 +22,11 @@ OrgStructureRoute.get(
 OrgStructureRoute.get(
   "/:OrgStructureID/trees/orgs",
   OrgStructureController.getListOrg
+);
+
+OrgStructureRoute.get(
+  "/:OrgStructureID/trees/profiles",
+  OrgStructureController.getListProfile
 );
 
 OrgStructureRoute.get("/filter", OrgStructureController.getWithFilter);
