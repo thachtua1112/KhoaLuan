@@ -19,8 +19,9 @@ import TimeKeeping from './TimeKeeping/TimeKeeping.chil'
 import Salary from './Salary'
 //import CIcon from '@coreui/icons-react'
 
-const DetailsStaffPage = () => {
+const DetailsStaffPage = ({match}) => {
   //const [active, setActive] = useState(1)
+  const paramater = match.params.id;
 
   return (
     <Paper>
@@ -59,7 +60,7 @@ const DetailsStaffPage = () => {
               </CNav>
               <CTabContent>
                 <CTabPane>
-                 <Personnel/>
+                 <Personnel params={paramater}/>
                 </CTabPane>
                 <CTabPane>
                   <ContractCover/>

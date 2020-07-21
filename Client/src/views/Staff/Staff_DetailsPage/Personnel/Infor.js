@@ -6,15 +6,27 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import { TableHead } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
-
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
 const Infor= (props)=>{
   const data=props.data
   return(
     <Paper >
       <TableContainer>
-      <TableHead ><b>Thông tin cơ bản</b></TableHead>
         <Table >
+        <TableHead>
+        <TableRow><StyledTableCell colSpan={8}> <b>Thông tin cơ bản</b></StyledTableCell></TableRow>
+
+        </TableHead>
             {
               data.map((index)=> { return (
                 <TableBody key={index.ID}>
@@ -65,7 +77,10 @@ const Infor= (props)=>{
       </TableContainer>
       <TableContainer>
         <Table>
-          <TableHead><b>Liên hệ</b></TableHead>
+          <TableHead>
+          <TableRow><StyledTableCell colSpan={8}> <b>Liên hệ</b></StyledTableCell></TableRow>
+
+          </TableHead>
           {
           data.map((index)=> { return (
           <TableBody key={index.ID}>
