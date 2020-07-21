@@ -25,4 +25,26 @@ const usersData = [
   {id: 23, name: 'Aulus Agmundr', registered: '2018/01/01', role: 'Member', status: 'Pending'},
   {id: 42, name: 'Ford Prefect', registered: '2001/05/25', role: 'Alien', status: 'Don\'t panic!'}
 ]
+/*
+import  {useEffect,useState} from 'react';
+import axios from 'axios';
+
+
+const [usersData, setusersData]=useState([]);
+
+useEffect ( ()=>{
+
+  axios
+  .get("http://localhost:4000/api/getAllProducts",{
+   headers : {
+     'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8'
+ }
+  })
+  .then((res)=>{
+    setusersData (res.data) ;
+  })
+  .catch( (error) => {
+    console.log(error);
+  })
+})*/
 export default usersData

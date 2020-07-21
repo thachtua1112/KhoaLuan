@@ -21,7 +21,7 @@ import Salary from './Salary'
 
 const DetailsStaffPage = ({match}) => {
   //const [active, setActive] = useState(1)
-  const paramater = match.params.id;
+  const paramater = match.params.ID;
 
   return (
     <Paper>
