@@ -7,7 +7,6 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 
 const TheContent = (props) => {
-  const { fields, items } = props;
   return (
     <Card style={{ height: "98vh" }}>
       <CardContent>Danh sách nhân viên</CardContent>
