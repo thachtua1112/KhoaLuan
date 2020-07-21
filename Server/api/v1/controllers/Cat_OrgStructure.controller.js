@@ -2,12 +2,11 @@ const OrgStructureModel = require("../models/Cat_OrgStructure.model");
 
 const ProfilesModel = require("../models/Hre_Profile.model");
 
-const { drawStructureTree, getListOrg } = require("../utils");
+const { drawStructureTree, getListOrgID } = require("../utils");
 
 module.exports.getStructureTree = async (req, res) => {
   try {
     const { OrgStructureID } = req.params;
-    console.log("ID", OrgStructureID);
     const listOrgStructure = await OrgStructureModel.find({});
     const listOrgStructureMin = listOrgStructure.map((item) => {
       const { ID, OrgStructureName, ParentID } = item;
@@ -16,15 +15,13 @@ module.exports.getStructureTree = async (req, res) => {
 
     const Tree = drawStructureTree(listOrgStructureMin, OrgStructureID);
 
-    console.log(drawStructureTree(listOrgStructureMin, OrgStructureID));
-
     return res.json(Tree);
   } catch (err) {
     return res.sendStatus(403);
   }
 };
 
-module.exports.getListOrg = async (req, res) => {
+module.exports.getListOrgID = async (req, res) => {
   try {
     const { OrgStructureID } = req.params;
     const listOrgStructure = await OrgStructureModel.find();
@@ -35,7 +32,7 @@ module.exports.getListOrg = async (req, res) => {
 
     const Tree = drawStructureTree(listOrgStructureMin, OrgStructureID);
 
-    const listOrg = getListOrg(Tree);
+    const listOrg = getListOrgID(Tree);
     return res.json(listOrg);
   } catch (err) {
     return res.sendStatus(403);
@@ -53,7 +50,7 @@ module.exports.getListProfile = async (req, res) => {
 
     const Tree = drawStructureTree(listOrgStructureMin, OrgStructureID);
 
-    const listOrg = getListOrg(Tree);
+    const listOrg = getListOrgID(Tree);
 
     const ListProfile = await ProfilesModel.find({
       OrgStructureID: { $in: listOrg },

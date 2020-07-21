@@ -25,13 +25,13 @@ module.exports.drawStructureTree = (
   return Tree;
 };
 
-module.exports.getListOrg = (Tree, listUnit = []) => {
+module.exports.getListOrgID = (Tree, listUnit = []) => {
   if (null == Tree.children) {
     listUnit.push(Tree.data.ID);
     return listUnit;
   }
   Tree.children.forEach((item) => {
-    this.getListOrg(item, listUnit);
+    this.getListOrgID(item, listUnit);
   });
   return listUnit;
 };

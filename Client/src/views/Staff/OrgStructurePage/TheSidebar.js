@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { Paper, FormControlLabel, Switch, Button } from "@material-ui/core";
 
@@ -9,10 +9,28 @@ import CachedIcon from "@material-ui/icons/Cached";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-//import OrgStructureTree from "./OrgStructureTree";
-import OrgStructureTree from "./getStructureTree";
+import OrgStructureTree from "./OrgStructureTree";
 
-const TheSidebar = () => {
+const getListOrg = (Tree, listOrg = []) => {
+  if (null === Tree) return listOrg;
+  if (null === Tree.children) {
+    listOrg.push({
+      ID: Tree.data.ID,
+      OrgStructureName: Tree.data.OrgStructureName,
+    });
+    return listOrg;
+  }
+  Tree.children.forEach((item) => {
+    getListOrg(item, listOrg);
+  });
+  return listOrg;
+};
+
+const TheSidebar = (props) => {
+  const { StructureTree } = props;
+  let ListOrg = [];
+  ListOrg = getListOrg(StructureTree);
+
   return (
     <Paper
       // elevation={0}
@@ -35,11 +53,9 @@ const TheSidebar = () => {
         />
         <Autocomplete
           elevation={0}
-          id="disabled-options-demo"
-          options={timeSlots}
-          getOptionDisabled={(option) =>
-            option === timeSlots[0] || option === timeSlots[2]
-          }
+          options={ListOrg}
+          getOptionLabel={(option) => option.OrgStructureName}
+          //getOptionDisabled={(option) => option.year > 2000}
           fullWidth
           size="small"
           renderInput={(params) => (
@@ -51,17 +67,10 @@ const TheSidebar = () => {
           )}
         />
 
-        <OrgStructureTree />
+        <OrgStructureTree StructureTree={StructureTree} />
       </CSidebarNav>
     </Paper>
   );
 };
 
 export default TheSidebar;
-
-const timeSlots = Array.from(new Array(24 * 2)).map(
-  (_, index) =>
-    `${index < 20 ? "0" : ""}${Math.floor(index / 2)}:${
-      index % 2 === 0 ? "00" : "30"
-    }`
-);
