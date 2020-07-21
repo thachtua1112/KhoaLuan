@@ -5,24 +5,16 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
+import { TableHead } from '@material-ui/core';
 
-//import usersData from './userData';
-/*
-const data1=[
-  {
-      CodeEmp: "8002280",
-  ID: "e355c683-a461-4fbe-b601-2001818de4ae",
-  ProfileName: "HỒ THỊ THỦY CHUNG",
-  StatusSyn: "E_STOP"
-  }
-]*/
+
 const Infor= (props)=>{
   const data=props.data
   return(
     <Paper >
       <TableContainer>
-        <Table stickyHeader  aria-label="sticky table">
-
+      <TableHead ><b>Thông tin cơ bản</b></TableHead>
+        <Table >
             {
               data.map((index)=> { return (
                 <TableBody key={index.ID}>
@@ -69,6 +61,22 @@ const Infor= (props)=>{
               </TableBody>
               )})
             }
+        </Table>
+      </TableContainer>
+      <TableContainer>
+        <Table>
+          <TableHead><b>Liên hệ</b></TableHead>
+          {
+          data.map((index)=> { return (
+          <TableBody key={index.ID}>
+            <TableRow>
+              <TableCell><b>Số điện thoại</b></TableCell>
+              <TableCell>{index.Cellphone}</TableCell>
+            </TableRow>
+          </TableBody>
+          )}
+          )
+          }
         </Table>
       </TableContainer>
     </Paper>
