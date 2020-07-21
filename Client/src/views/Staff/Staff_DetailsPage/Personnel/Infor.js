@@ -1,70 +1,77 @@
 import React  from 'react';
-import {
-  CBadge,
-  CCard,
-  CCardBody,
-  CCol,
-  CDataTable,
-  CRow
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableRow from '@material-ui/core/TableRow';
 
-} from '@coreui/react'
-import usersData from './userData';
-const getBadge = status => {
-  switch (status) {
-    case 'Active': return 'success'
-    case 'Inactive': return 'secondary'
-    case 'Pending': return 'warning'
-    case 'Banned': return 'danger'
-    default: return 'primary'
-  }
-}
-const fields = [
-  { key: 'name', _style: { width: '40%'} },
-  'registered',
-  { key: 'role', _style: { width: '20%'} },
-  { key: 'status', _style: { width: '20%'} },
+//import usersData from './userData';
+/*
+const data1=[
   {
-    key: 'show_details',
-    label: '',
-    _style: { width: '1%' },
-    sorter: false,
-    filter: false
+      CodeEmp: "8002280",
+  ID: "e355c683-a461-4fbe-b601-2001818de4ae",
+  ProfileName: "HỒ THỊ THỦY CHUNG",
+  StatusSyn: "E_STOP"
   }
-]
-
-const Infor= ()=>{
+]*/
+const Infor= (props)=>{
+  const data=props.data
   return(
-    <>
-    <CRow>
-        <CCol >
-          <CCard>
+    <Paper >
+      <TableContainer>
+        <Table stickyHeader  aria-label="sticky table">
 
-            <CCardBody>
-            <CDataTable
-              items={usersData}
-              fields={fields}
-              hover
-              striped
-              size='sm'
-              bordered
-              itemsPerPage={10}
-              pagination
-              scopedSlots = {{
-                'status':
-                  (item)=>(
-                    <td>
-                      <CBadge color={getBadge(item.status)}>
-                        {item.status}
-                      </CBadge>
-                    </td>
-                  )
-              }}
-            />
-            </CCardBody>
-          </CCard>
-        </CCol>
-      </CRow>
-      </>
+            {
+              data.map((index)=> { return (
+                <TableBody key={index.ID}>
+                <TableRow hover role="checkbox" tabIndex={-1} >
+                  <TableCell align="right"><b>Họ và tên</b></TableCell>
+                  <TableCell>{index.ProfileName}</TableCell>
+                  <TableCell align="right"><b>Số CMND</b></TableCell>
+                  <TableCell >{index.CodeTax}</TableCell>
+                  <TableCell align="right"><b>Nơi cấp CMND</b></TableCell>
+                  <TableCell >{index.IDPlaceOfIssue}</TableCell>
+                  <TableCell align="right"><b>Ngày cấp CMND</b></TableCell>
+                  <TableCell >{index.IDDateOfIssue}</TableCell>
+                </TableRow>
+                <TableRow hover role="checkbox" tabIndex={-1} >
+                  <TableCell align="right"><b>Giới tính</b></TableCell>
+                  <TableCell>{index.Gender}</TableCell>
+                  <TableCell align="right"><b>Mã nhân viên</b></TableCell>
+                  <TableCell>{index.CodeEmp}</TableCell>
+                  <TableCell align="right"><b>Mã chấm công</b></TableCell>
+                  <TableCell >{index.CodeAttendance}</TableCell>
+                  <TableCell align="right"><b>Trạng thái</b></TableCell>
+                  <TableCell>{index.StatusSyn}</TableCell>
+                </TableRow>
+                <TableRow hover role="checkbox" tabIndex={-1} >
+                  <TableCell align="right"><b>Ngày vào làm</b></TableCell>
+                  <TableCell>{index.DateHire}</TableCell>
+                  <TableCell align="right"><b>Ngày kết thúc thử việc</b></TableCell>
+                  <TableCell>{index.DateEndProbation}</TableCell>
+                  <TableCell align="right"><b>Ngày sinh</b></TableCell>
+                  <TableCell >{index.DateOfBirth}</TableCell>
+                  <TableCell align="right"><b>Nơi sinh</b></TableCell>
+                  <TableCell>{index.PlaceOfBirth}</TableCell>
+              </TableRow>
+              <TableRow hover role="checkbox" tabIndex={-1} >
+                  <TableCell align="right"><b>Số hộ chiếu</b></TableCell>
+                  <TableCell>{index.PassportNo}</TableCell>
+                  <TableCell align="right"><b>Ngày cấp hộ chiếu</b></TableCell>
+                  <TableCell>{index.PassportDateOfIssue}</TableCell>
+                  <TableCell align="right"><b>Ngày hết hạn</b></TableCell>
+                  <TableCell >{index.PassportDateOfExpiry}</TableCell>
+                  <TableCell align="right"><b>Nơi cấp</b></TableCell>
+                  <TableCell>{index.PassportPlaceOfIssue}</TableCell>
+              </TableRow>
+              </TableBody>
+              )})
+            }
+        </Table>
+      </TableContainer>
+    </Paper>
   )
 }
 
