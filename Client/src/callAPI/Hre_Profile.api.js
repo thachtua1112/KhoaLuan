@@ -1,6 +1,12 @@
 import callAPI from "./callAPI";
 
-export function GetHre_Profie_Api(body)
+function GetHre_Profie_Api(body)
 {
   return callAPI("/profiles","GET",body)
 }
+export {GetHre_Profie_Api}
+/*
+module.exports.GetHre_Profie_Api = function(body){
+  return callAPI("/profiles","GET",body)
+}
+*/

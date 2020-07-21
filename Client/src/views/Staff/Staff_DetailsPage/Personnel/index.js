@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CCol,
   CNav,
@@ -13,14 +13,22 @@ import {
 } from '@coreui/react'
 
 import Infor from './Infor'
-const Personnel = () => {
-  //const [active, setActive] = useState(1)
-  const lorem = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit.'
+import {GetHre_Profie_Api} from '../../../../callAPI/Hre_Profile.api'
+const Personnel = (props) => {
+
+  const [infor, setInfor]=useState([])
+  useEffect(()=>{
+    GetHre_Profie_Api(null).then(res=>{
+      if(res.data)
+      {
+        setInfor([res.data]);
+      }
+    })
+  },[])
 
   return (
     <CRow>
       <CCol className="mb-4">
-
         <CCard>
 
           <CCardBody>
@@ -59,13 +67,13 @@ const Personnel = () => {
               </CNav>
               <CTabContent>
                 <CTabPane>
-                 <Infor  />
+                { <Infor data={infor} />}
                 </CTabPane>
                 <CTabPane>
 
                 </CTabPane>
                 <CTabPane>
-                  {`3. ${lorem}`}
+
                 </CTabPane>
               </CTabContent>
             </CTabs>
