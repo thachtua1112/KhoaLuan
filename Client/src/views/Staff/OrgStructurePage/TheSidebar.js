@@ -27,7 +27,10 @@ const getListOrg = (Tree, listOrg = []) => {
 };
 
 const TheSidebar = (props) => {
-  const { StructureTree, setOrgStructureSelected } = props;
+  const {
+    StructureTree,
+    // , setOrgStructureSelected
+  } = props;
 
   let ListOrg = [];
   ListOrg = getListOrg(StructureTree);

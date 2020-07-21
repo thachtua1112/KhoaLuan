@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+
+import OrgStructureAPI from "../../../callAPI/OrgStructure.api";
 
 import { CDataTable, CSidebarNav } from "@coreui/react";
 
@@ -6,7 +8,21 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 
 const TheContent = (props) => {
-  const { items, fields } = props;
+  const { fields, OrgStructureSelected } = props;
+
+  const [ListProfile, setListProfile] = useState([]);
+
+  useEffect(() => {
+    if (null === OrgStructureSelected) return;
+    console.log("ahah", OrgStructureSelected);
+    OrgStructureAPI.getListProfile(OrgStructureSelected)
+      .then((resListProfile) => {
+        setListProfile(resListProfile.data);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  }, [OrgStructureSelected]);
 
   return (
     <Card style={{ height: "98vh" }}>
@@ -17,7 +33,7 @@ const TheContent = (props) => {
             size="sm"
             pagination
             itemsPerPage={15}
-            items={items}
+            items={ListProfile}
             fields={fields}
           />
         </CardContent>

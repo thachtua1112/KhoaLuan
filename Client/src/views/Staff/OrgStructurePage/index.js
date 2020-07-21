@@ -9,7 +9,6 @@ import TheSidebar from "./TheSidebar";
 import TheContent from "./TheContent";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,21 +24,14 @@ const useStyles = makeStyles((theme) => ({
 
 const OrgStructurePage = () => {
   const classes = useStyles();
-  const [ListProfile, setListProfile] = useState([]);
+
   const [OrgStructureSelected, setOrgStructureSelected] = useState(null);
   const [StructureTree, setStructureTree] = useState(null);
 
   useEffect(() => {
-    OrgStructureAPI.getListProfile(OrgStructureSelected)
-      .then((resListProfile) => {
-        OrgStructureAPI.getStructureTree()
-          .then((resStructureTree) => {
-            setListProfile(resListProfile.data);
-            setStructureTree(resStructureTree.data);
-          })
-          .catch((err) => {
-            throw err;
-          });
+    OrgStructureAPI.getStructureTree()
+      .then((resStructureTree) => {
+        setStructureTree(resStructureTree.data);
       })
       .catch((err) => {
         throw err;
@@ -50,13 +42,6 @@ const OrgStructurePage = () => {
     <Grid container className={classes.root} spacing={0}>
       <Grid item xs={4} lg={3}>
         <Paper className={classes.paper}>
-          <Button
-            onClick={() =>
-              setOrgStructureSelected("35125607-3E52-4FC9-8B92-AF0EA8704B57")
-            }
-          >
-            LICK
-          </Button>
           <TheSidebar
             StructureTree={StructureTree}
             setOrgStructureSelected={setOrgStructureSelected}
@@ -66,7 +51,10 @@ const OrgStructurePage = () => {
 
       <Grid item xs={8} lg={9}>
         <Paper className={classes.paper}>
-          <TheContent items={ListProfile} fields={fields} />
+          <TheContent
+            fields={fields}
+            OrgStructureSelected={OrgStructureSelected}
+          />
         </Paper>
       </Grid>
     </Grid>
