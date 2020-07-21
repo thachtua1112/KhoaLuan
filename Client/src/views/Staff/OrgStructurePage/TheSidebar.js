@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { Paper, FormControlLabel, Switch, Button } from "@material-ui/core";
 
@@ -27,7 +27,8 @@ const getListOrg = (Tree, listOrg = []) => {
 };
 
 const TheSidebar = (props) => {
-  const { StructureTree } = props;
+  const { StructureTree, setOrgStructureSelected } = props;
+
   let ListOrg = [];
   ListOrg = getListOrg(StructureTree);
 
@@ -56,6 +57,7 @@ const TheSidebar = (props) => {
           options={ListOrg}
           getOptionLabel={(option) => option.OrgStructureName}
           //getOptionDisabled={(option) => option.year > 2000}
+          onChange={(event, item) => console.log(item.ID)}
           fullWidth
           size="small"
           renderInput={(params) => (

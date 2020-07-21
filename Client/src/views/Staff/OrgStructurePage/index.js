@@ -9,6 +9,7 @@ import TheSidebar from "./TheSidebar";
 import TheContent from "./TheContent";
 
 import { makeStyles } from "@material-ui/core/styles";
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,19 +50,23 @@ const OrgStructurePage = () => {
     <Grid container className={classes.root} spacing={0}>
       <Grid item xs={4} lg={3}>
         <Paper className={classes.paper}>
+          <Button
+            onClick={() =>
+              setOrgStructureSelected("35125607-3E52-4FC9-8B92-AF0EA8704B57")
+            }
+          >
+            LICK
+          </Button>
           <TheSidebar
             StructureTree={StructureTree}
-            //setOrgStructureSelected={setOrgStructureSelected}
+            setOrgStructureSelected={setOrgStructureSelected}
           />
         </Paper>
       </Grid>
 
       <Grid item xs={8} lg={9}>
         <Paper className={classes.paper}>
-          <TheContent
-            items={ListProfile}
-            fields={["selected", "MaNV", "TenNV", "Phong ban"]}
-          />
+          <TheContent items={ListProfile} fields={fields} />
         </Paper>
       </Grid>
     </Grid>
@@ -69,3 +74,25 @@ const OrgStructurePage = () => {
 };
 
 export default OrgStructurePage;
+
+const fields = [
+  "selected",
+  "StatusSyn",
+  "ProfileName",
+  "NameEnglish",
+  "CodeEmp",
+  "CodeAttendance",
+  "DateHire",
+  "DateEndProbation",
+  "DateQuit",
+  "ResignDescription",
+
+  "OrgStructureID",
+  "PositionID",
+  "DateOfEffect",
+
+  "WorkingPlace",
+  "Supervisor",
+
+  "Gender",
+];
