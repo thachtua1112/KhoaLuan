@@ -4,7 +4,13 @@ function GetHre_Profie_Api(body)
 {
   return callAPI(`/profiles/${body}`,"GET",null)
 }
-export {GetHre_Profie_Api}
+
+function Notyet_ContractApi()
+{
+  return callAPI("/profiles/not-yet-contract","GET",null)
+}
+
+export {GetHre_Profie_Api,Notyet_ContractApi}
 /*
 module.exports.GetHre_Profie_Api = function(body){
   return callAPI("/profiles","GET",body)
