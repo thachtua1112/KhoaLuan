@@ -15,13 +15,14 @@ import {
 import Infor from './Infor'
 import {GetHre_Profie_Api} from '../../../../callAPI/Hre_Profile.api'
 const Personnel = (props) => {
-
   const [infor, setInfor]=useState([])
+  const params=props.params;
+
   useEffect(()=>{
-    GetHre_Profie_Api(null).then(res=>{
+    GetHre_Profie_Api(params).then(res=>{
       if(res.data)
       {
-        setInfor([res.data]);
+        setInfor(res.data);
       }
     })
   },[])

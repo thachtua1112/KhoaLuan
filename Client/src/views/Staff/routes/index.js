@@ -16,7 +16,7 @@ const staffRoute = [
     component: OrgStructurePage,
   },
   {
-    path: "/nhan-su/chi-tiet-nhan-vien",
+    path: "/nhan-su/chi-tiet-nhan-vien/:id",
     name: "Chi tiết nhân viên",
     component: DetailsStaffPage,
   }
