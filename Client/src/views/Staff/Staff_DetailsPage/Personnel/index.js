@@ -59,7 +59,7 @@ const Personnel = () => {
               </CNav>
               <CTabContent>
                 <CTabPane>
-                 <Infor/>
+                 <Infor  />
                 </CTabPane>
                 <CTabPane>
 

@@ -6,7 +6,6 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 
 const TheContent = (props) => {
-  const { fields, items } = props;
   return (
     <Card style={{ height: "98vh" }}>
       <CSidebarNav>
