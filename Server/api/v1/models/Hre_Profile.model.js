@@ -299,12 +299,21 @@ Hre_ProfileSchema.virtual("Position", {
   ref: "Cat_Position",
   localField: "PositionID",
   foreignField: "ID",
+  justOne: true,
 });
 
 Hre_ProfileSchema.virtual("OrgStructure", {
   ref: "Cat_OrgStructure",
   localField: "OrgStructureID",
   foreignField: "ID",
+  justOne: true,
+});
+
+Hre_ProfileSchema.virtual("Unit", {
+  ref: "Cat_OrgUnit",
+  localField: "OrgUnitID",
+  foreignField: "ID",
+  justOne: true,
 });
 
 Hre_ProfileSchema.virtual("ContractType", {
@@ -312,6 +321,9 @@ Hre_ProfileSchema.virtual("ContractType", {
   localField: "ContractTypeID",
   foreignField: "ID",
 });
+
+Hre_ProfileSchema.set("toObject", { virtuals: true });
+Hre_ProfileSchema.set("toJSON", { virtuals: true });
 
 const Hre_ProfileModel = mongoose.model("Hre_Profile", Hre_ProfileSchema);
 

@@ -26,7 +26,11 @@ const useStyles = makeStyles({
 });
 
 const OrgStructureTree = (props) => {
-  const { StructureTree } = props;
+  const {
+    StructureTree,
+    setOrgStructureSelected,
+    OrgStructureSelected,
+  } = props;
 
   const classes = useStyles();
   const renderTree = (nodes) =>
@@ -40,6 +44,7 @@ const OrgStructureTree = (props) => {
         labelIcon={nodes.children ? PeopleAltIcon : PersonOutlineIcon}
         color="#a250f5"
         bgColor="#f3e8fd"
+        labelInfo="100"
       >
         {Array.isArray(nodes.children)
           ? nodes.children.map((node) => renderTree(node))
@@ -50,11 +55,14 @@ const OrgStructureTree = (props) => {
   return (
     <TreeView
       className={classes.root}
-      //defaultParentIcon={<PeopleAltIcon />}
       defaultEndIcon={<div style={{ width: 24 }} />}
       defaultCollapseIcon={<ArrowDropDownIcon />}
       defaultExpandIcon={<ArrowRightIcon />}
-      defaultExpanded={["root"]}
+      selected={[OrgStructureSelected]}
+      defaultExpanded={["2D51E4D9-0E27-451F-83D8-04DA7D6B9797"]}
+      onNodeSelect={(event, item) => {
+        setOrgStructureSelected(item);
+      }}
     >
       <Button
         variant="outlined"
@@ -62,7 +70,9 @@ const OrgStructureTree = (props) => {
         disabled
         fullWidth
       >
-        <Typography> Sơ đồ tổ chức</Typography>
+        <Typography align="left" variant="h6" color="textPrimary">
+          Sơ đồ tổ chức
+        </Typography>
       </Button>
 
       {renderTree(StructureTree)}
