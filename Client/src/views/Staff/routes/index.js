@@ -16,6 +16,13 @@ const staffRoute = [
     name: "Tổ chức nhân sự",
     component: OrgStructurePage,
   },
+
+  {
+    path: "/nhan-su/ho-so-nhan-vien",
+    name: "Hồ sơ nhân viên",
+    component: OrgStructurePage,
+  },
+
   {
     path: "/nhan-su/chi-tiet-nhan-vien/:ID",
     name: "Chi tiết nhân viên",
