@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 
 const OrgStructurePage = () => {
   const classes = useStyles();
-
   const [OrgStructureSelected, setOrgStructureSelected] = useState(null);
   const [StructureTree, setStructureTree] = useState(null);
 
@@ -45,6 +44,7 @@ const OrgStructurePage = () => {
           <TheSidebar
             StructureTree={StructureTree}
             setOrgStructureSelected={setOrgStructureSelected}
+            OrgStructureSelected={OrgStructureSelected}
           />
         </Paper>
       </Grid>
@@ -64,7 +64,7 @@ const OrgStructurePage = () => {
 export default OrgStructurePage;
 
 const fields = [
-  "selected",
+  { key: "name", _style: { width: "300px" } },
   "StatusSyn",
   "ProfileName",
   "NameEnglish",

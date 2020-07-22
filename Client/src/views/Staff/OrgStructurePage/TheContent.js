@@ -14,7 +14,6 @@ const TheContent = (props) => {
 
   useEffect(() => {
     if (null === OrgStructureSelected) return;
-    console.log("ahah", OrgStructureSelected);
     OrgStructureAPI.getListProfile(OrgStructureSelected)
       .then((resListProfile) => {
         setListProfile(resListProfile.data);
@@ -35,11 +34,16 @@ const TheContent = (props) => {
             itemsPerPage={15}
             items={ListProfile}
             fields={fields}
+            scopedSlots={scopedSlots}
           />
         </CardContent>
       </CSidebarNav>
     </Card>
   );
+};
+
+const scopedSlots = {
+  selected: (item) => {},
 };
 
 export default TheContent;

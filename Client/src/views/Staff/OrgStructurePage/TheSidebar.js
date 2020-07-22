@@ -1,10 +1,8 @@
 import React from "react";
 
-import { Paper, FormControlLabel, Switch, Button } from "@material-ui/core";
+import { Paper, FormControlLabel, Switch } from "@material-ui/core";
 
 import { CSidebarNav } from "@coreui/react";
-
-import CachedIcon from "@material-ui/icons/Cached";
 
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -13,13 +11,17 @@ import OrgStructureTree from "./OrgStructureTree";
 
 const getListOrg = (Tree, listOrg = []) => {
   if (null === Tree) return listOrg;
-  if (null === Tree.children) {
+  if (!Tree.children) {
     listOrg.push({
       ID: Tree.data.ID,
       OrgStructureName: Tree.data.OrgStructureName,
     });
     return listOrg;
   }
+  listOrg.push({
+    ID: Tree.data.ID,
+    OrgStructureName: Tree.data.OrgStructureName,
+  });
   Tree.children.forEach((item) => {
     getListOrg(item, listOrg);
   });
@@ -29,7 +31,8 @@ const getListOrg = (Tree, listOrg = []) => {
 const TheSidebar = (props) => {
   const {
     StructureTree,
-    // , setOrgStructureSelected
+    setOrgStructureSelected,
+    OrgStructureSelected,
   } = props;
 
   let ListOrg = [];
@@ -41,10 +44,6 @@ const TheSidebar = (props) => {
       style={{ height: "98vh" }}
     >
       <CSidebarNav>
-        <Button color="secondary" endIcon={<CachedIcon />} size="small">
-          Nạp lại dữ liệu
-        </Button>
-
         <FormControlLabel
           control={
             <Switch
@@ -59,10 +58,15 @@ const TheSidebar = (props) => {
           elevation={0}
           disableClearable
           filterSelectedOptions
+          //ClearOnEscape
+          autoHighlight
           options={ListOrg}
           getOptionLabel={(option) => option.OrgStructureName}
-          //getOptionDisabled={(option) => option.year > 2000}
-          onChange={(event, item) => console.log(item.ID)}
+          //getOptionDisabled={(option) => option.....}
+          getOptionSelected={(option, value) => option.ID === value.ID}
+          onChange={(event, item) => {
+            setOrgStructureSelected(item.ID);
+          }}
           fullWidth
           size="small"
           renderInput={(params) => (
@@ -74,7 +78,11 @@ const TheSidebar = (props) => {
           )}
         />
 
-        <OrgStructureTree StructureTree={StructureTree} />
+        <OrgStructureTree
+          StructureTree={StructureTree}
+          OrgStructureSelected={OrgStructureSelected}
+          setOrgStructureSelected={setOrgStructureSelected}
+        />
       </CSidebarNav>
     </Paper>
   );
