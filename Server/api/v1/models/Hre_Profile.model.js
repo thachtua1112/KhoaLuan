@@ -311,8 +311,8 @@ Hre_ProfileSchema.virtual("OrgStructure", {
 
 Hre_ProfileSchema.virtual("Unit", {
   ref: "Cat_OrgUnit",
-  localField: "OrgUnitID",
-  foreignField: "ID",
+  localField: "OrgStructureID",
+  foreignField: "OrgStructureID",
   justOne: true,
 });
 
