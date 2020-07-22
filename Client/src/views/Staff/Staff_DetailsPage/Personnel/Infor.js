@@ -85,8 +85,12 @@ const Infor= (props)=>{
           data.map((index)=> { return (
           <TableBody key={index.ID}>
             <TableRow>
-              <TableCell><b>Số điện thoại</b></TableCell>
+              <TableCell align="right"><b>Số điện thoại</b></TableCell>
               <TableCell>{index.Cellphone}</TableCell>
+              <TableCell align="right"><b>Địa chỉ</b></TableCell>
+              <TableCell>{index.PAddress}</TableCell>
+
+
             </TableRow>
           </TableBody>
           )}
