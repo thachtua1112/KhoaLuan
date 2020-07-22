@@ -25,7 +25,7 @@ const ContractTable = (props)=>{
     <TableContainer>
       <Table >
       <TableHead>
-      <TableRow><StyledTableCell colSpan={8}> <b>Thông tin cơ bản</b></StyledTableCell></TableRow>
+      <TableRow><StyledTableCell colSpan={8}> <b>Thông tin hợp đồng</b></StyledTableCell></TableRow>
 
       </TableHead>
           {
