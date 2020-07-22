@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CCol,
   CNav,
@@ -14,7 +14,19 @@ import {
   Paper
 } from '@material-ui/core'
 import ContractTable from './Contract_table'
-const ContractCover = () =>{
+import { THre_Profie_Api } from '../../../../callAPI/T_HreProfile.api'
+const ContractCover = (props) =>{
+  const params = props.params;
+  const [contract,setContract]=useState([]);
+  useEffect(()=>{
+    THre_Profie_Api(params).then(res=>{
+      if(res.data)
+      {
+        setContract(res.data)
+      }
+    })
+  },[params])
+
   return(
     <CRow>
     <CCol className="mb-4">
@@ -40,8 +52,7 @@ const ContractCover = () =>{
           </CNav>
           <CTabContent>
             <CTabPane>
-        <ContractTable/>
-
+              <ContractTable data={contract}/>
             </CTabPane>
             <CTabPane>
 

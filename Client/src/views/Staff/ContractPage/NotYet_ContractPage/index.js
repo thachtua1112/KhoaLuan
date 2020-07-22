@@ -131,7 +131,7 @@ let filter2 = filter.filter(
               bordered
               itemsPerPage={15}
               pagination
-              onRowClick={(item) => history.push(`/nhan-su/chi-tiet-nhan-vien/${item.ID}`)}
+              onRowClick={(item) => history.push(`/nhan-su/chi-tiet-nhan-vien/${item.CodeEmp}`)}
               clickableRows
               scopedSlots = {{
                 'Gender':
@@ -140,7 +140,8 @@ let filter2 = filter.filter(
                       {getBadge(item.Gender)}
                     </td>
                   )
-              }}
+              }
+            }
             />
 )}
             </CCardBody>
