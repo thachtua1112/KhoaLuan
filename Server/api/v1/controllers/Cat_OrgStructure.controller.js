@@ -25,7 +25,7 @@ module.exports.getListOrgID = async (req, res) => {
     const { OrgStructureID } = req.params;
     const listOrgStructure = await OrgStructureModel.find(
       {},
-      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1 }
+      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1, Code: 1 }
     );
 
     const Tree = drawStructureTree(listOrgStructure, OrgStructureID);
@@ -42,7 +42,13 @@ module.exports.getListProfilePopulate = async (req, res) => {
     const { OrgStructureID } = req.params;
     const listOrgStructure = await OrgStructureModel.find(
       {},
-      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1, PositionName: 1 }
+      {
+        _id: 0,
+        ID: 1,
+        OrgStructureName: 1,
+        ParentID: 1,
+        Code: 1,
+      }
     );
 
     const Tree = drawStructureTree(listOrgStructure, OrgStructureID);
@@ -77,19 +83,16 @@ module.exports.getListProfile = async (req, res) => {
     const { OrgStructureID } = req.params;
     const listOrgStructure = await OrgStructureModel.find(
       {},
-      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1 }
+      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1, Code: 1 }
     );
 
     const Tree = drawStructureTree(listOrgStructure, OrgStructureID);
 
     const listOrg = getListOrgID(Tree);
 
-    const ListProfile = await ProfilesModel.find(
-      {
-        OrgStructureID: { $in: listOrg },
-      },
-      { ID: 1, ProfileName: 1 }
-    );
+    const ListProfile = await ProfilesModel.find({
+      OrgStructureID: { $in: listOrg },
+    });
 
     return res.json(ListProfile);
   } catch (err) {
