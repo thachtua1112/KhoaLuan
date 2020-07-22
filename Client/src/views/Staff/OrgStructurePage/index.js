@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import OrgStructureAPI from "../../../callAPI/OrgStructure.api";
 
+import { CHeader, CHeaderNav, CHeaderNavItem } from "@coreui/react";
+
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 
@@ -9,6 +11,8 @@ import TheSidebar from "./TheSidebar";
 import TheContent from "./TheContent";
 
 import { makeStyles } from "@material-ui/core/styles";
+import { Button } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,6 +28,9 @@ const useStyles = makeStyles((theme) => ({
 
 const OrgStructurePage = () => {
   const classes = useStyles();
+  const history = useHistory();
+  const [EmployeeSelected, setEmployeeSelected] = useState(null);
+
   const [OrgStructureSelected, setOrgStructureSelected] = useState(null);
   const [StructureTree, setStructureTree] = useState(null);
 
@@ -36,6 +43,10 @@ const OrgStructurePage = () => {
         throw err;
       });
   }, []);
+
+  const detailEmployee = () => {
+    history.push(`/nhan-su/chi-tiet-nhan-vien/${EmployeeSelected.CodeEmp}`);
+  };
 
   return (
     <Grid container className={classes.root} spacing={0}>
@@ -51,7 +62,33 @@ const OrgStructurePage = () => {
 
       <Grid item xs={7} lg={8}>
         <Paper className={classes.paper}>
+          <Grid container style={{ height: "10" }}>
+            <Grid xs={6}>
+              <CHeaderNav className="d-md-down-none mr-auto">
+                <CHeaderNavItem className="px-3">
+                  {`Danh sách nhân viên`}
+                </CHeaderNavItem>
+              </CHeaderNav>
+            </Grid>
+            <Grid xs={6}>
+              <CHeaderNav className="px-3">
+                <CHeaderNavItem className="px-7">{`Nhân viên : ${
+                  !EmployeeSelected ? "" : EmployeeSelected.ProfileName
+                }`}</CHeaderNavItem>
+                <CHeaderNavItem className="px-3">
+                  <Button
+                    disabled={!EmployeeSelected ? true : false}
+                    onClick={detailEmployee}
+                  >
+                    Xem chi tiết
+                  </Button>
+                </CHeaderNavItem>
+              </CHeaderNav>{" "}
+            </Grid>
+          </Grid>
           <TheContent
+            setEmployeeSelected={setEmployeeSelected}
+            EmployeeSelected={EmployeeSelected}
             fields={fields}
             OrgStructureSelected={OrgStructureSelected}
           />
@@ -64,23 +101,16 @@ const OrgStructurePage = () => {
 export default OrgStructurePage;
 
 const fields = [
-  { key: "name", _style: { width: "300px" } },
   "StatusSyn",
+  "CodeEmp",
   "ProfileName",
   "NameEnglish",
-  "CodeEmp",
-  "CodeAttendance",
-  "DateHire",
-  "DateEndProbation",
-  "DateQuit",
-  "ResignDescription",
-
+  "Gender",
   "OrgStructureID",
   "PositionID",
+  "CodeAttendance",
+  "DateHire",
   "DateOfEffect",
-
-  "WorkingPlace",
-  "Supervisor",
-
-  "Gender",
+  "DateEndProbation",
+  "DateQuit",
 ];

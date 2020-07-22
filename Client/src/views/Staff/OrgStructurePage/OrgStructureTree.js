@@ -58,7 +58,7 @@ const OrgStructureTree = (props) => {
       defaultEndIcon={<div style={{ width: 24 }} />}
       defaultCollapseIcon={<ArrowDropDownIcon />}
       defaultExpandIcon={<ArrowRightIcon />}
-      selected={[OrgStructureSelected]}
+      selected={[!OrgStructureSelected ? null : OrgStructureSelected]}
       defaultExpanded={["2D51E4D9-0E27-451F-83D8-04DA7D6B9797"]}
       onNodeSelect={(event, item) => {
         setOrgStructureSelected(item);

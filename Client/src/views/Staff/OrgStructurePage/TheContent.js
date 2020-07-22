@@ -6,15 +6,21 @@ import { CDataTable, CSidebarNav } from "@coreui/react";
 
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
+import { Paper } from "@material-ui/core";
 
 const TheContent = (props) => {
-  const { fields, OrgStructureSelected } = props;
+  const {
+    fields,
+    OrgStructureSelected,
+    setEmployeeSelected,
+    EmployeeSelected,
+  } = props;
 
   const [ListProfile, setListProfile] = useState([]);
 
   useEffect(() => {
     if (null === OrgStructureSelected) return;
-    OrgStructureAPI.getListProfile(OrgStructureSelected)
+    OrgStructureAPI.getListProfile(OrgStructureSelected.ID)
       .then((resListProfile) => {
         setListProfile(resListProfile.data);
       })
@@ -23,27 +29,29 @@ const TheContent = (props) => {
       });
   }, [OrgStructureSelected]);
 
+  const selectEmployee = (employee) => {
+    if (employee === EmployeeSelected) setEmployeeSelected(null);
+    else setEmployeeSelected(employee);
+  };
+
   return (
-    <Card style={{ height: "98vh" }}>
+    <Paper style={{ height: "89vh" }}>
       <CSidebarNav>
-        <CardContent>Danh sách nhân viên</CardContent>
-        <CardContent>
-          <CDataTable
-            size="sm"
-            pagination
-            itemsPerPage={15}
-            items={ListProfile}
-            fields={fields}
-            scopedSlots={scopedSlots}
-          />
-        </CardContent>
+        <CDataTable
+          size="sm"
+          pagination={ListProfile.length > 15 ? true : false}
+          itemsPerPage={15}
+          items={ListProfile}
+          fields={fields}
+          scopedSlots={scopedSlots}
+          onRowClick={(item) => selectEmployee(item)}
+        />
       </CSidebarNav>
-    </Card>
+    </Paper>
   );
 };
 
+export default TheContent;
 const scopedSlots = {
   selected: (item) => {},
 };
-
-export default TheContent;

@@ -42,5 +42,6 @@ module.exports.getListOrgID = (Tree, listUnit = []) => {
   Tree.children.forEach((item) => {
     this.getListOrgID(item, listUnit);
   });
+
   return listUnit;
 };
