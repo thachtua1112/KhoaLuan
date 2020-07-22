@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Redirect} from "react-router-dom";
+import { Redirect,useHistory} from "react-router-dom";
 import {
   CCard,
   CCardBody,
@@ -10,6 +10,7 @@ import { green } from '@material-ui/core/colors';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { makeStyles,createMuiTheme,ThemeProvider  } from '@material-ui/core/styles';
+import {LinearProgress} from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import { Notyet_ContractApi } from '../../../../callAPI/Hre_Profile.api';
 
@@ -30,11 +31,11 @@ const theme = createMuiTheme({
   },
 });
 const fields = [
-  { key: 'CodeEmp', _style: { width: '20%'} },
-  { key: 'ProfileName', _style: { width: '40%'} },
-  { key: 'Gender', _style: { width: '20%'} },
-  { key: 'DateHire', _style: { width: '20%'} },
-  { key: 'PAddress', _style: { width: '20%'} },
+  { key: 'CodeEmp', _style: { width: '10%'} },
+  { key: 'ProfileName', _style: { width: '25%'} },
+  { key: 'Gender', _style: { width: '10%'} },
+  { key: 'DateHire', _style: { width: '25%'} },
+  { key: 'PAddress', _style: { width: '40%'} },
  /* {
     key: 'show_details',
     label: '',
@@ -56,13 +57,17 @@ const NotYet_ContractPage = () => {
   const [name,setName]=useState("");
   const [code,setCode]=useState("");
   const [staff,setStaff]=useState([]);
+  const [load,setLoad]=useState(false);
+
   const [isRedirec,setIsRedirec]=useState(false);
+  const history = useHistory()
 
   useEffect(()=>{
     Notyet_ContractApi().then(res=>{
       if(res.data && res.data.result)
       {
         setStaff(res.data.result)
+        setLoad(true)
       }
     })
   },[])
@@ -116,7 +121,7 @@ let filter2 = filter.filter(
                 </Button>
               </ThemeProvider>
             </form>
-
+{ load===false?<LinearProgress />:(
             <CDataTable
               items={filter2}
               fields={fields}
@@ -124,8 +129,10 @@ let filter2 = filter.filter(
               size='sm'
               striped
               bordered
-              itemsPerPage={10}
+              itemsPerPage={15}
               pagination
+              onRowClick={(item) => history.push(`/nhan-su/chi-tiet-nhan-vien/${item.CodeEmp}`)}
+              clickableRows
               scopedSlots = {{
                 'Gender':
                   (item)=>(
@@ -133,8 +140,10 @@ let filter2 = filter.filter(
                       {getBadge(item.Gender)}
                     </td>
                   )
-              }}
+              }
+            }
             />
+)}
             </CCardBody>
           </CCard>
         </CCol>

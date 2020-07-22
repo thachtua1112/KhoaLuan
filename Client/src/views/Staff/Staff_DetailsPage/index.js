@@ -63,7 +63,7 @@ const DetailsStaffPage = ({match}) => {
                  <Personnel params={paramater}/>
                 </CTabPane>
                 <CTabPane>
-                  <ContractCover/>
+                  <ContractCover params={paramater}/>
                 </CTabPane>
                 <CTabPane>
                 <Collaborate/>
