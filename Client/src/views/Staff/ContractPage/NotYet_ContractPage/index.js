@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react'
+import { Redirect} from "react-router-dom";
 import {
-  CBadge,
   CCard,
   CCardBody,
   CCol,
   CDataTable
 } from '@coreui/react'
-import { makeStyles } from '@material-ui/core/styles';
+import { green } from '@material-ui/core/colors';
+import Button from '@material-ui/core/Button';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import { makeStyles,createMuiTheme,ThemeProvider  } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { Notyet_ContractApi } from '../../../../callAPI/Hre_Profile.api';
 
@@ -17,8 +20,15 @@ const useStyles = makeStyles((theme) => ({
       width: 400,
     },
   },
+  button: {
+    margin: theme.spacing(1)
+  }
 }));
-
+const theme = createMuiTheme({
+  palette: {
+    primary: green,
+  },
+});
 const fields = [
   { key: 'CodeEmp', _style: { width: '20%'} },
   { key: 'ProfileName', _style: { width: '40%'} },
@@ -33,13 +43,10 @@ const fields = [
     filter: false
   }*/
 ]
-const getBadge = status => {
-  switch (status) {
-    case 'Active': return 'success'
-    case 'Inactive': return 'secondary'
-    case 'Pending': return 'warning'
-    case 'Banned': return 'danger'
-    default: return 'primary'
+const getBadge = Gender => {
+  switch (Gender) {
+    case 'E_FEMALE': return 'Nữ'
+    default: return 'Nam'
   }
 }
 
@@ -49,6 +56,7 @@ const NotYet_ContractPage = () => {
   const [name,setName]=useState("");
   const [code,setCode]=useState("");
   const [staff,setStaff]=useState([]);
+  const [isRedirec,setIsRedirec]=useState(false);
 
   useEffect(()=>{
     Notyet_ContractApi().then(res=>{
@@ -76,7 +84,7 @@ let filter2 = filter.filter(
   return contact.CodeEmp.toLowerCase().indexOf(code.trim().toLowerCase()) !== -1;
 }
 );
-  return (
+  return  isRedirec?<Redirect to='/login' />:(
     <CCol>
           <CCard>
             <CCardBody> <b>DANH SÁCH NHÂN VIÊN CHƯA CÓ HỢP ĐỒNG</b>
@@ -95,23 +103,34 @@ let filter2 = filter.filter(
                   size="small"
                   onChange={up_CodeEmp} type="search"
                 />
+
+                <ThemeProvider theme={theme}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                  onClick={()=>setIsRedirec(true)}
+                  startIcon={<CloudUploadIcon />}
+                >
+                  Tạo mới
+                </Button>
+              </ThemeProvider>
             </form>
+
             <CDataTable
               items={filter2}
               fields={fields}
               hover
-
+              size='sm'
               striped
               bordered
               itemsPerPage={10}
               pagination
               scopedSlots = {{
-                'status':
+                'Gender':
                   (item)=>(
                     <td>
-                      <CBadge color={getBadge(item.status)}>
-                        {item.status}
-                      </CBadge>
+                      {getBadge(item.Gender)}
                     </td>
                   )
               }}
