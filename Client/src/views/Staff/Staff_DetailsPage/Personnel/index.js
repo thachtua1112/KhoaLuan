@@ -37,20 +37,12 @@ const Personnel = (props) => {
                   <CNavLink>Thông tin nhân viên</CNavLink>
                 </CNavItem>
                 <CNavItem>
-                  <CNavLink>Liên hệ</CNavLink>
-                </CNavItem>
-                <CNavItem>
-                  <CNavLink>Ngoại vụ</CNavLink>
-                </CNavItem>
-                <CNavItem>
                   <CNavLink>Người thân</CNavLink>
                 </CNavItem>
                 <CNavItem>
                   <CNavLink>Trình độ chuyên môn</CNavLink>
                 </CNavItem>
-                <CNavItem>
-                  <CNavLink>Đảng & đoàn</CNavLink>
-                </CNavItem>
+
               </CNav>
               <CTabContent>
                 <CTabPane>{<Infor data={infor} />}</CTabPane>
