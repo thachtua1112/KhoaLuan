@@ -7,13 +7,12 @@ const { drawStructureTree, getListOrgID } = require("../utils");
 module.exports.getStructureTree = async (req, res) => {
   try {
     const { OrgStructureID } = req.params;
-    const listOrgStructure = await OrgStructureModel.find({});
-    const listOrgStructureMin = listOrgStructure.map((item) => {
-      const { ID, OrgStructureName, ParentID } = item;
-      return { ID, OrgStructureName, ParentID };
-    });
+    const listOrgStructure = await OrgStructureModel.find(
+      {},
+      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1 }
+    );
 
-    const Tree = drawStructureTree(listOrgStructureMin, OrgStructureID);
+    const Tree = drawStructureTree(listOrgStructure, OrgStructureID);
 
     return res.json(Tree);
   } catch (err) {
@@ -24,13 +23,12 @@ module.exports.getStructureTree = async (req, res) => {
 module.exports.getListOrgID = async (req, res) => {
   try {
     const { OrgStructureID } = req.params;
-    const listOrgStructure = await OrgStructureModel.find();
-    const listOrgStructureMin = listOrgStructure.map((item) => {
-      const { ID, OrgStructureName, ParentID } = item;
-      return { ID, OrgStructureName, ParentID };
-    });
+    const listOrgStructure = await OrgStructureModel.find(
+      {},
+      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1 }
+    );
 
-    const Tree = drawStructureTree(listOrgStructureMin, OrgStructureID);
+    const Tree = drawStructureTree(listOrgStructure, OrgStructureID);
 
     const listOrg = getListOrgID(Tree);
     return res.json(listOrg);
@@ -42,19 +40,21 @@ module.exports.getListOrgID = async (req, res) => {
 module.exports.getListProfile = async (req, res) => {
   try {
     const { OrgStructureID } = req.params;
-    const listOrgStructure = await OrgStructureModel.find();
-    const listOrgStructureMin = listOrgStructure.map((item) => {
-      const { ID, OrgStructureName, ParentID } = item;
-      return { ID, OrgStructureName, ParentID };
-    });
+    const listOrgStructure = await OrgStructureModel.find(
+      {},
+      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1 }
+    );
 
-    const Tree = drawStructureTree(listOrgStructureMin, OrgStructureID);
+    const Tree = drawStructureTree(listOrgStructure, OrgStructureID);
 
     const listOrg = getListOrgID(Tree);
 
-    const ListProfile = await ProfilesModel.find({
-      OrgStructureID: { $in: listOrg },
-    });
+    const ListProfile = await ProfilesModel.find(
+      {
+        OrgStructureID: { $in: listOrg },
+      },
+      { ID: 1, ProfileName: 1 }
+    );
 
     return res.json(ListProfile);
   } catch (err) {
