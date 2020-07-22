@@ -32,7 +32,7 @@ const staffRoute = [
     path: "/nhan-su/hop-dong/ds-chua-co-hop-dong",
     name: "ds chưa có hợp đồng",
     component: NotYet_ContractPage,
-  }
+  },
 ];
 
 export default staffRoute;
