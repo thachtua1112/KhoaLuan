@@ -89,7 +89,7 @@ let filter2 = filter.filter(
   return contact.CodeEmp.toLowerCase().indexOf(code.trim().toLowerCase()) !== -1;
 }
 );
-  return  isRedirec?<Redirect to='/login' />:(
+  return  isRedirec?<Redirect to='/nhan-su/hop-dong/tao-moi-hop-dong' />:(
     <CCol>
           <CCard>
             <CCardBody> <b>DANH SÁCH NHÂN VIÊN CHƯA CÓ HỢP ĐỒNG</b>
@@ -131,7 +131,7 @@ let filter2 = filter.filter(
               bordered
               itemsPerPage={15}
               pagination
-              onRowClick={(item) => history.push(`/nhan-su/chi-tiet-nhan-vien/${item.CodeEmp}`)}
+              onRowClick={(item) => history.push(`/nhan-su/hop-dong/tao-moi-hop-dong/${item.CodeEmp}`)}
               clickableRows
               scopedSlots = {{
                 'Gender':

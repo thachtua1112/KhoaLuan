@@ -1,6 +1,7 @@
 import React from "react";
 import DetailsStaffPage from "../Staff_DetailsPage";
 import NotYet_ContractPage from "../ContractPage/NotYet_ContractPage";
+import NewContractPage from "../ContractPage/NewContractPage";
 
 const OrgStructurePage = React.lazy(() => import("../OrgStructurePage"));
 
@@ -40,6 +41,11 @@ const staffRoute = [
     name: "ds chưa có hợp đồng",
     component: NotYet_ContractPage,
   },
+  {
+    path: "/nhan-su/hop-dong/tao-moi-hop-dong",
+    name: "Tạo mới hợp đồng",
+    component: NewContractPage,
+  }
 ];
 
 export default staffRoute;

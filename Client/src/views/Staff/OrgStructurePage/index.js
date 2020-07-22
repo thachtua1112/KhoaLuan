@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import OrgStructureAPI from "../../../callAPI/OrgStructure.api";
 
-import { CHeader, CHeaderNav, CHeaderNavItem } from "@coreui/react";
+import { CHeaderNav, CHeaderNavItem } from "@coreui/react";
 
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";

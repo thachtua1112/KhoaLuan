@@ -4,8 +4,6 @@ import OrgStructureAPI from "../../../callAPI/OrgStructure.api";
 
 import { CDataTable, CSidebarNav } from "@coreui/react";
 
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
 import { Paper } from "@material-ui/core";
 
 const TheContent = (props) => {
