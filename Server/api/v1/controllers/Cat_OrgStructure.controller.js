@@ -37,6 +37,41 @@ module.exports.getListOrgID = async (req, res) => {
   }
 };
 
+module.exports.getListProfilePopulate = async (req, res) => {
+  try {
+    const { OrgStructureID } = req.params;
+    const listOrgStructure = await OrgStructureModel.find(
+      {},
+      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1, PositionName: 1 }
+    );
+
+    const Tree = drawStructureTree(listOrgStructure, OrgStructureID);
+
+    const listOrgID = getListOrgID(Tree);
+    const ListProfile = await ProfilesModel.find({
+      OrgStructureID: { $in: listOrgID },
+    }).populate({
+      path: "Position",
+      select: { PositionName: 1 },
+      //justOne: true,
+    });
+    // .populate({
+    //   path: "OrgStructure",
+    //   //select: { _id: 0, E_COMPANY: 1 },
+    //   justOne: true,
+    // })
+    // .populate({
+    //   path: "Unit",
+    //   //select: { _id: 0, E_COMPANY: 1 },
+    //   justOne: true,
+    // });
+
+    return res.json(ListProfile);
+  } catch (err) {
+    return res.sendStatus(403);
+  }
+};
+
 module.exports.getListProfile = async (req, res) => {
   try {
     const { OrgStructureID } = req.params;
