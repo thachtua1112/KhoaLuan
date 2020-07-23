@@ -51,7 +51,6 @@ const getBadge = Gender => {
   }
 }
 
-
 const NotYet_ContractPage = () => {
   const classes = useStyles();
   const [name,setName]=useState("");
@@ -64,9 +63,9 @@ const NotYet_ContractPage = () => {
 
   useEffect(()=>{
     Notyet_ContractApi().then(res=>{
-      if(res.data && res.data.result)
+      if(res.data && res.data.hre_profile)
       {
-        setStaff(res.data.result)
+        setStaff([res.data.hre_profile])
         setLoad(true)
       }
     })

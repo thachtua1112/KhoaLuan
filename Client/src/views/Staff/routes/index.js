@@ -1,10 +1,10 @@
 import React from "react";
-import DetailsStaffPage from "../Staff_DetailsPage";
-import NotYet_ContractPage from "../ContractPage/NotYet_ContractPage";
-import NewContractPage from "../ContractPage/NewContractPage";
-import ContractPage from "../ContractPage/Dashboard_ContractPage";
-
+const NewContractPage = React.lazy(() => import("../ContractPage/NewContractPage"));
 const OrgStructurePage = React.lazy(() => import("../OrgStructurePage"));
+const NotYet_ContractPage = React.lazy(() => import("../ContractPage/NotYet_ContractPage"));
+const DetailsStaffPage = React.lazy(() => import("../Staff_DetailsPage"));
+const ContractPage = React.lazy(() => import("../ContractPage/Dashboard_ContractPage"));
+
 
 const staffRoute = [
   {

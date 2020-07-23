@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Redirect} from "react-router-dom";
 import PresentToAllIcon from '@material-ui/icons/PresentToAll';
 import {
   CCard,
@@ -59,8 +58,7 @@ const ContractPage = () => {
   const [code,setCode]=useState("");
   const [staff,setStaff]=useState([]);
   const [load,setLoad]=useState(false);
-
-  const [isRedirec,setIsRedirec]=useState(false);
+  const [profile,setProfile]=useState("");
 
   useEffect(()=>{
     All_THreProfie_Api(null).then(res=>{
@@ -83,13 +81,13 @@ const ContractPage = () => {
       return contact.ProfileName.toLowerCase().indexOf(name.trim().toLowerCase()) !== -1;
     }
   );
+  let filter2 = filter.filter(
+  (contact)=>{
+    return contact.CodeEmp.toLowerCase().indexOf(code.trim().toLowerCase()) !== -1;
+  }
+  );
 
-let filter2 = filter.filter(
-(contact)=>{
-  return contact.CodeEmp.toLowerCase().indexOf(code.trim().toLowerCase()) !== -1;
-}
-);
-  return  isRedirec?<Redirect to='/nhan-su/hop-dong/tao-moi-hop-dong' />:(
+  return  (
     <CCol>
           <CCard>
             <CCardBody> <b>DANH SÁCH HỢP ĐỒNG</b>
@@ -120,12 +118,11 @@ let filter2 = filter.filter(
                   variant="contained"
                   color="primary"
                   className={classes.button}
-                  onClick={()=>setIsRedirec(true)}
                   startIcon={<PresentToAllIcon />}
                 >
                   Kết xuất
                 </Button>
-                Nhân viên:
+                Nhân viên: <b>{profile}</b>
               </ThemeProvider>
             </form>
 { load===false?<LinearProgress />:(
@@ -139,6 +136,7 @@ let filter2 = filter.filter(
               itemsPerPage={15}
               pagination
               clickableRows
+              onRowClick={(item) => setProfile(item.ProfileName)}
               scopedSlots = {{
                 'Gender':
                   (item)=>(
