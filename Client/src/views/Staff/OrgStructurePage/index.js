@@ -63,14 +63,14 @@ const OrgStructurePage = () => {
       <Grid item xs={8} lg={9}>
         <Paper className={classes.paper}>
           <Grid container style={{ height: "10" }}>
-            <Grid xs={6}>
+            <Grid >
               <CHeaderNav className="d-md-down-none mr-auto">
                 <CHeaderNavItem className="px-3">
                   {`Danh sách nhân viên`}
                 </CHeaderNavItem>
               </CHeaderNav>
             </Grid>
-            <Grid xs={6}>
+            <Grid>
               <CHeaderNav className="px-3">
                 <CHeaderNavItem className="px-7">{`Nhân viên : ${
                   !EmployeeSelected ? "" : EmployeeSelected.ProfileName

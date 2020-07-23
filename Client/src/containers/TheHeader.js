@@ -67,8 +67,8 @@ const TheHeader = (props) => {
           <CHeaderNavLink>Settings</CHeaderNavLink>
         </CHeaderNavItem>
       </CHeaderNav>
-
       <CHeaderNav className="px-3">
+
         <TheHeaderDropdownNotif/>
         <TheHeaderDropdownTasks/>
         <TheHeaderDropdownMssg/>
