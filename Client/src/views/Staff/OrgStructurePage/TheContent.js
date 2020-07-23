@@ -56,7 +56,7 @@ const TheContent = (props) => {
       <DataTable
         title="Danh sách nhân viên"
         options={{
-          paging: false,
+          paging: true,
           selection: true,
           exportButton: true,
           pageSize: 20,
