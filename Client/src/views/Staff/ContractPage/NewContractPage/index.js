@@ -144,7 +144,7 @@ console.log("2",state)
               <CInput type= "text"></CInput>
             </TableCell>
             <TableCell>
-              Ngày kí
+              Ngày có hiệu lực
             <CInput type="date"></CInput>
             </TableCell>
           </TableRow>
