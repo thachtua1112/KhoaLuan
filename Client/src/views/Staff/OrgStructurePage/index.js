@@ -50,7 +50,7 @@ const OrgStructurePage = () => {
 
   return (
     <Grid container className={classes.root} spacing={0}>
-      <Grid item xs={5} lg={4}>
+      <Grid item xs={4} lg={3}>
         <Paper className={classes.paper}>
           <TheSidebar
             StructureTree={StructureTree}
@@ -60,7 +60,7 @@ const OrgStructurePage = () => {
         </Paper>
       </Grid>
 
-      <Grid item xs={7} lg={8}>
+      <Grid item xs={8} lg={9}>
         <Paper className={classes.paper}>
           <Grid container style={{ height: "10" }}>
             <Grid xs={6}>
@@ -101,16 +101,11 @@ const OrgStructurePage = () => {
 export default OrgStructurePage;
 
 const fields = [
-  "StatusSyn",
   "CodeEmp",
   "ProfileName",
   "NameEnglish",
   "Gender",
-  "OrgStructureID",
-  "PositionID",
-  "CodeAttendance",
+  "StatusSyn",
   "DateHire",
-  "DateOfEffect",
-  "DateEndProbation",
   "DateQuit",
 ];

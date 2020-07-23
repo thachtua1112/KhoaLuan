@@ -41,6 +41,10 @@ const TheContent = (props) => {
           itemsPerPage={15}
           items={ListProfile}
           fields={fields}
+          striped
+          bordered
+          clickableRows
+          hover
           scopedSlots={scopedSlots}
           onRowClick={(item) => selectEmployee(item)}
         />
