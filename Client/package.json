@@ -48,7 +48,9 @@
     "react-dom": "^16.13.1",
     "react-redux": "7.2.0",
     "react-router-dom": "^5.2.0",
-    "redux": "4.0.5"
+    "redocx": "^1.1.4",
+    "redux": "4.0.5",
+    "shortid": "^2.2.15"
   },
   "devDependencies": {
     "react-scripts": "^3.4.1"

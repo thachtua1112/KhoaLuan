@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import { Redirect,useHistory} from "react-router-dom";
+import PresentToAllIcon from '@material-ui/icons/PresentToAll';
 import {
   CCard,
   CCardBody,
   CCol,
   CDataTable
 } from '@coreui/react'
-import { green } from '@material-ui/core/colors';
+import {  blue } from '@material-ui/core/colors';
 import Button from '@material-ui/core/Button';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { makeStyles,createMuiTheme,ThemeProvider  } from '@material-ui/core/styles';
 import {LinearProgress} from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
-import { Notyet_ContractApi } from '../../../../callAPI/Hre_Profile.api';
+import { All_THreProfie_Api } from '../../../../callAPI/T_HreProfile.api';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      width: 400,
+      width: 200,
     },
   },
   button: {
@@ -27,15 +26,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 const theme = createMuiTheme({
   palette: {
-    primary: green,
+    primary: blue,
   },
 });
 const fields = [
   { key: 'CodeEmp', _style: { width: '10%'} },
   { key: 'ProfileName', _style: { width: '25%'} },
   { key: 'Gender', _style: { width: '10%'} },
-  { key: 'DateHire', _style: { width: '25%'} },
-  { key: 'PAddress', _style: { width: '40%'} },
+  { key: 'DateHire', _style: { width: '10%'} },
+  { key: 'DateContract', _style: { width: '10%'} },
+
  /* {
     key: 'show_details',
     label: '',
@@ -51,21 +51,20 @@ const getBadge = Gender => {
   }
 }
 
-const NotYet_ContractPage = () => {
+
+const ContractPage = () => {
   const classes = useStyles();
   const [name,setName]=useState("");
   const [code,setCode]=useState("");
   const [staff,setStaff]=useState([]);
   const [load,setLoad]=useState(false);
-
-  const [isRedirec,setIsRedirec]=useState(false);
-  const history = useHistory()
+  const [profile,setProfile]=useState("");
 
   useEffect(()=>{
-    Notyet_ContractApi().then(res=>{
-      if(res.data && res.data.result)
+    All_THreProfie_Api(null).then(res=>{
+      if(res.data)
       {
-        setStaff(res.data.result)
+        setStaff(res.data)
         setLoad(true)
       }
     })
@@ -82,16 +81,16 @@ const NotYet_ContractPage = () => {
       return contact.ProfileName.toLowerCase().indexOf(name.trim().toLowerCase()) !== -1;
     }
   );
+  let filter2 = filter.filter(
+  (contact)=>{
+    return contact.CodeEmp.toLowerCase().indexOf(code.trim().toLowerCase()) !== -1;
+  }
+  );
 
-let filter2 = filter.filter(
-(contact)=>{
-  return contact.CodeEmp.toLowerCase().indexOf(code.trim().toLowerCase()) !== -1;
-}
-);
-  return  isRedirec?<Redirect to='/nhan-su/hop-dong/tao-moi-hop-dong' />:(
+  return  (
     <CCol>
           <CCard>
-            <CCardBody> <b>DANH SÁCH NHÂN VIÊN CHƯA CÓ HỢP ĐỒNG</b>
+            <CCardBody> <b>DANH SÁCH HỢP ĐỒNG</b>
             <form className={classes.root} noValidate autoComplete="off">
                 <TextField
                   label="Tên nhân viên"
@@ -107,17 +106,23 @@ let filter2 = filter.filter(
                   size="small"
                   onChange={up_CodeEmp} type="search"
                 />
-
+                <TextField
+                label="Loại hợp đồng"
+                id="outlined-size-normal"
+                variant="outlined"
+                size="small"
+                onChange={up_CodeEmp} type="search"
+              />
                 <ThemeProvider theme={theme}>
                 <Button
                   variant="contained"
                   color="primary"
                   className={classes.button}
-                  onClick={()=>setIsRedirec(true)}
-                  startIcon={<CloudUploadIcon />}
+                  startIcon={<PresentToAllIcon />}
                 >
-                  Tạo mới
+                  Kết xuất
                 </Button>
+                Nhân viên: <b>{profile}</b>
               </ThemeProvider>
             </form>
 { load===false?<LinearProgress />:(
@@ -130,8 +135,8 @@ let filter2 = filter.filter(
               bordered
               itemsPerPage={15}
               pagination
-              onRowClick={(item) => history.push(`/nhan-su/hop-dong/tao-moi-hop-dong/${item.CodeEmp}`)}
               clickableRows
+              onRowClick={(item) => setProfile(item.ProfileName)}
               scopedSlots = {{
                 'Gender':
                   (item)=>(
@@ -148,4 +153,4 @@ let filter2 = filter.filter(
         </CCol>
   )
 }
-export default NotYet_ContractPage
+export default ContractPage

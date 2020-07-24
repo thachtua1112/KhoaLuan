@@ -8,6 +8,7 @@ import {
   CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import NewUser from '../views/pages/register/Dialog';
 
 const TheHeaderDropdown = (props) => {
   const onLogout=props.onLogout;
@@ -82,6 +83,7 @@ const TheHeaderDropdown = (props) => {
           <CBadge color="primary" className="mfs-auto">42</CBadge>
         </CDropdownItem>
         <CDropdownItem divider />
+        <NewUser/>
         <CDropdownItem onClick={(e)=>{onLogout(e)}}>
           <CIcon  name="cil-lock-locked" className="mfe-2" />
           LogOut

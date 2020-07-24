@@ -3,6 +3,7 @@ import * as config from './config'
 export default function callAPI  (endpoint, method = "GET", body)  {
    return axios({
     method: method,
+    //url: `${config.REACT_URL_API}${endpoint}`,https://api-hr-manager.herokuapp.com/get-hre-profile
     url: `${config.REACT_URL_API}${endpoint}`,
     data: body,
   },

@@ -1,10 +1,15 @@
 import React from "react";
-
-import DetailsStaffPage from "../Staff_DetailsPage";
-import NotYet_ContractPage from "../ContractPage/NotYet_ContractPage";
-import NewContractPage from "../ContractPage/NewContractPage";
-
+const NewContractPage = React.lazy(() =>
+  import("../ContractPage/NewContractPage")
+);
 const OrgStructurePage = React.lazy(() => import("../OrgStructurePage"));
+const NotYet_ContractPage = React.lazy(() =>
+  import("../ContractPage/NotYet_ContractPage")
+);
+const DetailsStaffPage = React.lazy(() => import("../Staff_DetailsPage"));
+const ContractPage = React.lazy(() =>
+  import("../ContractPage/Dashboard_ContractPage")
+);
 
 const ListEmployeePage = React.lazy(() =>
   import("../EmployeeResource/ListEmployeePage")
@@ -53,7 +58,7 @@ const staffRoute = [
     path: "/nhan-su/hop-dong",
     exact: true,
     name: "Hợp đồng",
-    component: NotYet_ContractPage,
+    component: ContractPage,
   },
   {
     path: "/nhan-su/hop-dong/ds-chua-co-hop-dong",
@@ -64,6 +69,11 @@ const staffRoute = [
     path: "/nhan-su/hop-dong/tao-moi-hop-dong",
     name: "Tạo mới hợp đồng",
     component: NewContractPage,
+  },
+  {
+    path: "/nhan-su/hop-dong/ds-hop-dong",
+    name: "Danh sách hợp đồng",
+    component: ContractPage,
   },
 ];
 

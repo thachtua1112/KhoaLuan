@@ -1,31 +1,23 @@
 import React from 'react'
 import {
   CButton,
-  CCard,
   CCardBody,
-  CCardFooter,
-  CCol,
   CContainer,
   CForm,
   CInput,
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
-  CRow
+
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
 const Register = () => {
   return (
-    <div className="c-app c-default-layout flex-row align-items-center">
       <CContainer>
-        <CRow className="justify-content-center">
-          <CCol md="9" lg="7" xl="6">
-            <CCard className="mx-4">
               <CCardBody className="p-4">
                 <CForm>
-                  <h1>Register</h1>
-                  <p className="text-muted">Create your account</p>
+                  <h1>Tạo tài khoản</h1>
                   <CInputGroup className="mb-3">
                     <CInputGroupPrepend>
                       <CInputGroupText>
@@ -59,6 +51,7 @@ const Register = () => {
                   <CButton color="success" block>Create Account</CButton>
                 </CForm>
               </CCardBody>
+              {/*
               <CCardFooter className="p-4">
                 <CRow>
                   <CCol xs="12" sm="6">
@@ -69,11 +62,9 @@ const Register = () => {
                   </CCol>
                 </CRow>
               </CCardFooter>
-            </CCard>
-          </CCol>
-        </CRow>
+              */}
+
       </CContainer>
-    </div>
   )
 }
 

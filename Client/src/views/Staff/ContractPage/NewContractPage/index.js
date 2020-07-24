@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { generate } from "shortid";
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -99,6 +100,7 @@ export default function NewContractPage() {
   const Add_Row = ()=>{
     console.log("1",state)
     const Get_TenPCnew=[...state,{
+      id:generate(),
       ten:TenPC,
       thue:thue,
       sotien:tien,
@@ -157,7 +159,7 @@ console.log("2",state)
               Họ & tên <CInput type= "text"></CInput>
             </TableCell>
             <TableCell>
-              Mã nhân viên <CInput type= "text" value="abc"></CInput>
+              Mã nhân viên <CInput type= "text"></CInput>
             </TableCell>
           </TableRow>
 
@@ -245,8 +247,8 @@ console.log("2",state)
 
             <TableBody >
                {
-                 state.length<=0?<div> </div>:state.map((row) => (
-              <TableRow hover role="checkbox" tabIndex={-1} key={row.ten}>
+                state.map((row) => (
+              <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                  <TableCell>{row.ten}</TableCell>
                   <TableCell>{row.thue}</TableCell>
                   <TableCell>{row.sotien}</TableCell>
