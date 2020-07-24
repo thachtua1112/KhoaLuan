@@ -14,12 +14,13 @@ const getListOrg = (Tree, listOrg = []) => {
   if (!Tree.children) {
     listOrg.push({
       ID: Tree.data.ID,
+      Code: Tree.data.Code,
       OrgStructureName: Tree.data.OrgStructureName,
     });
     return listOrg;
   }
   listOrg.push({
-    ID: Tree.data.ID,
+    Code: Tree.data.Code,
     OrgStructureName: Tree.data.OrgStructureName,
   });
   Tree.children.forEach((item) => {
@@ -35,8 +36,7 @@ const TheSidebar = (props) => {
     OrgStructureSelected,
   } = props;
 
-  let ListOrg = [];
-  ListOrg = getListOrg(StructureTree);
+  const ListOrg = getListOrg(StructureTree);
 
   return (
     <Paper
@@ -61,7 +61,9 @@ const TheSidebar = (props) => {
           //ClearOnEscape
           autoHighlight
           options={ListOrg}
-          getOptionLabel={(option) => option.OrgStructureName}
+          getOptionLabel={(option) =>
+            `${option.Code}-${option.OrgStructureName}`
+          }
           //getOptionDisabled={(option) => option.....}
           getOptionSelected={(option, value) => option.ID === value.ID}
           onChange={(event, item) => {

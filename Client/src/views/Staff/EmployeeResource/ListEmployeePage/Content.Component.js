@@ -21,7 +21,12 @@ const Content = (props) => {
   } = props;
   return (
     <div className={classes.root}>
-      <CDataTable fields={fields} items={data} />
+      <CDataTable
+        fields={fields}
+        items={data}
+        pagination={data.length > 15 ? true : false}
+        itemsPerPage={15}
+      />
     </div>
   );
 };

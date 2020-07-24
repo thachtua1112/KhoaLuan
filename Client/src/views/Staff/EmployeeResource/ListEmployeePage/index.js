@@ -12,7 +12,7 @@ import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
 import Content from "./Content.Component";
 
-import { ProfileFields, defaultProfileFields } from "./fieldsProfile";
+import { ProfileFields, defaultProfileFields } from "../../utils/fieldsProfile";
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -865,24 +865,8 @@ const ProfileFields = [
   { _style: { width: "300px" }, key: "StatusItg", label: "statusitg" },
 ];
 const defaultProfileFields = [
-  { _style: { width: "300px" }, key: "ProfileName", label: "profilename" },
-
   { _style: { width: "300px" }, key: "CodeEmp", label: "codeemp" },
-
-  { _style: { width: "300px" }, key: "StatusSyn", label: "statussyn" },
-  { _style: { width: "300px" }, key: "DateHire", label: "datehire" },
-  {
-    _style: { width: "300px" },
-    key: "DateEndProbation",
-    label: "dateendprobation",
-  },
-  { _style: { width: "300px" }, key: "DateQuit", label: "datequit" },
-  {
-    _style: { width: "300px" },
-    key: "OrgStructureID",
-
-    label: "orgstructureid",
-  },
+  { _style: { width: "300px" }, key: "ProfileName", label: "profilename" },
   { _style: { width: "300px" }, key: "Position", label: "Position" },
 ];
 export { ProfileFields, defaultProfileFields };

@@ -37,7 +37,7 @@ const OrgStructureTree = (props) => {
       <StyledTreeItem
         key={nodes.data.ID}
         nodeId={nodes.data.ID}
-        labelText={nodes.data.OrgStructureName}
+        labelText={`${nodes.data.Code}-${nodes.data.OrgStructureName}`}
         labelIcon={nodes.children ? PeopleAltIcon : PersonOutlineIcon}
         color="#a250f5"
         bgColor="#f3e8fd"
