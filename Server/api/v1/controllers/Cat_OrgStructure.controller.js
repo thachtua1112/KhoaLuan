@@ -2,19 +2,41 @@ const OrgStructureModel = require("../models/Cat_OrgStructure.model");
 
 const ProfilesModel = require("../models/Hre_Profile.model");
 
+const OrgStructureTreeModel = require("../models/OrgStructureTree.model");
+
 const { drawStructureTree, getListOrgID } = require("../utils");
 
 module.exports.getStructureTree = async (req, res) => {
   try {
     const { OrgStructureID } = req.params;
+    if (!OrgStructureID) {
+      const Tree = await OrgStructureTreeModel.findOne({
+        rootID: "2D51E4D9-0E27-451F-83D8-04DA7D6B9797",
+      });
+      return res.json(Tree.StructureTree);
+    }
+
+    const Tree = await OrgStructureTreeModel.findOne({
+      rootID: OrgStructureID,
+    });
+
+    if (Tree) {
+      return res.json(Tree);
+    }
+
     const listOrgStructure = await OrgStructureModel.find(
       {},
-      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1 }
+      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1, Code: 1 }
     );
 
-    const Tree = drawStructureTree(listOrgStructure, OrgStructureID);
+    const TreeCreate = drawStructureTree(listOrgStructure, OrgStructureID);
 
-    return res.json(Tree);
+    await OrgStructureTreeModel.create({
+      rootID: OrgStructureID,
+      StructureTree: TreeCreate,
+    });
+
+    return res.json(TreeCreate);
   } catch (err) {
     return res.sendStatus(403);
   }
@@ -22,13 +44,11 @@ module.exports.getStructureTree = async (req, res) => {
 
 module.exports.getListOrgID = async (req, res) => {
   try {
-    const { OrgStructureID } = req.params;
-    const listOrgStructure = await OrgStructureModel.find(
-      {},
-      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1, Code: 1 }
-    );
+    //const { OrgStructureID } = req.params;
 
-    const Tree = drawStructureTree(listOrgStructure, OrgStructureID);
+    const Tree = await OrgStructureTreeModel.find({
+      rootID: "2D51E4D9-0E27-451F-83D8-04DA7D6B9797",
+    });
 
     const listOrg = getListOrgID(Tree);
     return res.json(listOrg);
@@ -39,21 +59,11 @@ module.exports.getListOrgID = async (req, res) => {
 
 module.exports.getListProfilePopulate = async (req, res) => {
   try {
-    const { OrgStructureID } = req.params;
-    const listOrgStructure = await OrgStructureModel.find(
-      {},
-      {
-        _id: 0,
-        ID: 1,
-        OrgStructureName: 1,
-        ParentID: 1,
-        Code: 1,
-      }
-    );
+    const Tree = await OrgStructureTreeModel.findOne({
+      rootID: "2D51E4D9-0E27-451F-83D8-04DA7D6B9797",
+    });
 
-    const Tree = drawStructureTree(listOrgStructure, OrgStructureID);
-
-    const listOrgID = getListOrgID(Tree);
+    const listOrgID = getListOrgID(Tree.StructureTree);
     const ListProfile = await ProfilesModel.find({
       OrgStructureID: { $in: listOrgID },
     }).populate({
@@ -74,6 +84,7 @@ module.exports.getListProfilePopulate = async (req, res) => {
 
     return res.json(ListProfile);
   } catch (err) {
+    console.log(err);
     return res.sendStatus(403);
   }
 };
@@ -81,12 +92,27 @@ module.exports.getListProfilePopulate = async (req, res) => {
 module.exports.getListProfile = async (req, res) => {
   try {
     const { OrgStructureID } = req.params;
+
+    var Tree = await OrgStructureTreeModel.findOne({
+      rootID: OrgStructureID,
+    });
+
+    if (Tree) {
+      const listOrg = getListOrgID(Tree.StructureTree);
+      const ListProfile = await ProfilesModel.find({
+        OrgStructureID: { $in: listOrg },
+      });
+
+      return res.json(ListProfile);
+    }
+
     const listOrgStructure = await OrgStructureModel.find(
       {},
       { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1, Code: 1 }
     );
 
-    const Tree = drawStructureTree(listOrgStructure, OrgStructureID);
+    Tree = drawStructureTree(listOrgStructure, OrgStructureID);
+    if (!Tree.data) return res.json([]);
 
     const listOrg = getListOrgID(Tree);
 
@@ -94,8 +120,14 @@ module.exports.getListProfile = async (req, res) => {
       OrgStructureID: { $in: listOrg },
     });
 
+    await OrgStructureTreeModel.create({
+      rootID: OrgStructureID,
+      StructureTree: Tree,
+    });
+
     return res.json(ListProfile);
   } catch (err) {
+    console.log(err);
     return res.sendStatus(403);
   }
 };
