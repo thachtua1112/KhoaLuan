@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import OrgStructureAPI from "../../../callAPI/OrgStructure.api";
 
-import { CHeaderNav, CHeaderNavItem } from "@coreui/react";
+import { ProfileFields } from "../utils/fields";
 
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -11,8 +11,7 @@ import TheSidebar from "./TheSidebar";
 import TheContent from "./TheContent";
 
 import { makeStyles } from "@material-ui/core/styles";
-import { Button } from "@material-ui/core";
-import { useHistory } from "react-router-dom";
+//import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 const OrgStructurePage = () => {
   const classes = useStyles();
-  const history = useHistory();
+  ///const history = useHistory();
   const [EmployeeSelected, setEmployeeSelected] = useState(null);
 
   const [OrgStructureSelected, setOrgStructureSelected] = useState(null);
@@ -44,9 +43,9 @@ const OrgStructurePage = () => {
       });
   }, []);
 
-  const detailEmployee = () => {
-    history.push(`/nhan-su/chi-tiet-nhan-vien/${EmployeeSelected.CodeEmp}`);
-  };
+  // const detailEmployee = () => {
+  //   history.push(`/nhan-su/chi-tiet-nhan-vien/${EmployeeSelected.CodeEmp}`);
+  // };
 
   return (
     <Grid container className={classes.root} spacing={0}>
@@ -62,6 +61,7 @@ const OrgStructurePage = () => {
 
       <Grid item xs={8} lg={9}>
         <Paper className={classes.paper}>
+<<<<<<< HEAD
           <Grid container style={{ height: "10" }}>
             <Grid >
               <CHeaderNav className="d-md-down-none mr-auto">
@@ -86,10 +86,12 @@ const OrgStructurePage = () => {
               </CHeaderNav>{" "}
             </Grid>
           </Grid>
+=======
+>>>>>>> 1be4d8d2101ac668cd748827db7acd89b8b18db5
           <TheContent
             setEmployeeSelected={setEmployeeSelected}
             EmployeeSelected={EmployeeSelected}
-            fields={fields}
+            fields={ProfileFields}
             OrgStructureSelected={OrgStructureSelected}
           />
         </Paper>
@@ -99,6 +101,7 @@ const OrgStructurePage = () => {
 };
 
 export default OrgStructurePage;
+<<<<<<< HEAD
 
 const fields = [
   "CodeEmp",
@@ -109,3 +112,5 @@ const fields = [
   "DateHire",
   "DateQuit",
 ];
+=======
+>>>>>>> 1be4d8d2101ac668cd748827db7acd89b8b18db5

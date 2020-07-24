@@ -52,6 +52,11 @@ export default [
     _children: [
       {
         _tag: "CSidebarNavItem",
+        name: "Danh sách nhân viên",
+        to: "/nhan-su/du-lieu-nhan-vien/danh-sach-nhan-vien",
+      },
+      {
+        _tag: "CSidebarNavItem",
         name: "Nhân viên nghỉ việc",
         to: "/nhan-su/du-lieu-nhan-vien/nhan-vien-nghi-viec",
       },

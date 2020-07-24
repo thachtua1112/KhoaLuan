@@ -21,7 +21,7 @@ const TheContent = () => {
     <main
     //className="c-main"
     >
-      <Container disableGutters>
+      <Container disableGutters maxWidth={false}>
         <Suspense fallback={loading}>
           <Switch>
             {routes.map((route, idx) => {

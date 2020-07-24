@@ -6,6 +6,10 @@ const DetailsStaffPage = React.lazy(() => import("../Staff_DetailsPage"));
 const ContractPage = React.lazy(() => import("../ContractPage/Dashboard_ContractPage"));
 
 
+const ListEmployeePage = React.lazy(() =>
+  import("../EmployeeResource/ListEmployeePage")
+);
+
 const staffRoute = [
   {
     path: "/nhan-su",
@@ -17,12 +21,19 @@ const staffRoute = [
     path: "/nhan-su/to-chuc-nhan-su",
     name: "Tổ chức nhân sự",
     component: OrgStructurePage,
+    exact: true,
   },
-
   {
-    path: "/nhan-su/ho-so-nhan-vien",
-    name: "Hồ sơ nhân viên",
-    component: OrgStructurePage,
+    path: "/nhan-su/du-lieu-nhan-vien",
+    name: "Dữ liệu nhân viên",
+    component: ListEmployeePage,
+    exact: true,
+  },
+  {
+    path: "/nhan-su/du-lieu-nhan-vien/danh-sach-nhan-vien",
+    name: "Danh sách tất cả nhân viên",
+    component: ListEmployeePage,
+    exact: true,
   },
 
   {
