@@ -2,36 +2,29 @@ import React, { useState, useEffect } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import CreateIcon from "@material-ui/icons/Create";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-import SearchIcon from "@material-ui/icons/Search";
+import PageviewIcon from "@material-ui/icons/Pageview";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 import Toolbar from "@material-ui/core/Toolbar";
+import { MTableToolbar } from "material-table";
+
+import { Tooltip, IconButton } from "@material-ui/core";
 
 import OrgStructureAPI from "../../../callAPI/OrgStructure.api";
 
 import { CSidebarNav } from "@coreui/react";
 import DataTable from "../utils/DataTable";
 
-import { MTableToolbar } from "material-table";
-
-import { Tooltip, IconButton } from "@material-ui/core";
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    height: "89vh",
+    height: "100vh",
   },
 }));
 
 const TheContent = (props) => {
   const classes = useStyles();
-  const {
-    fields,
-    OrgStructureSelected,
-    //setEmployeeSelected,
-    //EmployeeSelected,
-  } = props;
+  const { fields, OrgStructureSelected } = props;
 
   const [ListProfile, setListProfile] = useState([]);
   const [selectedRow, setSelectedRow] = useState([]);
@@ -46,20 +39,30 @@ const TheContent = (props) => {
       });
   }, [OrgStructureSelected]);
 
-  // const selectEmployee = (employee) => {
-  //   if (employee === EmployeeSelected) setEmployeeSelected(null);
-  //   else setEmployeeSelected(employee);
-  // };
-
   return (
     <CSidebarNav className={classes.root}>
       <DataTable
         title="Danh sách nhân viên"
+        data={ListProfile}
+        columns={fields}
+        onSelectionChange={(rows) => setSelectedRow(rows)}
+        actions={[
+          {
+            icon: SettingsIcon,
+            tooltip: "Cài đặt hiển thị",
+            isFreeAction: true,
+            onClick: (event) => alert("You want to add a new row"),
+          },
+        ]}
         options={{
-          paging: true,
+          paging: ListProfile.length > 20 ? true : false,
+          filtering: true,
+          pageSize: 20,
+          paginationType: "stepped",
+          tableLayout: "fixed",
+          loadingType: "linear",
           selection: true,
           exportButton: true,
-          pageSize: 20,
           doubleHorizontalScroll: true,
           rowStyle: (rowData) => ({
             backgroundColor: selectedRow.find(
@@ -69,28 +72,15 @@ const TheContent = (props) => {
               : "#FFF",
           }),
         }}
-        onSelectionChange={(rows) => setSelectedRow(rows)}
-        data={ListProfile}
-        columns={fields}
         components={{
           Toolbar: (props) => (
             <div>
               <MTableToolbar {...props} />
               <div style={{ padding: "0px 10px" }}>
                 <Toolbar>
-                  <Tooltip title="Xem">
+                  <Tooltip title="Xem chi tiết hồ sơ">
                     <IconButton>
-                      <SearchIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Cập nhật">
-                    <IconButton>
-                      <CreateIcon />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title="Xóa">
-                    <IconButton>
-                      <DeleteOutlineIcon />
+                      <PageviewIcon />
                     </IconButton>
                   </Tooltip>
                 </Toolbar>

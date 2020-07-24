@@ -1,4 +1,5 @@
 import React from "react";
+
 import DetailsStaffPage from "../Staff_DetailsPage";
 import NotYet_ContractPage from "../ContractPage/NotYet_ContractPage";
 import NewContractPage from "../ContractPage/NewContractPage";
@@ -36,6 +37,13 @@ const staffRoute = [
   },
 
   {
+    path: "/nhan-su/du-lieu-nhan-vien/danh-sach-nghi-viec",
+    name: "DS nhân viên nghỉ viec",
+    component: ListEmployeePage,
+    exact: true,
+  },
+
+  {
     path: "/nhan-su/chi-tiet-nhan-vien/:ID",
     name: "Chi tiết nhân viên",
     component: DetailsStaffPage,
@@ -56,7 +64,7 @@ const staffRoute = [
     path: "/nhan-su/hop-dong/tao-moi-hop-dong",
     name: "Tạo mới hợp đồng",
     component: NewContractPage,
-  }
+  },
 ];
 
 export default staffRoute;

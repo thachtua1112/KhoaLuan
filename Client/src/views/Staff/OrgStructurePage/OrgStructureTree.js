@@ -18,10 +18,7 @@ import StyledTreeItem from "./StyledTreeItem";
 
 const useStyles = makeStyles({
   root: {
-    //height: 264,
-    //flexGrow: 1,
-    //overflow: "auto",
-    //maxWidth: 400,
+    padding: "8px",
   },
 });
 
@@ -59,7 +56,6 @@ const OrgStructureTree = (props) => {
       defaultCollapseIcon={<ArrowDropDownIcon />}
       defaultExpandIcon={<ArrowRightIcon />}
       selected={[!OrgStructureSelected ? null : OrgStructureSelected]}
-      defaultExpanded={["2D51E4D9-0E27-451F-83D8-04DA7D6B9797"]}
       onNodeSelect={(event, item) => {
         setOrgStructureSelected(item);
       }}
