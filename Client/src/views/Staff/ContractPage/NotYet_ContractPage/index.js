@@ -63,9 +63,9 @@ const NotYet_ContractPage = () => {
 
   useEffect(()=>{
     Notyet_ContractApi().then(res=>{
-      if(res.data && res.data.hre_profile)
+      if(res.data && res.data.result)
       {
-        setStaff([res.data.hre_profile])
+        setStaff(res.data.result)
         setLoad(true)
       }
     })

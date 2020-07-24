@@ -46,7 +46,7 @@ const staffRoute = [
     path: "/nhan-su/hop-dong",
     exact: true,
     name: "Hợp đồng",
-    component: NotYet_ContractPage,
+    component: ContractPage,
   },
   {
     path: "/nhan-su/hop-dong/ds-chua-co-hop-dong",
@@ -60,7 +60,7 @@ const staffRoute = [
   } ,
   {
     path: "/nhan-su/hop-dong/ds-hop-dong",
-    name: "Tạo mới hợp đồng",
+    name: "Danh sách hợp đồng",
     component: ContractPage,
   }
 ];

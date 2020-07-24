@@ -61,33 +61,6 @@ const OrgStructurePage = () => {
 
       <Grid item xs={8} lg={9}>
         <Paper className={classes.paper}>
-<<<<<<< HEAD
-          <Grid container style={{ height: "10" }}>
-            <Grid >
-              <CHeaderNav className="d-md-down-none mr-auto">
-                <CHeaderNavItem className="px-3">
-                  {`Danh sách nhân viên`}
-                </CHeaderNavItem>
-              </CHeaderNav>
-            </Grid>
-            <Grid>
-              <CHeaderNav className="px-3">
-                <CHeaderNavItem className="px-7">{`Nhân viên : ${
-                  !EmployeeSelected ? "" : EmployeeSelected.ProfileName
-                }`}</CHeaderNavItem>
-                <CHeaderNavItem className="px-3">
-                  <Button
-                    disabled={!EmployeeSelected ? true : false}
-                    onClick={detailEmployee}
-                  >
-                    Xem chi tiết
-                  </Button>
-                </CHeaderNavItem>
-              </CHeaderNav>{" "}
-            </Grid>
-          </Grid>
-=======
->>>>>>> 1be4d8d2101ac668cd748827db7acd89b8b18db5
           <TheContent
             setEmployeeSelected={setEmployeeSelected}
             EmployeeSelected={EmployeeSelected}
@@ -101,16 +74,3 @@ const OrgStructurePage = () => {
 };
 
 export default OrgStructurePage;
-<<<<<<< HEAD
-
-const fields = [
-  "CodeEmp",
-  "ProfileName",
-  "NameEnglish",
-  "Gender",
-  "StatusSyn",
-  "DateHire",
-  "DateQuit",
-];
-=======
->>>>>>> 1be4d8d2101ac668cd748827db7acd89b8b18db5

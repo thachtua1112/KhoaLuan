@@ -52,25 +52,6 @@ const TheContent = (props) => {
   // };
 
   return (
-<<<<<<< HEAD
-    <Paper style={{ height: "89vh" }}>
-      <CSidebarNav>
-        <CDataTable
-          size="sm"
-          pagination={ListProfile.length > 15 ? true : false}
-          itemsPerPage={15}
-          items={ListProfile}
-          fields={fields}
-          striped
-          bordered
-          clickableRows
-          hover
-          scopedSlots={scopedSlots}
-          onRowClick={(item) => selectEmployee(item)}
-        />
-      </CSidebarNav>
-    </Paper>
-=======
     <CSidebarNav className={classes.root}>
       <DataTable
         title="Danh sách nhân viên"
@@ -119,7 +100,6 @@ const TheContent = (props) => {
         }}
       />
     </CSidebarNav>
->>>>>>> 1be4d8d2101ac668cd748827db7acd89b8b18db5
   );
 };
 

@@ -4,12 +4,12 @@ import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import Slide from '@material-ui/core/Slide';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
 import Register from './Register';
-
-const New_User = ()=>{
+import {
+  CDropdownItem,
+} from '@coreui/react'
+import CIcon from '@coreui/icons-react'
+const NewUser = ()=>{
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -19,17 +19,15 @@ const New_User = ()=>{
   const handleClose = () => {
     setOpen(false);
   };
-  const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
+
   return(
   <div>
-  <Fab size="small" color="primary" onClick={handleClickOpen} aria-label="add">
-      <AddIcon />
-  </Fab>
+    <CDropdownItem onClick={handleClickOpen}>
+        <CIcon  name="cil-user" className="mfe-2" />
+        Add User
+    </CDropdownItem>
     <Dialog
         open={open}
-        TransitionComponent={Transition}
         keepMounted
         onClose={handleClose}
         aria-labelledby="alert-dialog-slide-title"
@@ -47,4 +45,4 @@ const New_User = ()=>{
   </div>
   )
 }
-export default New_User
+export default NewUser
