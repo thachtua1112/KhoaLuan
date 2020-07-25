@@ -7,8 +7,11 @@ module.exports.drawStructureTree = (
   Tree.children = [];
 
   const dataFind = listOrg.find((item) => rootID == item.ID);
-  const childrenFilter = listOrg.filter((item) => rootID == item.ParentID);
+  if (!dataFind) {
+    return {};
+  }
 
+  const childrenFilter = listOrg.filter((item) => rootID == item.ParentID);
   Tree.data = dataFind;
 
   ////
@@ -33,10 +36,18 @@ module.exports.drawStructureTree = (
 };
 
 module.exports.getListOrgID = (Tree, listUnit = []) => {
-  if (null == Tree.children) {
+  if (null == Tree.children || [] == Tree.children) {
+    if (!Tree.data || Tree.data == {}) {
+      return listUnit;
+    }
     listUnit.push(Tree.data.ID);
     return listUnit;
   }
+
+  if (!Tree.data || Tree.data == {}) {
+    return listUnit;
+  }
+
   listUnit.push(Tree.data.ID);
 
   Tree.children.forEach((item) => {

@@ -23,8 +23,8 @@ const staffRoute = [
     component: OrgStructurePage,
   },
   {
-    path: "/nhan-su/to-chuc-nhan-su",
-    name: "Tổ chức nhân sự",
+    path: "/nhan-su/to-chuc-phong-ban",
+    name: "Tổ chức phòng ban",
     component: OrgStructurePage,
     exact: true,
   },

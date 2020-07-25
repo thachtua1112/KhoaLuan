@@ -2,20 +2,22 @@ import React, { useEffect, useState } from "react";
 
 import OrgStructureAPI from "../../../callAPI/OrgStructure.api";
 
-import { ProfileFields } from "../utils/fields";
+import { defaultProfileFields } from "../utils/fieldsProfile";
 
+import { CDataTable, CSidebarNav } from "@coreui/react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 
 import TheSidebar from "./TheSidebar";
-import TheContent from "./TheContent";
 
 import { makeStyles } from "@material-ui/core/styles";
-//import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    "& table": {
+      "table-layout": "fixed",
+    },
   },
   paper: {
     padding: theme.spacing(1),
@@ -27,10 +29,11 @@ const useStyles = makeStyles((theme) => ({
 
 const OrgStructurePage = () => {
   const classes = useStyles();
-  ///const history = useHistory();
-  const [EmployeeSelected, setEmployeeSelected] = useState(null);
+
+  const [ListProfile, setListProfile] = useState([]);
 
   const [OrgStructureSelected, setOrgStructureSelected] = useState(null);
+
   const [StructureTree, setStructureTree] = useState(null);
 
   useEffect(() => {
@@ -43,9 +46,14 @@ const OrgStructurePage = () => {
       });
   }, []);
 
-  // const detailEmployee = () => {
-  //   history.push(`/nhan-su/chi-tiet-nhan-vien/${EmployeeSelected.CodeEmp}`);
-  // };
+  useEffect(() => {
+    if (!OrgStructureSelected) return;
+    const fetchAPI = async () => {
+      const res = await OrgStructureAPI.getListProfile(OrgStructureSelected);
+      setListProfile(res.data);
+    };
+    fetchAPI();
+  }, [OrgStructureSelected]);
 
   return (
     <Grid container className={classes.root} spacing={0}>
@@ -61,12 +69,14 @@ const OrgStructurePage = () => {
 
       <Grid item xs={8} lg={9}>
         <Paper className={classes.paper}>
-          <TheContent
-            setEmployeeSelected={setEmployeeSelected}
-            EmployeeSelected={EmployeeSelected}
-            fields={ProfileFields}
-            OrgStructureSelected={OrgStructureSelected}
-          />
+          <CSidebarNav>
+            <CDataTable
+              fields={defaultProfileFields}
+              items={ListProfile}
+              pagination={ListProfile.length > 15 ? true : false}
+              itemsPerPage={15}
+            />
+          </CSidebarNav>
         </Paper>
       </Grid>
     </Grid>

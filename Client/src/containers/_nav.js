@@ -16,8 +16,8 @@ export default [
   },
   {
     _tag: "CSidebarNavItem",
-    name: "Tổ chức nhân sự",
-    to: "/nhan-su/to-chuc-nhan-su",
+    name: "Tổ chức phòng ban",
+    to: "/nhan-su/to-chuc-phong-ban",
     icon: "cil-drop",
   },
   {
