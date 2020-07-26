@@ -19,7 +19,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 //import callAPI from '../../../callAPI/callAPI'
-import LoginAPI from '../../../callAPI/Authentication.api'
+import {LoginAPI} from '../../../callAPI/Authentication.api'
 const Login = () => {
   const [name,setname]=useState("");
   const [pass,setPass]=useState("");

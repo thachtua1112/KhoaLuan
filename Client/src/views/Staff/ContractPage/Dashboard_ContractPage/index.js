@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import PresentToAllIcon from '@material-ui/icons/PresentToAll';
+import { saveAs } from 'file-saver';
+import axios from 'axios'
+import qs from 'qs'
 import {
   CCard,
   CCardBody,
@@ -12,6 +15,8 @@ import { makeStyles,createMuiTheme,ThemeProvider  } from '@material-ui/core/styl
 import {LinearProgress} from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
 import { All_THreProfie_Api } from '../../../../callAPI/T_HreProfile.api';
+import { CreateApi } from '../../../../callAPI/ExportFile';
+import * as config from '../../../../callAPI/config'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,7 +63,13 @@ const ContractPage = () => {
   const [code,setCode]=useState("");
   const [staff,setStaff]=useState([]);
   const [load,setLoad]=useState(false);
-  const [profile,setProfile]=useState("");
+  const [profilename,setProfileName]=useState("");
+  const [gender,setGender]=useState("");
+
+  const Infor = {
+    name:profilename,
+    gender:gender
+  }
 
   useEffect(()=>{
     All_THreProfie_Api(null).then(res=>{
@@ -69,6 +80,21 @@ const ContractPage = () => {
       }
     })
   },[])
+
+  const up_Profile = (item)=>{
+    setProfileName(item.ProfileName)
+    setGender(getBadge)
+  }
+
+  const Export = ()=>{
+    CreateApi(qs.stringify(Infor))
+    .then(()=> axios.get(`${config.REACT_URL_API}/fetch-pdf`, { responseType: 'blob' }))
+    .then((res)=>{
+      const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
+      saveAs(pdfBlob, `HopDong${profilename}.pdf`);
+    })
+
+  }
 
   const up_Name = (e) =>{
     setName(e.target.value);
@@ -117,12 +143,13 @@ const ContractPage = () => {
                 <Button
                   variant="contained"
                   color="primary"
+                  onClick={Export}
                   className={classes.button}
                   startIcon={<PresentToAllIcon />}
                 >
                   Kết xuất
                 </Button>
-                Nhân viên: <b>{profile}</b>
+                Nhân viên: <b>{profilename}</b>
               </ThemeProvider>
             </form>
 { load===false?<LinearProgress />:(
@@ -136,7 +163,7 @@ const ContractPage = () => {
               itemsPerPage={15}
               pagination
               clickableRows
-              onRowClick={(item) => setProfile(item.ProfileName)}
+              onRowClick={(item) => up_Profile(item)}
               scopedSlots = {{
                 'Gender':
                   (item)=>(
