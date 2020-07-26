@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import OrgStructureAPI from "../../../callAPI/OrgStructure.api";
 
 import { defaultProfileFields } from "../utils/fieldsProfile";
+import { exportToPDF } from "../utils/exportToPDF";
 
 import { CDataTable, CSidebarNav } from "@coreui/react";
 import Grid from "@material-ui/core/Grid";
@@ -25,11 +26,26 @@ const useStyles = makeStyles((theme) => ({
     "& table": {
       "table-layout": "fixed",
     },
+    //height: "100vh",
   },
   paper: {
     padding: theme.spacing(1),
     //textAlign: "center",
+    height: "88vh",
+    color: theme.palette.text.secondary,
+  },
+
+  sidebar: {
+    padding: theme.spacing(1),
+    //textAlign: "center",
     height: "100vh",
+    color: theme.palette.text.secondary,
+  },
+
+  tool: {
+    padding: theme.spacing(1),
+    //textAlign: "center",
+    height: "12vh",
     color: theme.palette.text.secondary,
   },
 }));
@@ -47,6 +63,16 @@ const OrgStructurePage = () => {
 
   const handleClickExport = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const exportPDF = () => {
+    exportToPDF(
+      "Danh sach nhan vien",
+      defaultProfileFields,
+      ListProfile,
+      "DSNhanVien"
+    );
+    handleCloseExport();
   };
 
   const handleCloseExport = () => {
@@ -75,7 +101,7 @@ const OrgStructurePage = () => {
   return (
     <Grid container className={classes.root} spacing={0}>
       <Grid item xs={4} lg={3}>
-        <Paper className={classes.paper}>
+        <Paper className={classes.sidebar}>
           <TheSidebar
             StructureTree={StructureTree}
             setOrgStructureSelected={setOrgStructureSelected}
@@ -85,42 +111,49 @@ const OrgStructurePage = () => {
       </Grid>
 
       <Grid item xs={8} lg={9}>
-        <Paper className={classes.paper}>
-          <Tooltip title="Export">
-            <IconButton onClick={handleClickExport}>
-              <SaveAltIcon />
-            </IconButton>
-          </Tooltip>
+        <Grid item xs={12}>
+          <Paper className={classes.tool}>
+            <Tooltip title="Export">
+              <IconButton onClick={handleClickExport}>
+                <SaveAltIcon />
+              </IconButton>
+            </Tooltip>
 
-          <Menu
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleCloseExport}
-          >
-            <MenuItem onClick={handleCloseExport}>
-              <CSVLink
-                data={ListProfile}
-                headers={defaultProfileFields}
-                filename={"DSNhanVien.csv"}
+            <Menu
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleCloseExport}
+            >
+              <MenuItem
+                onClick={(event) => {
+                  exportPDF();
+                }}
               >
-                Export as CSV
-              </CSVLink>
-            </MenuItem>
-            <MenuItem onClick={handleCloseExport}>
-              Export as PDF chua lam
-            </MenuItem>
-          </Menu>
-
-          <CSidebarNav>
-            <CDataTable
-              fields={defaultProfileFields}
-              items={ListProfile}
-              pagination={ListProfile.length > 15 ? true : false}
-              itemsPerPage={15}
-            />
-          </CSidebarNav>
-        </Paper>
+                <CSVLink
+                  data={ListProfile}
+                  headers={defaultProfileFields}
+                  filename={"DSNhanVien.csv"}
+                >
+                  Export as CSV
+                </CSVLink>
+              </MenuItem>
+              <MenuItem onClick={exportPDF}>Export as PDF</MenuItem>
+            </Menu>
+          </Paper>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper}>
+            <CSidebarNav>
+              <CDataTable
+                fields={defaultProfileFields}
+                items={ListProfile}
+                pagination={ListProfile.length > 15 ? true : false}
+                itemsPerPage={15}
+              />
+            </CSidebarNav>
+          </Paper>
+        </Grid>
       </Grid>
     </Grid>
   );
