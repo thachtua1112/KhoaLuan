@@ -30,9 +30,26 @@ db.on("error", (err) => {
 app.use(morgan("dev"));
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 app.use(cors());
+//documents
+const pdf = require('html-pdf');
+const pdfTemplate = require('./api/v1/ExportFile/documents/Contract');
+
+app.post('/api/v1/create-pdf', (req, res) => {
+    pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
+        if(err) {
+            res.send(Promise.reject());
+        }
+        res.send(Promise.resolve());
+    });
+});
+
+app.get('/api/v1/fetch-pdf', (req, res) => {
+    res.sendFile(`${__dirname}/result.pdf`)
+})
+
+
 app.use("/api/v1/user",loginRouter);
 app.use("/api/v1/user",verifyToken,RouterUser)
 app.use("/api/v1", apiRouteV1);
