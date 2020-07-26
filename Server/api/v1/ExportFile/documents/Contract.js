@@ -1,4 +1,6 @@
-module.exports = ({ name, gender }) => {
+module.exports = ({ name, gender,DateOfBirth, PAStreet, IDNo,IDDateOfIssue,IDPlaceOfIssue,
+    DateContract,
+}) => {
     const today = new Date();
 return `
 
@@ -40,15 +42,15 @@ return `
       <p><em>Địa chỉ cư tr&uacute;: </em>168/47B V&otilde; Th&agrave;nh Trang, Phường 11, T&acirc;n B&igrave;nh, TP. HCM</p>
       <p><strong>V&agrave;,</strong></p>
       <p><strong>B&Ecirc;N B: &Ocirc;ng/b&agrave;: ${name}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>Giới t&iacute;nh</em>: ${gender}</p>
-      <p><em>Ng&agrave;y th&aacute;ng năm sinh</em>: 11/8/1985&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-      <p><em>Địa chỉ cư tr&uacute;</em>: 42/17 L&atilde; Xu&acirc;n Oai, Kp7, Tăng Nhơn Ph&uacute; A, Quận 9 - Phường Tăng Nhơn Ph&uacute; A - Quận 9 - TP. Hồ Ch&iacute; Minh</p>
-      <p><em>Số CMND/Hộ chiếu</em>: 273159028&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>cấp ng&agrave;y</em>: 11/07/2000&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>tại</em>: B&agrave; Rịa - Vũng T&agrave;u</p>
+      <p><em>Ng&agrave;y th&aacute;ng năm sinh</em>: ${DateOfBirth}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+      <p><em>Địa chỉ cư tr&uacute;</em>: ${PAStreet}</p>
+      <p><em>Số CMND/Hộ chiếu</em>: ${IDNo}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>cấp ng&agrave;y</em>: ${IDDateOfIssue}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>tại</em>: ${IDPlaceOfIssue}</p>
       <p><em>Số sổ lao động</em> (nếu c&oacute;):</p>
       <p>Thỏa thuận k&yacute; kết hợp đồng lao động v&agrave; cam kết l&agrave;m đ&uacute;ng những điều khoản sau đ&acirc;y:</p>
       <h3>Điều 1: Thời hạn của hợp đồng lao động</h3>
       <ol>
       <li>Loại hợp đồng lao động: Hợp đồng kh&ocirc;ng x&aacute;c định thời hạn</li>
-      <li>Từ ng&agrave;y: <strong>08/09/2011</strong></li>
+      <li>Từ ng&agrave;y: <strong>${DateContract}</strong></li>
       <li>Chức danh chuy&ecirc;n m&ocirc;n: Nh&acirc;n vi&ecirc;n kiểm so&aacute;t lao động tiền lương&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>Chức vụ</em> (nếu c&oacute;):&nbsp; Nh&acirc;n vi&ecirc;n</li>
       </ol>
       <h3>Điều 2: C&ocirc;ng việc v&agrave; địa điểm l&agrave;m việc</h3>

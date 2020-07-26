@@ -32,7 +32,7 @@ catch(err)
 module.exports.getByID = async (req, res) => {
   try{
     const { ID } = req.params;
-    const result = await Hre_ProfileModel.find({ ID: ID });
+    const result = await Hre_ProfileModel.find({ CodeEmp: ID });
     return res.status(200).json(result);
   }
   catch(err)
