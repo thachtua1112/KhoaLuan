@@ -10,6 +10,7 @@ const {verifyToken} = require('./api/v1/controllers/verifyToken');
 const loginRouter = require("./api/v1/routes/Login.router");
 const RouterUser = require("./api/v1/routes/RouterUser");
 const cors = require("cors");
+const routeExport = require("./api/v1/routes/routeExport");
 
 dotenv.config();
 const app = express();
@@ -33,6 +34,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cors());
 //documents
+/*
 const pdf = require('html-pdf');
 const pdfTemplate = require('./api/v1/ExportFile/documents/Contract');
 
@@ -45,14 +47,16 @@ app.post('/api/v1/create-pdf', (req, res) => {
     });
 });
 
-app.get('/api/v1/fetch-pdf', (req, res) => {
-    res.sendFile(`${__dirname}/result.pdf`)
-})
 
+*/
 
 app.use("/api/v1/user",loginRouter);
 app.use("/api/v1/user",verifyToken,RouterUser)
 app.use("/api/v1", apiRouteV1);
+app.use("/api/v1", routeExport);
+app.get('/api/v1/fetch-pdf', (req, res) => {
+  res.sendFile(`${__dirname}/result.pdf`)
+})
 app.listen(PORT, () => {
   console.log("Server started on http://localhost:" + PORT);
 });
