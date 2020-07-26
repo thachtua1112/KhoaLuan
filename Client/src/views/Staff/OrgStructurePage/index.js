@@ -8,9 +8,16 @@ import { CDataTable, CSidebarNav } from "@coreui/react";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 
+import Tooltip from "@material-ui/core/Tooltip";
+
+import SaveAltIcon from "@material-ui/icons/SaveAlt";
+
+import { CSVLink } from "react-csv";
+
 import TheSidebar from "./TheSidebar";
 
 import { makeStyles } from "@material-ui/core/styles";
+import { IconButton, Menu, MenuItem } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,6 +42,16 @@ const OrgStructurePage = () => {
   const [OrgStructureSelected, setOrgStructureSelected] = useState(null);
 
   const [StructureTree, setStructureTree] = useState(null);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClickExport = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseExport = () => {
+    setAnchorEl(null);
+  };
 
   useEffect(() => {
     OrgStructureAPI.getStructureTree()
@@ -69,6 +86,32 @@ const OrgStructurePage = () => {
 
       <Grid item xs={8} lg={9}>
         <Paper className={classes.paper}>
+          <Tooltip title="Export">
+            <IconButton onClick={handleClickExport}>
+              <SaveAltIcon />
+            </IconButton>
+          </Tooltip>
+
+          <Menu
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleCloseExport}
+          >
+            <MenuItem onClick={handleCloseExport}>
+              <CSVLink
+                data={ListProfile}
+                headers={defaultProfileFields}
+                filename={"DSNhanVien.csv"}
+              >
+                Export as CSV
+              </CSVLink>
+            </MenuItem>
+            <MenuItem onClick={handleCloseExport}>
+              Export as PDF chua lam
+            </MenuItem>
+          </Menu>
+
           <CSidebarNav>
             <CDataTable
               fields={defaultProfileFields}
