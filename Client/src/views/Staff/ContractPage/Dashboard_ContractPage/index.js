@@ -17,6 +17,7 @@ import TextField from '@material-ui/core/TextField';
 import { All_THreProfie_Api } from '../../../../callAPI/T_HreProfile.api';
 import { CreateApi } from '../../../../callAPI/ExportFile';
 import * as config from '../../../../callAPI/config'
+import { GetHre_Profie_Api } from '../../../../callAPI/Hre_Profile.api';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,13 +64,16 @@ const ContractPage = () => {
   const [code,setCode]=useState("");
   const [staff,setStaff]=useState([]);
   const [load,setLoad]=useState(false);
+
+  const [codeEpm,setCodeEpm]=useState("");
   const [profilename,setProfileName]=useState("");
   const [gender,setGender]=useState("");
-
-  const Infor = {
-    name:profilename,
-    gender:gender
-  }
+  const [DateOfBirth,setDateOfBirth]=useState("")
+  const [PAStreet,setPAStreet]=useState("")
+  const [IDNo,setIDNo]=useState("")
+  const [IDDateOfIssue,setIDDateOfIssue]=useState("")
+  const [IDPlaceOfIssue,setIDPlaceOfIssue]=useState("")
+  const [DateContract,setDateContract]=useState("")
 
   useEffect(()=>{
     All_THreProfie_Api(null).then(res=>{
@@ -84,16 +88,40 @@ const ContractPage = () => {
   const up_Profile = (item)=>{
     setProfileName(item.ProfileName)
     setGender(getBadge)
+    setCodeEpm(item.CodeEmp)
+    setDateContract(item.DateContract)
+    console.log("code",codeEpm)
+      //liên kết thông tin
+      GetHre_Profie_Api(`${codeEpm}`).then((res)=>{
+        if(res.data)
+        {
+          setDateOfBirth(res.data[0].DateOfBirth)
+          setPAStreet(res.data[0].PAStreet)
+          setIDNo(res.data[0].IDNo)
+          setIDDateOfIssue(res.data[0].IDDateOfIssue)
+          setIDPlaceOfIssue(res.data[0].IDPlaceOfIssue)
+        }
+      })
   }
-
+  const Infor = {
+    name:profilename,
+    gender:gender,
+    DateOfBirth:DateOfBirth,
+    PAStreet:PAStreet,
+    IDNo:IDNo,
+    IDDateOfIssue:IDDateOfIssue,
+    IDPlaceOfIssue:IDPlaceOfIssue,
+    DateContract:DateContract
+  }
   const Export = ()=>{
+    console.log(Infor)
+    //xuất file
     CreateApi(qs.stringify(Infor))
     .then(()=> axios.get(`${config.REACT_URL_API}/fetch-pdf`, { responseType: 'blob' }))
     .then((res)=>{
       const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
       saveAs(pdfBlob, `HopDong${profilename}.pdf`);
     })
-
   }
 
   const up_Name = (e) =>{
