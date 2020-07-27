@@ -4,11 +4,17 @@ const dotenv = require("dotenv");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+var cookieParser = require("cookie-parser");
 
 const apiRouteV1 = require("./api/v1/routes");
-const {verifyToken} = require('./api/v1/controllers/verifyToken');
+const { verifyToken } = require("./api/v1/controllers/verifyToken");
 const loginRouter = require("./api/v1/routes/Login.router");
 const RouterUser = require("./api/v1/routes/RouterUser");
+
+//
+const authenticationRoute = require("./api/v1/routes/authentication.route");
+//
+
 const cors = require("cors");
 
 dotenv.config();
@@ -29,12 +35,16 @@ db.on("error", (err) => {
 
 app.use(morgan("dev"));
 
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(cors());
-app.use("/api/v1/user",loginRouter);
-app.use("/api/v1/user",verifyToken,RouterUser)
+
+app.use("/authentication", authenticationRoute);
+
+app.use("/api/v1/user", loginRouter);
+app.use("/api/v1/user", verifyToken, RouterUser);
 app.use("/api/v1", apiRouteV1);
 app.listen(PORT, () => {
   console.log("Server started on http://localhost:" + PORT);
