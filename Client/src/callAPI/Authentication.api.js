@@ -1,11 +1,11 @@
 import callAPI from "./callAPI";
 
-export function LoginAPI  (body)  {
+export function LoginAPI(body) {
   return callAPI("/user/login", "POST", body);
-};
-export function RegisterApi  (body)  {
+}
+export function RegisterApi(body) {
   return callAPI("/user/register", "POST", body);
-};
+}
 // HAHA class AuthenticationAPI {
 //   login = (params) => {
 //     const url = "/login";
