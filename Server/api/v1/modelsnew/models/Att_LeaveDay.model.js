@@ -24,7 +24,6 @@ const Att_LeaveDaySchema = new Schema({
   PayrollGroupID: { type: Schema.Types.String },
   LaborType: { type: Schema.Types.String },
   SortID: { type: Schema.Types.Number },
-  AbilityTileID: { type: Schema.Types.String },
   CompanyID: { type: Schema.Types.String },
 });
 
