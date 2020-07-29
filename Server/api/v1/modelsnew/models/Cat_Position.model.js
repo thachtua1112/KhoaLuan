@@ -16,3 +16,5 @@ HeadPosProfileID: { type: Schema.Types.String },
 const Cat_PositionModel = mongoose.model("Cat_Position", Cat_PositionSchema);
 
 module.exports = Cat_PositionModel;
+
+
