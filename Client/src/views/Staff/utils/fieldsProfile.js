@@ -865,8 +865,15 @@ const ProfileFields = [
   { _style: { width: "300px" }, key: "StatusItg", label: "statusitg" },
 ];
 const defaultProfileFields = [
-  { _style: { width: "300px" }, key: "CodeEmp", label: "codeemp" },
-  { _style: { width: "300px" }, key: "ProfileName", label: "profilename" },
-  { _style: { width: "300px" }, key: "Position", label: "Position" },
+  { _style: { width: "100px" }, key: "CodeEmp", label: "Mã nhân viên" },
+  { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
+  {
+    _style: { width: "300px" },
+    key: "OrgStructureID",
+
+    label: "Phòng ban",
+  },
+  { _style: { width: "150px" }, key: "Position", label: "Chức vụ" },
+  { _style: { width: "100px" }, key: "StatusSyn", label: "Trạng thái" },
 ];
 export { ProfileFields, defaultProfileFields };

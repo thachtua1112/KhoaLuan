@@ -42,8 +42,14 @@ const staffRoute = [
   },
 
   {
-    path: "/nhan-su/du-lieu-nhan-vien/danh-sach-nghi-viec",
-    name: "DS nhân viên nghỉ viec",
+    path: "/nhan-su/du-lieu-nhan-vien/nhan-vien-nghi-viec",
+    name: "Nhân viên nghỉ viec",
+    component: ListEmployeePage,
+    exact: true,
+  },
+  {
+    path: "/nhan-su/du-lieu-nhan-vien/nhan-vien-huu",
+    name: "Nhân viên đến tuổi nghỉ hưu",
     component: ListEmployeePage,
     exact: true,
   },
