@@ -7,7 +7,7 @@ function GetHre_Profie_Api(body)
 
 function Notyet_ContractApi()
 {
-  return callAPI("/profiles/not-yet-contract","GET",null)
+  return callAPI("/hre-contract/not-yet-contract","GET",null)
 }
 
 export {GetHre_Profie_Api,Notyet_ContractApi}

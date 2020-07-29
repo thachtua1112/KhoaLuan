@@ -12,7 +12,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { makeStyles,createMuiTheme,ThemeProvider  } from '@material-ui/core/styles';
 import {LinearProgress} from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
-import { Notyet_ContractApi } from '../../../../callAPI/Hre_Profile.api';
+import { Notyet_ContractApi } from '../../../../callAPI/Hre_Contract.api';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,9 +63,9 @@ const NotYet_ContractPage = () => {
 
   useEffect(()=>{
     Notyet_ContractApi().then(res=>{
-      if(res.data && res.data.result)
+      if(res.data && res.data)
       {
-        setStaff(res.data.result)
+        setStaff(res.data)
         setLoad(true)
       }
     })
@@ -138,7 +138,13 @@ let filter2 = filter.filter(
                     <td>
                       {getBadge(item.Gender)}
                     </td>
-                  )
+                  ),
+                  "DateHire":
+                  (item)=>( <td>
+                    {
+                      new Date(item.DateHire).toLocaleString('en-GB')
+                    }
+                  </td>)
               }
             }
             />

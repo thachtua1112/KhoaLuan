@@ -79,7 +79,6 @@ const TheSidebar = (props) => {
             />
           )}
         />
-
         <OrgStructureTree
           StructureTree={StructureTree}
           OrgStructureSelected={OrgStructureSelected}
