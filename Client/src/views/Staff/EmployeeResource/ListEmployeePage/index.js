@@ -32,7 +32,7 @@ const ListEmployeePage = () => {
   const classes = useStyles();
 
   const [ListEmployee, setListEmployee] = useState([]);
-  const [RowsSelected, setRowsSelected] = useState([]);
+  const [RowsSelected, setRowsSelected] = useState({});
   const [FieldsShow, setFieldsShow] = useState(defaultProfileFields);
 
   useEffect(() => {

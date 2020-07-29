@@ -5,7 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { MenuItem, FormControl } from "@material-ui/core";
 
-import Autocomplete from "@material-ui/lab/Autocomplete";
+//import Autocomplete from "@material-ui/lab/Autocomplete";
 
 // import "date-fns";
 // import DateFnsUtils from "@date-io/date-fns";
@@ -64,7 +64,7 @@ const Search = (props) => {
                 name="Gender"
                 // style={{ width: "100px" }}
                 variant="outlined"
-
+                onChange={handleChange}
               >
                 {Gender.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
@@ -79,21 +79,23 @@ const Search = (props) => {
       <Grid className={classes.paper} container spacing={2}>
         <Grid item xs={3}>
           Phòng ban
-          <Autocomplete
-            id="combo-box-demo"
-            value={1}
-            options={[
-              { id: 1, title: "abc" },
-              { id: 2, title: "abcD" },
-              { id: 3, title: "abcE" },
-            ]}
-            name="PHONGAN"
-            onChange={handleChange}
-            getOptionLabel={(option) => option.title}
-            renderInput={(params) => (
-              <TextField {...params} size="small" variant="outlined" />
-            )}
-          />
+          {
+            //   <Autocomplete
+            //   id="combo-box-demo"
+            //   value={1}
+            //   options={[
+            //     { id: 1, title: "abc" },
+            //     { id: 2, title: "abcD" },
+            //     { id: 3, title: "abcE" },
+            //   ]}
+            //   name="PHONGAN"
+            //   //onChange={handleChange}
+            //   getOptionLabel={(option) => option.title}
+            //   renderInput={(params) => (
+            //     <TextField {...params} size="small" variant="outlined" />
+            //   )}
+            // />
+          }
         </Grid>
 
         <Grid item xs={3}>
