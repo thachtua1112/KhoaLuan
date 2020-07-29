@@ -50,6 +50,10 @@ const Register = () => {
     {
       return setErr("Bắt buộc phải nhập");
     }
+    if(pass!==rePass)
+    {
+      return setErr("xác nhận mật khẩu sai");
+    }
     else{
       RegisterApi(qs.stringify({
         role:"admin",

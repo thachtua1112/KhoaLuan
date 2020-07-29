@@ -23,5 +23,4 @@ const exportToPDF = (title, fields = [], data = [], fileName) => {
   });
   doc.save(`${fileName}.pdf`);
 };
-
 export { exportToPDF };

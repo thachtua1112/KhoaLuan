@@ -64,7 +64,7 @@ const Search = (props) => {
                 name="Gender"
                 // style={{ width: "100px" }}
                 variant="outlined"
-                onChange={handleChange}
+
               >
                 {Gender.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
