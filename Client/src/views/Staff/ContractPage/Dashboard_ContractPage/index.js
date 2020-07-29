@@ -51,8 +51,9 @@ const fields = [
   }*/
 ]
 const getBadge = Gender => {
+  console.log(Gender)
   switch (Gender) {
-    case 'E_FEMALE': return 'Nữ'
+    case 'E_FEMALE': return 'Nữ';
     default: return 'Nam'
   }
 }
@@ -85,12 +86,11 @@ const ContractPage = () => {
     })
   },[])
 
-  const up_Profile = (item)=>{
+  const up_Profile = (item)=> {
     setProfileName(item.ProfileName)
     setGender(getBadge)
     setCodeEpm(item.CodeEmp)
     setDateContract(item.DateContract)
-    console.log("code",codeEpm)
       //liên kết thông tin
       GetHre_Profie_Api(`${codeEpm}`).then((res)=>{
         if(res.data)
@@ -195,10 +195,18 @@ const ContractPage = () => {
               scopedSlots = {{
                 'Gender':
                   (item)=>(
+
                     <td>
                       {getBadge(item.Gender)}
                     </td>
-                  )
+                  ),
+                "DateHire":
+                (item)=>( <td>
+                  {
+                    new Date(item.DateHire).toLocaleString('en-GB')
+                  }
+                </td>)
+
               }
             }
             />

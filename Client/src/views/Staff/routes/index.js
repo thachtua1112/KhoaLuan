@@ -1,4 +1,13 @@
-import React from "react";
+//import React from "react";
+
+import NewContractPage from "../ContractPage/NewContractPage"
+import OrgStructurePage from "../OrgStructurePage"
+import DetailsStaffPage from "../ContractPage/Dashboard_ContractPage"
+import ListEmployeePage from "../EmployeeResource/ListEmployeePage"
+import NotYet_ContractPage from "../ContractPage/NotYet_ContractPage"
+import ContractPage from "../ContractPage/Dashboard_ContractPage"
+
+/*
 const NewContractPage = React.lazy(() =>
   import("../ContractPage/NewContractPage")
 );
@@ -14,7 +23,7 @@ const ContractPage = React.lazy(() =>
 const ListEmployeePage = React.lazy(() =>
   import("../EmployeeResource/ListEmployeePage")
 );
-
+*/
 const staffRoute = [
   {
     path: "/nhan-su",
