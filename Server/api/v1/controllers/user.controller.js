@@ -6,7 +6,7 @@ app = express();
 require('dotenv').config();
 
 
-exports.register = function (req, res, next) {
+exports.register1 = function (req, res, next) {
   User.findOne({ username: req.body.username }, (err, user) => {
     if (user == null) {
       //Kiểm tra xem email đã được sử dụng chưa
@@ -45,6 +45,39 @@ exports.register = function (req, res, next) {
     }
   });
 };
+module.exports.register =  (req, res) => {
+
+  console.log(req.query)
+  console.log(req.body)
+  //const user =  User.find({ username: req.body.username })
+ // console.log(user)
+  res.json(req.body)/*
+  if(user!=null)
+  {
+    bcrypt.hash(req.body.password,10,(err,hash)=>{
+      if (err)
+      {
+        return res.sendStatus(403).json({err:"effort hash passwork does not success"})
+      } 
+      const newUser = {
+        role:req.body.role,
+        username: req.body.username,
+        password: hash,
+        password_confirm: hash
+      };
+      User.create(newUser, function (err, user) {
+        if (err) return res.sendStatus(403);
+        if(user)
+        {                
+        console.log("create!");
+        return res.json({mss:"create"})
+        }
+        return res.sendStatus(404).json({err:"can not create new user"});
+      });
+    })
+  }
+  return res.json({ err: "Username has been used" });*/
+}
 
 let refreshTokens = [];
 exports.login = function (req, res) {

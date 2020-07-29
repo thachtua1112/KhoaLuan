@@ -38,13 +38,14 @@ app.use(morgan("dev"));
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
 
 app.use(cors());
 
 app.use("/authentication", authenticationRoute);
 
 app.use("/api/v1/user", loginRouter);
-app.use("/api/v1/user", verifyToken, RouterUser);
+app.use("/api/v1/user", RouterUser);
 
 //documents
 /*
