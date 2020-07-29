@@ -62,7 +62,6 @@ const Search = (props) => {
                 select
                 value={""}
                 name="Gender"
-                onChange={handleChange}
                 // style={{ width: "100px" }}
                 variant="outlined"
 
