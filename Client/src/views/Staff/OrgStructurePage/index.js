@@ -82,7 +82,7 @@ const OrgStructurePage = () => {
   useEffect(() => {
     OrgStructureAPI.getStructureTree()
       .then((resStructureTree) => {
-        setStructureTree(resStructureTree.data.StructureTree);
+        setStructureTree(resStructureTree.data);
       })
       .catch((err) => {
         throw err;
