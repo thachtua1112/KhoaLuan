@@ -52,7 +52,7 @@ export default [
     _children: [
       {
         _tag: "CSidebarNavItem",
-        name: "Danh sách nhân viên",
+        name: "Danh sách tất cả nhân viên",
         to: "/nhan-su/du-lieu-nhan-vien/danh-sach-nhan-vien",
       },
       {

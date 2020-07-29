@@ -20,7 +20,11 @@ const useStyles = makeStyles((theme) => ({
     //height: "100vh" ,
   },
   search: { paddingLeft: theme.spacing(1) },
-  toolbar: { paddingLeft: theme.spacing(1) },
+  toolbar: {
+    paddingLeft: theme.spacing(0),
+    //marginBottom: "0px",
+    marginTop: "4px",
+  },
   content: { height: "75vh", paddingLeft: theme.spacing(1) },
 }));
 
@@ -46,7 +50,7 @@ const ListEmployeePage = () => {
         <Paper className={classes.search}>{<Search />}</Paper>
       </Grid>
       <Grid item xs={12}>
-        <Paper className={classes.toolbar}>
+        <Paper className={classes.toolbar} variant="outlined">
           <ToolBar
             setFieldsShow={setFieldsShow}
             ProfileFields={ProfileFields}
