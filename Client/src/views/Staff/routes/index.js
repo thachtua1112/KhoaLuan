@@ -86,6 +86,11 @@ const staffRoute = [
     component: NewContractPage,
   },
   {
+    path: "/nhan-su/hop-dong/tao-moi-hop-dong/:ID",
+    name: "Tạo mới hợp đồng",
+    component: NewContractPage,
+  },
+  {
     path: "/nhan-su/hop-dong/ds-hop-dong",
     name: "Danh sách hợp đồng",
     component: ContractPage,
