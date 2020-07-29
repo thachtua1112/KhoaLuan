@@ -13,12 +13,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Content = (props) => {
+  const { fields, data, RowsSelected, setRowsSelected } = props;
+  const handleClick = (item) => {
+    if (item.ID == RowsSelected.ID) setRowsSelected({});
+    else setRowsSelected(item);
+  };
+
   const classes = useStyles();
-  const {
-    fields,
-    data,
-    //RowsSelected, setRowsSelected
-  } = props;
   return (
     <div className={classes.root}>
       <CDataTable
@@ -26,6 +27,7 @@ const Content = (props) => {
         items={data}
         pagination={data.length > 15 ? true : false}
         itemsPerPage={15}
+        onRowClick={handleClick}
       />
     </div>
   );

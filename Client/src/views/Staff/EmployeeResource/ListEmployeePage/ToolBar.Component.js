@@ -1,5 +1,7 @@
 import React from "react";
 
+import { useHistory } from "react-router-dom";
+
 import { Toolbar, Tooltip, IconButton, Button } from "@material-ui/core";
 
 import CreateIcon from "@material-ui/icons/Create";
@@ -13,6 +15,15 @@ import HowToRegIcon from "@material-ui/icons/HowToReg";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 
 const ToolBar = (props) => {
+  const history = useHistory();
+
+  const { RowsSelected } = props;
+
+  const goDetail = () => {
+    console.log(RowsSelected);
+    //history.push(`/nhan-su/chi-tiet-nhan-vien/${RowsSelected.CodeEmp}`);
+  };
+
   return (
     <>
       <Toolbar>
@@ -21,7 +32,7 @@ const ToolBar = (props) => {
         </Button>
         <div style={{ marginLeft: "20px" }}>
           <Tooltip title="Xem chi tiết hồ sơ">
-            <IconButton>
+            <IconButton onClick={goDetail}>
               <FindInPageIcon />
             </IconButton>
           </Tooltip>
