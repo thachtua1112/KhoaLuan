@@ -45,14 +45,10 @@ exports.register1 = function (req, res, next) {
     }
   });
 };
-module.exports.register =  (req, res) => {
+module.exports.register = async (req, res) => {
 
-  console.log(req.query)
-  console.log(req.body)
-  //const user =  User.find({ username: req.body.username })
- // console.log(user)
-  res.json(req.body)/*
-  if(user!=null)
+  const user = await User.findOne({ username: req.body.username })
+  if(user==null)
   {
     bcrypt.hash(req.body.password,10,(err,hash)=>{
       if (err)
@@ -69,14 +65,14 @@ module.exports.register =  (req, res) => {
         if (err) return res.sendStatus(403);
         if(user)
         {                
-        console.log("create!");
-        return res.json({mss:"create"})
+          return res.json({mss:"Tạo tài khoản thành công"})
         }
-        return res.sendStatus(404).json({err:"can not create new user"});
+        return res.sendStatus(404).json({err:"Không thể tạo tài khoản"});
       });
     })
+    return;
   }
-  return res.json({ err: "Username has been used" });*/
+  return res.json({ err: "Username has been used" });
 }
 
 let refreshTokens = [];

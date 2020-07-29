@@ -11,6 +11,7 @@ ProfileRoute.get("/not-yet-contract", ProfileController.NotYet_THrProfile);
 
 ProfileRoute.get("/filter", ProfileController.getWithFilter);
 
+
 ProfileRoute.get("/:ID", ProfileController.getByID);
 
 ProfileRoute.post("/", ProfileController.create);
@@ -18,5 +19,6 @@ ProfileRoute.post("/", ProfileController.create);
 ProfileRoute.put("/:ID", ProfileController.update);
 
 ProfileRoute.patch("/:ID", ProfileController.delete);
+
 
 module.exports = ProfileRoute;

@@ -8,6 +8,7 @@ const OrgStructureRoute = require("./Cat_OrgStructure.route");
 const ContractTypeRoute = require("./Cat_ContractType.route");
 const WorkHistoryRoute = require("./Hre_WorkHistory.route");
 const StopWorkingRoute = require("./Hre_StopWorking.route");
+const HreContractRoute = require("./Hre_Contract.route");
 
 const routeAPI = express.Router();
 routeAPI.use("/positions", PositionRoute);
@@ -18,5 +19,7 @@ routeAPI.use("/org-units", OrgUnitRoute);
 routeAPI.use("/work-histories", WorkHistoryRoute);
 routeAPI.use("/stop-workings", StopWorkingRoute);
 routeAPI.use("/contract-types", ContractTypeRoute);
+routeAPI.use("/hre-contract", HreContractRoute);
+
 
 module.exports = routeAPI;

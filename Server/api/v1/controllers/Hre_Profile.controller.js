@@ -1,11 +1,11 @@
 const Hre_ProfileModel = require("../models/Hre_Profile.model");
 const T_Hre_ProfileModel = require("../models/T_Hre_Profile.model")
-
+const Hre_ContractModel =require ("../modelsnew/models/Hre_Contract.model")
 //nhân viên chưa có hợp đồng
 module.exports.NotYet_THrProfile= async function(req,res){
   try{
-      const contract = await T_Hre_ProfileModel.distinct("CodeEmp");
-      const NotYet = await Hre_ProfileModel.find({CodeEmp:
+      const contract = await Hre_ContractModel.distinct("ProfileID1");
+      const NotYet = await Hre_ProfileModel.find({ProfileID:
           { $nin:  contract }
       })
       return res.json({
