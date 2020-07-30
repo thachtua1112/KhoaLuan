@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 const Content = (props) => {
   const { fields, data, RowsSelected, setRowsSelected } = props;
   const handleClick = (item) => {
-    if (item.ID == RowsSelected.ID) setRowsSelected({});
+    if (item.ID === RowsSelected.ID) setRowsSelected({});
     else setRowsSelected(item);
   };
 

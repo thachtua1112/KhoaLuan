@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Redirect,useHistory} from "react-router-dom";
+import { Redirect} from "react-router-dom";//useHistory
 import {
   CCard,
   CCardBody,
@@ -31,13 +31,15 @@ const theme = createMuiTheme({
   },
 });
 const fields = [
-  { key: 'ContractNo', _style: { width: '10%'},label: "Số hợp đồng" },
-  { key: 'CodeEmp', _style: { width: '10%'}, label: "Mã nhân viên"  },
-  { key: 'ProfileName', _style: { width: '15%'},label: "Họ & tên" },
-  { key: 'Gender', _style: { width: '10%'},label: "Giới tính"  },
-  { key: 'DateSigned', _style: { width: '20%'},label: "Ngày kí"  },
-  { key: 'DateStart', _style: { width: '20%'},label: "Ngày có hiệu lực"  },
-  { key: 'DateEnd', _style: { width: '20%'},label: "Ngày hết hạn"  },
+  { key: 'ContractNo',label: "Số hợp đồng" },
+  { key: 'CodeEmp', label: "Mã nhân viên"  },
+  { key: 'ProfileName',label: "Họ & tên" },
+  { key: 'Gender',label: "Giới tính"  },
+  { key: 'DateSigned',label: "Ngày kí"  },
+  { key: 'DateStart',label: "Ngày có hiệu lực"  },
+  { key: 'DateEnd',label: "Ngày hết hạn"  },
+  { key: 'JobDescription',label: "Mô tả"  },
+
 
  /* {
     key: 'show_details',
@@ -62,7 +64,7 @@ const ExpireContractPage = () => {
   const [load,setLoad]=useState(false);
 
   const [isRedirec,setIsRedirec]=useState(false);
-  const history = useHistory()
+  //const history = useHistory()
 
   useEffect(()=>{
     Expire_ContractApi().then(res=>{
@@ -95,7 +97,7 @@ let filter2 = filter.filter(
   return  isRedirec?<Redirect to='/nhan-su/hop-dong/tao-moi-hop-dong' />:(
     <CCol>
           <CCard>
-            <CCardBody> <b>DANH SÁCH NHÂN VIÊN CHƯA CÓ HỢP ĐỒNG</b>
+            <CCardBody> <b>DANH SÁCH NHÂN VIÊN CHƯA CÓ HỢP ĐỒNG {name}{code}</b>
             <form className={classes.root} noValidate autoComplete="off">
                 <TextField
                   label="Tên nhân viên"
@@ -134,7 +136,7 @@ let filter2 = filter.filter(
               bordered
               itemsPerPage={15}
               pagination
-              onRowClick={(item) => history.push(`/nhan-su/hop-dong/tao-moi-hop-dong/${item.CodeEmp}`)}
+             // onRowClick={(item) => history.push(`/nhan-su/hop-dong/tao-moi-hop-dong/${item.CodeEmp}`)}
               clickableRows
               scopedSlots = {{
                 'Gender':
@@ -148,7 +150,13 @@ let filter2 = filter.filter(
                     {
                       new Date(item.DateHire).toLocaleString('en-GB')
                     }
-                  </td>)
+                  </td>),
+                  "ProfileName":
+                  (item)=>(
+                    <td>
+                      {item.profiles.ProfileName}
+                    </td>
+                  )
               }
             }
             />

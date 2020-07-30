@@ -2,7 +2,7 @@
 
 import NewContractPage from "../ContractPage/NewContractPage"
 import OrgStructurePage from "../OrgStructurePage"
-import DetailsStaffPage from "../ContractPage/Dashboard_ContractPage"
+import DetailsStaffPage from "../Staff_DetailsPage"
 import ListEmployeePage from "../EmployeeResource/ListEmployeePage"
 import NotYet_ContractPage from "../ContractPage/NotYet_ContractPage"
 import ContractPage from "../ContractPage/Dashboard_ContractPage"
