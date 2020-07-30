@@ -1,5 +1,5 @@
 const Hre_ProfileModel = require("../models/Hre_Profile.model");
-const Hre_ContractModel =require ("../modelsnew/models/Hre_Contract.model")
+const Hre_ContractModel =require ("../models/Hre_Contract.model")
 //nhân viên chưa có hợp đồng
 module.exports.NotYet_THrProfile= async function(req,res){
   try{

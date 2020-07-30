@@ -1,4 +1,4 @@
-const Hre_ContractModel = require("../../modelsnew/models/Hre_Contract.model");
+const Hre_ContractModel = require("../../models/Hre_Contract.model");
 const Hre_ProfileModel = require("../../models/Hre_Profile.model")
 module.exports.getAll = async (req, res) => {
   try{
@@ -45,12 +45,25 @@ module.exports.HreContract= async function(req,res){
 module.exports.Expire_Contract= async function(req,res){
   try{
     const today = new Date();
-    const year = today.getFullYear()-1;
-    const mounth = today.getMonth()+1;
+    const year = today.getFullYear();
+    const month = today.getMonth()+1;
     const day = today.getDate();
-    console.log(year,mounth,day)
-    const contract = await Hre_ContractModel.find({DateEnd:{$lt: `${year}'/'${mounth}'/'${day}`}});
-    return res.json(contract)
+    const contract = await Hre_ContractModel.find({DateEnd:{$lte: `${year}'/'${month}'/'${day}`}})
+    .populate({
+      path: "contract",
+      //justOne: true,
+    });
+    const contract1= await Hre_ContractModel.aggregate([
+      {
+      $lookup: {
+        from: 'hre_profiles',
+        localField: 'ProfileID1',
+        foreignField: 'ProfileID',
+        as: 'profiles'
+      }
+    }
+  ])
+    return res.json(contract1)
   }
   catch(err)
   {
