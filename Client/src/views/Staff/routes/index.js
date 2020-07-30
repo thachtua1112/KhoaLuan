@@ -6,6 +6,7 @@ import DetailsStaffPage from "../ContractPage/Dashboard_ContractPage"
 import ListEmployeePage from "../EmployeeResource/ListEmployeePage"
 import NotYet_ContractPage from "../ContractPage/NotYet_ContractPage"
 import ContractPage from "../ContractPage/Dashboard_ContractPage"
+import ExpireContractPage from "../ContractPage/Expire_ContractPage"
 
 /*
 const NewContractPage = React.lazy(() =>
@@ -94,6 +95,11 @@ const staffRoute = [
     path: "/nhan-su/hop-dong/ds-hop-dong",
     name: "Danh sách hợp đồng",
     component: ContractPage,
+  },
+  {
+    path: "/nhan-su/hop-dong/ds-hop-dong-het-han",
+    name: "Danh sách hợp đồng hết hạn",
+    component: ExpireContractPage,
   },
 ];
 

@@ -12,7 +12,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { makeStyles,createMuiTheme,ThemeProvider  } from '@material-ui/core/styles';
 import {LinearProgress} from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
-import { Notyet_ContractApi } from '../../../../callAPI/Hre_Contract.api';
+import { Expire_ContractApi } from '../../../../callAPI/Hre_Contract.api';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,11 +31,14 @@ const theme = createMuiTheme({
   },
 });
 const fields = [
-  { key: 'CodeEmp', _style: { width: '10%'},label: "Mã nhân viên" },
-  { key: 'ProfileName', _style: { width: '25%'},label: "Họ & tên" },
-  { key: 'Gender', _style: { width: '10%'},label: "Giới tính" },
-  { key: 'DateHire', _style: { width: '25%'},label: "Ngày vào làm" },
-  { key: 'PAddress', _style: { width: '40%'},label: "Địa chỉ" },
+  { key: 'ContractNo', _style: { width: '10%'},label: "Số hợp đồng" },
+  { key: 'CodeEmp', _style: { width: '10%'}, label: "Mã nhân viên"  },
+  { key: 'ProfileName', _style: { width: '15%'},label: "Họ & tên" },
+  { key: 'Gender', _style: { width: '10%'},label: "Giới tính"  },
+  { key: 'DateSigned', _style: { width: '20%'},label: "Ngày kí"  },
+  { key: 'DateStart', _style: { width: '20%'},label: "Ngày có hiệu lực"  },
+  { key: 'DateEnd', _style: { width: '20%'},label: "Ngày hết hạn"  },
+
  /* {
     key: 'show_details',
     label: '',
@@ -51,7 +54,7 @@ const getBadge = Gender => {
   }
 }
 
-const NotYet_ContractPage = () => {
+const ExpireContractPage = () => {
   const classes = useStyles();
   const [name,setName]=useState("");
   const [code,setCode]=useState("");
@@ -62,8 +65,8 @@ const NotYet_ContractPage = () => {
   const history = useHistory()
 
   useEffect(()=>{
-    Notyet_ContractApi().then(res=>{
-      if(res.data && res.data)
+    Expire_ContractApi().then(res=>{
+      if(res.data )
       {
         setStaff(res.data)
         setLoad(true)
@@ -77,6 +80,7 @@ const NotYet_ContractPage = () => {
   const up_CodeEmp = (e) =>{
     setCode(e.target.value);
   }
+  /*
   let filter = staff.filter(
     (contact)=>{
       return contact.ProfileName.toLowerCase().indexOf(name.trim().toLowerCase()) !== -1;
@@ -87,7 +91,7 @@ let filter2 = filter.filter(
 (contact)=>{
   return contact.CodeEmp.toLowerCase().indexOf(code.trim().toLowerCase()) !== -1;
 }
-);
+);*/
   return  isRedirec?<Redirect to='/nhan-su/hop-dong/tao-moi-hop-dong' />:(
     <CCol>
           <CCard>
@@ -122,7 +126,7 @@ let filter2 = filter.filter(
             </form>
 { load===false?<LinearProgress />:(
             <CDataTable
-              items={filter2}
+              items={staff}
               fields={fields}
               hover
               size='sm'
@@ -154,4 +158,4 @@ let filter2 = filter.filter(
         </CCol>
   )
 }
-export default NotYet_ContractPage
+export default ExpireContractPage
