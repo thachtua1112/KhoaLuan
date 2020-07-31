@@ -1,12 +1,14 @@
 //import React from "react";
 
-import NewContractPage from "../ContractPage/NewContractPage"
-import OrgStructurePage from "../OrgStructurePage"
-import DetailsStaffPage from "../Staff_DetailsPage"
-import ListEmployeePage from "../EmployeeResource/ListEmployeePage"
-import NotYet_ContractPage from "../ContractPage/NotYet_ContractPage"
-import ContractPage from "../ContractPage/Dashboard_ContractPage"
-import ExpireContractPage from "../ContractPage/Expire_ContractPage"
+import NewContractPage from "../ContractPage/NewContractPage";
+import OrgStructurePage from "../OrgStructurePage";
+import DetailsStaffPage from "../ContractPage/Dashboard_ContractPage";
+import ListEmployeePage from "../EmployeeResource/ListEmployeePage";
+import NotYet_ContractPage from "../ContractPage/NotYet_ContractPage";
+import ContractPage from "../ContractPage/Dashboard_ContractPage";
+import ExpireContractPage from "../ContractPage/Expire_ContractPage";
+
+import TimeKeepingPage from "../TimeKeeping/TimeKeepingPage";
 
 /*
 const NewContractPage = React.lazy(() =>
@@ -95,6 +97,26 @@ const staffRoute = [
     path: "/nhan-su/hop-dong/ds-hop-dong",
     name: "Danh sách hợp đồng",
     component: ContractPage,
+  },
+
+  ///
+  {
+    path: "/cham-cong",
+    name: "Chấm công",
+    exact: true,
+    component: TimeKeepingPage,
+  },
+  {
+    path: "/cham-cong/du-lieu-ngay-cong",
+    name: "Dữ liệu ngày công",
+    exact: true,
+    component: TimeKeepingPage,
+  },
+  {
+    path: "/cham-cong/du-lieu-tong-hop-cong",
+    name: "Dữ liệu tổng hợp công",
+    exact: true,
+    component: TimeKeepingPage,
   },
   {
     path: "/nhan-su/hop-dong/ds-hop-dong-het-han",

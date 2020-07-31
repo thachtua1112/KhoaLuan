@@ -1,6 +1,6 @@
 import React from "react";
 
-//import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { Toolbar, Tooltip, IconButton, Button } from "@material-ui/core";
 
@@ -15,13 +15,12 @@ import HowToRegIcon from "@material-ui/icons/HowToReg";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 
 const ToolBar = (props) => {
-  //const history = useHistory();
+  const history = useHistory();
 
   const { RowsSelected } = props;
 
   const goDetail = () => {
-    console.log(RowsSelected);
-    //history.push(`/nhan-su/chi-tiet-nhan-vien/${RowsSelected.CodeEmp}`);
+    history.push(`/nhan-su/chi-tiet-nhan-vien/${RowsSelected.CodeEmp}`);
   };
 
   return (

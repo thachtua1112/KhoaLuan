@@ -23,9 +23,9 @@ import { IconButton, Menu, MenuItem } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    "& table": {
-      "table-layout": "fixed",
-    },
+      // "& table": {
+      //   "table-layout": "fixed",
+      // },
     //height: "100vh",
   },
   paper: {

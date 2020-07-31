@@ -10,6 +10,8 @@ const WorkHistoryRoute = require("./Hre_WorkHistory.route");
 const StopWorkingRoute = require("./Hre_StopWorking.route");
 const HreContractRoute = require("./Hre_Contract.route");
 
+const TimeKeeping = require("./Att_TimeKeeping.route");
+
 const routeAPI = express.Router();
 routeAPI.use("/positions", PositionRoute);
 routeAPI.use("/profiles", ProfileRoute);
@@ -20,6 +22,6 @@ routeAPI.use("/work-histories", WorkHistoryRoute);
 routeAPI.use("/stop-workings", StopWorkingRoute);
 routeAPI.use("/contract-types", ContractTypeRoute);
 routeAPI.use("/hre-contract", HreContractRoute);
-
+routeAPI.use("/timekeeping", TimeKeeping);
 
 module.exports = routeAPI;

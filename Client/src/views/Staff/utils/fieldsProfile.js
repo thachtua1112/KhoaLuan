@@ -865,7 +865,7 @@ const ProfileFields = [
   { _style: { width: "300px" }, key: "StatusItg", label: "statusitg" },
 ];
 const defaultProfileFields = [
-  { _style: { width: "100px" }, key: "CodeEmp", label: "Mã nhân viên" },
+  { _style: { width: "150px" }, key: "CodeEmp", label: "Mã nhân viên" },
   { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
   {
     _style: { width: "300px" },

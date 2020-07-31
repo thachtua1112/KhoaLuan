@@ -25,9 +25,10 @@ const Content = (props) => {
       <CDataTable
         fields={fields}
         items={data}
+        size="sm"
         pagination={data.length > 15 ? true : false}
         itemsPerPage={15}
-        onRowClick={handleClick}
+        //onRowClick={handleClick}
       />
     </div>
   );

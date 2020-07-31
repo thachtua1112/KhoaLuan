@@ -142,16 +142,34 @@ export default [
   },
   {
     _tag: "CSidebarNavDropdown",
-    name: "Base",
-    route: "/base",
+    name: "Dữ liệu chấm công",
+    route: "/cham-cong",
     icon: "cil-puzzle",
     _children: [
       {
         _tag: "CSidebarNavItem",
-        name: "Tables",
-        to: "/base/tables",
+        name: "Dữ liệu ngày công",
+        to: "/cham-cong/du-lieu-ngay-cong",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        name: "Dữ liệu tổng hợp công",
+        to: "/cham-cong/du-lieu-tong-hop-cong",
       },
     ],
+  },
+  {
+    _tag: "CSidebarNavItem",
+    icon: "cil-puzzle",
+    name: "Tính công",
+    to: "/cham-cong/tong-hop-cong",
+  },
+
+  {
+    _tag: "CSidebarNavItem",
+    icon: "cil-puzzle",
+    name: "Nghỉ-Phép",
+    to: "/cham-cong/du-lieu-tong-hop-cong",
   },
 
   {

@@ -72,6 +72,8 @@ module.exports.getListProfilePopulate = async (req, res) => {
       select: { PositionName: 1 },
       //justOne: true,
     });
+
+    
     // .populate({
     //   path: "OrgStructure",
     //   //select: { _id: 0, E_COMPANY: 1 },
