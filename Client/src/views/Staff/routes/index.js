@@ -111,6 +111,12 @@ const staffRoute = [
     exact: true,
     component: TimeKeepingPage,
   },
+  {
+    path: "/cham-cong/du-lieu-tong-hop-cong",
+    name: "Dữ liệu tổng hợp công",
+    exact: true,
+    component: TimeKeepingPage,
+  },
 ];
 
 export default staffRoute;

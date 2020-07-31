@@ -26,13 +26,17 @@ const ToolBar = (props) => {
 
   //const history = useHistory();
 
-  const { RowsSelected } = props;
+  const { searchDataTimeKeeping } = props;
 
   return (
     <>
       <Toolbar className={classes.root}>
         <div className={classes.action}>
-          <Button variant="outlined" startIcon={<SearchIcon />}>
+          <Button
+            onClick={searchDataTimeKeeping}
+            variant="outlined"
+            startIcon={<SearchIcon />}
+          >
             Tìm kiếm
           </Button>
 

@@ -44,6 +44,20 @@ const TimeKeepingPage = () => {
 
   //////
 
+  const searchDataTimeKeeping = async () => {
+    const res = await TimeKeepingAPI.getDataTimeKeeping({
+      CodeEmp,
+      ProfileName,
+      IDNo,
+      Gender,
+      OrgStructureID,
+      Date1,
+      Date2,
+      Status,
+    });
+    setListDataTimeKeeping(res.data.data);
+  };
+
   useEffect(() => {
     const fetchAPI = async () => {
       const res = await TimeKeepingAPI.getDataTimeKeeping();
@@ -80,24 +94,14 @@ const TimeKeepingPage = () => {
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar
-          //setFieldsShow={setFieldsShow}
-          //ProfileFields={ProfileFields}
-          //RowsSelected={RowsSelected}
-          // defaultProfileFields={defaultProfileFields}
-          />
+          <ToolBar searchDataTimeKeeping={searchDataTimeKeeping} />
         </Paper>
       </Grid>
 
       <Grid item xs={12}>
         <Paper className={classes.content}>
           <CSidebarNav>
-            <Content
-              //RowsSelected={RowsSelected}
-              //setRowsSelected={setRowsSelected}
-              fields={fields}
-              data={ListDataTimeKeeping}
-            />
+            <Content fields={fields} data={ListDataTimeKeeping} />
           </CSidebarNav>
         </Paper>
       </Grid>

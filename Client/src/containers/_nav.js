@@ -154,9 +154,22 @@ export default [
       {
         _tag: "CSidebarNavItem",
         name: "Dữ liệu tổng hợp công",
-        to: "/cham-cong/du-lieu-ngay-cong",
+        to: "/cham-cong/du-lieu-tong-hop-cong",
       },
     ],
+  },
+  {
+    _tag: "CSidebarNavItem",
+    icon: "cil-puzzle",
+    name: "Tính công",
+    to: "/cham-cong/tong-hop-cong",
+  },
+
+  {
+    _tag: "CSidebarNavItem",
+    icon: "cil-puzzle",
+    name: "Nghỉ-Phép",
+    to: "/cham-cong/du-lieu-tong-hop-cong",
   },
 
   {
