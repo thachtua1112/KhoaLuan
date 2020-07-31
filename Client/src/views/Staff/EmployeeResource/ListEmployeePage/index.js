@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     //height: "100vh" ,
+    
   },
   search: { paddingLeft: theme.spacing(1) },
   toolbar: {
@@ -54,6 +55,7 @@ const ListEmployeePage = () => {
           <ToolBar
             setFieldsShow={setFieldsShow}
             ProfileFields={ProfileFields}
+            RowsSelected={RowsSelected}
             defaultProfileFields={defaultProfileFields}
           />
         </Paper>

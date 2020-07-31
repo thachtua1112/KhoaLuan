@@ -21,7 +21,7 @@ const ToolBar = (props) => {
 
   const goDetail = () => {
     console.log(RowsSelected);
-    //history.push(`/nhan-su/chi-tiet-nhan-vien/${RowsSelected.CodeEmp}`);
+    history.push(`/nhan-su/chi-tiet-nhan-vien/${RowsSelected.CodeEmp}`);
   };
 
   return (

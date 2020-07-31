@@ -4,8 +4,22 @@ import { CFade } from "@coreui/react";
 
 import { Container } from "@material-ui/core";
 
+import { makeStyles } from "@material-ui/core/styles";
+
 // routes config
 import routes from "../routes";
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+      "& table": {
+        "table-layout": "fixed",
+      },
+    height: "100vh",
+  },
+}))
+
 
 const loading = (
   <div className="pt-3 text-center">
@@ -14,12 +28,18 @@ const loading = (
 );
 
 const TheContent = () => {
+
+  const classes = useStyles();
+
   if (localStorage.getItem("token") === null) {
     return <Redirect to='/login'/>
   }
+
+  
   return (
     <main
     //className="c-main"
+    className={classes.root}
     >
       <Container disableGutters maxWidth={false}>
         <Suspense fallback={loading}>
