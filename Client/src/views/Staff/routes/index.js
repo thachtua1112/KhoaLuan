@@ -6,6 +6,7 @@ import DetailsStaffPage from "../ContractPage/Dashboard_ContractPage";
 import ListEmployeePage from "../EmployeeResource/ListEmployeePage";
 import NotYet_ContractPage from "../ContractPage/NotYet_ContractPage";
 import ContractPage from "../ContractPage/Dashboard_ContractPage";
+import ExpireContractPage from "../ContractPage/Expire_ContractPage";
 
 import TimeKeepingPage from "../TimeKeeping/TimeKeepingPage";
 
@@ -116,6 +117,11 @@ const staffRoute = [
     name: "Dữ liệu tổng hợp công",
     exact: true,
     component: TimeKeepingPage,
+  },
+  {
+    path: "/nhan-su/hop-dong/ds-hop-dong-het-han",
+    name: "Danh sách hợp đồng hết hạn",
+    component: ExpireContractPage,
   },
 ];
 

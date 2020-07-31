@@ -13,7 +13,7 @@ module.exports.getStructureTree = async (req, res) => {
       const Tree = await OrgStructureTreeModel.findOne({
         rootID: "2D51E4D9-0E27-451F-83D8-04DA7D6B9797",
       });
-      if (Tree) return res.json(Tree.StructureTree);
+      return res.json(Tree.StructureTree);
     }
 
     const Tree = await OrgStructureTreeModel.findOne({
@@ -37,8 +37,8 @@ module.exports.getStructureTree = async (req, res) => {
     });
 
     return res.json(TreeCreate);
-  } catch (err) {
-    console.log(err);
+  } 
+  catch (err) {
     return res.sendStatus(403);
   }
 };

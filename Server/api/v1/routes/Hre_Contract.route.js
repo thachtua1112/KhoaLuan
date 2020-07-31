@@ -13,6 +13,7 @@ HreContractRoute.get("/contract", HreContractController.HreContract);
 
 HreContractRoute.get("/filter", HreContractController.getWithFilter);
 
+HreContractRoute.get("/expires", HreContractController.Expire_Contract);
 
 HreContractRoute.get("/:ID", HreContractController.getByID);
 
