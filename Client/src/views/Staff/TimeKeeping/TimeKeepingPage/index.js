@@ -40,7 +40,6 @@ const TimeKeepingPage = () => {
 
   //////////////////
   const [ListDataTimeKeeping, setListDataTimeKeeping] = useState([]);
-  const [RowsSelected, setRowsSelected] = useState({});
 
   //////
 

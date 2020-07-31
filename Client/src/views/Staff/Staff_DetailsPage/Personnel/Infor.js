@@ -76,7 +76,10 @@ const Infor= (props)=>{
         </Table>
       </TableContainer>
       <TableContainer>
-        <Table>
+        <Table
+        
+        
+        >
           <TableHead>
           <TableRow><StyledTableCell colSpan={8}> <b>Liên hệ</b></StyledTableCell></TableRow>
 

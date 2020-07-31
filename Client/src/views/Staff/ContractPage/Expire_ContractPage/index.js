@@ -3,8 +3,7 @@ import { Redirect} from "react-router-dom";//useHistory
 import {
   CCard,
   CCardBody,
-  CCol,
-  CDataTable
+  CDataTable,CSidebarNav
 } from '@coreui/react'
 import { green } from '@material-ui/core/colors';
 import Button from '@material-ui/core/Button';
@@ -20,25 +19,43 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
       width: 400,
     },
+    "& table": {
+      "table-layout": "fixed",
+    },
+
   },
   button: {
     margin: theme.spacing(1)
+  },
+  paper: {
+    padding: theme.spacing(1),
+    //textAlign: "center",
+    height: "88vh",
+    color: theme.palette.text.secondary,
+  },
+
+  sidebar: {
+    padding: theme.spacing(1),
+    //textAlign: "center",
+    height: "100vh",
+    color: theme.palette.text.secondary,
   }
 }));
+
 const theme = createMuiTheme({
   palette: {
     primary: green,
   },
 });
 const fields = [
-  { key: 'ContractNo',label: "Số hợp đồng" },
-  { key: 'CodeEmp', label: "Mã nhân viên"  },
-  { key: 'ProfileName',label: "Họ & tên" },
-  { key: 'Gender',label: "Giới tính"  },
-  { key: 'DateSigned',label: "Ngày kí"  },
-  { key: 'DateStart',label: "Ngày có hiệu lực"  },
-  { key: 'DateEnd',label: "Ngày hết hạn"  },
-  { key: 'JobDescription',label: "Mô tả"  },
+  { key: 'ContractNo',_style: { width: '300px'}, label: "Số hợp đồng" },
+  { key: 'CodeEmp',_style: { width: '300px'}, label: "Mã nhân viên"  },
+  { key: 'ProfileName',_style: { width: '300px'},label: "Họ & tên" },
+  { key: 'Gender',_style: { width: '150px'},label: "Giới tính"  },
+  { key: 'DateSigned',_style: { width: '300px'},label: "Ngày kí"  },
+  { key: 'DateStart',_style: { width: '300px'},label: "Ngày có hiệu lực"  },
+  { key: 'DateEnd',_style: { width: '300px'},label: "Ngày hết hạn"  },
+  { key: 'JobDescription',_style: { width: '1000px'},label: "Mô tả"  },
 
 
  /* {
@@ -95,9 +112,8 @@ let filter2 = filter.filter(
 }
 );*/
   return  isRedirec?<Redirect to='/nhan-su/hop-dong/tao-moi-hop-dong' />:(
-    <CCol>
-          <CCard>
-            <CCardBody> <b>DANH SÁCH NHÂN VIÊN CHƯA CÓ HỢP ĐỒNG {name}{code}</b>
+          <CCard >
+            <CCardBody className={classes.paper} > <b>DANH SÁCH HỢP ĐỒNG HẾT HẠN {name}{code}</b>
             <form className={classes.root} noValidate autoComplete="off">
                 <TextField
                   label="Tên nhân viên"
@@ -127,6 +143,7 @@ let filter2 = filter.filter(
               </ThemeProvider>
             </form>
 { load===false?<LinearProgress />:(
+          <CSidebarNav>
             <CDataTable
               items={staff}
               fields={fields}
@@ -142,7 +159,7 @@ let filter2 = filter.filter(
                 'Gender':
                   (item)=>(
                     <td>
-                      {getBadge(item.Gender)}
+                      {getBadge(item.profiles.Gender)}
                     </td>
                   ),
                   "DateHire":
@@ -156,14 +173,20 @@ let filter2 = filter.filter(
                     <td>
                       {item.profiles.ProfileName}
                     </td>
+                  ),
+                  "CodeEmp":
+                  (item)=>(
+                    <td>
+                    {item.profiles.CodeEmp}
+                    </td>
                   )
               }
             }
             />
+    </CSidebarNav>
 )}
             </CCardBody>
           </CCard>
-        </CCol>
   )
 }
 export default ExpireContractPage
