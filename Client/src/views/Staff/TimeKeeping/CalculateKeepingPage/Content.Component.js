@@ -25,7 +25,7 @@ const Content = (props) => {
         size="sm"
         pagination={data.length > 15 ? true : false}
         itemsPerPage={15}
-      
+
       />
     </div>
   );
