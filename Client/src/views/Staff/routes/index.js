@@ -8,7 +8,12 @@ import NotYet_ContractPage from "../ContractPage/NotYet_ContractPage";
 import ContractPage from "../ContractPage/Dashboard_ContractPage";
 import ExpireContractPage from "../ContractPage/Expire_ContractPage";
 
-import TimeKeepingPage from "../TimeKeeping/TimeKeepingPage";
+
+
+
+import CalculateKeepingPage from "../TimeKeeping/CalculateKeepingPage";
+
+import TimeKeepingDayPage from "../TimeKeeping/TimeKeepingDayPage";
 
 /*
 const NewContractPage = React.lazy(() =>
@@ -104,19 +109,25 @@ const staffRoute = [
     path: "/cham-cong",
     name: "Chấm công",
     exact: true,
-    component: TimeKeepingPage,
+    component: CalculateKeepingPage,
+  },
+  {
+    path: "/cham-cong/tong-hop-cong",
+    name: "Chấm công",
+    exact: true,
+    component: CalculateKeepingPage,
   },
   {
     path: "/cham-cong/du-lieu-ngay-cong",
     name: "Dữ liệu ngày công",
     exact: true,
-    component: TimeKeepingPage,
+    component: TimeKeepingDayPage,
   },
   {
     path: "/cham-cong/du-lieu-tong-hop-cong",
     name: "Dữ liệu tổng hợp công",
     exact: true,
-    component: TimeKeepingPage,
+    component: TimeKeepingDayPage,
   },
   {
     path: "/nhan-su/hop-dong/ds-hop-dong-het-han",
