@@ -1,4 +1,4 @@
-import React  from 'react';
+import React, { useState }  from 'react';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -7,7 +7,10 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import { TableHead } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-
+import { CInput } from '@coreui/react';
+import EditIcon from '@material-ui/icons/Edit';
+import { IconButton } from "@material-ui/core";
+import SpellcheckIcon from '@material-ui/icons/Spellcheck';
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -19,6 +22,24 @@ const StyledTableCell = withStyles((theme) => ({
 }))(TableCell);
 const Infor= (props)=>{
   const data=props.data
+  const [edit,setEdit]= useState(false)
+  const [phone, setPhone] = useState("");
+  const [address, setAddress]= useState("")
+
+
+  const Up_Phone = (e)=>{
+    setPhone(e.target.value);
+  }
+  const Up_Address = (e)=>{
+    setAddress(e.target.value);
+  }
+  const On_edit = ()=>{
+    setEdit(true)
+  }
+  const On_update = (item)=>{
+    setEdit(false)
+
+  }
   return(
     <Paper >
       <TableContainer>
@@ -76,7 +97,10 @@ const Infor= (props)=>{
         </Table>
       </TableContainer>
       <TableContainer>
-        <Table>
+        <Table
+
+
+        >
           <TableHead>
           <TableRow><StyledTableCell colSpan={8}> <b>Liên hệ</b></StyledTableCell></TableRow>
 
@@ -84,14 +108,29 @@ const Infor= (props)=>{
           {
           data.map((index)=> { return (
           <TableBody key={index.ID}>
+          {edit===false?(
             <TableRow>
+              <TableCell><IconButton onClick={On_edit}><EditIcon/></IconButton></TableCell>
               <TableCell align="right"><b>Số điện thoại</b></TableCell>
-              <TableCell>{index.Cellphone}</TableCell>
+              <TableCell>{phone===''? index.Cellphone :phone   }</TableCell>
               <TableCell align="right"><b>Địa chỉ</b></TableCell>
-              <TableCell>{index.PAddress}</TableCell>
-
-
+              <TableCell>{address ===''?index.PAddress:address}</TableCell>
             </TableRow>
+          ):
+          (
+            <TableRow>
+              <TableCell><IconButton onClick={On_update}><SpellcheckIcon /></IconButton></TableCell>
+              <TableCell align="right"><b>Số điện thoại</b></TableCell>
+              <TableCell colSpan='2'>
+                <CInput type='tel' onChange={Up_Phone} placeholder={index.Cellphone}></CInput>
+              </TableCell>
+              <TableCell align="right"><b>Địa chỉ</b></TableCell>
+              <TableCell colSpan='3'>
+                <CInput type='text' onChange={Up_Address} placeholder={index.PAddress}></CInput>
+              </TableCell>
+            </TableRow>
+          )
+        }
           </TableBody>
           )}
           )
@@ -100,6 +139,7 @@ const Infor= (props)=>{
       </TableContainer>
     </Paper>
   )
+
 }
 
 export default Infor;

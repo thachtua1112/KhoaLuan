@@ -42,7 +42,9 @@ const Login = () => {
     },
   }));
 
-  const On_login = () =>{
+  const On_login = (event) =>{
+    if(name.trim()!=="" && pass.trim()!=="")
+    {
     LoginAPI(qs.stringify({
       username:name,
       password:pass
@@ -58,6 +60,8 @@ const Login = () => {
       }
         setErr(res.data.err)
      })
+    }
+    event.preventDefault();
   }
 
   return   isRedirect?<Redirect to='/' />:
@@ -69,7 +73,7 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  <CForm>
+                  <CForm onSubmit={On_login}>
                     <h1>Login</h1>
                     { err !== "" ?
                       <div className={useStyles.root}>
@@ -83,7 +87,7 @@ const Login = () => {
                           <CIcon name="cil-user" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput onChange={up_Name} type="text" placeholder="Username" autoComplete="username" />
+                      <CInput onChange={up_Name} type="text" placeholder="Username" autoComplete="username" required='required' />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupPrepend>
@@ -91,11 +95,11 @@ const Login = () => {
                           <CIcon name="cil-lock-locked" />
                         </CInputGroupText>
                       </CInputGroupPrepend>
-                      <CInput onChange={up_Pass} type="password" placeholder="Password" autoComplete="current-password" />
+                      <CInput onChange={up_Pass} type="password" placeholder="Password" autoComplete="current-password" required='required'/>
                     </CInputGroup>
                     <CRow>
                       <CCol xs="6">
-                        <CButton onClick={On_login} color="primary" className="px-4">Login</CButton>
+                        <CButton  color="primary" className="px-4" type='submit'>Login</CButton>
                       </CCol>
                       <CCol xs="6" className="text-right">
                         <CButton color="link" className="px-0">Forgot password?</CButton>
