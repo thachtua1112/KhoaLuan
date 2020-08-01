@@ -347,6 +347,12 @@ const Hre_ProfileSchema = new Schema({
  ProbationTime: { type: Schema.Types.String },
  ProbationTimeUnit: { type: Schema.Types.String },
 });
+Hre_ProfileSchema.virtual("contract", {
+  ref: "Hre_Contract",
+  localField: "ProfileID",
+  foreignField: "ProfileID1",
+  justOne: true,
+});
 
 Hre_ProfileSchema.virtual("Position", {
   ref: "Cat_Position",

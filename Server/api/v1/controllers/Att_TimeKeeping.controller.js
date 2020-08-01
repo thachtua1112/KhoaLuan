@@ -17,7 +17,6 @@ module.exports.get = async (req, res) => {
 module.exports.calculate = async (req, res) => {
   try {
     const { filter } = req.body;
-
     const result = await Att_TimeKeepingModel.find(filter);
     const resultUpdate = await Att_TimeKeepingModel.findOneAndUpdate(
       {

@@ -2,7 +2,7 @@ const ContractTypeModel = require("../models/Cat_ContractType.model");
 
 module.exports.getAll = async (req, res) => {
   try{
-    const result = await ContractTypeModel.find({});
+  const result = await ContractTypeModel.find({});
   return res.status(200).json(result);
   }
   catch(err)

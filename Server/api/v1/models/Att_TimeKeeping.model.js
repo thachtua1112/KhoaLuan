@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const TimeKeepingRoute = require("../routes/Att_TimeKeeping.route");
 const Schema = mongoose.Schema;
 
 const Att_TimeKeepingSchema = new Schema({
@@ -23,24 +22,7 @@ const Att_TimeKeepingSchema = new Schema({
       return "CHUA_TINH_CONG";
     },
   },
-  // TotalHours: {
-  //   type: Schema.Types.Number,
-  //   default: () => {
-  //     if (this.Total)
-  //       return Math.round((this.Total / (1000 * 60 * 60)) * 10) / 10;
-  //     return;
-  //   },
-  // },
-  // TotalDay: {
-  //   type: Schema.Types.Number,
-  //   default: () => {
-  //     if (this.TotalHours) return Math.round(this.TotalHours * 100) / 100;
-  //     return;
-  //   },
-  // },
-});
-Att_TimeKeepingSchema.pre("save", (doc) => {
-  console.log("dang o day", doc);
+
 });
 const Att_TimeKeepingModel = mongoose.model(
   "Att_TimeKeeping",
@@ -48,3 +30,4 @@ const Att_TimeKeepingModel = mongoose.model(
 );
 
 module.exports = Att_TimeKeepingModel;
+

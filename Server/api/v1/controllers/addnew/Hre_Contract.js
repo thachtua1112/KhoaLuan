@@ -44,29 +44,36 @@ module.exports.HreContract= async function(req,res){
 
 module.exports.Expire_Contract= async function(req,res){
   try{
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth()+1;
-    const day = today.getDate();
-    const contract = await Hre_ContractModel.find({DateEnd:{$lte: `${year}'/'${month}'/'${day}`}})
-    .populate({
-      path: "contract",
-      //justOne: true,
-    });
+  
+   // const contract = await Hre_ContractModel.find({DateEnd:{$gte: new Date()}})
+   
     const contract1= await Hre_ContractModel.aggregate([
       {
       $lookup: {
         from: 'hre_profiles',
         localField: 'ProfileID1',
         foreignField: 'ProfileID',
-        as: 'profiles'
+        as: 'profiles',
+      }
+    },
+    {
+      $project:{
+        ContractNo:1,
+        DateSigned:1,
+        DateStart:1,
+        DateEnd:1,
+        end:{$gte:["DateEnd",new Date()]},
+        JobDescription:1,
+        profiles: { "$arrayElemAt": [ "$profiles", 0 ] },
       }
     }
+  
   ])
     return res.json(contract1)
   }
   catch(err)
   {
+    console.log(err)
     res.sendStatus(403)
   }
 }

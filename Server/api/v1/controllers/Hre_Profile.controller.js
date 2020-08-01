@@ -1,5 +1,7 @@
 const Hre_ProfileModel = require("../models/Hre_Profile.model");
 const Hre_ContractModel =require ("../models/Hre_Contract.model")
+const CircularJSON = require('circular-json');
+
 //nhân viên chưa có hợp đồng
 module.exports.NotYet_THrProfile= async function(req,res){
   try{
@@ -55,9 +57,9 @@ try{
 
 module.exports.update = async (req, res) => {
   try{
-    const { ID } = req.params;
-    const { data } = req.body;
-    const result = Hre_ProfileModel.findOneAndUpdate({ ID: ID }, data);
+    const  {ID} = req.params;
+    const  data  = req.body;
+    const result = await Hre_ProfileModel.findOneAndUpdate( {ID:ID} , data,{ new: true });
    return res.status(200).json(result);
   }
   catch(err)
