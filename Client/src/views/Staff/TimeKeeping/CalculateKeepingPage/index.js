@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import TimeKeepingAPI from "../../../../callAPI/TimeKeeping.api";
+import TimeKeepingGroupAPI from "../../../../callAPI/TimeKeepingGroup.api";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -26,44 +26,39 @@ const useStyles = makeStyles((theme) => ({
   content: { height: "75vh", paddingLeft: theme.spacing(1) },
 }));
 
-const TimeKeepingPage = () => {
+const CalculateKeepingPage = () => {
   const classes = useStyles();
 
   const [CodeEmp, setCodeEmp] = useState(null);
   const [ProfileName, setProfileName] = useState(null);
-  const [IDNo, setIDNo] = useState(null);
-  const [Gender, setGender] = useState(null);
-  const [OrgStructureID, setOrgStructureID] = useState(null);
-  const [Date1, setDate1] = useState(null);
-  const [Date2, setDate2] = useState(null);
-  const [Status, setStatus] = useState(null);
 
+  const [OrgStructureID, setOrgStructureID] = useState(null);
+  const date=new  Date();
+  date.setDate(1)
+  date.setHours(0)
+  date.setMinutes(0)
+  const [Date1, setDate1] = useState(new  Date(date));
+
+  
   //////////////////
   const [ListDataTimeKeeping, setListDataTimeKeeping] = useState([]);
+ // const [RowsSelected, setRowsSelected] = useState({});
 
   //////
 
-  const searchDataTimeKeeping = async () => {
-    const res = await TimeKeepingAPI.getDataTimeKeeping({
-      CodeEmp,
-      ProfileName,
-      IDNo,
-      Gender,
-      OrgStructureID,
-      Date1,
-      Date2,
-      Status,
-    });
-    setListDataTimeKeeping(res.data.data);
-  };
 
   useEffect(() => {
     const fetchAPI = async () => {
-      const res = await TimeKeepingAPI.getDataTimeKeeping();
+      const res = await TimeKeepingGroupAPI.getDataTimeKeepingGroup();
       setListDataTimeKeeping(res.data.data);
     };
     fetchAPI();
   }, []);
+
+  const reLoad=async()=>{
+    const res = await TimeKeepingGroupAPI.getDataTimeKeepingGroup();
+    setListDataTimeKeeping(res.data.data);
+  }
 
   return (
     <Grid container className={classes.root}>
@@ -74,26 +69,21 @@ const TimeKeepingPage = () => {
               CodeEmp={CodeEmp}
               setCodeEmp={setCodeEmp}
               ProfileName={ProfileName}
-              setProfileName={setProfileName}
-              IDNo={IDNo}
-              setIDNo={setIDNo}
-              Gender={Gender}
-              setGender={setGender}
+              setProfileName={setProfileName} 
               OrgStructureID={OrgStructureID}
               setOrgStructureID={setOrgStructureID}
               Date1={Date1}
               setDate1={setDate1}
-              Date2={Date2}
-              setDate2={setDate2}
-              Status={Status}
-              setStatus={setStatus}
+              reLoad={reLoad}
+             
+             
             />
           }
         </Paper>
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar searchDataTimeKeeping={searchDataTimeKeeping} />
+          <ToolBar  />
         </Paper>
       </Grid>
 
@@ -108,9 +98,12 @@ const TimeKeepingPage = () => {
   );
 };
 
-export default TimeKeepingPage;
+export default CalculateKeepingPage;
 
 const fields = [
+  { _style: { width: "150px" }, key: "KiCong", label: "Kì công" },
+  { _style: { width: "150px" }, key: "Year", label: "Năm" },
+  { _style: { width: "150px" }, key: "Month", label: "Tháng" },
   { _style: { width: "150px" }, key: "CodeEmp", label: "Mã nhân viên" },
   { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
   {
@@ -119,22 +112,15 @@ const fields = [
 
     label: "Phòng ban",
   },
-  { _style: { width: "250px" }, key: "DateKeeping", label: "DateKeeping" },
-  //{ _style: { width: "250px" }, key: "ProfileID", label: "ProfileID" },
+  { _style: { width: "250px" }, key: "TotalKeepingReality", label: "Tổng ngày công thực tế" },
   {
     _style: { width: "250px" },
-    key: "TimeKeepingType",
-    label: "TimeKeepingType",
+    key: "SabbaticalLeave",
+    label: "Nghỉ có phép",
   },
-  { _style: { width: "250px" }, key: "TimeIn", label: "TimeIn" },
-  { _style: { width: "250px" }, key: "TimeOut", label: "TimeOut" },
-  { _style: { width: "250px" }, key: "Description ", label: "Description" },
-  {
-    _style: { width: "250px" },
-    key: "TotalHours",
-    label: "TotalHours",
-  },
-  { _style: { width: "250px" }, key: "TotalDay", label: "TotalDay" },
+  { _style: { width: "250px" }, key: "UnSabbaticalLeave", label: "Nghỉ không phép" },
+  { _style: { width: "250px" }, key: "SumKeeping", label: "Tổng hợp công" },
+  { _style: { width: "250px" }, key: "avssds", label: "Ghi chú" },
   {
     _style: { width: "250px" },
     key: "Status",
