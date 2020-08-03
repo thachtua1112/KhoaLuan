@@ -8,7 +8,12 @@ import { green } from '@material-ui/core/colors';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { makeStyles,createMuiTheme,ThemeProvider  } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
 import {csv} from 'd3'
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,12 +50,13 @@ const theme = createMuiTheme({
   },
 });
 
-
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const ReceiveNewStaffPage = () => {
   const classes = useStyles();
-  const [name,setName]=useState("");
-  const [code,setCode]=useState("");
+  const [open, setOpen] = useState(false);
   const [loadFiles,setLoadFiles]=useState(null);
   const up_files = (e)=>{
     let files=e.target.files;
@@ -65,60 +71,41 @@ const ReceiveNewStaffPage = () => {
       }
     }
   }
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
 
-  const Show=()=>{
-    console.log("files",loadFiles);
-  }
-  const up_Name = (e) =>{
-    setName(e.target.value);
-  }
-  const up_CodeEmp = (e) =>{
-    setCode(e.target.value);
-  }
-  /*
-  let filter = staff.filter(
-    (contact)=>{
-      return contact.ProfileName.toLowerCase().indexOf(name.trim().toLowerCase()) !== -1;
+  const ReceiveStaff = ()=>{
+    if(loadFiles!==null)
+    {
+      console.log("files",loadFiles);
+      return;
     }
-  );
-
-let filter2 = filter.filter(
-(contact)=>{
-  return contact.CodeEmp.toLowerCase().indexOf(code.trim().toLowerCase()) !== -1;
-}
-);*/
+    alert('Hãy chọn file')
+  }
   return  (
           <CCard >
-            <CCardBody className={classes.paper} > <b>TIẾP NHẬN NHÂN VIÊN {name}{code}</b>
+            <CCardBody className={classes.paper} > <b>TIẾP NHẬN DANH SÁCH NHÂN VIÊN </b>
             <form className={classes.root} noValidate autoComplete="off">
-                <TextField
-                  label="Tên nhân viên"
-                  id="outlined-size-small"
-                  variant="outlined"
-                  size="small"
-                  onChange={up_Name} type="search"
-                />
-                <TextField
-                  label="Mã nhân viên"
-                  id="outlined-size-normal"
-                  variant="outlined"
-                  size="small"
-                  onChange={up_CodeEmp} type="search"
-                />
+
                 <ThemeProvider theme={theme}>
                 <Button
                   variant="contained"
                   className={classes.button}
-                  onClick={Show}
+                  onClick={handleClickOpen}
                   startIcon={<CloudUploadIcon />}
                 >
                   Duyệt
                 </Button>
               </ThemeProvider>
-              <CInput className={classes.button} type='file' onChange={up_files}></CInput>
+              <CInput className={classes.button} type='file' accept='.csv' onChange={up_files}></CInput>
             </form>
 
           <CSidebarNav>
+          {loadFiles===null?"Chọn danh sách cần tiếp nhận":(
             <CDataTable
               items={loadFiles}
               hover
@@ -127,11 +114,34 @@ let filter2 = filter.filter(
               bordered
               itemsPerPage={15}
               pagination
-             // onRowClick={(item) => history.push(`/nhan-su/hop-dong/tao-moi-hop-dong/${item.CodeEmp}`)}
               clickableRows
             />
-    </CSidebarNav>
+            )}
+          </CSidebarNav>
             </CCardBody>
+            <Dialog
+            open={open}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle id="alert-dialog-slide-title">{"Duyệt danh sách bạn vừa chọn?"}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-slide-description">
+                Thông tin nhân viên sẽ được lưu vào hệ thống.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Cancle
+              </Button>
+              <Button onClick={ReceiveStaff} color="primary">
+                Ok
+              </Button>
+            </DialogActions>
+          </Dialog>
           </CCard>
   )
 }

@@ -4,8 +4,8 @@ const Att_TimeKeepingModel = require("../models/Att_TimeKeeping.model");
 module.exports.create = async (req, res) => {
   console.log(" timmkeeping create");
 
-  const data = req.body;
-  try {
+  
+  try {const data = req.body;
     const result = await Att_TimeKeepingModel.create(data);
     //console.log(result);
     return res.json({

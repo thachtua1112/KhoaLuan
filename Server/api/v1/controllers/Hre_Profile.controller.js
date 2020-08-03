@@ -1,6 +1,5 @@
 const Hre_ProfileModel = require("../models/Hre_Profile.model");
 const Hre_ContractModel =require ("../models/Hre_Contract.model")
-const CircularJSON = require('circular-json');
 
 //nhân viên chưa có hợp đồng
 module.exports.NotYet_THrProfile= async function(req,res){
