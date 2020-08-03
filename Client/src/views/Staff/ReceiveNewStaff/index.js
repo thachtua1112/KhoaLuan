@@ -15,6 +15,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import {csv} from 'd3'
+import { CreateNewStaffApi } from '../../../callAPI/Hre_Profile.api';
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -79,9 +80,14 @@ const ReceiveNewStaffPage = () => {
   };
 
   const ReceiveStaff = ()=>{
+    setOpen(false);
     if(loadFiles!==null)
     {
-      console.log("files",loadFiles);
+      console.log("files",loadFiles)
+      CreateNewStaffApi(loadFiles).then(res =>{
+      console.log("data",res.data)
+      })
+      setLoadFiles(null)
       return;
     }
     alert('Hãy chọn file')

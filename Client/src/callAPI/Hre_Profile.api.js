@@ -12,7 +12,10 @@ function Notyet_ContractApi()
 const UpDateProfileApi = (id,body)=>{
   return callAPI(`/profiles/${id}`,"PUT",body)
 }
-export {GetHre_Profie_Api,Notyet_ContractApi,UpDateProfileApi}
+const CreateNewStaffApi = (body) => {
+  return callAPI('/new-staff/create-files', "POST", body);
+}
+export {GetHre_Profie_Api,Notyet_ContractApi,UpDateProfileApi,CreateNewStaffApi}
 /*
 module.exports.GetHre_Profie_Api = function(body){
   return callAPI("/profiles","GET",body)
