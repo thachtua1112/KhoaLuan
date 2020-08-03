@@ -14,6 +14,7 @@ import ExpireContractPage from "../ContractPage/Expire_ContractPage";
 import CalculateKeepingPage from "../TimeKeeping/CalculateKeepingPage";
 
 import TimeKeepingDayPage from "../TimeKeeping/TimeKeepingDayPage";
+import ReceiveNewStaffPage from "../ReceiveNewStaff";
 
 /*
 const NewContractPage = React.lazy(() =>
@@ -102,6 +103,11 @@ const staffRoute = [
     path: "/nhan-su/hop-dong/ds-hop-dong",
     name: "Danh sách hợp đồng",
     component: ContractPage,
+  },
+  {
+    path:"/nhan-su/tiep-nhan-nhan-vien-moi",
+    name:"Tiếp nhận nhân viên mới",
+    component:ReceiveNewStaffPage
   },
 
   ///
