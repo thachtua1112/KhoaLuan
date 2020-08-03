@@ -3,6 +3,6 @@ const { GetAll, CreatByFilesCSV } = require("../controllers/NewStaff.controller"
 const NewStaffRoute = express.Router();
 
 NewStaffRoute.get("/", GetAll);
-NewStaffRoute.get("/create-files", CreatByFilesCSV);
+NewStaffRoute.post("/create-files", CreatByFilesCSV);
 
 module.exports = NewStaffRoute;

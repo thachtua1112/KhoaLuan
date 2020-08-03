@@ -15,7 +15,7 @@ module.exports.CreatByFilesCSV = async (req,res) =>{
             console.log("ada",i)
             files=data[i];
             console.log(files)
-            newStaffModel.create( files )
+            newStaffModel.create(files )
         }
         const result = await newStaffModel.find();
         return res.status(200).json(result);
