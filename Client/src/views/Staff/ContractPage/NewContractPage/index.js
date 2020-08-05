@@ -24,6 +24,9 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
 import { CInput, CSelect } from '@coreui/react';
+import ComboBox from './getContract';
+import {CustomizedHook,MaCustomizedHook} from './getStaff';
+import { ContractTypeName, ContractType } from './getContractType';
 const columns = [
   { id: 'name', label: 'Tên khoản phụ cấp',  align: 'center',minWidth: 170 },
   {
@@ -54,6 +57,7 @@ const columns = [
 const useStyles = makeStyles({
   root: {
     width: '100%',
+    height: "100vh"
   },
   container: {
     maxHeight: 440,
@@ -95,10 +99,13 @@ export default function NewContractPage() {
   }
  const [state, setState]=useState([])
   //console.log("1",state)
-
-
+  const [message, setMessage] = useState([])
+  const callbackFunction = (childData) => {
+    setMessage(childData)
+    console.log("message",message)
+  }
   const Add_Row = ()=>{
-    console.log("1",state)
+
     const Get_TenPCnew=[...state,{
       id:generate(),
       ten:TenPC,
@@ -107,24 +114,12 @@ export default function NewContractPage() {
       luong:luong,
       ghichu:ghi
     }]
-
     setState(Get_TenPCnew)
-console.log("2",state)
   }
 
   const Delete_Row = (idRow)=>{
-
-    /* Get_TenPC.splice(idRow,1);
-    setState(Get_TenPC)
-     console.log(state);*/
-
      const index=state.findIndex((item)=>idRow===item.id)
-     console.log(state.length)
-     console.log(index)
-
      setState([...state.slice(0,index),...state.slice(index+1,state.length)])
-     console.log(state.length)
-
   }
   const handleClickOpen = () => {
     setOpen(true);
@@ -135,95 +130,50 @@ console.log("2",state)
   };
 
   return (
-    <div>
-    <Paper className={classes.root}>{TenPC}
+  <Paper className={classes.root}>{TenPC}
       <TableContainer>
         <Table stickyHeader aria-label="sticky table">
         <TableBody>
           <TableRow hover role="checkbox" tabIndex={-1} >
             <TableCell>
               Số hợp đồng
-              <CInput type= "text"></CInput>
+              <ComboBox parentCallback ={(e)=>callbackFunction(e)}/>
             </TableCell>
             <TableCell>
-              Ngày có hiệu lực
-            <CInput type="date"></CInput>
+              Tên hợp đồng
+              <ContractTypeName/>
             </TableCell>
-          </TableRow>
-
-          <TableRow hover role="checkbox" tabIndex={-1}>
-            <TableCell>
-              Tên hợp đồng <CInput type= "text"></CInput>
-            </TableCell>
-            <TableCell>
-              Họ & tên <CInput type= "text"></CInput>
-            </TableCell>
-            <TableCell>
-              Mã nhân viên <CInput type= "text"></CInput>
-            </TableCell>
-          </TableRow>
-
-          <TableRow hover role="checkbox" tabIndex={-1}>
             <TableCell>
               Loại hợp đồng
-              <CSelect>
-                <option>
-                  Hợp đồng 1
-                </option>
-                <option>
-                  Hợp đồng 2
-                </option>
-                <option>
-                  Hợp đồng 3
-                </option>
-              </CSelect>
+              <ContractType/>
+          </TableCell>
+          <TableCell>
+          Thời hạn hợp đồng (Tháng)
+          <CInput type = "number" required min = "1" max = "10"></CInput>
+        </TableCell>
+          </TableRow>
+
+          <TableRow hover role="checkbox" tabIndex={-1}>
+            <TableCell>
+              Họ & tên <CustomizedHook/>
             </TableCell>
             <TableCell>
-              Thời hạn hợp đồng (năm)
-              <CInput type = "number" required min = "1" max = "10"></CInput>
+              Mã nhân viên <MaCustomizedHook/>
             </TableCell>
+            <TableCell>
+            Lương cơ bản
+            <CInput type = "number" required min = "1" max = "10"></CInput>
+          </TableCell>
             <TableCell>
             Ngày có hiệu lực
             <CInput type="date" ></CInput>
             </TableCell>
           </TableRow>
-          <TableRow hover role="checkbox" tabIndex={-1}>
-            <TableCell>
-              Vị trí công việc
-              <CSelect>
-                <option>
-                 Công việc 1
-                </option>
-                <option>
-                Công việc 2
-                </option>
-                <option>
-                Công việc 3
-                </option>
-              </CSelect>
-            </TableCell>
-            <TableCell>
-            Đơn vị công tác
-            <CSelect>
-              <option>
-               Công tác 1
-              </option>
-              <option>
-              Công tác 2
-              </option>
-              <option>
-              Công tác 3
-              </option>
-            </CSelect>
-            </TableCell>
-          </TableRow>
         </TableBody>
         </Table>
       </TableContainer>
-    </Paper>
 <hr/>
   <b><h4>Các khoản phụ cấp</h4></b>
-    <Paper className={classes.root}>
       <TableContainer className={classes.container}>
         <Table stickyHeader  aria-label="sticky table">
             <TableHead   className={classes.background}>
@@ -322,8 +272,7 @@ console.log("2",state)
             </TableBody>
         </Table>
       </TableContainer>
-    </Paper>
-    <Button onClick={handleClickOpen} variant="contained" color="primary"> Thêm</Button>
+      <Button onClick={handleClickOpen} variant="contained" color="primary"> Thêm</Button>
     <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -347,6 +296,7 @@ console.log("2",state)
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+  </Paper>
+
   );
 }

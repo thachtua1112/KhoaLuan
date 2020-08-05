@@ -84,14 +84,11 @@ const ReceiveNewStaffPage = () => {
     setOpen(false);
     if(loadFiles!==null)
     {
-      console.log("files",loadFiles)
-      CreateNewStaffApi(loadFiles).then(res =>{
-      console.log("data",res.data)
-      })
+      CreateNewStaffApi(loadFiles)
       setLoadFiles(null)
       return;
     }
-    alert("hãy chọn fiel để upload nhé! à hihi")
+    alert("Hãy chọn file trước khi tiếp nhận nhân viên")
   }
   return  (
           <CCard >

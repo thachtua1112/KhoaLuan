@@ -10,7 +10,7 @@ export default function callAPI  (endpoint, method = "GET", body)  {
   {
     headers : {
       'Content-Type' : 'application/x-www-form-urlencoded; charset=UTF-8',
-      //'access-token': localStorage.getItem("token")
+      'access-token': localStorage.getItem("token")
   }
    }).catch((err) => {
     throw err;
