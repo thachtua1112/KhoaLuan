@@ -16,6 +16,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import {csv} from 'd3'
 import { CreateNewStaffApi } from '../../../callAPI/Hre_Profile.api';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
@@ -90,7 +91,7 @@ const ReceiveNewStaffPage = () => {
       setLoadFiles(null)
       return;
     }
-    alert('Hãy chọn file')
+    alert("hãy chọn fiel để upload nhé! à hihi")
   }
   return  (
           <CCard >

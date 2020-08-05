@@ -107,6 +107,12 @@ const staffRoute = [
   {
     path:"/nhan-su/tiep-nhan-nhan-vien-moi",
     name:"Tiếp nhận nhân viên mới",
+    exact: true,
+    component:ReceiveNewStaffPage
+  },
+  {
+    path:"/nhan-su/tiep-nhan-nhan-vien-moi/them-nhan-vien-moi",
+    name:"Thêm danh sách nhân viên",
     component:ReceiveNewStaffPage
   },
 

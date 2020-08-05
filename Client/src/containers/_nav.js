@@ -22,13 +22,13 @@ export default [
   },
   {
     _tag: "CSidebarNavItem",
-    name: "Tiếp nhận nhân viên mới",
-    to: "/nhan-su/tiep-nhan-nhan-vien-moi",
+    name: "Nhân viên đang làm việc",
+    to: "/nhan-su/nhan-vien-dang-lam-viec",
     icon: "cil-pencil",
   },
   {
     _tag: "CSidebarNavDropdown",
-    name: "Nhân viên đang làm việc",
+    name: "Tiếp nhận nhân viên mới",
     to: "/nhan-su/tiep-nhan-nhan-vien-moi",
     icon: "cil-pencil",
     _children: [
