@@ -24,7 +24,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 import { CInput, CSelect } from '@coreui/react';
 import ContractNumber from './getContract';
-import {GetStaffName,GetStaffCode} from './getStaff';
+import GetStaff from './getStaff';
 import  ContractType  from './getContractType';
 const columns = [
   { id: 'name', label: 'Tên khoản phụ cấp',  align: 'center',minWidth: 170 },
@@ -76,6 +76,7 @@ export default function NewContractPage() {
   const [open, setOpen] = useState(false);
   const [ContractNo, setContractNo] = useState("")
   const [IdContractType, setIdContractType] = useState("")
+  const [IdProfile, SetIdProfile] = useState([])
 
 
   /*const callbackContractType = (childData) => {
@@ -85,6 +86,13 @@ export default function NewContractPage() {
 */
   const upload = ()=>{
     console.log("Types",IdContractType,ContractNo)
+    let i=IdProfile.length;
+    while(i!==0)
+    {
+      console.log("IdStaff",IdProfile[i-1].ProfileID)
+      i--;
+    }
+
   }
   //phụ cấp
   //Các khoản phụ cấp
@@ -141,16 +149,7 @@ export default function NewContractPage() {
         <Table stickyHeader aria-label="sticky table">
         <TableBody>
 
-          <TableRow hover role="checkbox" tabIndex={-1} >
-            <TableCell>
-            Họ và Tên
-              <GetStaffName/>
-            </TableCell>
-            <TableCell>
-            Mã Nhân Viên
-              <GetStaffCode/>
-            </TableCell>
-          </TableRow>
+          <GetStaff IdStaff={SetIdProfile}/>
           <TableRow hover role="checkbox" tabIndex={-1} >
             <TableCell>
               Số hợp đồng
