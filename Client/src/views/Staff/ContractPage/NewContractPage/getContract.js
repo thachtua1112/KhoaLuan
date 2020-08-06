@@ -3,21 +3,20 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { GetContractApi } from '../../../../callAPI/Hre_Contract.api';
 
-export default function ComboBox(props) {
+export default function ContractNumber(props) {
   const [NumberContract, SetNemberContract]= useState([])
   const [number, setNumber]= useState("")
   const up_number = (e)=>{
     setNumber(e)
     console.log(number)
+    props.parentCallback(number)
   }
   useEffect(()=>{
     GetContractApi().then(res=>{
       SetNemberContract(res.data)
     })
   },[])
-  const sendData = () => {
-    props.parentCallback(NumberContract);
-  }
+
   return (
     <div>
     <Autocomplete
@@ -27,7 +26,6 @@ export default function ComboBox(props) {
       renderInput={(params) => <TextField {...params} size="small" variant="outlined" />}
       onChange={(event, item) => up_number(item==null?"":item.ContractNo)}
     />
-    <button onClick={sendData}>t</button>
     </div>
   );
 }

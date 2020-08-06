@@ -24,9 +24,9 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 
 import { CInput, CSelect } from '@coreui/react';
-import ComboBox from './getContract';
-import {CustomizedHook,MaCustomizedHook} from './getStaff';
-import { ContractTypeName, ContractType } from './getContractType';
+import ContractNumber from './getContract';
+import GetStaff from './getStaff';
+import  ContractType  from './getContractType';
 const columns = [
   { id: 'name', label: 'Tên khoản phụ cấp',  align: 'center',minWidth: 170 },
   {
@@ -75,7 +75,20 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function NewContractPage() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-//Các khoản phụ cấp
+  const [ContractNo, setContractNo] = useState("")
+  const [IdContractType, setIdContractType] = useState("")
+
+  const callbackFunction = (childData) => {
+    setContractNo(childData)
+    console.log("message",ContractNo)
+  }
+
+  const callbackContractType = (childData) => {
+    setIdContractType(childData)
+    console.log("Types",IdContractType)
+  }
+  //phụ cấp
+  //Các khoản phụ cấp
   const [TenPC, setTenPC] = useState("");
   const [thue, setThue] =useState("");
   const [tien, setTien] = useState("");
@@ -97,13 +110,7 @@ export default function NewContractPage() {
   const GhiChu =(e)=>{
     setGhi(e.target.value);
   }
- const [state, setState]=useState([])
-  //console.log("1",state)
-  const [message, setMessage] = useState([])
-  const callbackFunction = (childData) => {
-    setMessage(childData)
-    console.log("message",message)
-  }
+  const [state, setState]=useState([])
   const Add_Row = ()=>{
 
     const Get_TenPCnew=[...state,{
@@ -134,31 +141,12 @@ export default function NewContractPage() {
       <TableContainer>
         <Table stickyHeader aria-label="sticky table">
         <TableBody>
+
+        <GetStaff/>
           <TableRow hover role="checkbox" tabIndex={-1} >
             <TableCell>
               Số hợp đồng
-              <ComboBox parentCallback ={(e)=>callbackFunction(e)}/>
-            </TableCell>
-            <TableCell>
-              Tên hợp đồng
-              <ContractTypeName/>
-            </TableCell>
-            <TableCell>
-              Loại hợp đồng
-              <ContractType/>
-          </TableCell>
-          <TableCell>
-          Thời hạn hợp đồng (Tháng)
-          <CInput type = "number" required min = "1" max = "10"></CInput>
-        </TableCell>
-          </TableRow>
-
-          <TableRow hover role="checkbox" tabIndex={-1}>
-            <TableCell>
-              Họ & tên <CustomizedHook/>
-            </TableCell>
-            <TableCell>
-              Mã nhân viên <MaCustomizedHook/>
+              <ContractNumber parentCallback ={(e)=>callbackFunction(e)}/>
             </TableCell>
             <TableCell>
             Lương cơ bản
@@ -168,7 +156,9 @@ export default function NewContractPage() {
             Ngày có hiệu lực
             <CInput type="date" ></CInput>
             </TableCell>
+
           </TableRow>
+          <ContractType parentCallbackContractType={callbackContractType}/>
         </TableBody>
         </Table>
       </TableContainer>

@@ -1,35 +1,84 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import TableRow from '@material-ui/core/TableRow';
 
-export  function ContractTypeName() {
+import TableCell from '@material-ui/core/TableCell';
+import { GetContractTypeApi } from '../../../../callAPI/ContractTypes.api';
+export default function ContractType(props) {
+  const [contract, setContract]=useState([])
+  const [type, setType]= useState("")
+  const [name, setName]= useState("")
+  const [time, setTime]= useState(0)
+  const [Id,setId]=useState("")
+  const up_Type = (e)=>{
+    setType(e)
+  }
+  const up_Name = (e)=>{
+    setName(e)
+  }
+  const up_Time = (e)=>{
+    setTime(e.ValueTime)
+    console.log(time);
+    setId(e.ID)
+    props.parentCallbackContractType(Id)
+  }
+  useEffect(()=>{
+    GetContractTypeApi().then(res=>{
+      if(res.data)
+      {
+        setContract(res.data)
+      }
+    })
+  },[])
+
+  let filterType = contract.filter(
+    (contact)=>{
+      return contact.ContractTypeName.toLowerCase().indexOf(name.toLowerCase()) !== -1;
+    }
+    );
+
+  let filterTerm = filterType.filter(
+    (contact)=>{
+      return contact.Type.toLowerCase().indexOf(type.toLowerCase()) !== -1;
+    }
+    );
   return (
-    <Autocomplete
-     // id="combo-box-demo"
-      options={top100Films}
-      getOptionLabel={(option) => option.title}
-      renderInput={(params) => <TextField {...params} size="small"  variant="outlined" />}
-    />
-  );
-}
-export  function ContractType() {
-  return (
-    <Autocomplete
+    <TableRow hover>
+    <TableCell>
+      Tên hợp đồng
+      <Autocomplete
       //id="combo-box-demo"
-      options={top100Films}
-      getOptionLabel={(option) => option.title}
+      options={filterTerm}
+      getOptionLabel={(option) => option.ContractTypeName}
       renderInput={(params) => <TextField {...params} size="small" variant="outlined" />}
+      onChange={(event, item) => up_Name(item==null?"":item.ContractTypeName)}
+
+      />
+    </TableCell>
+
+    <TableCell>
+              Loại hợp đồng
+              <Autocomplete
+     // id="combo-box-demo"
+      options={filterType}
+      getOptionLabel={(option) => option.Type}
+      renderInput={(params) => <TextField {...params} size="small"  variant="outlined" />}
+      onChange={(event, item) => up_Type(item==null?"":item.Type)}
     />
+    </TableCell>
+
+    <TableCell>
+      Thời hạn hợp đồng
+      <Autocomplete
+      //id="combo-box-demo"
+      options={filterType}
+      getOptionLabel={(option) => option.ValueTime}
+      renderInput={(params) => <TextField {...params} size="small" variant="outlined" />}
+      onChange={(event, item) => up_Time(item==null?"":item)}
+    />
+    </TableCell>
+    </TableRow>
   );
 }
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-  { title: '12 Angry Men', year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-
-];

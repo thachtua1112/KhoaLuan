@@ -5,6 +5,8 @@ import NoSsr from '@material-ui/core/NoSsr';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import styled from 'styled-components';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 
 const InputWrapper = styled('div')`
   width: 300px;
@@ -120,7 +122,7 @@ const Listbox = styled('ul')`
   }
 `;
 
-export  function CustomizedHook() {
+export default function GetStaff() {
   const {
     getRootProps,
     getInputProps,
@@ -140,77 +142,37 @@ export  function CustomizedHook() {
   });
 
   return (
-    <NoSsr>
-      <div>
-        <div {...getRootProps()}>
-          <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
-            {value.map((option, index) => (
-              <Tag label={option.title} {...getTagProps({ index })} />
-            ))}
+  <TableRow>
+    <TableCell>
+    Họ và tên
+      <NoSsr>
+        <div>
+          <div {...getRootProps()}>
+            <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
+              {value.map((option, index) => (
+                <Tag label={option.title} {...getTagProps({ index })} />
+              ))}
 
-            <input {...getInputProps()} />
-          </InputWrapper>
+              <input {...getInputProps()} />
+            </InputWrapper>
+          </div>
+          {groupedOptions.length > 0 ? (
+            <Listbox {...getListboxProps()}>
+              {groupedOptions.map((option, index) => (
+                <li {...getOptionProps({ option, index })}>
+                  <span>{option.title}</span>
+                  <CheckIcon fontSize="small" />
+                </li>
+              ))}
+            </Listbox>
+          ) : null}
         </div>
-        {groupedOptions.length > 0 ? (
-          <Listbox {...getListboxProps()}>
-            {groupedOptions.map((option, index) => (
-              <li {...getOptionProps({ option, index })}>
-                <span>{option.title}</span>
-                <CheckIcon fontSize="small" />
-              </li>
-            ))}
-          </Listbox>
-        ) : null}
-      </div>
-    </NoSsr>
+      </NoSsr>
+    </TableCell>
+  </TableRow>
   );
 }
 
-export  function MaCustomizedHook() {
-  const {
-    getRootProps,
-    getInputProps,
-    getTagProps,
-    getListboxProps,
-    getOptionProps,
-    groupedOptions,
-    value,
-    focused,
-    setAnchorEl,
-  } = useAutocomplete({
-    //id: 'customized-hook-demo',
-    //defaultValue: [top100Films[1]],
-    multiple: true,
-    options: top100Films,
-    getOptionLabel: (option) => option.title,
-  });
-
-  return (
-    <NoSsr>
-      <div>
-        <div {...getRootProps()}>
-          <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
-            {value.map((option, index) => (
-              <Tag label={option.title} {...getTagProps({ index })} />
-            ))}
-
-            <input {...getInputProps()} />
-          </InputWrapper>
-        </div>
-        {groupedOptions.length > 0 ? (
-          <Listbox {...getListboxProps()}>
-            {groupedOptions.map((option, index) => (
-              <li {...getOptionProps({ option, index })}>
-                <span>{option.title}</span>
-                <CheckIcon fontSize="small" />
-              </li>
-            ))}
-          </Listbox>
-        ) : null}
-      </div>
-    </NoSsr>
-  );
-}
 // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
 const top100Films = [
   { title: 'The Shawshank Redemption', year: 1994 },
