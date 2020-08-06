@@ -1,13 +1,11 @@
 /* eslint-disable no-use-before-define */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import useAutocomplete from '@material-ui/lab/useAutocomplete';
 import NoSsr from '@material-ui/core/NoSsr';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import styled from 'styled-components';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-
+import { Notyet_ContractApi } from '../../../../callAPI/Hre_Contract.api';
 const InputWrapper = styled('div')`
   width: 300px;
   border: 1px solid #d9d9d9;
@@ -122,7 +120,16 @@ const Listbox = styled('ul')`
   }
 `;
 
-export default function GetStaff() {
+export  function GetStaffName() {
+  const [nameStaff, setNameStaff]=useState([])
+  useEffect(()=>{
+    Notyet_ContractApi().then(res=>{
+      if(res.data)
+      {
+        return setNameStaff(res.data)
+      }
+    })
+  },[])
   const {
     getRootProps,
     getInputProps,
@@ -137,20 +144,17 @@ export default function GetStaff() {
     id: 'customized-hook-demo',
     //defaultValue: [top100Films[1]],
     multiple: true,
-    options: top100Films,
-    getOptionLabel: (option) => option.title,
+    options: nameStaff,
+    getOptionLabel: (option) => option.ProfileName,
   });
 
   return (
-  <TableRow>
-    <TableCell>
-    Họ và tên
       <NoSsr>
         <div>
           <div {...getRootProps()}>
             <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
               {value.map((option, index) => (
-                <Tag label={option.title} {...getTagProps({ index })} />
+                <Tag label={option.ProfileName} {...getTagProps({ index })} />
               ))}
 
               <input {...getInputProps()} />
@@ -160,7 +164,7 @@ export default function GetStaff() {
             <Listbox {...getListboxProps()}>
               {groupedOptions.map((option, index) => (
                 <li {...getOptionProps({ option, index })}>
-                  <span>{option.title}</span>
+                  <span>{option.ProfileName}</span>
                   <CheckIcon fontSize="small" />
                 </li>
               ))}
@@ -168,17 +172,60 @@ export default function GetStaff() {
           ) : null}
         </div>
       </NoSsr>
-    </TableCell>
-  </TableRow>
   );
 }
 
-// Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
-const top100Films = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-  { title: '12 Angry Men', year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-];
+export  function GetStaffCode() {
+  const [codeStaff, setCodeStaff]=useState([])
+  useEffect(()=>{
+    Notyet_ContractApi().then(res=>{
+      if(res.data)
+      {
+        return setCodeStaff(res.data)
+      }
+    })
+  },[])
+  const {
+    getRootProps,
+    getInputProps,
+    getTagProps,
+    getListboxProps,
+    getOptionProps,
+    groupedOptions,
+    value,
+    focused,
+    setAnchorEl,
+  } = useAutocomplete({
+    id: 'customized-hook-demo',
+    //defaultValue: [top100Films[1]],
+    multiple: true,
+    options: codeStaff,
+    getOptionLabel: (option) => option.CodeEmp,
+  });
+
+  return (
+      <NoSsr>
+        <div>
+          <div {...getRootProps()}>
+            <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
+              {value.map((option, index) => (
+                <Tag label={option.CodeEmp} {...getTagProps({ index })} />
+              ))}
+
+              <input {...getInputProps()} />
+            </InputWrapper>
+          </div>
+          {groupedOptions.length > 0 ? (
+            <Listbox {...getListboxProps()}>
+              {groupedOptions.map((option, index) => (
+                <li {...getOptionProps({ option, index })}>
+                  <span>{option.CodeEmp}</span>
+                  <CheckIcon fontSize="small" />
+                </li>
+              ))}
+            </Listbox>
+          ) : null}
+        </div>
+      </NoSsr>
+  );
+}

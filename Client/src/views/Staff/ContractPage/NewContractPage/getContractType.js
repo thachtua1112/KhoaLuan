@@ -9,20 +9,18 @@ export default function ContractType(props) {
   const [contract, setContract]=useState([])
   const [type, setType]= useState("")
   const [name, setName]= useState("")
-  const [time, setTime]= useState(0)
-  const [Id,setId]=useState("")
+
+  const {
+    IDtypeContract
+  }=props
+
   const up_Type = (e)=>{
     setType(e)
   }
   const up_Name = (e)=>{
     setName(e)
   }
-  const up_Time = (e)=>{
-    setTime(e.ValueTime)
-    console.log(time);
-    setId(e.ID)
-    props.parentCallbackContractType(Id)
-  }
+
   useEffect(()=>{
     GetContractTypeApi().then(res=>{
       if(res.data)
@@ -75,7 +73,7 @@ export default function ContractType(props) {
       options={filterType}
       getOptionLabel={(option) => option.ValueTime}
       renderInput={(params) => <TextField {...params} size="small" variant="outlined" />}
-      onChange={(event, item) => up_Time(item==null?"":item)}
+      onChange={(event, item) => IDtypeContract(item==null?"":item.ID)}
     />
     </TableCell>
     </TableRow>

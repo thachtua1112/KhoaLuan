@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { generate } from "shortid";
@@ -25,7 +24,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 import { CInput, CSelect } from '@coreui/react';
 import ContractNumber from './getContract';
-import GetStaff from './getStaff';
+import {GetStaffName,GetStaffCode} from './getStaff';
 import  ContractType  from './getContractType';
 const columns = [
   { id: 'name', label: 'Tên khoản phụ cấp',  align: 'center',minWidth: 170 },
@@ -78,14 +77,14 @@ export default function NewContractPage() {
   const [ContractNo, setContractNo] = useState("")
   const [IdContractType, setIdContractType] = useState("")
 
-  const callbackFunction = (childData) => {
-    setContractNo(childData)
-    console.log("message",ContractNo)
-  }
 
-  const callbackContractType = (childData) => {
-    setIdContractType(childData)
-    console.log("Types",IdContractType)
+  /*const callbackContractType = (childData) => {
+    const Id = {...IdContractType,childData}
+    setIdContractType(Id)
+  }
+*/
+  const upload = ()=>{
+    console.log("Types",IdContractType,ContractNo)
   }
   //phụ cấp
   //Các khoản phụ cấp
@@ -142,11 +141,20 @@ export default function NewContractPage() {
         <Table stickyHeader aria-label="sticky table">
         <TableBody>
 
-        <GetStaff/>
+          <TableRow hover role="checkbox" tabIndex={-1} >
+            <TableCell>
+            Họ và Tên
+              <GetStaffName/>
+            </TableCell>
+            <TableCell>
+            Mã Nhân Viên
+              <GetStaffCode/>
+            </TableCell>
+          </TableRow>
           <TableRow hover role="checkbox" tabIndex={-1} >
             <TableCell>
               Số hợp đồng
-              <ContractNumber parentCallback ={(e)=>callbackFunction(e)}/>
+              <ContractNumber ContractNo ={setContractNo}/>
             </TableCell>
             <TableCell>
             Lương cơ bản
@@ -158,9 +166,10 @@ export default function NewContractPage() {
             </TableCell>
 
           </TableRow>
-          <ContractType parentCallbackContractType={callbackContractType}/>
+          <ContractType IDtypeContract={setIdContractType}/>
         </TableBody>
         </Table>
+        <button onClick={upload}>t</button>
       </TableContainer>
 <hr/>
   <b><h4>Các khoản phụ cấp</h4></b>

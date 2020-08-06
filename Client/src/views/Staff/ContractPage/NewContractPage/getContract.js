@@ -5,12 +5,9 @@ import { GetContractApi } from '../../../../callAPI/Hre_Contract.api';
 
 export default function ContractNumber(props) {
   const [NumberContract, SetNemberContract]= useState([])
-  const [number, setNumber]= useState("")
-  const up_number = (e)=>{
-    setNumber(e)
-    console.log(number)
-    props.parentCallback(number)
-  }
+ const {
+  ContractNo
+ }=props
   useEffect(()=>{
     GetContractApi().then(res=>{
       SetNemberContract(res.data)
@@ -24,7 +21,7 @@ export default function ContractNumber(props) {
       options={NumberContract}
       getOptionLabel={(option) => option.ContractNo}
       renderInput={(params) => <TextField {...params} size="small" variant="outlined" />}
-      onChange={(event, item) => up_number(item==null?"":item.ContractNo)}
+      onChange={(event, item) => ContractNo(item==null?"":item.ContractNo)}
     />
     </div>
   );
