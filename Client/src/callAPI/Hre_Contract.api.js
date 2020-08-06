@@ -12,5 +12,8 @@ const  Expire_ContractApi = () =>
 {
   return callAPI("/hre-contract/expires","GET",null)
 }
-
-export {Notyet_ContractApi,Expire_ContractApi,GetContractApi}
+const CreateContractApi = (body) =>
+{
+  return callAPI("/hre-contract","POST",body)
+}
+export {CreateContractApi,Notyet_ContractApi,Expire_ContractApi,GetContractApi}

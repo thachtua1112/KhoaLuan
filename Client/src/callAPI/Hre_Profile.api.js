@@ -2,7 +2,7 @@ import callAPI from "./callAPI";
 
 function GetHre_Profie_Api(body)
 {
-  return callAPI(`/profiles/${body}`,"GET",null)
+  return callAPI(`/profiles`,"GET",null)
 }
 
 function Notyet_ContractApi()

@@ -21,11 +21,12 @@ import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-
+import qs from 'qs'
 import { CInput, CSelect } from '@coreui/react';
 import ContractNumber from './getContract';
 import GetStaff from './getStaff';
 import  ContractType  from './getContractType';
+import {CreateContractApi} from '../../../../callAPI/Hre_Contract.api'
 const columns = [
   { id: 'name', label: 'Tên khoản phụ cấp',  align: 'center',minWidth: 170 },
   {
@@ -85,15 +86,19 @@ export default function NewContractPage() {
   }
 */
   const upload = ()=>{
-    console.log("Types",IdContractType,ContractNo)
     let i=IdProfile.length;
     while(i!==0)
     {
-      console.log("IdStaff",IdProfile[i-1].ProfileID)
+      CreateContractApi(qs.stringify({
+        ProfileID1:IdProfile[i-1].CodeEmp,
+        ContractNo:ContractNo,
+        ContractTypeID:IdContractType,
+        DateCreate:new Date()
+      }))
       i--;
     }
-
   }
+
   //phụ cấp
   //Các khoản phụ cấp
   const [TenPC, setTenPC] = useState("");
