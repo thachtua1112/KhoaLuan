@@ -78,25 +78,43 @@ export default function NewContractPage() {
   const [ContractNo, setContractNo] = useState("")
   const [IdContractType, setIdContractType] = useState("")
   const [IdProfile, SetIdProfile] = useState([])
-
-
+  const [salary,seSalary] = useState(0);
+  const [StartDay, SetStartDay] = useState(null);
+  const [DateSignature,setDateSignature]=useState(null)
   /*const callbackContractType = (childData) => {
     const Id = {...IdContractType,childData}
     setIdContractType(Id)
   }
 */
+  const Up_Salary = (e)=>{
+    seSalary(e.target.value)
+  }
+  const Up_StartDay = (e)=>{
+    SetStartDay(e.target.value)
+  }
   const upload = ()=>{
+    setOpen(false);
     let i=IdProfile.length;
-    while(i!==0)
-    {
-      CreateContractApi(qs.stringify({
-        ProfileID1:IdProfile[i-1].CodeEmp,
-        ContractNo:ContractNo,
-        ContractTypeID:IdContractType,
-        DateCreate:new Date()
-      }))
-      i--;
+    if(i!==0){
+      alert("Thêm thành công")
+      while(i!==0)
+      {
+        CreateContractApi(qs.stringify({
+          ProfileID1:IdProfile[i-1].CodeEmp,
+          ContractNo:ContractNo,
+          ContractTypeID:IdContractType,
+          DateSigned:DateSignature,
+          DateCreate:new Date(),
+          DateStart: StartDay,
+          Salary:salary,
+          //UserCreate:localStorage.getItem('user'),
+          //DateEnd:StartDay
+        }))
+        i--;
+      }
+      return;
     }
+    return alert("Thêm không thành công, bạn đã bỏ qua mục nào đó rồi, à hihi")
   }
 
   //phụ cấp
@@ -154,7 +172,7 @@ export default function NewContractPage() {
         <Table stickyHeader aria-label="sticky table">
         <TableBody>
 
-          <GetStaff IdStaff={SetIdProfile}/>
+          <GetStaff IdStaff={SetIdProfile} DateSignature={setDateSignature}/>
           <TableRow hover role="checkbox" tabIndex={-1} >
             <TableCell>
               Số hợp đồng
@@ -162,18 +180,17 @@ export default function NewContractPage() {
             </TableCell>
             <TableCell>
             Lương cơ bản
-            <CInput type = "number" required min = "1" max = "10"></CInput>
+            <CInput onChange={Up_Salary} type = "number" required min = "1000000" ></CInput>
           </TableCell>
             <TableCell>
             Ngày có hiệu lực
-            <CInput type="date" ></CInput>
+            <CInput onChange={Up_StartDay} type="date" ></CInput>
             </TableCell>
 
           </TableRow>
           <ContractType IDtypeContract={setIdContractType}/>
         </TableBody>
         </Table>
-        <button onClick={upload}>t</button>
       </TableContainer>
 <hr/>
   <b><h4>Các khoản phụ cấp</h4></b>
@@ -294,7 +311,7 @@ export default function NewContractPage() {
           <Button onClick={handleClose} color="primary">
             Cancle
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={upload} color="primary">
             Ok
           </Button>
         </DialogActions>

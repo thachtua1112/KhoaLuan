@@ -8,6 +8,8 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import { Notyet_ContractApi } from '../../../../callAPI/Hre_Contract.api';
+//import { GetHre_Profie_Api } from '../../../../callAPI/Hre_Profile.api';
+import { CInput } from '@coreui/react';
 
 
 export default function GetStaff(props) {
@@ -16,6 +18,7 @@ export default function GetStaff(props) {
 
   const [Staff, setStaff]=useState([])
   useEffect(()=>{
+
     Notyet_ContractApi().then(res=>{
       if(res.data)
       {
@@ -26,7 +29,8 @@ export default function GetStaff(props) {
   const [name,setName]=useState([])
   const [code,setCode]=useState([])
   const{
-    IdStaff
+    IdStaff,
+    DateSignature
   }=props
   const up_name =(e)=>{
     setName(e)
@@ -85,6 +89,10 @@ export default function GetStaff(props) {
             <TextField {...params} variant="outlined" size="small" placeholder="Mã nhân viên" />
           )}
         />
+    </TableCell>
+    <TableCell>
+    Ngày kí hợp đồng
+      <CInput onChange={(e)=>DateSignature(e.target.value)} type="date" ></CInput>
     </TableCell>
   </TableRow>
   );
