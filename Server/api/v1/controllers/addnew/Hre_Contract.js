@@ -117,8 +117,8 @@ module.exports.update = async (req, res) => {
 
 module.exports.create = async (req, res) => {
   try{
-    const { data } = req.body;
-    const result = await Hre_ContractModel.create({ data });
+    const  data  = req.body;
+    const result = await Hre_ContractModel.create( data );
     return res.status(200).json(result);
   }
   catch(err)

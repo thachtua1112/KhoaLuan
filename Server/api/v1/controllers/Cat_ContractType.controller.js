@@ -50,7 +50,7 @@ module.exports.update = async (req, res) => {
 
 module.exports.create = async (req, res) => {
   try{
-    const { data } = req.body;
+    const  data  = req.body;
     const result = await ContractTypeModel.create({ data });
     return res.status(200).json(result);  
   }
