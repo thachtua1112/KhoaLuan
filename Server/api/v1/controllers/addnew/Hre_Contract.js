@@ -15,7 +15,7 @@ module.exports.NotYet_HreContract= async function(req,res){
     try{
         const contract = await Hre_ContractModel.distinct("ProfileID1");
         const result = await Hre_ProfileModel.find({ProfileID:
-            { $in:  contract }
+            { $nin:  contract }
         })
         return res.json(result
         )
@@ -46,8 +46,38 @@ module.exports.Expire_Contract= async function(req,res){
   try{
   
    // const contract = await Hre_ContractModel.find({DateEnd:{$gte: new Date()}})
-   
-    const contract1= await Hre_ContractModel.aggregate([
+   const contract = await Hre_ContractModel.aggregate([
+    {
+       $sort: { 
+          ProfileID1: 1, 
+          DateEnd: 1,
+          DateSigned:1,
+          DateStart:1
+        } 
+    },
+    {
+      $group:{
+        _id:"$ProfileID1",
+        DateSigned:{ $last: "$DateSigned" },
+        DateStart:{ $last: "$DateStart" },
+        DateEnd:{ $last: "$DateEnd" },
+      }
+    },
+    {
+      $lookup: {
+        from: 'hre_profiles',
+        localField: '_id',
+        foreignField: 'ProfileID',
+        as: 'profiles',
+      }
+    },
+    {
+      $match:{
+        DateEnd:{$lte: new Date()}
+      }
+    }
+   ])
+    /*const contract1= await Hre_ContractModel.aggregate([
       {
       $lookup: {
         from: 'hre_profiles',
@@ -68,8 +98,8 @@ module.exports.Expire_Contract= async function(req,res){
       }
     }
   
-  ])
-    return res.json(contract1)
+  ])*/
+    return res.json(contract)
   }
   catch(err)
   {

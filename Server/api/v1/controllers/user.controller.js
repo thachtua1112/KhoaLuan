@@ -124,12 +124,18 @@ exports.token = function(req, res)
   })
 }
 
-exports.getInfor=function(req,res)
+exports.getInfor=async function  (req,res)
 {
-  var decoded = jwt.decode(req.token, {complete: true});
+  try{
+    const decoded = await jwt.decode(req.token, {complete: true});
     return res.json({
       header: decoded.header,
       payload: decoded.payload,
       Signature:decoded.signature
     })
+  }
+  catch(err)
+  {
+    res.sendStatus(403);
+  }
 }

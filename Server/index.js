@@ -45,7 +45,7 @@ app.use(cors());
 app.use("/authentication", authenticationRoute);
 
 app.use("/api/v1/user", loginRouter);
-app.use("/api/v1/user", RouterUser);
+app.use("/api/v1/user", verifyToken,RouterUser);
 
 //documents
 /*
