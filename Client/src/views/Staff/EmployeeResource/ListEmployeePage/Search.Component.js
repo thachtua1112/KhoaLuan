@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
 import { Autocomplete } from "@material-ui/lab";
 
@@ -16,7 +16,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
-import OrgStructureAPI from "../../../../callAPI/OrgStructure.api"
+import OrgStructureAPI from "../../../../callAPI/OrgStructure.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,14 +38,13 @@ const Search = (props) => {
 
   const [ListOrgStructure, setListOrgStructure] = useState(initOrgStructure);
 
-  useEffect(()=>{
-    const fetchAPI=async()=>{
-      const res= await OrgStructureAPI.getListOrgStructure()
-      setListOrgStructure(res.data)
-    }
-    fetchAPI()
-  },[])
-
+  useEffect(() => {
+    const fetchAPI = async () => {
+      const res = await OrgStructureAPI.getListOrgStructure();
+      setListOrgStructure(res.data);
+    };
+    fetchAPI();
+  }, []);
 
   return (
     <Grid className={classes.root} container spacing={1}>
@@ -367,6 +366,4 @@ const StatusSynValue = [
   },
 ];
 
-const initOrgStructure = [
-  
-];
+const initOrgStructure = [];
