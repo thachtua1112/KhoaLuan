@@ -7,10 +7,11 @@ const OrgStructureRoute = express.Router();
 OrgStructureRoute.get("/", OrgStructureController.getOrgStructure);
 OrgStructureRoute.get("/trees", OrgStructureController.getStructureTree);
 OrgStructureRoute.get("/trees/orgs", OrgStructureController.getListOrgID);
-OrgStructureRoute.get(
-  "/trees/profiles",
-  OrgStructureController.getListProfilePopulate
-);
+
+// OrgStructureRoute.get(
+//   "/trees/profiles",
+//   OrgStructureController.getListProfilePopulate
+// );
 
 // OrgStructureRoute.get(
 //   "/trees/profiles",

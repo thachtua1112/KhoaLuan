@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import OrgStructureAPI from "../../../callAPI/OrgStructure.api";
 
-import { defaultProfileFields } from "../utils/fieldsProfile";
 import { exportToPDF } from "../utils/exportToPDF";
 
 import { CDataTable, CSidebarNav } from "@coreui/react";
@@ -68,7 +67,7 @@ const OrgStructurePage = () => {
   const exportPDF = () => {
     exportToPDF(
       "Danh sach nhan vien",
-      defaultProfileFields,
+      fields,
       ListProfile,
       "DSNhanVien"
     );
@@ -132,7 +131,7 @@ const OrgStructurePage = () => {
               >
                 <CSVLink
                   data={ListProfile}
-                  headers={defaultProfileFields}
+                  headers={fields}
                   filename={"DSNhanVien.csv"}
                 >
                   Export as CSV
@@ -146,10 +145,18 @@ const OrgStructurePage = () => {
           <Paper className={classes.paper}>
             <CSidebarNav>
               <CDataTable
-                fields={defaultProfileFields}
+                fields={fields}
                 items={ListProfile}
                 pagination={ListProfile.length > 15 ? true : false}
                 itemsPerPage={15}
+                scopedSlots={{
+                  "Position":(item)=>{
+                    return <td>{!item.Position?"":(item.Position.PositionName)}</td>
+                  },  
+                "OrgStructure":(item)=>{
+                  return <td>{!item.OrgStructure?"":`${item.OrgStructure.Code}-${item.OrgStructure.OrgStructureName}`}</td>
+                },  
+                }}
               />
             </CSidebarNav>
           </Paper>
@@ -160,3 +167,15 @@ const OrgStructurePage = () => {
 };
 
 export default OrgStructurePage;
+
+const fields=[
+  { _style: { width: "150px" }, key: "CodeEmp", label: "Mã nhân viên" },
+  { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
+  {
+    _style: { width: "300px" },
+    key: "OrgStructure",
+
+    label: "Phòng ban",
+  },
+  { _style: { width: "150px" }, key: "Position", label: "Chức vụ" },
+];

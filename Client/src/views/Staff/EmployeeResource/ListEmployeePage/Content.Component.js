@@ -6,30 +6,54 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    "& table": {
-      "table-layout": "fixed",
-    },
+    display: "grid",
+    padding: "4px",
+    borderRadius: "4px",
+    backgroundColor: "#e8eaf5",
   },
+  jss1:{
+    overflow: "auto",
+    maxWidth:"100%",
+    backgroundColor: "#fff",
+    borderRadius: "4px",
+    height:"80vh"
+  },
+  table:{
+    borderRadius: "4px",
+  }
 }));
 
 const Content = (props) => {
-  const { fields, data, RowsSelected, setRowsSelected } = props;
-  const handleClick = (item) => {
-    if (item.ProfileID === RowsSelected.ProfileID) setRowsSelected({});
-    else setRowsSelected(item);
-  };
 
+  const {data,fields,RowSelected,setRowSelected}=props
   const classes = useStyles();
+
+  const onSelectRow=(row)=>{
+    console.log(row)
+    if(RowSelected&&row.CodeEmp===RowSelected.CodeEmp){
+      return setRowSelected(null)
+    }  
+    setRowSelected(row)
+  }
+
   return (
+    
     <div className={classes.root}>
+    <div className={classes.jss1}>
       <CDataTable
+        addTableClasses={classes.table}
         fields={fields}
         items={data}
-        pagination={data.length > 15 ? true : false}
-        itemsPerPage={15}
-        onRowClick={handleClick}
+        pagination={data.length > 20 ? true : false}
+        itemsPerPage={20}
+        border
+        striped
+        size="sm"
+        onRowClick={onSelectRow}
       />
+      </div>
     </div>
+  
   );
 };
 export default Content;
