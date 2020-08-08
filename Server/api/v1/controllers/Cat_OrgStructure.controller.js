@@ -37,8 +37,7 @@ module.exports.getStructureTree = async (req, res) => {
     });
 
     return res.json(TreeCreate);
-  } 
-  catch (err) {
+  } catch (err) {
     return res.sendStatus(403);
   }
 };
@@ -58,39 +57,38 @@ module.exports.getListOrgID = async (req, res) => {
   }
 };
 
-module.exports.getListProfilePopulate = async (req, res) => {
-  try {
-    const Tree = await OrgStructureTreeModel.findOne({
-      rootID: "2D51E4D9-0E27-451F-83D8-04DA7D6B9797",
-    });
+// module.exports.getListProfilePopulate = async (req, res) => {
+//   try {
+//     const Tree = await OrgStructureTreeModel.findOne({
+//       rootID: "2D51E4D9-0E27-451F-83D8-04DA7D6B9797",
+//     });
 
-    const listOrgID = getListOrgID(Tree.StructureTree);
-    const ListProfile = await ProfilesModel.find({
-      OrgStructureID: { $in: listOrgID },
-    }).populate({
-      path: "Position",
-      select: { PositionName: 1 },
-      //justOne: true,
-    });
+//     const listOrgID = getListOrgID(Tree.StructureTree);
+//     const ListProfile = await ProfilesModel.find({
+//       OrgStructureID: { $in: listOrgID },
+//     }).populate({
+//       path: "Position",
+//       select: { PositionName: 1 },
+//       //justOne: true,
+//     });
 
-    
-    // .populate({
-    //   path: "OrgStructure",
-    //   //select: { _id: 0, E_COMPANY: 1 },
-    //   justOne: true,
-    // })
-    // .populate({
-    //   path: "Unit",
-    //   //select: { _id: 0, E_COMPANY: 1 },
-    //   justOne: true,
-    // });
+//     // .populate({
+//     //   path: "OrgStructure",
+//     //   //select: { _id: 0, E_COMPANY: 1 },
+//     //   justOne: true,
+//     // })
+//     // .populate({
+//     //   path: "Unit",
+//     //   //select: { _id: 0, E_COMPANY: 1 },
+//     //   justOne: true,
+//     // });
 
-    return res.json(ListProfile);
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(403);
-  }
-};
+//     return res.json(ListProfile);
+//   } catch (err) {
+//     console.log(err);
+//     return res.sendStatus(403);
+//   }
+// };
 
 module.exports.getListProfile = async (req, res) => {
   try {
@@ -104,7 +102,17 @@ module.exports.getListProfile = async (req, res) => {
       const listOrg = getListOrgID(Tree.StructureTree);
       const ListProfile = await ProfilesModel.find({
         OrgStructureID: { $in: listOrg },
-      });
+      })
+        .populate({
+          path: "OrgStructure",
+          select: { _id: 0, OrgStructureName: 1, Code: 1 },
+          justOne: true,
+        })
+        .populate({
+          path: "Position",
+          select: { PositionName: 1 },
+          justOne: true,
+        });
 
       return res.json(ListProfile);
     }
@@ -121,7 +129,17 @@ module.exports.getListProfile = async (req, res) => {
 
     const ListProfile = await ProfilesModel.find({
       OrgStructureID: { $in: listOrg },
-    });
+    })
+      .populate({
+        path: "OrgStructure",
+        select: { _id: 0, OrgStructureName: 1, Code: 1 },
+        justOne: true,
+      })
+      .populate({
+        path: "Position",
+        select: { PositionName: 1 },
+        justOne: true,
+      });
 
     await OrgStructureTreeModel.create({
       rootID: OrgStructureID,
