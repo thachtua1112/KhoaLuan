@@ -48,14 +48,14 @@ const theme = createMuiTheme({
   },
 });
 const fields = [
-  { key: 'ContractNo',_style: { width: '300px'}, label: "Số hợp đồng" },
+ // { key: 'ContractNo',_style: { width: '300px'}, label: "Số hợp đồng" },
   { key: 'CodeEmp',_style: { width: '300px'}, label: "Mã nhân viên"  },
   { key: 'ProfileName',_style: { width: '300px'},label: "Họ & tên" },
   { key: 'Gender',_style: { width: '150px'},label: "Giới tính"  },
   { key: 'DateSigned',_style: { width: '300px'},label: "Ngày kí"  },
   { key: 'DateStart',_style: { width: '300px'},label: "Ngày có hiệu lực"  },
   { key: 'DateEnd',_style: { width: '300px'},label: "Ngày hết hạn"  },
-  { key: 'JobDescription',_style: { width: '1000px'},label: "Mô tả"  },
+  //{ key: 'JobDescription',_style: { width: '1000px'},label: "Mô tả"  },
 
 
  /* {
@@ -99,21 +99,21 @@ const ExpireContractPage = () => {
   const up_CodeEmp = (e) =>{
     setCode(e.target.value);
   }
-  /*
+
   let filter = staff.filter(
     (contact)=>{
-      return contact.ProfileName.toLowerCase().indexOf(name.trim().toLowerCase()) !== -1;
+      return contact.profiles[0].ProfileName.toLowerCase().indexOf(name.trim().toLowerCase()) !== -1;
     }
   );
 
 let filter2 = filter.filter(
 (contact)=>{
-  return contact.CodeEmp.toLowerCase().indexOf(code.trim().toLowerCase()) !== -1;
+  return contact.profiles[0].CodeEmp.toLowerCase().indexOf(code.trim().toLowerCase()) !== -1;
 }
-);*/
-  return  isRedirec?<Redirect to='/nhan-su/hop-dong/tao-moi-hop-dong' />:(
+);
+  return  isRedirec?<Redirect to='/nhan-su/hop-dong/gia-han-hop-dong' />:(
           <CCard >
-            <CCardBody className={classes.paper} > <b>DANH SÁCH HỢP ĐỒNG HẾT HẠN {name}{code}</b>
+            <CCardBody className={classes.paper} > <b>DANH SÁCH HỢP ĐỒNG HẾT HẠN </b>
             <form className={classes.root} noValidate autoComplete="off">
                 <TextField
                   label="Tên nhân viên"
@@ -138,14 +138,14 @@ let filter2 = filter.filter(
                   onClick={()=>setIsRedirec(true)}
                   startIcon={<CloudUploadIcon />}
                 >
-                  Tạo mới
+                  Gia hạn
                 </Button>
               </ThemeProvider>
             </form>
 { load===false?<LinearProgress />:(
           <CSidebarNav>
             <CDataTable
-              items={staff}
+              items={filter2}
               fields={fields}
               hover
               size='sm'
@@ -159,7 +159,7 @@ let filter2 = filter.filter(
                 'Gender':
                   (item)=>(
                     <td>
-                      {getBadge(item.profiles.Gender)}
+                      {getBadge(item.profiles[0].Gender)}
                     </td>
                   ),
                   "DateHire":
@@ -171,13 +171,13 @@ let filter2 = filter.filter(
                   "ProfileName":
                   (item)=>(
                     <td>
-                      {item.profiles.ProfileName}
+                      {item.profiles[0].ProfileName}
                     </td>
                   ),
                   "CodeEmp":
                   (item)=>(
                     <td>
-                    {item.profiles.CodeEmp}
+                    {item.profiles[0].CodeEmp}
                     </td>
                   )
               }

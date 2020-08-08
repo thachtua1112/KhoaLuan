@@ -36,11 +36,11 @@ const theme = createMuiTheme({
   },
 });
 const fields = [
-  { key: 'CodeEmp', _style: { width: '10%'} },
-  { key: 'ProfileName', _style: { width: '25%'} },
-  { key: 'Gender', _style: { width: '10%'} },
-  { key: 'DateHire', _style: { width: '10%'} },
-  { key: 'DateContract', _style: { width: '10%'} },
+  { key: 'CodeEmp', _style: { width: '10%'}, label:"Mã nhân viên" },
+  { key: 'ProfileName', _style: { width: '25%'},  label:"Họ và tên" },
+  { key: 'Gender', _style: { width: '10%'}, label:"Giới tính" },
+  { key: 'DateHire', _style: { width: '10%'}, label:"Ngày tuyển" },
+  { key: 'DateContract', _style: { width: '10%'},  label:"Ngày kí hợp đồng" },
 
  /* {
     key: 'show_details',

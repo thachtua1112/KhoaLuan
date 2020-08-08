@@ -4,15 +4,14 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TableRow from '@material-ui/core/TableRow';
 
 import TableCell from '@material-ui/core/TableCell';
-import { GetContractTypeApi } from '../../../../callAPI/ContractTypes.api';
+import { GetContractTypeApi } from '../../../../../callAPI/ContractTypes.api';
 export default function ContractType(props) {
   const [contract, setContract]=useState([])
   const [type, setType]= useState("")
   const [name, setName]= useState("")
 
   const {
-    IDtypeContract,
-    ValueTimeContract
+    IDtypeContract
   }=props
 
   const up_Type = (e)=>{
@@ -74,7 +73,7 @@ export default function ContractType(props) {
       options={filterType}
       getOptionLabel={(option) => option.ValueTime}
       renderInput={(params) => <TextField {...params} size="small" variant="outlined" />}
-      onChange={(event, item) => {IDtypeContract(item==null?"":item.ID);ValueTimeContract(item==null?"":item.ValueTime)}}
+      onChange={(event, item) => IDtypeContract(item==null?"":item.ID)}
     />
     </TableCell>
     </TableRow>

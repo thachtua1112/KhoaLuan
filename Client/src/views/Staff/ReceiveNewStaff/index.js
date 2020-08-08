@@ -111,6 +111,7 @@ const ReceiveNewStaffPage = () => {
           <CSidebarNav>
           {loadFiles===null?"Chọn danh sách cần tiếp nhận":(
             <CDataTable
+            
               items={loadFiles}
               hover
               size='sm'

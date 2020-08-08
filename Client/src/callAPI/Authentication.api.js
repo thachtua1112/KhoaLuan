@@ -1,10 +1,13 @@
 import callAPI from "./callAPI";
-
+import callAPIlogin from './callAPILogin'
 export function LoginAPI(body) {
-  return callAPI("/user/login", "POST", body);
+  return callAPIlogin("/user/login", "POST", body);
 }
 export function RegisterApi(body) {
   return callAPI("/user/register", "POST", body);
+}
+export function DecodeTokenApi(body) {
+  return callAPI("/user/getinfor", "GET", null);
 }
 // HAHA class AuthenticationAPI {
 //   login = (params) => {

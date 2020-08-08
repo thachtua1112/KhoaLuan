@@ -26,7 +26,7 @@ import { CInput, CSelect } from '@coreui/react';
 import ContractNumber from './getContract';
 import GetStaff from './getStaff';
 import  ContractType  from './getContractType';
-import {CreateContractApi} from '../../../../callAPI/Hre_Contract.api'
+import {CreateContractApi} from '../../../../../callAPI/Hre_Contract.api'
 const columns = [
   { id: 'name', label: 'Tên khoản phụ cấp',  align: 'center',minWidth: 170 },
   {
@@ -72,17 +72,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
-export default function NewContractPage() {
+export default function ExtendContractPage() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [ContractNo, setContractNo] = useState("")
   const [IdContractType, setIdContractType] = useState("")
   const [IdProfile, SetIdProfile] = useState([])
   const [salary,seSalary] = useState(0);
-  const [StartDay, SetStartDay] = useState(new Date());
-  const [EndDay, SetEndDay] = useState(new Date());
-  const [DateSignature,setDateSignature]=useState(new Date())
-  const [ValueTimeContract, setValueTimeContract] = useState(null)
+  const [StartDay, SetStartDay] = useState(null);
+  const [DateSignature,setDateSignature]=useState(null)
   /*const callbackContractType = (childData) => {
     const Id = {...IdContractType,childData}
     setIdContractType(Id)
@@ -92,27 +90,25 @@ export default function NewContractPage() {
     seSalary(e.target.value)
   }
   const Up_StartDay = (e)=>{
-    SetStartDay(new Date(e.target.value).toLocaleString('en-GB'))
-    SetEndDay(new Date(e.target.value))
+    SetStartDay(e.target.value)
   }
   const upload = ()=>{
     setOpen(false);
-    EndDay.setMonth(EndDay.getMonth()+parseInt(ValueTimeContract))
     let i=IdProfile.length;
     if(i!==0){
       alert("Thêm thành công")
       while(i!==0)
       {
         CreateContractApi(qs.stringify({
-          ProfileID1:IdProfile[i-1].ProfileID,
+          ProfileID1:IdProfile[i-1].CodeEmp,
           ContractNo:ContractNo,
           ContractTypeID:IdContractType,
-          DateSigned:new Date (DateSignature).toLocaleString('en-GB'),
+          DateSigned:DateSignature,
           DateCreate:new Date(),
           DateStart: StartDay,
           Salary:salary,
-          UserCreate:localStorage.getItem('username')==null?"":localStorage.getItem('username'),
-          DateEnd:new Date(EndDay).toLocaleString('en-GB')
+          //UserCreate:localStorage.getItem('user'),
+          //DateEnd:StartDay
         }))
         i--;
       }
@@ -176,21 +172,23 @@ export default function NewContractPage() {
         <Table stickyHeader aria-label="sticky table">
         <TableBody>
 
-          <GetStaff IdStaff={SetIdProfile} DateSignature={setDateSignature}/>
+  {<GetStaff IdStaff={SetIdProfile} DateSignature={setDateSignature}/>}
           <TableRow hover role="checkbox" tabIndex={-1} >
             <TableCell>
               Số hợp đồng
               <ContractNumber ContractNo ={setContractNo}/>
+            </TableCell>
+            <TableCell>
             Lương cơ bản
             <CInput onChange={Up_Salary} type = "number" required min = "1000000" ></CInput>
           </TableCell>
             <TableCell>
             Ngày có hiệu lực
-            <CInput onChange={Up_StartDay} type="date" data-date-format="MMMM DD YYYY"></CInput>
+            <CInput onChange={Up_StartDay} type="date" ></CInput>
             </TableCell>
 
           </TableRow>
-          <ContractType IDtypeContract={setIdContractType} ValueTimeContract={setValueTimeContract}/>
+          <ContractType IDtypeContract={setIdContractType}/>
         </TableBody>
         </Table>
       </TableContainer>

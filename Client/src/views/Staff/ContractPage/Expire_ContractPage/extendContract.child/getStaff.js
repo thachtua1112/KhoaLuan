@@ -7,7 +7,7 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import { Notyet_ContractApi } from '../../../../callAPI/Hre_Contract.api';
+import { Expire_ContractApi } from '../../../../../callAPI/Hre_Contract.api';
 //import { GetHre_Profie_Api } from '../../../../callAPI/Hre_Profile.api';
 import { CInput } from '@coreui/react';
 
@@ -19,10 +19,10 @@ export default function GetStaff(props) {
   const [Staff, setStaff]=useState([])
   useEffect(()=>{
 
-    Notyet_ContractApi().then(res=>{
+    Expire_ContractApi().then(res=>{
       if(res.data)
       {
-        return setStaff(res.data)
+       setStaff(res.data)
       }
     })
   },[])
@@ -48,7 +48,7 @@ export default function GetStaff(props) {
           //id="checkboxes-tags-demo"
           options={code.length<=0?Staff:code}
           disableCloseOnSelect
-          getOptionLabel={(option) => option.ProfileName}
+          getOptionLabel={(option) => option.profiles[0].ProfileName}
           renderOption={(option, { selected }) => (
             <React.Fragment>
               <Checkbox
@@ -56,7 +56,7 @@ export default function GetStaff(props) {
                 checkedIcon={checkedIcon}
                 checked={selected}
               />
-              {option.ProfileName}
+              {option.profiles[0].ProfileName}
             </React.Fragment>
           )}
           onChange={(event,item)=>{up_name(item==null?"":item);IdStaff(item==null?"":item)}}
@@ -73,7 +73,7 @@ export default function GetStaff(props) {
           id="checkboxes-tags-demo"
           options={name.length<=0?Staff:name}
           disableCloseOnSelect
-          getOptionLabel={(option) => option.CodeEmp}
+          getOptionLabel={(option) => option.profiles[0].CodeEmp}
           renderOption={(option, { selected }) => (
             <React.Fragment>
               <Checkbox
@@ -81,7 +81,7 @@ export default function GetStaff(props) {
                 checkedIcon={checkedIcon}
                 checked={selected}
               />
-              {option.CodeEmp}
+              {option.profiles[0].CodeEmp}
             </React.Fragment>
           )}
           onChange={(event,item)=>{up_Code(item==null?"":item)}}
@@ -92,7 +92,7 @@ export default function GetStaff(props) {
     </TableCell>
     <TableCell>
     Ngày kí hợp đồng
-      <CInput onChange={(e)=>DateSignature(e.target.value)} data-date-format="MMMM DD YYYY" type="date" ></CInput>
+      <CInput onChange={(e)=>DateSignature(e.target.value)} type="date" ></CInput>
     </TableCell>
   </TableRow>
   );

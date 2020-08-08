@@ -54,6 +54,7 @@ const Login = () => {
       {
        localStorage.setItem("token",res.data.accessToken);
        localStorage.setItem("RefreshToken",res.data.refreshToken);
+       localStorage.setItem('username',name)
        console.log(localStorage.getItem("token"))
        setisRedirect(true);
        return;
