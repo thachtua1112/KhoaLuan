@@ -11,6 +11,8 @@ import { CInput } from '@coreui/react';
 import EditIcon from '@material-ui/icons/Edit';
 import { IconButton } from "@material-ui/core";
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
+import { UpDateProfileApi } from '../../../../callAPI/Hre_Profile.api';
+import qs from 'qs'
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -38,7 +40,26 @@ const Infor= (props)=>{
   }
   const On_update = (item)=>{
     setEdit(false)
-
+    console.log(data[0].ID)
+    if(phone.trim()!=="" || address.trim()!=="")
+    {
+      if(phone.trim()==="")
+      {
+        return UpDateProfileApi(data[0].ID,qs.stringify({
+          PAddress:address
+         }))
+      }
+      if(address.trim()==="")
+      {
+        return UpDateProfileApi(data[0].ID,qs.stringify({
+          Cellphone:phone,
+         }))
+      }
+      return UpDateProfileApi(data[0].ID,qs.stringify({
+      Cellphone:phone,
+      PAddress:address
+     }))
+    }
   }
   return(
     <Paper >

@@ -146,7 +146,7 @@ const ContractPage = () => {
           <CCard>
             <CCardBody> <b>DANH SÁCH HỢP ĐỒNG</b>
             <form className={classes.root} noValidate autoComplete="off">
-                <TextField
+              <TextField
                   label="Tên nhân viên"
                   id="outlined-size-small"
                   variant="outlined"

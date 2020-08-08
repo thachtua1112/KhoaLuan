@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { generate } from "shortid";
@@ -22,8 +21,12 @@ import Slide from '@material-ui/core/Slide';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-
+import qs from 'qs'
 import { CInput, CSelect } from '@coreui/react';
+import ContractNumber from './getContract';
+import GetStaff from './getStaff';
+import  ContractType  from './getContractType';
+import {CreateContractApi} from '../../../../callAPI/Hre_Contract.api'
 const columns = [
   { id: 'name', label: 'Tên khoản phụ cấp',  align: 'center',minWidth: 170 },
   {
@@ -54,6 +57,7 @@ const columns = [
 const useStyles = makeStyles({
   root: {
     width: '100%',
+    height: "100vh"
   },
   container: {
     maxHeight: 440,
@@ -71,7 +75,50 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function NewContractPage() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-//Các khoản phụ cấp
+  const [ContractNo, setContractNo] = useState("")
+  const [IdContractType, setIdContractType] = useState("")
+  const [IdProfile, SetIdProfile] = useState([])
+  const [salary,seSalary] = useState(0);
+  const [StartDay, SetStartDay] = useState(null);
+  const [DateSignature,setDateSignature]=useState(null)
+  /*const callbackContractType = (childData) => {
+    const Id = {...IdContractType,childData}
+    setIdContractType(Id)
+  }
+*/
+  const Up_Salary = (e)=>{
+    seSalary(e.target.value)
+  }
+  const Up_StartDay = (e)=>{
+    SetStartDay(e.target.value)
+  }
+  const upload = ()=>{
+    setOpen(false);
+    let i=IdProfile.length;
+    if(i!==0){
+      alert("Thêm thành công")
+      while(i!==0)
+      {
+        CreateContractApi(qs.stringify({
+          ProfileID1:IdProfile[i-1].CodeEmp,
+          ContractNo:ContractNo,
+          ContractTypeID:IdContractType,
+          DateSigned:DateSignature,
+          DateCreate:new Date(),
+          DateStart: StartDay,
+          Salary:salary,
+          //UserCreate:localStorage.getItem('user'),
+          //DateEnd:StartDay
+        }))
+        i--;
+      }
+      return;
+    }
+    return alert("Thêm không thành công, bạn đã bỏ qua mục nào đó rồi, à hihi")
+  }
+
+  //phụ cấp
+  //Các khoản phụ cấp
   const [TenPC, setTenPC] = useState("");
   const [thue, setThue] =useState("");
   const [tien, setTien] = useState("");
@@ -93,12 +140,9 @@ export default function NewContractPage() {
   const GhiChu =(e)=>{
     setGhi(e.target.value);
   }
- const [state, setState]=useState([])
-  //console.log("1",state)
-
-
+  const [state, setState]=useState([])
   const Add_Row = ()=>{
-    console.log("1",state)
+
     const Get_TenPCnew=[...state,{
       id:generate(),
       ten:TenPC,
@@ -107,24 +151,12 @@ export default function NewContractPage() {
       luong:luong,
       ghichu:ghi
     }]
-
     setState(Get_TenPCnew)
-console.log("2",state)
   }
 
   const Delete_Row = (idRow)=>{
-
-    /* Get_TenPC.splice(idRow,1);
-    setState(Get_TenPC)
-     console.log(state);*/
-
      const index=state.findIndex((item)=>idRow===item.id)
-     console.log(state.length)
-     console.log(index)
-
      setState([...state.slice(0,index),...state.slice(index+1,state.length)])
-     console.log(state.length)
-
   }
   const handleClickOpen = () => {
     setOpen(true);
@@ -135,95 +167,33 @@ console.log("2",state)
   };
 
   return (
-    <div>
-    <Paper className={classes.root}>{TenPC}
+  <Paper className={classes.root}>{TenPC}
       <TableContainer>
         <Table stickyHeader aria-label="sticky table">
         <TableBody>
+
+          <GetStaff IdStaff={SetIdProfile} DateSignature={setDateSignature}/>
           <TableRow hover role="checkbox" tabIndex={-1} >
             <TableCell>
               Số hợp đồng
-              <CInput type= "text"></CInput>
+              <ContractNumber ContractNo ={setContractNo}/>
             </TableCell>
             <TableCell>
-              Ngày có hiệu lực
-            <CInput type="date"></CInput>
-            </TableCell>
-          </TableRow>
-
-          <TableRow hover role="checkbox" tabIndex={-1}>
-            <TableCell>
-              Tên hợp đồng <CInput type= "text"></CInput>
-            </TableCell>
-            <TableCell>
-              Họ & tên <CInput type= "text"></CInput>
-            </TableCell>
-            <TableCell>
-              Mã nhân viên <CInput type= "text"></CInput>
-            </TableCell>
-          </TableRow>
-
-          <TableRow hover role="checkbox" tabIndex={-1}>
-            <TableCell>
-              Loại hợp đồng
-              <CSelect>
-                <option>
-                  Hợp đồng 1
-                </option>
-                <option>
-                  Hợp đồng 2
-                </option>
-                <option>
-                  Hợp đồng 3
-                </option>
-              </CSelect>
-            </TableCell>
-            <TableCell>
-              Thời hạn hợp đồng (năm)
-              <CInput type = "number" required min = "1" max = "10"></CInput>
-            </TableCell>
+            Lương cơ bản
+            <CInput onChange={Up_Salary} type = "number" required min = "1000000" ></CInput>
+          </TableCell>
             <TableCell>
             Ngày có hiệu lực
-            <CInput type="date" ></CInput>
+            <CInput onChange={Up_StartDay} type="date" ></CInput>
             </TableCell>
+
           </TableRow>
-          <TableRow hover role="checkbox" tabIndex={-1}>
-            <TableCell>
-              Vị trí công việc
-              <CSelect>
-                <option>
-                 Công việc 1
-                </option>
-                <option>
-                Công việc 2
-                </option>
-                <option>
-                Công việc 3
-                </option>
-              </CSelect>
-            </TableCell>
-            <TableCell>
-            Đơn vị công tác
-            <CSelect>
-              <option>
-               Công tác 1
-              </option>
-              <option>
-              Công tác 2
-              </option>
-              <option>
-              Công tác 3
-              </option>
-            </CSelect>
-            </TableCell>
-          </TableRow>
+          <ContractType IDtypeContract={setIdContractType}/>
         </TableBody>
         </Table>
       </TableContainer>
-    </Paper>
 <hr/>
   <b><h4>Các khoản phụ cấp</h4></b>
-    <Paper className={classes.root}>
       <TableContainer className={classes.container}>
         <Table stickyHeader  aria-label="sticky table">
             <TableHead   className={classes.background}>
@@ -322,8 +292,7 @@ console.log("2",state)
             </TableBody>
         </Table>
       </TableContainer>
-    </Paper>
-    <Button onClick={handleClickOpen} variant="contained" color="primary"> Thêm</Button>
+      <Button onClick={handleClickOpen} variant="contained" color="primary"> Thêm</Button>
     <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -342,11 +311,12 @@ console.log("2",state)
           <Button onClick={handleClose} color="primary">
             Cancle
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={upload} color="primary">
             Ok
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+  </Paper>
+
   );
 }

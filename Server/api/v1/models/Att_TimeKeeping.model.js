@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const TimeKeepingRoute = require("../routes/Att_TimeKeeping.route");
 const Schema = mongoose.Schema;
 
 const Att_TimeKeepingSchema = new Schema({
@@ -70,3 +69,4 @@ const Att_TimeKeepingModel = mongoose.model(
 );
 
 module.exports = Att_TimeKeepingModel;
+

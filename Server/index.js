@@ -28,7 +28,7 @@ mongoose.set("useCreateIndex", true);
 mongoose.set("useUnifiedTopology", true);
 
 mongoose
-  .connect(DB_URL, { useNewUrlParser: true })
+  .connect(DB_URL, { useNewUrlParser: true, useFindAndModify:false })
   .then(() => console.log("DB Connected!"));
 db.on("error", (err) => {
   console.log("DB connection error:", err.message);

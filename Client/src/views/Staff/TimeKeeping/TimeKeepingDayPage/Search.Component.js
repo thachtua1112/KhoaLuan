@@ -154,7 +154,7 @@ const Search = (props) => {
             <Autocomplete
               options={OrgStructure}
               onChange={(event, item) => {
-                setOrgStructureID(item.ID);
+                setOrgStructureID(item==null?"":item.ID);
               }}
               getOptionLabel={(option) =>
                 `${option.OrgStructureName}-${option.Code}`

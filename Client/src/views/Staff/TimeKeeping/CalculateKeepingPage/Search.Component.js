@@ -121,7 +121,7 @@ const Search = (props) => {
             <Autocomplete
               options={OrgStructure}
               onChange={(event, item) => {
-                setOrgStructureID(item.ID);
+                setOrgStructureID(item==null?"":item.ID);
               }}
               getOptionLabel={(option) =>
                 `${option.OrgStructureName}-${option.Code}`
@@ -149,8 +149,8 @@ const Search = (props) => {
                   format="MM/yyyy"
                   value={Date1}
                   onChange={(date) => setDate1(date)}
-                 
-                />          
+
+                />
               </div>
             </MuiPickersUtilsProvider>
           </FormControl>
