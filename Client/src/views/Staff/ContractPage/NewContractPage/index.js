@@ -181,6 +181,8 @@ export default function NewContractPage() {
             <TableCell>
               Số hợp đồng
               <ContractNumber ContractNo ={setContractNo}/>
+              </TableCell>
+              <TableCell>
             Lương cơ bản
             <CInput onChange={Up_Salary} type = "number" required min = "1000000" ></CInput>
           </TableCell>

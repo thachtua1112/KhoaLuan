@@ -79,8 +79,10 @@ export default function ExtendContractPage() {
   const [IdContractType, setIdContractType] = useState("")
   const [IdProfile, SetIdProfile] = useState([])
   const [salary,seSalary] = useState(0);
-  const [StartDay, SetStartDay] = useState(null);
-  const [DateSignature,setDateSignature]=useState(null)
+  const [StartDay, SetStartDay] = useState(new Date());
+  const [EndDay, SetEndDay] = useState(new Date());
+  const [DateSignature,setDateSignature]=useState(new Date())
+  const [ValueTimeContract, setValueTimeContract] = useState(null)
   /*const callbackContractType = (childData) => {
     const Id = {...IdContractType,childData}
     setIdContractType(Id)
@@ -90,25 +92,27 @@ export default function ExtendContractPage() {
     seSalary(e.target.value)
   }
   const Up_StartDay = (e)=>{
-    SetStartDay(e.target.value)
+    SetStartDay(new Date(e.target.value).toLocaleString('en-GB'))
+    SetEndDay(new Date(e.target.value))
   }
   const upload = ()=>{
     setOpen(false);
+    EndDay.setMonth(EndDay.getMonth()+parseInt(ValueTimeContract))
     let i=IdProfile.length;
     if(i!==0){
       alert("Thêm thành công")
       while(i!==0)
       {
         CreateContractApi(qs.stringify({
-          ProfileID1:IdProfile[i-1].CodeEmp,
+          ProfileID1:IdProfile[i-1].ProfileID,
           ContractNo:ContractNo,
           ContractTypeID:IdContractType,
-          DateSigned:DateSignature,
+          DateSigned:new Date (DateSignature).toLocaleString('en-GB'),
           DateCreate:new Date(),
           DateStart: StartDay,
           Salary:salary,
-          //UserCreate:localStorage.getItem('user'),
-          //DateEnd:StartDay
+          UserCreate:localStorage.getItem('username')==null?"":localStorage.getItem('username'),
+          DateEnd:new Date(EndDay).toLocaleString('en-GB')
         }))
         i--;
       }
@@ -172,23 +176,22 @@ export default function ExtendContractPage() {
         <Table stickyHeader aria-label="sticky table">
         <TableBody>
 
-  {<GetStaff IdStaff={SetIdProfile} DateSignature={setDateSignature}/>}
+          <GetStaff IdStaff={SetIdProfile} DateSignature={setDateSignature}/>
           <TableRow hover role="checkbox" tabIndex={-1} >
             <TableCell>
               Số hợp đồng
               <ContractNumber ContractNo ={setContractNo}/>
             </TableCell>
             <TableCell>
-            Lương cơ bản
-            <CInput onChange={Up_Salary} type = "number" required min = "1000000" ></CInput>
-          </TableCell>
+              Lương cơ bản
+              <CInput onChange={Up_Salary} type = "number" required min = "1000000" ></CInput>
+            </TableCell>
             <TableCell>
             Ngày có hiệu lực
-            <CInput onChange={Up_StartDay} type="date" ></CInput>
+            <CInput onChange={Up_StartDay} type="date" data-date-format="MMMM DD YYYY"></CInput>
             </TableCell>
-
           </TableRow>
-          <ContractType IDtypeContract={setIdContractType}/>
+          <ContractType IDtypeContract={setIdContractType} ValueTimeContract={setValueTimeContract}/>
         </TableBody>
         </Table>
       </TableContainer>

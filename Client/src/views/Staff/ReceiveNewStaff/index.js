@@ -16,6 +16,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import {csv} from 'd3'
 import { CreateNewStaffApi } from '../../../callAPI/Hre_Profile.api';
+import { ProfileFields } from './fielsProfile';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,6 +74,13 @@ const ReceiveNewStaffPage = () => {
       }
     }
   }
+  const getBadge = Gender => {
+    console.log(Gender)
+    switch (Gender) {
+      case 'E_FEMALE': return 'Nữ';
+      default: return 'Nam'
+    }
+  }
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -111,7 +119,7 @@ const ReceiveNewStaffPage = () => {
           <CSidebarNav>
           {loadFiles===null?"Chọn danh sách cần tiếp nhận":(
             <CDataTable
-            
+              fields={ProfileFields}
               items={loadFiles}
               hover
               size='sm'
@@ -120,6 +128,14 @@ const ReceiveNewStaffPage = () => {
               itemsPerPage={15}
               pagination
               clickableRows
+              scopedSlots = {{
+                'Gender':
+                  (item)=>(
+
+                    <td>
+                      {getBadge(item.Gender)}
+                    </td>
+                  )}}
             />
             )}
           </CSidebarNav>

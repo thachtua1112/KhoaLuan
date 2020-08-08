@@ -21,7 +21,7 @@ const Personnel = (props) => {
   useEffect(() => {
     GetHre_Profie_Api(params).then((res) => {
       if (res.data) {
-        setInfor(res.data);
+        setInfor([res.data]);
       }
     });
   }, [params]);

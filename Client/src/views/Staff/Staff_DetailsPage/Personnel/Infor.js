@@ -133,9 +133,9 @@ const Infor= (props)=>{
             <TableRow>
               <TableCell><IconButton onClick={On_edit}><EditIcon/></IconButton></TableCell>
               <TableCell align="right"><b>Số điện thoại</b></TableCell>
-              <TableCell>{phone===''? index.Cellphone :phone   }</TableCell>
+              <TableCell colSpan='2'>{phone===''? index.Cellphone :phone   }</TableCell>
               <TableCell align="right"><b>Địa chỉ</b></TableCell>
-              <TableCell>{address ===''?index.PAddress:address}</TableCell>
+              <TableCell colSpan='3'>{address ===''?index.PAddress:address}</TableCell>
             </TableRow>
           ):
           (
