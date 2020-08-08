@@ -1,75 +1,60 @@
-import React, { useEffect, useState } from "react";
-
-import ProfileAPI from "../../../../callAPI/Profile.api";
-
-import { makeStyles } from "@material-ui/core/styles";
+import React, {  useState } from "react";
 
 import { Grid, Paper } from "@material-ui/core";
 
-import { CSidebarNav } from "@coreui/react";
-
 import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
+
+import { makeStyles } from "@material-ui/core/styles";
 import Content from "./Content.Component";
 
-import { ProfileFields, defaultProfileFields } from "../../utils/fieldsProfile";
+import {defaultProfileFields} from "../../utils/fieldsProfile"
+
+import  ProfileAPI  from "../../../../callAPI/Profile.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    //height: "100vh" ,
-    
   },
-  search: { paddingLeft: theme.spacing(1) },
-  toolbar: {
-    paddingLeft: theme.spacing(0),
-    //marginBottom: "0px",
-    marginTop: "4px",
-  },
-  content: { height: "75vh", paddingLeft: theme.spacing(1) },
+  search: {},
+  toolbar: {},
+  content: {},
 }));
 
-const ListEmployeePage = () => {
+const ListEmployeePage = (props) => {
   const classes = useStyles();
 
-  const [ListEmployee, setListEmployee] = useState([]);
-  const [RowsSelected, setRowsSelected] = useState({});
-  const [FieldsShow, setFieldsShow] = useState(defaultProfileFields);
+  const [Filter, setFilter] = useState({});
+  const [RowSelected, setRowSelected] = useState(null)
+  const [ListProfile, setListProfile] = useState([])
 
-  useEffect(() => {
-    const fetchAPI = async () => {
-      const res = await ProfileAPI.getProfiles();
-
-      setListEmployee(res.data);
-    };
-    fetchAPI();
-  }, []);
+  const onSearch = async () => {
+    try {
+      const res = await ProfileAPI.getProfiles(Filter);
+      // const res=await axios.get("http://localhost:3001/api/v1/profiles",{
+      //   data:"abc"
+      // })
+      setListProfile(res.data)
+    } catch (error) {
+      console.log("DanhSachNhanVien ProfileAPI ERR", error);
+    }
+  };
 
   return (
-    <Grid container className={classes.root}>
-      <Grid item xs={12}>
-        <Paper className={classes.search}>{<Search />}</Paper>
-      </Grid>
-      <Grid item xs={12}>
-        <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar
-            setFieldsShow={setFieldsShow}
-            ProfileFields={ProfileFields}
-            RowsSelected={RowsSelected}
-            defaultProfileFields={defaultProfileFields}
-          />
+    <Grid>
+      <Grid item>
+        <Paper variant="outlined" className={classes.search}>
+          <Search Filter={Filter} setFilter={setFilter} />
         </Paper>
       </Grid>
-      <Grid item xs={12}>
-        <Paper className={classes.content}>
-          <CSidebarNav>
-            <Content
-              RowsSelected={RowsSelected}
-              setRowsSelected={setRowsSelected}
-              fields={FieldsShow}
-              data={ListEmployee}
-            />
-          </CSidebarNav>
+      <Grid item>
+        <Paper variant="outlined" className={classes.toolbar}>
+          <ToolBar onSearch={onSearch} RowSelected={RowSelected} />
+        </Paper>
+      </Grid>
+      <Grid item>
+        <Paper variant="outlined" className={classes.content}>
+          <Content data={ListProfile} fields={defaultProfileFields}  RowSelected={RowSelected} setRowSelected={setRowSelected}/>
         </Paper>
       </Grid>
     </Grid>

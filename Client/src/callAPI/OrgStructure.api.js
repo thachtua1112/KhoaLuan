@@ -20,4 +20,12 @@ const getListProfile = (OrgStructureID) => {
   );
 };
 
-export default { getListProfile, getStructureTree, getListOrg };
+const getListOrgStructure = (OrgStructureID) => {
+  return callAPI(
+    `/org-structures`,
+    "GET",
+    {}
+  );
+};
+
+export default { getListProfile, getStructureTree, getListOrg ,getListOrgStructure};

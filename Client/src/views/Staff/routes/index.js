@@ -113,7 +113,7 @@ const staffRoute = [
   },
   {
     path: "/cham-cong/tong-hop-cong",
-    name: "Chấm công",
+    name: "Tổng hợp công",
     exact: true,
     component: CalculateKeepingPage,
   },

@@ -94,12 +94,13 @@ const Search = (props) => {
           Mã nhân viên
           <TextField
             value={!CodeEmp ? "" : CodeEmp}
-            variant="outlined"
-            size="small"
-            fullWidth
             onChange={(event) => {
               setCodeEmp(event.target.value);
             }}
+            placeholder="Vui lòng nhập"
+            variant="outlined"
+            size="small"
+            fullWidth
           />
         </Grid>
         <Grid item xs={3}>
@@ -154,7 +155,11 @@ const Search = (props) => {
             </MuiPickersUtilsProvider>
           </FormControl>
         </Grid>
-        <Grid className={classes.paper} container spacing={2}>  <Grid item xs={3}>  <Button onClick={calculateTimeKeeping} startIcon={<ExposureIcon />}> tổng hợp công</Button> </Grid></Grid>
+        <Grid className={classes.paper} container spacing={2}>
+          <Grid item xs={3}>  <Button variant="outlined"
+        onClick={calculateTimeKeeping} startIcon={<ExposureIcon />}> tổng hợp công</Button> 
+        </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
       "& table": {
         "table-layout": "fixed",
       },
+      "& table> tbody > tr.selected ":{
+        "background-color":"#89cdf9",      
+      },
     height: "100vh",
   },
 }))

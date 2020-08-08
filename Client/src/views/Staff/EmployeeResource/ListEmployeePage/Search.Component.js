@@ -1,100 +1,160 @@
-import React from "react";
+import React, { useState ,useEffect} from "react";
 
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import { makeStyles } from "@material-ui/core/styles";
-import { MenuItem, FormControl } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
 
-//import Autocomplete from "@material-ui/lab/Autocomplete";
+import {
+  MenuItem,
+  FormControl,
+  Grid,
+  TextField,
+  makeStyles,
+} from "@material-ui/core";
 
-// import "date-fns";
-// import DateFnsUtils from "@date-io/date-fns";
-// import {
-//   MuiPickersUtilsProvider,
-//   KeyboardDatePicker,
-// } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+import {
+  MuiPickersUtilsProvider,
+  KeyboardDatePicker,
+} from "@material-ui/pickers";
+
+import OrgStructureAPI from "../../../../callAPI/OrgStructure.api"
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    paddingTop: theme.spacing(2),
+    padding: theme.spacing(1),
   },
   paper: {
-    padding: theme.spacing(1),
-    paddingTop: theme.spacing(1),
-    //textAlign: "center",
+    //padding: theme.spacing(1),
   },
   date: {
-    width: theme.spacing(25),
+    width: theme.spacing(24),
     marginRight: theme.spacing(2),
   },
 }));
 
 const Search = (props) => {
   const classes = useStyles();
+  const { Filter, setFilter } = props;
 
-  const handleChange = (event) => {
-    console.log("name", event.target.name);
-    console.log("value", event.target.value);
-  };
+  const [ListOrgStructure, setListOrgStructure] = useState(initOrgStructure);
+
+  useEffect(()=>{
+    const fetchAPI=async()=>{
+      const res= await OrgStructureAPI.getListOrgStructure()
+      setListOrgStructure(res.data)
+    }
+    fetchAPI()
+  },[])
+
 
   return (
     <Grid className={classes.root} container spacing={1}>
       <Grid className={classes.paper} container spacing={2}>
         <Grid item xs={3}>
           Mã nhân viên
-          <TextField variant="outlined" size="small" fullWidth />
+          <TextField
+            placeholder="Vui lòng nhập"
+            value={!Filter.CodeEmp ? "" : Filter.CodeEmp}
+            onChange={(event) => {
+              if ("" !== event.target.value.trim())
+                return setFilter({
+                  ...Filter,
+                  ...{ CodeEmp: event.target.value.trim() },
+                });
+              const { CodeEmp, ...FilterNew } = Filter;
+              setFilter(FilterNew);
+            }}
+            variant="outlined"
+            size="small"
+            fullWidth
+          />
         </Grid>
         <Grid item xs={3}>
           Tên nhân viên
-          <TextField variant="outlined" size="small" fullWidth />
+          <TextField
+            value={!Filter.ProfileName ? "" : Filter.ProfileName}
+            onChange={(event) => {
+              if ("" !== event.target.value.trim())
+                return setFilter({
+                  ...Filter,
+                  ...{ ProfileName: event.target.value.trim() },
+                });
+              const { ProfileName, ...FilterNew } = Filter;
+              setFilter(FilterNew);
+            }}
+            placeholder="Vui lòng nhập"
+            variant="outlined"
+            size="small"
+            fullWidth
+          />
         </Grid>
         <Grid item xs={3}>
           Số CMND
-          <TextField variant="outlined" size="small" fullWidth />
+          <TextField
+            value={!Filter.IDNo1 ? "" : Filter.IDNo1}
+            onChange={(event) => {
+              if ("" !== event.target.value.trim())
+                return setFilter({
+                  ...Filter,
+                  ...{ IDNo1: event.target.value.trim() },
+                });
+              const { IDNo1, ...FilterNew } = Filter;
+              setFilter(FilterNew);
+            }}
+            placeholder="Vui lòng nhập"
+            variant="outlined"
+            size="small"
+            fullWidth
+          />
         </Grid>
         <Grid item xs={3}>
-          <FormControl fullWidth>
-            Giới tính
-            {
-              <TextField
-                size="small"
-                select
-                value={""}
-                name="Gender"
-                // style={{ width: "100px" }}
-                variant="outlined"
-                onChange={handleChange}
-              >
-                {Gender.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            }
-          </FormControl>
+          Thẻ căn cước CD
+          <TextField
+            value={!Filter.IDNo2 ? "" : Filter.IDNo2}
+            onChange={(event) => {
+              if ("" !== event.target.value.trim())
+                return setFilter({
+                  ...Filter,
+                  ...{ IDNo2: event.target.value.trim() },
+                });
+              const { IDNo2, ...FilterNew } = Filter;
+              setFilter(FilterNew);
+            }}
+            placeholder="Vui lòng nhập"
+            variant="outlined"
+            size="small"
+            fullWidth
+          />
         </Grid>
       </Grid>
       <Grid className={classes.paper} container spacing={2}>
         <Grid item xs={3}>
           Phòng ban
           {
-            //   <Autocomplete
-            //   id="combo-box-demo"
-            //   value={1}
-            //   options={[
-            //     { id: 1, title: "abc" },
-            //     { id: 2, title: "abcD" },
-            //     { id: 3, title: "abcE" },
-            //   ]}
-            //   name="PHONGAN"
-            //   //onChange={handleChange}
-            //   getOptionLabel={(option) => option.title}
-            //   renderInput={(params) => (
-            //     <TextField {...params} size="small" variant="outlined" />
-            //   )}
-            // />
+            <Autocomplete
+              filterSelectedOptions
+              multiple
+              limitTags={3}
+              defaultValue={[]}
+              options={ListOrgStructure}
+              getOptionLabel={(option) =>
+                `${option.OrgStructureName}-${option.Code}`
+              }
+              getOptionSelected={(option, value) => option.ID === value.ID}
+              renderInput={(params) => (
+                <TextField {...params} size="small" variant="outlined" />
+              )}
+              onChange={(event, item) => {
+                if (0 < item.length) {
+                  return setFilter({
+                    ...Filter,
+                    ...{ OrgStructureID: { $in: item.map((i) => i.ID) } },
+                  });
+                }
+                const { OrgStructureID, ...FilterNew } = Filter;
+                setFilter(FilterNew);
+              }}
+            />
           }
         </Grid>
 
@@ -103,14 +163,21 @@ const Search = (props) => {
             Chức vụ
             {
               <TextField
+                value={!Filter.PositionID ? "" : Filter.PositionID}
+                onChange={(event) => {
+                  if ("" !== event.target.value.trim())
+                    return setFilter({
+                      ...Filter,
+                      ...{ PositionID: event.target.value.trim() },
+                    });
+                  const { PositionID, ...FilterNew } = Filter;
+                  setFilter(FilterNew);
+                }}
                 size="small"
                 select
-                value={""}
-                // onChange={handleChange}
-
                 variant="outlined"
               >
-                {Gender.map((option) => (
+                {GenderValue.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
@@ -119,42 +186,56 @@ const Search = (props) => {
             }
           </FormControl>
         </Grid>
-        {
-          //   <Grid item xs={3}>
-          //   <FormControl fullWidth>
-          //     Loại nhân viên
-          //     {
-          //       <TextField
-          //         size="small"
-          //         select
-          //         value={null}
-          //         // onChange={handleChange}
-          //         variant="outlined"
-          //       >
-          //         {Gender.map((option) => (
-          //           <MenuItem key={option.value} value={option.value}>
-          //             {option.label}
-          //           </MenuItem>
-          //         ))}
-          //       </TextField>
-          //     }
-          //   </FormControl>
-          // </Grid>
-        }
+
+        <Grid item xs={3}>
+          <FormControl fullWidth>
+            Giới tính
+            {
+              <TextField
+                select
+                value={!Filter.Gender ? "" : Filter.Gender}
+                onChange={(event) => {
+                  if ("" !== event.target.value.trim())
+                    return setFilter({
+                      ...Filter,
+                      ...{ Gender: event.target.value.trim() },
+                    });
+                  const { Gender, ...FilterNew } = Filter;
+                  setFilter(FilterNew);
+                }}
+                size="small"
+                variant="outlined"
+              >
+                {GenderValue.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            }
+          </FormControl>
+        </Grid>
 
         <Grid item xs={3}>
           <FormControl fullWidth>
             Trạng thái
             {
               <TextField
+                value={!Filter.StatusSyn ? "" : Filter.StatusSyn}
+                onChange={(event) => {
+                  if ("" !== event.target.value.trim())
+                    return setFilter({
+                      ...Filter,
+                      ...{ StatusSyn: event.target.value.trim() },
+                    });
+                  const { StatusSyn, ...FilterNew } = Filter;
+                  setFilter(FilterNew);
+                }}
+                variant="outlined"
                 size="small"
                 select
-                value={""}
-                // onChange={handleChange}
-
-                variant="outlined"
               >
-                {StatusSyn.map((option) => (
+                {StatusSynValue.map((option) => (
                   <MenuItem key={option.value} value={option.value}>
                     {option.label}
                   </MenuItem>
@@ -165,86 +246,90 @@ const Search = (props) => {
         </Grid>
       </Grid>
       {
-        // <Grid className={classes.paper} container spacing={2}>
-        //   <Grid item xs={5}>
-        //     <FormControl fullWidth>
-        //       Ngày vào làm
-        //       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        //         <div>
-        //           <KeyboardDatePicker
-        //             inputVariant="outlined"
-        //             clearable
-        //             size="small"
-        //             fullWidth={false}
-        //             className={classes.date}
-        //             id="date-picker-dialog"
-        //             emptyLabel="Từ ngày"
-        //             format="MM/dd/yyyy"
-        //             value={null}
-        //             // onChange={handleDateChange}
-        //             KeyboardButtonProps={{
-        //               "aria-label": "change date",
-        //             }}
-        //           />
-        //           <KeyboardDatePicker
-        //             inputVariant="outlined"
-        //             clearable
-        //             size="small"
-        //             fullWidth={false}
-        //             className={classes.date}
-        //             emptyLabel="Đến ngày"
-        //             id="date-picker-dialog"
-        //             format="MM/dd/yyyy"
-        //             value={null}
-        //             // onChange={handleDateChange}
-        //             KeyboardButtonProps={{
-        //               "aria-label": "change date",
-        //             }}
-        //           />
-        //         </div>
-        //       </MuiPickersUtilsProvider>
-        //     </FormControl>
-        //   </Grid>
-        //   <Grid item xs={5}>
-        //     <FormControl fullWidth>
-        //       Ngày thôi việc
-        //       <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        //         <div>
-        //           <KeyboardDatePicker
-        //             inputVariant="outlined"
-        //             clearable
-        //             size="small"
-        //             fullWidth={false}
-        //             className={classes.date}
-        //             id="date-picker-dialog"
-        //             emptyLabel="Từ ngày"
-        //             format="MM/dd/yyyy"
-        //             value={null}
-        //             // onChange={handleDateChange}
-        //             KeyboardButtonProps={{
-        //               "aria-label": "change date",
-        //             }}
-        //           />
-        //           <KeyboardDatePicker
-        //             inputVariant="outlined"
-        //             clearable
-        //             size="small"
-        //             fullWidth={false}
-        //             className={classes.date}
-        //             emptyLabel="Đến ngày"
-        //             id="date-picker-dialog"
-        //             format="MM/dd/yyyy"
-        //             value={null}
-        //             // onChange={handleDateChange}
-        //             KeyboardButtonProps={{
-        //               "aria-label": "change date",
-        //             }}
-        //           />
-        //         </div>
-        //       </MuiPickersUtilsProvider>
-        //     </FormControl>
-        //   </Grid>
-        // </Grid>
+        <Grid className={classes.paper} container spacing={2}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Grid item xs={5}>
+              <FormControl fullWidth>
+                Ngày vào làm
+                <div style={{ paddingTop: "8px" }}>
+                  <KeyboardDatePicker
+                    inputVariant="outlined"
+                    clearable
+                    label="Từ ngày"
+                    size="small"
+                    fullWidth={false}
+                    className={classes.date}
+                    format="dd/MM/yyyy"
+                    value={
+                      !Filter.DateHire
+                        ? null
+                        : !Filter.DateHire["$gt"]
+                        ? null
+                        : Filter.DateHire["$gt"]
+                    }
+                    maxDate={
+                      !Filter.DateHire
+                        ? new Date()
+                        : !Filter.DateHire["$lte"]
+                        ? new Date()
+                        : Filter.DateHire["$lte"]
+                    }
+                    onChange={(date) => {
+                      if (null !== date)
+                        return setFilter({
+                          ...Filter,
+                          ...{ DateHire: { ...Filter.DateHire, $gt: date } },
+                        });
+                      if (!Filter.DateHire) {
+                        const { DateHire, ...FilterNew } = Filter;
+                        return setFilter(FilterNew);
+                      }
+                      const { $gt, ...DateHireNew } = Filter.DateHire;
+                      setFilter({ ...Filter, DateHire: DateHireNew });
+                    }}
+                  />
+                  <KeyboardDatePicker
+                    inputVariant="outlined"
+                    clearable
+                    size="small"
+                    fullWidth={false}
+                    className={classes.date}
+                    minDate={
+                      !Filter.DateHire
+                        ? 0
+                        : !Filter.DateHire["$gt"]
+                        ? 0
+                        : Filter.DateHire["$gt"]
+                    }
+                    maxDate={new Date()}
+                    label="Đến ngày"
+                    format="dd/MM/yyyy"
+                    value={
+                      !Filter.DateHire
+                        ? null
+                        : !Filter.DateHire["$lte"]
+                        ? null
+                        : Filter.DateHire["$lte"]
+                    }
+                    onChange={(date) => {
+                      if (null !== date)
+                        return setFilter({
+                          ...Filter,
+                          ...{ DateHire: { ...Filter.DateHire, $lte: date } },
+                        });
+                      if (!Filter.DateHire) {
+                        const { DateHire, ...FilterNew } = Filter;
+                        return setFilter(FilterNew);
+                      }
+                      const { $lte, ...DateHireNew } = Filter.DateHire;
+                      setFilter({ ...Filter, DateHire: DateHireNew });
+                    }}
+                  />
+                </div>
+              </FormControl>
+            </Grid>
+          </MuiPickersUtilsProvider>
+        </Grid>
       }
     </Grid>
   );
@@ -252,9 +337,9 @@ const Search = (props) => {
 
 export default Search;
 
-const Gender = [
+const GenderValue = [
   {
-    value: null,
+    value: "",
     label: "None",
   },
   {
@@ -267,9 +352,9 @@ const Gender = [
   },
 ];
 
-const StatusSyn = [
+const StatusSynValue = [
   {
-    value: null,
+    value: "",
     label: "None",
   },
   {
@@ -280,4 +365,8 @@ const StatusSyn = [
     value: "E_STOP",
     label: "Nghỉ việc",
   },
+];
+
+const initOrgStructure = [
+  
 ];
