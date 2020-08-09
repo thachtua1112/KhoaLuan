@@ -30,16 +30,13 @@ const NewStaffSchema = new Schema
     MonthOfBirth: { type: Schema.Types.Number },
     YearOfBirth: { type: Schema.Types.Number },
     MarriageStatus: { type: Schema.Types.String },
-
     NationalityID: { type: Schema.Types.String },
     EthnicID: { type: Schema.Types.String },
     ReligionID: { type: Schema.Types.String },
-
     UserUpdate: { type: Schema.Types.String },
     UserCreate: { type: Schema.Types.String },
     DateCreate: { type: Schema.Types.Date },
     DateUpdate: { type: Schema.Types.Date },
- 
     WorkPlaceID: { type: Schema.Types.String },
     DateApplyAttendanceCode: { type: Schema.Types.Date },
     Order: { type: Schema.Types.String },

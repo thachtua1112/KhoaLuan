@@ -1,5 +1,5 @@
 //const Secret = process.env.SECRET;
-const jwt    = require('jsonwebtoken');
+const jwt  = require('jsonwebtoken');
 
 module.exports.verifyToken = function (req, res, next) {
   const token = req.headers["access-token"];
