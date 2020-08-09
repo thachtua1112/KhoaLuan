@@ -36,7 +36,7 @@ const Search = (props) => {
   const classes = useStyles();
   const { Filter, setFilter } = props;
 
-  const [ListOrgStructure, setListOrgStructure] = useState(initOrgStructure);
+  const [ListOrgStructure, setListOrgStructure] = useState([]);
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -133,7 +133,7 @@ const Search = (props) => {
             <Autocomplete
               filterSelectedOptions
               multiple
-              limitTags={3}
+              limitTags={1}
               defaultValue={[]}
               options={ListOrgStructure}
               getOptionLabel={(option) =>
@@ -366,4 +366,4 @@ const StatusSynValue = [
   },
 ];
 
-const initOrgStructure = [];
+

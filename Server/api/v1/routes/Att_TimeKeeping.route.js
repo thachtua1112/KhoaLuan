@@ -10,4 +10,9 @@ TimeKeepingRoute.post("/", TimeKeepingController.create);
 
 TimeKeepingRoute.put("/:_id", TimeKeepingController.update);
 
+TimeKeepingRoute.post(
+  "/calculate",
+  TimeKeepingController.calculateTimeKeepingDay
+);
+
 module.exports = TimeKeepingRoute;

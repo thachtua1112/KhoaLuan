@@ -25,13 +25,20 @@ const useStyles = makeStyles((theme) => ({
 
 const Content = (props) => {
 
-  const {data,fields,RowSelected,setRowSelected}=props
+  const {data,fields,RowSelected,setRowSelected,noItem}=props
+
+  const dataRender= data.map((item,index)=>{
+   
+    if(item._id===RowSelected._id)
+        return {...item,_classes:"selected"}
+     return item
+  })
+
   const classes = useStyles();
 
   const onSelectRow=(row)=>{
-    console.log(row)
     if(RowSelected&&row.CodeEmp===RowSelected.CodeEmp){
-      return setRowSelected(null)
+      return setRowSelected({})
     }  
     setRowSelected(row)
   }
@@ -43,13 +50,15 @@ const Content = (props) => {
       <CDataTable
         addTableClasses={classes.table}
         fields={fields}
-        items={data}
+        items={dataRender}
         pagination={data.length > 20 ? true : false}
         itemsPerPage={20}
         border
+        hover
         striped
         size="sm"
         onRowClick={onSelectRow}
+        noItemsViewSlot={noItem}
       />
       </div>
     </div>

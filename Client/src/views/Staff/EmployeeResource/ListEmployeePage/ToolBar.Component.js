@@ -40,7 +40,7 @@ const ToolBar = (props) => {
 
   const history = useHistory();
 
-  const {  onSearch ,RowSelected } = props;
+  const {  onSearch ,RowSelected ,setshowNewProfile } = props;
 
   const goDetail = () => {
     history.push(`/nhan-su/chi-tiet-nhan-vien/${RowSelected.CodeEmp}`);
@@ -59,7 +59,7 @@ const ToolBar = (props) => {
             color="primary" 
             />
             <Typography variant="h6" component="h2">
-            NV đã chọn : {RowSelected?RowSelected.ProfileName:null}
+            Nhân viên : {RowSelected?RowSelected.ProfileName:null}
             </Typography>
   
     </div> 
@@ -68,28 +68,28 @@ const ToolBar = (props) => {
      <div className={classes.right}> 
 
     <div>
-     <IconButton disabled={!RowSelected?true:false}   onClick={goDetail}>
+
+  
+    <IconButton onClick={()=>setshowNewProfile(true)}>
+    <Tooltip title="Thêm hồ sơ">
+      <NoteAddIcon />
+      </Tooltip>
+    </IconButton>
+
+     <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}   onClick={goDetail}>
       <Tooltip   title="Xem chi tiết hồ sơ">
        <FindInPageIcon />
        </Tooltip>
      </IconButton>
     
-    
-     <IconButton>
-     <Tooltip title="Thêm hồ sơ">
-       <NoteAddIcon />
-       </Tooltip>
-     </IconButton>
-  
- 
-     <IconButton disabled={!RowSelected?true:false}>
+     <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
      <Tooltip title="Cập nhật thông tin">
        <CreateIcon />
        </Tooltip>     
      </IconButton>
   
     
-       <IconButton disabled={!RowSelected?true:false}>
+       <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
        <Tooltip title="Xóa hồ sơ">
          <DeleteOutlineIcon />
          </Tooltip> 

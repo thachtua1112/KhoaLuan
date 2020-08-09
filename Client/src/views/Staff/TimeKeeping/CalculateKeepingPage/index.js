@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-import TimeKeepingGroupAPI from "../../../../callAPI/TimeKeepingGroup.api";
+import React, {  useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -12,6 +10,8 @@ import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
 import Content from "./Content.Component";
 
+import TimeKeepingGroupAPI from "../../../../callAPI/TimeKeepingGroup.api"
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
   search: { paddingLeft: theme.spacing(1) },
   toolbar: {
     paddingLeft: theme.spacing(0),
-    //marginBottom: "0px",
     marginTop: "4px",
   },
   content: { height: "75vh", paddingLeft: theme.spacing(1) },
@@ -29,36 +28,22 @@ const useStyles = makeStyles((theme) => ({
 const CalculateKeepingPage = () => {
   const classes = useStyles();
 
-  const [CodeEmp, setCodeEmp] = useState(null);
-  const [ProfileName, setProfileName] = useState(null);
+const initDate=new Date()
+initDate.setDate(1)
+initDate.setHours(0)
 
-  const [OrgStructureID, setOrgStructureID] = useState(null);
-  const date=new  Date();
-  date.setDate(1)
-  date.setHours(0)
-  date.setMinutes(0)
-  const [Date1, setDate1] = useState(new  Date(date));
 
-  
-  //////////////////
+  const [Filter, setFilter] = useState({KiCong:initDate})
+   
   const [ListDataTimeKeeping, setListDataTimeKeeping] = useState([]);
- // const [RowsSelected, setRowsSelected] = useState({});
 
-  //////
+  const [RowsSelected, setRowsSelected] = useState([]);
 
-
-  useEffect(() => {
-    const fetchAPI = async () => {
-      const res = await TimeKeepingGroupAPI.getDataTimeKeepingGroup();
-      setListDataTimeKeeping(res.data.data);
-    };
-    fetchAPI();
-  }, []);
-
-  const reLoad=async()=>{
-    const res = await TimeKeepingGroupAPI.getDataTimeKeepingGroup();
-    setListDataTimeKeeping(res.data.data);
+  const TongHopCong= async()=>{
+    const res= await TimeKeepingGroupAPI.calculateTimeKeepingGroup(Filter)
+    setListDataTimeKeeping(res.data.data)
   }
+ 
 
   return (
     <Grid container className={classes.root}>
@@ -66,31 +51,22 @@ const CalculateKeepingPage = () => {
         <Paper className={classes.search}>
           {
             <Search
-              CodeEmp={CodeEmp}
-              setCodeEmp={setCodeEmp}
-              ProfileName={ProfileName}
-              setProfileName={setProfileName} 
-              OrgStructureID={OrgStructureID}
-              setOrgStructureID={setOrgStructureID}
-              Date1={Date1}
-              setDate1={setDate1}
-              reLoad={reLoad}
-             
-             
+            Filter={Filter}
+            setFilter={setFilter}
             />
           }
         </Paper>
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar  />
+          <ToolBar TongHopCong={TongHopCong}  RowsSelected={RowsSelected} />
         </Paper>
       </Grid>
 
       <Grid item xs={12}>
         <Paper className={classes.content}>
           <CSidebarNav>
-            <Content fields={fields} data={ListDataTimeKeeping} />
+            <Content RowsSelected={RowsSelected} setRowsSelected={setRowsSelected} fields={fields} data={ListDataTimeKeeping} />
           </CSidebarNav>
         </Paper>
       </Grid>
