@@ -133,7 +133,7 @@ const Search = (props) => {
             <Autocomplete
               filterSelectedOptions
               multiple
-              limitTags={3}
+              limitTags={1}
               defaultValue={[]}
               options={ListOrgStructure}
               getOptionLabel={(option) =>

@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
 
 import OrgStructureAPI from "../../../../callAPI/OrgStructure.api";
-import TimeKeepingGroupAPI from "../../../../callAPI/TimeKeepingGroup.api";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-import {  FormControl, Button } from "@material-ui/core";
-
-import ExposureIcon from "@material-ui/icons/Exposure";
-
-//import Autocomplete from "@material-ui/lab/Autocomplete";
+import { FormControl } from "@material-ui/core";
 
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
@@ -68,24 +63,7 @@ const Search = (props) => {
   }, []);
   const classes = useStyles();
 
-  const {
-    CodeEmp,
-    setCodeEmp,
-    ProfileName,
-    setProfileName,
-    OrgStructureID,
-    setOrgStructureID,
-    Date1,
-    setDate1,
-    reLoad
-  } = props;
-
-
-  const calculateTimeKeeping= async()=>{
-    const data={CodeEmp,ProfileName,OrgStructureID,KiCong:Date1}
-    await TimeKeepingGroupAPI.calculateTimeKeepingGroup(data)
-    reLoad()
-  }
+  const { Filter, setFilter } = props;
 
   return (
     <Grid className={classes.root} container spacing={1}>
@@ -93,9 +71,15 @@ const Search = (props) => {
         <Grid item xs={3}>
           Mã nhân viên
           <TextField
-            value={!CodeEmp ? "" : CodeEmp}
+            value={!Filter.CodeEmp ? "" : Filter.CodeEmp}
             onChange={(event) => {
-              setCodeEmp(event.target.value);
+              if ("" !== event.target.value.trim())
+                return setFilter({
+                  ...Filter,
+                  ...{ CodeEmp: event.target.value.trim() },
+                });
+              const { CodeEmp, ...FilterNew } = Filter;
+              setFilter(FilterNew);
             }}
             placeholder="Vui lòng nhập"
             variant="outlined"
@@ -106,9 +90,15 @@ const Search = (props) => {
         <Grid item xs={3}>
           Tên nhân viên
           <TextField
-            value={!ProfileName ? "" : ProfileName}
+            value={!Filter.ProfileName ? "" : Filter.ProfileName}
             onChange={(event) => {
-              setProfileName(event.target.value);
+              if ("" !== event.target.value.trim())
+                return setFilter({
+                  ...Filter,
+                  ...{ ProfileName: event.target.value.trim() },
+                });
+              const { ProfileName, ...FilterNew } = Filter;
+              setFilter(FilterNew);
             }}
             variant="outlined"
             size="small"
@@ -121,7 +111,13 @@ const Search = (props) => {
             <Autocomplete
               options={OrgStructure}
               onChange={(event, item) => {
-                setOrgStructureID(item==null?"":item.ID);
+                if (item)
+                  return setFilter({
+                    ...Filter,
+                    ...{ setOrgStructureID: item.ID },
+                  });
+                const { setOrgStructureID, ...FilterNew } = Filter;
+                setFilter(FilterNew);
               }}
               getOptionLabel={(option) =>
                 `${option.OrgStructureName}-${option.Code}`
@@ -135,30 +131,32 @@ const Search = (props) => {
 
         <Grid item xs={3}>
           <FormControl fullWidth>
-        Kì công
+            Kì công
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
               <div>
                 <KeyboardDatePicker
                   inputVariant="outlined"
-                 // clearable
+                  // clearable
                   size="small"
                   fullWidth={false}
                   className={classes.date1}
                   emptyLabel="Kì công"
                   views={["year", "month"]}
                   format="MM/yyyy"
-                  value={Date1}
-                  onChange={(date) => setDate1(date)}
-
+                  value={!Filter.KiCong ? new Date() : Filter.KiCong}
+                  onChange={(date) => {
+                    if (date)
+                      return setFilter({
+                        ...Filter,
+                        ...{ KiCong: date },
+                      });
+                    const { KiCong, ...FilterNew } = Filter;
+                    setFilter(FilterNew);
+                  }}
                 />
               </div>
             </MuiPickersUtilsProvider>
           </FormControl>
-        </Grid>
-        <Grid className={classes.paper} container spacing={2}>
-          <Grid item xs={3}>  <Button variant="outlined"
-        onClick={calculateTimeKeeping} startIcon={<ExposureIcon />}> tổng hợp công</Button> 
-        </Grid>
         </Grid>
       </Grid>
     </Grid>
@@ -166,4 +164,3 @@ const Search = (props) => {
 };
 
 export default Search;
-

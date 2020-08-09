@@ -1,69 +1,85 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import TimeKeepingAPI from "../../../../callAPI/TimeKeeping.api";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Grid, Paper } from "@material-ui/core";
-
-import { CSidebarNav } from "@coreui/react";
+import { Grid, Paper, CircularProgress } from "@material-ui/core";
 
 import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
 import Content from "./Content.Component";
+import CIcon from "@coreui/icons-react";
+import { cilBan } from "@coreui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     //height: "100vh" ,
+    paddingLeft: theme.spacing(1)
   },
-  search: { paddingLeft: theme.spacing(1) },
+  search: {  },
   toolbar: {
-    paddingLeft: theme.spacing(0),
+   
     //marginBottom: "0px",
     marginTop: "4px",
   },
-  content: { height: "75vh", paddingLeft: theme.spacing(1) },
+  content: { height: "75vh" },
 }));
+
+const noItemView=()=>{
+  return (
+    <div className="text-center my-5">
+    <h2>
+      { "Không có dữ liệu" }
+      <CIcon
+        width="30"
+        name="cilBan"
+        content={cilBan}
+        className="text-danger mb-2"
+      />
+    </h2>
+  </div>)
+}
+
+const Loading=()=>{
+  return (
+    <div className="text-center my-5">
+    <h2>
+      { "Đang tải dữ liệu" }
+      <CircularProgress />
+    </h2>
+  </div>)
+}
+ 
+ 
+
 
 const TimeKeepingDayPage = () => {
   const classes = useStyles();
 
-  const [CodeEmp, setCodeEmp] = useState(null);
-  const [ProfileName, setProfileName] = useState(null);
-  const [IDNo, setIDNo] = useState(null);
-  const [Gender, setGender] = useState(null);
-  const [OrgStructureID, setOrgStructureID] = useState(null);
-  const [Date1, setDate1] = useState(null);
-  const [Date2, setDate2] = useState(null);
-  const [Status, setStatus] = useState(null);
+  const [Filter, setFilter] = useState({})
 
-  //////////////////
+  const [RowsSelected, setRowsSelected] = useState([])
+
   const [ListDataTimeKeeping, setListDataTimeKeeping] = useState([]);
 
-  //////
+  const [noItem, setnoItem] = useState(noItemView)
+
+
 
   const searchDataTimeKeeping = async () => {
-    const res = await TimeKeepingAPI.getDataTimeKeeping({
-      CodeEmp,
-      ProfileName,
-      IDNo,
-      Gender,
-      OrgStructureID,
-      Date1,
-      Date2,
-      Status,
-    });
+    setnoItem(Loading)
+    setListDataTimeKeeping([])
+    setRowsSelected([])
+    const res = await TimeKeepingAPI.getDataTimeKeeping();
     setListDataTimeKeeping(res.data.data);
+    setnoItem(noItemView)
   };
 
-  useEffect(() => {
-    const fetchAPI = async () => {
-      const res = await TimeKeepingAPI.getDataTimeKeeping();
-      setListDataTimeKeeping(res.data.data);
-    };
-    fetchAPI();
-  }, []);
+
+  
+
 
   return (
     <Grid container className={classes.root}>
@@ -71,37 +87,21 @@ const TimeKeepingDayPage = () => {
         <Paper className={classes.search}>
           {
             <Search
-              CodeEmp={CodeEmp}
-              setCodeEmp={setCodeEmp}
-              ProfileName={ProfileName}
-              setProfileName={setProfileName}
-              IDNo={IDNo}
-              setIDNo={setIDNo}
-              Gender={Gender}
-              setGender={setGender}
-              OrgStructureID={OrgStructureID}
-              setOrgStructureID={setOrgStructureID}
-              Date1={Date1}
-              setDate1={setDate1}
-              Date2={Date2}
-              setDate2={setDate2}
-              Status={Status}
-              setStatus={setStatus}
+            Filter={Filter}
+            setFilter={setFilter}           
             />
           }
         </Paper>
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar searchDataTimeKeeping={searchDataTimeKeeping} />
+          <ToolBar  RowsSelected={RowsSelected} searchDataTimeKeeping={searchDataTimeKeeping} />
         </Paper>
       </Grid>
 
       <Grid item xs={12}>
-        <Paper className={classes.content}>
-          <CSidebarNav>
-            <Content fields={fields} data={ListDataTimeKeeping} />
-          </CSidebarNav>
+        <Paper className={classes.content}>     
+            <Content noItem={noItem} fields={fields} RowsSelected={RowsSelected} setRowsSelected={setRowsSelected} data={ListDataTimeKeeping} />
         </Paper>
       </Grid>
     </Grid>
@@ -111,6 +111,8 @@ const TimeKeepingDayPage = () => {
 export default TimeKeepingDayPage;
 
 const fields = [
+  //{ _style: { width: "250px" }, key: "ProfileID", label: "ProfileID" },
+  { _style: { width: "200px" }, key: "DateKeeping", label: "Ngày" },
   { _style: { width: "150px" }, key: "CodeEmp", label: "Mã nhân viên" },
   { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
   {
@@ -119,25 +121,25 @@ const fields = [
 
     label: "Phòng ban",
   },
-  { _style: { width: "250px" }, key: "DateKeeping", label: "DateKeeping" },
-  //{ _style: { width: "250px" }, key: "ProfileID", label: "ProfileID" },
-  {
-    _style: { width: "250px" },
-    key: "TimeKeepingType",
-    label: "TimeKeepingType",
-  },
-  { _style: { width: "250px" }, key: "TimeIn", label: "TimeIn" },
-  { _style: { width: "250px" }, key: "TimeOut", label: "TimeOut" },
-  { _style: { width: "250px" }, key: "Description ", label: "Description" },
-  {
-    _style: { width: "250px" },
-    key: "TotalHours",
-    label: "TotalHours",
-  },
-  { _style: { width: "250px" }, key: "TotalDay", label: "TotalDay" },
+  { _style: { width: "100px" }, key: "TimeIn", label: "Giờ vào" },
+  { _style: { width: "100px" }, key: "TimeOut", label: "Giờ ra" },
   {
     _style: { width: "250px" },
     key: "Status",
-    label: "Status",
+    label: "Trạng thái",
   },
+  {
+    _style: { width: "100px" },
+    key: "TotalHours",
+    label: "Giờ công",
+  },
+  { _style: { width: "100px" }, key: "TotalDay", label: "Ngày công" },
+  
+  {
+    _style: { width: "250px" },
+    key: "TimeKeepingType",
+    label: "Loại chấm công",
+  },
+ 
+  { _style: { width: "250px" }, key: "Description ", label: "Ghi chú" },
 ];

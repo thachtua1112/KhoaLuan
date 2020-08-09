@@ -19,6 +19,12 @@ const useStyles = makeStyles((theme) => ({
       "& table> tbody > tr.selected ":{
         "background-color":"#89cdf9",      
       },
+      "& th ": {
+        "padding":"7px"
+      },
+      "& td ": {
+        "padding":"7px"
+      },
     height: "100vh",
   },
 }))

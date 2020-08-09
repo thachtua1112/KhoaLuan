@@ -1,76 +1,121 @@
 import React from "react";
 
-import { Toolbar, Tooltip, IconButton, Button } from "@material-ui/core";
+import { Toolbar, Tooltip, IconButton,makeStyles, Chip, Typography } from "@material-ui/core";
 
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 
-import NoteAddIcon from "@material-ui/icons/NoteAdd";
-import ExposureIcon from "@material-ui/icons/Exposure";
-import SearchIcon from "@material-ui/icons/Search";
-import AssignmentIcon from "@material-ui/icons/Assignment";
+import FindInPageIcon from "@material-ui/icons/FindInPage";
 
-import { makeStyles } from "@material-ui/core/styles";
+import ExposureIcon from '@material-ui/icons/Exposure';
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
+
+
+import SearchIcon from "@material-ui/icons/Search";
+
+
 
 const useStyles = makeStyles((theme) => ({
-  root: { flexGrow: 1 },
-  action: {
-    flexGrow: 1,
-  },
-}));
+    root: {
+      paddingLeft: "4px",
+      paddingRight:"4px",
+    },
+    left: {
+        flexGrow: 1,
+        display:"flex"
+    },
+    search:{
+        marginRight:theme.spacing(3)
+    },
+    right: {
+     display:"flex"
+    },
+    setting:{
+        marginLeft:theme.spacing(5)
+    }
+  }));
+
 
 const ToolBar = (props) => {
-  const classes = useStyles();
 
-  //const history = useHistory();
+    const classes = useStyles();
 
-  const { searchDataTimeKeeping } = props;
+  const {   RowsSelected ,searchDataTimeKeeping} = props;
+
 
   return (
-    <>
-      <Toolbar className={classes.root}>
-        <div className={classes.action}>
-          <Button
+   
+      <Toolbar variant="dense" disableGutters className={classes.root} >
+      <div className={classes.left}> 
+         <Chip
+            icon={<SearchIcon />}
+            label="TÌM KIẾM"
+            clickable
+            className={classes.search} 
             onClick={searchDataTimeKeeping}
-            variant="outlined"
-            startIcon={<SearchIcon />}
-          >
-            Tìm kiếm
-          </Button>
+            color="primary" 
+            />
+            <Typography variant="h6" component="h2" style={{width:"200px"}}>
+            { RowsSelected.length>0?`${RowsSelected.length} dòng đã chọn`:null
+          }
+            </Typography>
 
-          <Tooltip
-            title="Tính công ngày"
-            style={{ marginRight: "20px", marginLeft: "20px" }}
-          >
-            <IconButton>
-              <ExposureIcon />
-            </IconButton>
-          </Tooltip>
+          
+  
+    </div> 
+      
+     
+     <div className={classes.right}> 
+    
 
-          <Tooltip title="Thêm dữ liệu chấm công">
-            <IconButton>
-              <NoteAddIcon />
-            </IconButton>
-          </Tooltip>
+    <div>
+    <Chip
+    icon={<ExposureIcon />}
+    label="TÍNH NGÀY CÔNG"
+    clickable
+    className={classes.search} 
+    color="primary" 
+    />
 
-          <Tooltip title="Cập nhật thông tin chấm công">
-            <IconButton>
-              <CreateIcon />
-            </IconButton>
-          </Tooltip>
 
-          <Tooltip title="Xóa">
-            <IconButton>
-              <DeleteOutlineIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
 
-        <div>
-          <Button startIcon={<AssignmentIcon />}> tổng hợp công</Button>
-        </div>
+
+     <IconButton   >
+      <Tooltip   title="Xem chi tiết">
+       <FindInPageIcon />
+       </Tooltip>
+     </IconButton>
+     <Tooltip title="Thêm dữ liệu chấm công">
+     <IconButton>
+       <NoteAddIcon />
+     </IconButton>
+     </Tooltip>
+     
+     <IconButton >
+     <Tooltip title="Sửa">
+       <CreateIcon />
+       </Tooltip>     
+     </IconButton>
+  
+       <IconButton >
+       <Tooltip title="Xóa">
+         <DeleteOutlineIcon />
+         </Tooltip> 
+       </IconButton>
+     
+     </div>
+     <div
+     className={classes.setting}
+     >     
+      </div>
+      </div>
+       
       </Toolbar>
-    </>
+   
   );
 };
 export default ToolBar;
+
+
+
+

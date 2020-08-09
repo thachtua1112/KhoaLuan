@@ -1,60 +1,104 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 
-import { Grid, Paper } from "@material-ui/core";
+import { Grid, Paper, CircularProgress } from "@material-ui/core";
 
 import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
+import NewProfile from "./NewProifile.Component"
 
 import { makeStyles } from "@material-ui/core/styles";
 import Content from "./Content.Component";
 
-import {defaultProfileFields} from "../../utils/fieldsProfile"
+import { defaultProfileFields } from "../../utils/fieldsProfile";
 
-import  ProfileAPI  from "../../../../callAPI/Profile.api";
+import ProfileAPI from "../../../../callAPI/Profile.api";
+import CIcon from "@coreui/icons-react";
+import { cilBan } from "@coreui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    paddingLeft: theme.spacing(1)
   },
   search: {},
   toolbar: {},
   content: {},
 }));
 
+
+const noItemView=()=>{
+  return (
+    <div className="text-center my-5">
+    <h2>
+      { "Không có dữ liệu" }
+      <CIcon
+        width="30"
+        name="cilBan"
+        content={cilBan}
+        className="text-danger mb-2"
+      />
+    </h2>
+  </div>)
+}
+
+const Loading=()=>{
+  return (
+    <div className="text-center my-5">
+    <h2>
+      { "Đang tải dữ liệu" }
+      <CircularProgress />
+    </h2>
+  </div>)
+}
+ 
+
+
 const ListEmployeePage = (props) => {
   const classes = useStyles();
 
   const [Filter, setFilter] = useState({});
-  const [RowSelected, setRowSelected] = useState(null)
-  const [ListProfile, setListProfile] = useState([])
+  const [RowSelected, setRowSelected] = useState({});
+  const [ListProfile, setListProfile] = useState([]);
+  const [noItem, setnoItem] = useState(noItemView)
+  
+  const [showNewProfile, setshowNewProfile] = useState(false)
 
   const onSearch = async () => {
     try {
+      setnoItem(Loading)
+      setListProfile([])
+      setRowSelected({})
       const res = await ProfileAPI.getProfiles(Filter);
-      // const res=await axios.get("http://localhost:3001/api/v1/profiles",{
-      //   data:"abc"
-      // })
-      setListProfile(res.data)
+      setListProfile(res.data);
+      setnoItem(noItemView)
     } catch (error) {
       console.log("DanhSachNhanVien ProfileAPI ERR", error);
     }
   };
 
   return (
-    <Grid>
+    <Grid className={classes.root}>
+    <Grid item><NewProfile setshowNewProfile={setshowNewProfile} showNewProfile={showNewProfile}/></Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.search}>
+        
           <Search Filter={Filter} setFilter={setFilter} />
         </Paper>
       </Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.toolbar}>
-          <ToolBar onSearch={onSearch} RowSelected={RowSelected} />
+          <ToolBar setshowNewProfile={setshowNewProfile} onSearch={onSearch} RowSelected={RowSelected} />
         </Paper>
       </Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.content}>
-          <Content data={ListProfile} fields={defaultProfileFields}  RowSelected={RowSelected} setRowSelected={setRowSelected}/>
+          <Content
+            data={ListProfile}
+            fields={defaultProfileFields}
+            RowSelected={RowSelected}
+            setRowSelected={setRowSelected}
+            noItem={noItem}
+          />
         </Paper>
       </Grid>
     </Grid>

@@ -27,12 +27,9 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(1),
     //textAlign: "center",
   },
-  date1: {
-    width: theme.spacing(26),
+  date: {
+    width: theme.spacing(24),
     marginRight: theme.spacing(2),
-  },
-  date2: {
-    width: theme.spacing(26),
   },
 }));
 
@@ -66,191 +63,193 @@ const Search = (props) => {
   const classes = useStyles();
 
   const {
-    CodeEmp,
-    setCodeEmp,
-    ProfileName,
-    setProfileName,
-    IDNo,
-    setIDNo,
-    Gender,
-    setGender,
-    setOrgStructureID,
-    Date1,
-    setDate1,
-    Date2,
-    setDate2,
-    Status,
-    setStatus,
+    Filter, setFilter,
   } = props;
 
   return (
     <Grid className={classes.root} container spacing={1}>
       <Grid className={classes.paper} container spacing={2}>
-        <Grid item xs={3}>
-          Mã nhân viên
+         <Grid item xs={3}>
+             Mã nhân viên
           <TextField
-            value={!CodeEmp ? "" : CodeEmp}
-            variant="outlined"
-            size="small"
-            fullWidth
-            onChange={(event) => {
-              setCodeEmp(event.target.value);
-            }}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          Tên nhân viên
-          <TextField
-            value={!ProfileName ? "" : ProfileName}
-            onChange={(event) => {
-              setProfileName(event.target.value);
-            }}
-            variant="outlined"
-            size="small"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={3}>
-          Số CMND
-          <TextField
-            value={!IDNo ? "" : IDNo}
-            onChange={(event) => {
-              setIDNo(event.target.value);
-            }}
-            variant="outlined"
-            size="small"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <FormControl fullWidth>
-            Giới tính
-            {
-              <TextField
-                size="small"
-                select
-                value={!Gender ? "" : Gender}
-                variant="outlined"
-                onChange={(event) => {
-                  setGender(
-                    "" === event.target.value ? null : event.target.value
-                  );
-                }}
-              >
-                {GenderValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            }
-          </FormControl>
-        </Grid>
-      </Grid>
-      <Grid className={classes.paper} container spacing={2}>
-        <Grid item xs={3}>
-          Phòng ban
-          {
-            <Autocomplete
-              options={OrgStructure}
-              onChange={(event, item) => {
-                setOrgStructureID(item==null?"":item.ID);
-              }}
-              getOptionLabel={(option) =>
-                `${option.OrgStructureName}-${option.Code}`
-              }
-              renderInput={(params) => (
-                <TextField {...params} size="small" variant="outlined" />
-              )}
-            />
+        value={!Filter.CodeEmp ? "" : Filter.CodeEmp}
+        onChange={(event) => {
+          if ("" !== event.target.value.trim())
+            return setFilter({
+              ...Filter,
+              ...{ CodeEmp: event.target.value.trim() },
+            });
+          const { CodeEmp, ...FilterNew } = Filter;
+          setFilter(FilterNew);
+        }}
+        placeholder="Vui lòng nhập"
+        variant="outlined"
+        size="small"
+        fullWidth
+      />
+    </Grid>
+    <Grid item xs={3}>
+      Tên nhân viên
+      <TextField
+        value={!Filter.ProfileName ? "" : Filter.ProfileName}
+        onChange={(event) => {
+          if ("" !== event.target.value.trim())
+            return setFilter({
+              ...Filter,
+              ...{ ProfileName: event.target.value.trim() },
+            });
+          const { ProfileName, ...FilterNew } = Filter;
+          setFilter(FilterNew);
+        }}
+        variant="outlined"
+        size="small"
+        fullWidth
+      />
+    </Grid>
+    <Grid item xs={3}>
+      Phòng ban
+      {
+        <Autocomplete
+          options={OrgStructure}
+          onChange={(event, item) => {
+            if (item)
+              return setFilter({
+                ...Filter,
+                ...{ setOrgStructureID: item.ID },
+              });
+            const { setOrgStructureID, ...FilterNew } = Filter;
+            setFilter(FilterNew);
+          }}
+          getOptionLabel={(option) =>
+            `${option.OrgStructureName}-${option.Code}`
           }
-        </Grid>
+          renderInput={(params) => (
+            <TextField {...params} size="small" variant="outlined" />
+          )}
+        />
+      }
+    </Grid>
 
-        <Grid item xs={5}>
-          <FormControl fullWidth>
-            Dữ liệu chấm công
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <div>
-                <KeyboardDatePicker
-                  inputVariant="outlined"
-                  clearable
-                  size="small"
-                  fullWidth={false}
-                  className={classes.date1}
-                  emptyLabel="Từ ngày"
-                  format="MM/dd/yyyy"
-                  maxDate={!Date2 ? null : Date2}
-                  value={Date1}
-                  onChange={(date) => setDate1(date)}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                />
-                <KeyboardDatePicker
-                  inputVariant="outlined"
-                  clearable
-                  size="small"
-                  fullWidth={false}
-                  className={classes.date2}
-                  emptyLabel="Đến ngày"
-                  format="MM/dd/yyyy"
-                  value={Date2}
-                  minDate={!Date1 ? null : Date1}
-                  onChange={(date) => setDate2(date)}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date",
-                  }}
-                />
-              </div>
-            </MuiPickersUtilsProvider>
-          </FormControl>
-        </Grid>
+    <Grid item xs={3}>
+    <FormControl fullWidth>
+      Trạng thái
+      {
+        <TextField
+          size="small"
+          select
+          value={!Filter.Status ? "" : Filter.Status}
+          onChange={(event) => {
+            if ("" !== event.target.value.trim())
+            return setFilter({
+              ...Filter,
+              ...{ Status: event.target.value.trim() },
+            });
+          const { Status, ...FilterNew } = Filter;
+          setFilter(FilterNew);
+          }}
+          variant="outlined"
+        >
+          {StatusValue.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+      }
+    </FormControl>
+    </Grid> 
+   </Grid>
 
-        <Grid item xs={3}>
-          <FormControl fullWidth>
-            Trạng thái
-            {
-              <TextField
-                size="small"
-                select
-                value={!Status ? "" : Status}
-                onChange={(event) => {
-                  setStatus(
-                    "" === event.target.value ? null : event.target.value
-                  );
-                }}
-                variant="outlined"
-              >
-                {StatusValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            }
-          </FormControl>
-        </Grid>
-      </Grid>
+   <Grid className={classes.paper} container spacing={2}>
+   <MuiPickersUtilsProvider utils={DateFnsUtils}>
+     <Grid item xs={5}>
+       <FormControl fullWidth>
+         Dữ liệu chấm công
+         <div style={{ paddingTop: "8px" }}>
+           <KeyboardDatePicker
+             inputVariant="outlined"
+             clearable
+             label="Từ ngày"
+             size="small"
+             fullWidth={false}
+             className={classes.date}
+             format="dd/MM/yyyy"
+             value={
+               !Filter.DateTimeKeeping
+                 ? null
+                 : !Filter.DateTimeKeeping["$gt"]
+                 ? null
+                 : Filter.DateTimeKeeping["$gt"]
+             }
+             maxDate={
+               !Filter.DateTimeKeeping
+                 ? new Date()
+                 : !Filter.DateTimeKeeping["$lte"]
+                 ? new Date()
+                 : Filter.DateTimeKeeping["$lte"]
+             }
+             onChange={(date) => {
+               if (null !== date)
+                 return setFilter({
+                   ...Filter,
+                   ...{ DateTimeKeeping: { ...Filter.DateTimeKeeping, $gt: date } },
+                 });
+               if (!Filter.DateTimeKeeping) {
+                 const { DateTimeKeeping, ...FilterNew } = Filter;
+                 return setFilter(FilterNew);
+               }
+               const { $gt, ...DateTimeKeepingNew } = Filter.DateTimeKeeping;
+               setFilter({ ...Filter, DateTimeKeeping: DateTimeKeepingNew });
+             }}
+           />
+           <KeyboardDatePicker
+             inputVariant="outlined"
+             clearable
+             size="small"
+             fullWidth={false}
+             className={classes.date}
+             minDate={
+               !Filter.DateTimeKeeping
+                 ? 0
+                 : !Filter.DateTimeKeeping["$gt"]
+                 ? 0
+                 : Filter.DateTimeKeeping["$gt"]
+             }
+             maxDate={new Date()}
+             label="Đến ngày"
+             format="dd/MM/yyyy"
+             value={
+               !Filter.DateTimeKeeping
+                 ? null
+                 : !Filter.DateTimeKeeping["$lte"]
+                 ? null
+                 : Filter.DateTimeKeeping["$lte"]
+             }
+             onChange={(date) => {
+               if (null !== date)
+                 return setFilter({
+                   ...Filter,
+                   ...{ DateTimeKeeping: { ...Filter.DateTimeKeeping, $lte: date } },
+                 });
+               if (!Filter.DateTimeKeeping) {
+                 const { DateTimeKeeping, ...FilterNew } = Filter;
+                 return setFilter(FilterNew);
+               }
+               const { $lte, ...DateTimeKeepingNew } = Filter.DateTimeKeeping;
+               setFilter({ ...Filter, DateTimeKeeping: DateTimeKeepingNew });
+             }}
+           />
+         </div>
+       </FormControl>
+     </Grid>
+   </MuiPickersUtilsProvider>
+ </Grid>
+
     </Grid>
   );
 };
 
 export default Search;
-
-const GenderValue = [
-  {
-    value: null,
-    label: "None",
-  },
-  {
-    value: "E_MALE",
-    label: "Nam",
-  },
-  {
-    value: "E_FEMALE",
-    label: "Nữ",
-  },
-];
 
 const StatusValue = [
   {

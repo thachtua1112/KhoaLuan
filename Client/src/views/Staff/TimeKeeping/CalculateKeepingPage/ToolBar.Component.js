@@ -1,67 +1,102 @@
 import React from "react";
 
-import { Toolbar, Tooltip, IconButton, Button } from "@material-ui/core";
+import { Toolbar, Tooltip, IconButton,makeStyles, Chip, Typography } from "@material-ui/core";
 
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-
-
 import FindInPageIcon from "@material-ui/icons/FindInPage";
-import RotateLeftIcon from '@material-ui/icons/RotateLeft';
+import FilterListSharpIcon from '@material-ui/icons/FilterListSharp';
+import ReplaySharpIcon from '@material-ui/icons/ReplaySharp';
 
 
-import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-  root: { flexGrow: 1 },
-  action: {
-    flexGrow: 1,
-  },
-}));
+    root: {
+      paddingLeft: "4px",
+      paddingRight:"4px",
+    },
+    left: {
+        flexGrow: 1,
+        display:"flex"
+    },
+    search:{
+        marginRight:theme.spacing(3)
+    },
+    right: {
+     display:"flex"
+    },
+    setting:{
+        marginLeft:theme.spacing(5)
+    }
+  }));
+
 
 const ToolBar = (props) => {
-  const classes = useStyles();
 
-  //const history = useHistory();
+    const classes = useStyles();
 
-  const { searchDataTimeKeeping } = props;
+  const {  TongHopCong ,RowsSelected } = props;
+
 
   return (
-    <>
-      <Toolbar className={classes.root}>
-        <div className={classes.action}>
-         
-          <Button
-          onClick={searchDataTimeKeeping}
-          variant="outlined"
-          startIcon={<RotateLeftIcon />}
-        >
-         Tổng hợp lại
-        </Button>
-        <Tooltip title="Xem chi tiết hồ sơ">
-        <IconButton>
-          <FindInPageIcon />
-        </IconButton>
-      </Tooltip>
+   
+      <Toolbar variant="dense" disableGutters className={classes.root} >
+      <div className={classes.left}> 
+         <Chip
+            icon={<FilterListSharpIcon />}
+            label="TỔNG HỢP CÔNG"
+            clickable
+            className={classes.search} 
+            onClick={TongHopCong}
+            color="primary" 
+            />
+            <Typography variant="h6" component="h2" style={{width:"200px"}}>
+            {RowsSelected.length>0?`${RowsSelected.length} dòng đã chọn`:null}
+            </Typography>
 
-         
-
-          <Tooltip title="Sửa">
-            <IconButton>
-              <CreateIcon />
-            </IconButton>
-          </Tooltip>
-
-          <Tooltip title="Xóa">
-            <IconButton>
-              <DeleteOutlineIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
-
+          
+  
+    </div> 
       
+     
+     <div className={classes.right}> 
+    
+
+    <div>
+    <Chip
+    icon={<ReplaySharpIcon />}
+    label="TỔNG HỢP LẠI"
+    clickable
+    className={classes.search} 
+    color="primary" 
+    />
+     <IconButton   >
+      <Tooltip   title="Xem chi tiết">
+       <FindInPageIcon />
+       </Tooltip>
+     </IconButton>
+    
+     <IconButton >
+     <Tooltip title="Sửa">
+       <CreateIcon />
+       </Tooltip>     
+     </IconButton>
+  
+       <IconButton >
+       <Tooltip title="Xóa">
+         <DeleteOutlineIcon />
+         </Tooltip> 
+       </IconButton>
+     
+     </div>
+     <div
+     className={classes.setting}
+     >     
+      </div>
+      </div>
+       
       </Toolbar>
-    </>
+   
   );
 };
 export default ToolBar;
