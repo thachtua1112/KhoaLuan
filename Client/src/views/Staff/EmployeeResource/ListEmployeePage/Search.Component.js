@@ -36,7 +36,7 @@ const Search = (props) => {
   const classes = useStyles();
   const { Filter, setFilter } = props;
 
-  const [ListOrgStructure, setListOrgStructure] = useState(initOrgStructure);
+  const [ListOrgStructure, setListOrgStructure] = useState([]);
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -366,4 +366,4 @@ const StatusSynValue = [
   },
 ];
 
-const initOrgStructure = [];
+

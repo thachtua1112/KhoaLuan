@@ -4,6 +4,34 @@ const Att_TimeKeepingModel = require("../models/Att_TimeKeeping.model");
 
 const Hre_ProfileModel = require("../models/Hre_Profile.model");
 
+///tong hop cong nhan vien
+
+module.exports.synthesisTimeKeeping = async (req, res) => {
+  const { ProfileID } = req.params;
+  const { KiCong } = req.query;
+  const date = new Date(KiCong);
+  const DateFrom = new Date(date);
+  const DateTo = new Date(date);
+  DateTo.setMonth(date.getMonth() + 1);
+  const synthesisTimeKeeping = await Att_TimeKeepingModel.aggregate([
+    {
+      $match: {
+        DateKeeping: { $gt: DateFrom, $lt: DateTo },
+        ProfileID: ProfileID,
+      },
+    },
+    {
+      $group: {
+        Sum: {
+          $sum: "$Total",
+        },
+      },
+    },
+  ]);
+
+  res.json({ ms: "DA_TONG_HOP", data: synthesisTimeKeeping });
+};
+
 //get du lieu cham cong
 module.exports.get = async (req, res) => {
   try {
@@ -32,21 +60,14 @@ module.exports.update = async (req, res) => {
 
 module.exports.calculate = async (req, res) => {
   try {
-    const { CodeEmp, OrgStructureID, KiCong, ProfileName } = req.body;
-    const CodeEmpFilter = !CodeEmp ? {} : { CodeEmp };
-    const OrgStructureIDFilter = !OrgStructureID ? {} : { OrgStructureID };
-    const ProfileNameFilter = !ProfileName ? {} : { ProfileName };
+    const { KiCong, ...filter } = req.body;
 
-    const filter = {
-      ...CodeEmpFilter,
-      ...OrgStructureIDFilter,
-      ...ProfileNameFilter,
-      //StatusSyn: "E_HIRE",
-    };
     const date = new Date(KiCong);
     const DateFrom = new Date(date);
     const DateTo = new Date(date);
     DateTo.setMonth(date.getMonth() + 1);
+
+    console.log(DateFrom, DateTo);
 
     ///get list profile tổng hợp cong
     const listProfile = await Hre_ProfileModel.find(filter, {

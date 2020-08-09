@@ -43,42 +43,13 @@ module.exports.calculate = async (req, res) => {
   }
 };
 
-module.exports.getAll = async (req, res) => {
+//tinh ngay cong
+module.exports.calculateTimeKeepingDay = async (req, res) => {
   try {
-    const result = await Hre_ProfileModel.find({});
-    return res.status(200).json(result);
+    console.log("calculateTimeKeepingDay");
+    res.json({ ms: "TINH NGAY CONG" });
   } catch (err) {
-    return res.sendStatus(403);
-  }
-};
-
-module.exports.getWithFilter = async (req, res) => {
-  try {
-    const filter = req.query;
-    const result = await Hre_ProfileModel.find(filter);
-    return res.status(200).json(result);
-  } catch (err) {
-    return res.sendStatus(403);
-  }
-};
-
-module.exports.update = async (req, res) => {
-  try {
-    const { ID } = req.params;
-    const { data } = req.body;
-    const result = Hre_ProfileModel.findOneAndUpdate({ ID: ID }, data);
-    return res.status(200).json(result);
-  } catch (err) {
-    return res.sendStatus(403);
-  }
-};
-
-module.exports.create = async (req, res) => {
-  try {
-    const { data } = req.body;
-    const result = await Hre_ProfileModel.create({ data });
-    return res.status(200).json(result);
-  } catch (err) {
+    console.log(err);
     return res.sendStatus(403);
   }
 };
