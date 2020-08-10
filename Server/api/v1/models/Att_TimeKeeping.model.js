@@ -42,26 +42,34 @@ const Att_TimeKeepingSchema = new Schema({
 });
 
 Att_TimeKeepingSchema.pre("findOneAndUpdate", async function (next) {
-  // const { TimeOut, TimeIn } = this._update;
-  // this.set({ Total: new Date(TimeOut) - new Date(TimeIn) });
   next();
 });
 
 Att_TimeKeepingSchema.post("findOneAndUpdate", async function (doc) {
   const { TimeOut, TimeIn } = this._update.$set;
-  //cap nhat Total
-  //console.log("POST", this);
-  if (doc.TimeOut !== TimeOut || doc.TimeIn !== TimeIn) {
+
+  //cap nhat Status
+
+  if (TimeOut || TimeIn) {
     await this.model.updateOne(
       { _id: doc._id },
       {
-        Total:
-          new Date(TimeOut ? TimeOut : doc.TimeOut) -
-          new Date(TimeIn ? TimeIn : doc.TimeIn),
+        Status: "CHUA_TINH_CONG",
+        Total: 0,
       }
     );
   }
 });
+
+Att_TimeKeepingSchema.virtual("Profile", {
+  ref: "Hre_Profile",
+  localField: "ProfileID",
+  foreignField: "ProfileID",
+  justOne: true,
+});
+
+Att_TimeKeepingSchema.set("toObject", { virtuals: true });
+Att_TimeKeepingSchema.set("toJSON", { virtuals: true });
 
 const Att_TimeKeepingModel = mongoose.model(
   "Att_TimeKeeping",
@@ -69,4 +77,3 @@ const Att_TimeKeepingModel = mongoose.model(
 );
 
 module.exports = Att_TimeKeepingModel;
-

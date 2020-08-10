@@ -45,9 +45,18 @@ module.exports.update = async (req, res) => {
 //get du lieu cham cong
 module.exports.get = async (req, res) => {
   try {
-    const result = await Att_TimeKeepingModel.find({});
+    const { OrgStructureID, ProfileName, CodeEmp, ...filter } = req.query;
+    console.log("FILTER", filter);
+    const result = await Att_TimeKeepingModel.find(filter).populate({
+      path: "Profile",
+      match: {
+        SortID: 156075,
+      },
+      select: { _id: 0, ProfileName: 1, CodeEmp: 1, OrgStructureID: 1 },
+    });
+    console.log("RESULT", result);
     return res.json({
-      ms: "GET",
+      ms: "GET TIME KEEPING DAY",
       data: result,
     });
   } catch (err) {
@@ -57,20 +66,24 @@ module.exports.get = async (req, res) => {
 };
 
 //tinh ngay cong
-module.exports.calculateTimeKeepingDay = async (req, res) => {
+module.exports.calculateTimeKeeping = async (req, res) => {
   try {
-    console.log("calculateTimeKeepingDay");
-    const data = await Att_TimeKeepingModel.find({
-      ProfileID: "DCA6C130-DB99-4107-96E7-A73D1EE00BEB",
-    });
-    for (let index = 0; index < data.length; index++) {
-      const element = data[index];
-      await Att_TimeKeepingModel.updateOne(
+    const { listCalculate } = req.body;
+    const listCalculateResult = [];
+    for (let index = 0; index < listCalculate.length; index++) {
+      const element = listCalculate[index];
+      const data = await Att_TimeKeepingModel.findOneAndUpdate(
         { _id: element._id },
-        { Total: element.TimeOut - element.TimeIn }
+        {
+          Total: new Date(element.TimeOut) - new Date(element.TimeIn),
+          Status: "DA_TINH_CONG",
+        },
+        { new: true }
       );
+      listCalculateResult.push(data);
     }
-    res.json({ ms: "TINH NGAY CONG", data: data, number: data.length });
+
+    res.json({ ms: "TINH CONG", data: listCalculateResult });
   } catch (err) {
     console.log(err);
     return res.sendStatus(403);

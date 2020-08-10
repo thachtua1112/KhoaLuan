@@ -35,7 +35,8 @@ module.exports.synthesisTimeKeeping = async (req, res) => {
 //get du lieu cham cong
 module.exports.get = async (req, res) => {
   try {
-    const result = await Att_TimeKeepingGroupModel.find();
+    const filter = req.query;
+    const result = await Att_TimeKeepingGroupModel.find(filter);
     return res.json({
       ms: "GET TIMEKEEPING GROUP",
       data: result,
@@ -66,8 +67,6 @@ module.exports.calculate = async (req, res) => {
     const DateFrom = new Date(date);
     const DateTo = new Date(date);
     DateTo.setMonth(date.getMonth() + 1);
-
-    console.log(DateFrom, DateTo);
 
     ///get list profile tổng hợp cong
     const listProfile = await Hre_ProfileModel.find(filter, {

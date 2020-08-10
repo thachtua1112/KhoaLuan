@@ -3,6 +3,7 @@ const Att_TimeKeepingModel = require("../models/Att_TimeKeeping.model");
 //du lieu cham cong
 module.exports.get = async (req, res) => {
   try {
+    //const filter = req.query;
     const result = await Att_TimeKeepingModel.find({});
     return res.json({
       ms: "GET",
