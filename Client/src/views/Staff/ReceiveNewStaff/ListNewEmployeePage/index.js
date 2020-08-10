@@ -10,10 +10,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Content from "./Content.Component";
 
 import { defaultProfileFields } from "../../utils/fieldsProfile";
-
-import ProfileAPI from "../../../../callAPI/Profile.api";
 import CIcon from "@coreui/icons-react";
 import { cilBan } from "@coreui/icons";
+import { GetNewStaffApi } from "../../../../callAPI/NewStaff.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,7 +52,7 @@ const Loading=()=>{
 
 
 
-const ListEmployeePage = (props) => {
+const ListNewEmployeePage = (props) => {
   const classes = useStyles();
 
   const [Filter, setFilter] = useState({});
@@ -68,7 +67,7 @@ const ListEmployeePage = (props) => {
       setnoItem(Loading)
       setListProfile([])
       setRowSelected({})
-      const res = await ProfileAPI.getProfiles(Filter);
+      const res = await GetNewStaffApi(Filter);
       setListProfile(res.data);
       setnoItem(noItemView)
     } catch (error) {
@@ -105,4 +104,4 @@ const ListEmployeePage = (props) => {
   );
 };
 
-export default ListEmployeePage;
+export default ListNewEmployeePage;

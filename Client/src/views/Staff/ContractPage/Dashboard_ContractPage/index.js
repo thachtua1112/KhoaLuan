@@ -14,16 +14,15 @@ import Button from '@material-ui/core/Button';
 import { makeStyles,createMuiTheme,ThemeProvider  } from '@material-ui/core/styles';
 import {LinearProgress} from "@material-ui/core";
 import TextField from '@material-ui/core/TextField';
-import { All_THreProfie_Api } from '../../../../callAPI/T_HreProfile.api';
 import { CreateApi } from '../../../../callAPI/ExportFile';
 import * as config from '../../../../callAPI/config'
 import { GetHre_Profie_Api } from '../../../../callAPI/Hre_Profile.api';
-
+import {ListContractApi} from '../../../../callAPI/Hre_Contract.api'
 const useStyles = makeStyles((theme) => ({
   root: {
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      width: 200,
+      width: 400,
     },
   },
   button: {
@@ -36,11 +35,14 @@ const theme = createMuiTheme({
   },
 });
 const fields = [
-  { key: 'CodeEmp', _style: { width: '10%'}, label:"Mã nhân viên" },
-  { key: 'ProfileName', _style: { width: '25%'},  label:"Họ và tên" },
-  { key: 'Gender', _style: { width: '10%'}, label:"Giới tính" },
-  { key: 'DateHire', _style: { width: '10%'}, label:"Ngày tuyển" },
-  { key: 'DateContract', _style: { width: '10%'},  label:"Ngày kí hợp đồng" },
+  { key: 'CodeEmp', _style: { width: '100px'}, label:"Mã nhân viên" },
+  { key: 'ProfileName', _style: { width: '300px'},  label:"Họ và tên" },
+  { key: 'Gender', _style: { width: '300px'}, label:"Giới tính" },
+  { key: 'DateHire', _style: { width: '300px'}, label:"Ngày tuyển" },
+  { key: 'DateSigned', _style: { width: '300px'},  label:"Ngày kí hợp đồng" },
+  { key: 'DateStart', _style: { width: '300px'},  label:"Ngày có hiệu lực" },
+  { key: 'DateEnd', _style: { width: '300px'},  label:"Ngày hết hạn" },
+
 
  /* {
     key: 'show_details',
@@ -51,7 +53,6 @@ const fields = [
   }*/
 ]
 const getBadge = Gender => {
-  console.log(Gender)
   switch (Gender) {
     case 'E_FEMALE': return 'Nữ';
     default: return 'Nam'
@@ -75,9 +76,9 @@ const ContractPage = () => {
   const [IDDateOfIssue,setIDDateOfIssue]=useState("")
   const [IDPlaceOfIssue,setIDPlaceOfIssue]=useState("")
   const [DateContract,setDateContract]=useState("")
-
+  const [ContractNo, setContractNo]= useState("")
   useEffect(()=>{
-    All_THreProfie_Api(null).then(res=>{
+    ListContractApi().then(res=>{
       if(res.data)
       {
         setStaff(res.data)
@@ -87,19 +88,20 @@ const ContractPage = () => {
   },[])
 
   const up_Profile = (item)=> {
-    setProfileName(item.ProfileName)
-    setGender(getBadge)
-    setCodeEpm(item.CodeEmp)
-    setDateContract(item.DateContract)
+    setProfileName(item.profiles[0].ProfileName)
+    setGender(getBadge(item.profiles[0].Gender))
+    setCodeEpm(item.profiles[0].CodeEmp)
+    setDateContract(item.DateSigned)
+    setContractNo(item.ContractNo)
       //liên kết thông tin
       GetHre_Profie_Api(`${codeEpm}`).then((res)=>{
         if(res.data)
         {
-          setDateOfBirth(res.data[0].DateOfBirth)
-          setPAStreet(res.data[0].PAStreet)
-          setIDNo(res.data[0].IDNo)
-          setIDDateOfIssue(res.data[0].IDDateOfIssue)
-          setIDPlaceOfIssue(res.data[0].IDPlaceOfIssue)
+          setDateOfBirth(res.data.DateOfBirth)
+          setPAStreet(res.data.PAddress)
+          setIDNo(res.data.IDNo)
+          setIDDateOfIssue(res.data.IDDateOfIssue)
+          setIDPlaceOfIssue(res.data.IDPlaceOfIssue)
         }
       })
   }
@@ -109,6 +111,7 @@ const ContractPage = () => {
     DateOfBirth:DateOfBirth,
     PAStreet:PAStreet,
     IDNo:IDNo,
+    ContractNo:ContractNo,
     IDDateOfIssue:IDDateOfIssue,
     IDPlaceOfIssue:IDPlaceOfIssue,
     DateContract:DateContract
@@ -132,12 +135,20 @@ const ContractPage = () => {
   }
   let filter = staff.filter(
     (contact)=>{
-      return contact.ProfileName.toLowerCase().indexOf(name.trim().toLowerCase()) !== -1;
+      if(contact.profiles[0])
+      {
+        return contact.profiles[0].ProfileName.toLowerCase().indexOf(name.trim().toLowerCase()) !== -1;
+      }
+      return 0;
     }
   );
   let filter2 = filter.filter(
   (contact)=>{
-    return contact.CodeEmp.toLowerCase().indexOf(code.trim().toLowerCase()) !== -1;
+    if(contact.profiles[0])
+    {
+      return contact.profiles[0].CodeEmp.toLowerCase().indexOf(code.trim().toLowerCase()) !== -1;
+    }
+    return 0;
   }
   );
 
@@ -160,13 +171,7 @@ const ContractPage = () => {
                   size="small"
                   onChange={up_CodeEmp} type="search"
                 />
-                <TextField
-                label="Loại hợp đồng"
-                id="outlined-size-normal"
-                variant="outlined"
-                size="small"
-                onChange={up_CodeEmp} type="search"
-              />
+
                 <ThemeProvider theme={theme}>
                 <Button
                   variant="contained"
@@ -197,16 +202,28 @@ const ContractPage = () => {
                   (item)=>(
 
                     <td>
-                      {getBadge(item.Gender)}
+                      {getBadge( item.profiles[0]?item.profiles[0].Gender:"")}
                     </td>
                   ),
-                "DateHire":
-                (item)=>( <td>
-                  {
-                    new Date(item.DateHire).toLocaleString('en-GB')
-                  }
-                </td>)
-
+                  "CodeEmp":
+                  (item)=>( <td>
+                    {
+                      item.profiles[0]?item.profiles[0].CodeEmp:""
+                    }
+                  </td>)
+                  ,
+                  "ProfileName":
+                  (item)=>( <td>
+                    {
+                      item.profiles[0]?item.profiles[0].ProfileName:""
+                    }
+                  </td>),
+                  "DateHire":
+                  (item)=>( <td>
+                    {
+                      item.profiles[0]?item.profiles[0].DateHire:""
+                    }
+                  </td>)
               }
             }
             />
