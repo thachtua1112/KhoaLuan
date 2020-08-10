@@ -12,8 +12,10 @@ import ExpireContractPage from "../ContractPage/Expire_ContractPage";
 
 
 import CalculateKeepingPage from "../TimeKeeping/CalculateKeepingPage";
-
 import TimeKeepingDayPage from "../TimeKeeping/TimeKeepingDayPage";
+import TimeKeepingGroupPage from "../TimeKeeping/TimeKeepingGroupPage";
+
+
 import ReceiveNewStaffPage from "../ReceiveNewStaff";
 import ExtendContractPage from "../ContractPage/Expire_ContractPage/extendContract.child";
 
@@ -141,7 +143,7 @@ const staffRoute = [
     path: "/cham-cong/du-lieu-tong-hop-cong",
     name: "Dữ liệu tổng hợp công",
     exact: true,
-    component: TimeKeepingDayPage,
+    component: TimeKeepingGroupPage,
   },
   {
     path: "/nhan-su/hop-dong/ds-hop-dong-het-han",

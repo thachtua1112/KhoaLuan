@@ -4,14 +4,9 @@ import { Toolbar, Tooltip, IconButton,makeStyles, Chip, Typography } from "@mate
 
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-
 import FindInPageIcon from "@material-ui/icons/FindInPage";
-
-import ExposureIcon from '@material-ui/icons/Exposure';
-import NoteAddIcon from '@material-ui/icons/NoteAdd';
-
-
-import SearchIcon from "@material-ui/icons/Search";
+import SearchIcon from '@material-ui/icons/Search';
+import ReplaySharpIcon from '@material-ui/icons/ReplaySharp';
 
 
 
@@ -36,34 +31,27 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-
 const ToolBar = (props) => {
 
     const classes = useStyles();
 
-  const {   RowsSelected ,searchDataTimeKeeping,onCalculateTimeKeeping} = props;
+  const {  TongHopCong ,RowsSelected } = props;
 
-
-  
-  const checkCalculate=()=>{
-    return RowsSelected.some((element)=>element.Status!=="DA_TINH_CONG")
-  }
 
   return (
    
       <Toolbar variant="dense" disableGutters className={classes.root} >
       <div className={classes.left}> 
-         <Chip
-            icon={<SearchIcon />}
-            label="TÌM KIẾM"
-            clickable
-            className={classes.search} 
-            onClick={searchDataTimeKeeping}
-            color="primary" 
-            />
+      <Chip
+      icon={<SearchIcon />}
+      label="TÌM KIẾM"
+      clickable
+      className={classes.search} 
+      //onClick={searchDataTimeKeeping}
+      color="primary" 
+      />
             <Typography variant="h6" component="h2" style={{width:"200px"}}>
-            { RowsSelected.length>0?`${RowsSelected.length} dòng đã chọn`:null
-          }
+            {RowsSelected.length>0?`${RowsSelected.length} dòng đã chọn`:null}
             </Typography>
 
           
@@ -76,36 +64,25 @@ const ToolBar = (props) => {
 
     <div>
     <Chip
-    onClick={onCalculateTimeKeeping}
-    icon={<ExposureIcon />}
-    label="TÍNH NGÀY CÔNG"
-    clickable 
-    disabled={!checkCalculate()}
+    icon={<ReplaySharpIcon />}
+    label="TỔNG HỢP LẠI"
+    clickable
     className={classes.search} 
     color="primary" 
     />
-
-
-
-
-     <IconButton disabled={RowsSelected.length!==1?true:false}  >
-      <Tooltip   title="Xem chi tiết"  >
+     <IconButton   >
+      <Tooltip   title="Xem chi tiết">
        <FindInPageIcon />
        </Tooltip>
      </IconButton>
-     <Tooltip title="Thêm dữ liệu chấm công">
-     <IconButton>
-       <NoteAddIcon />
-     </IconButton>
-     </Tooltip>
-     
-     <IconButton disabled={RowsSelected.length!==1?true:false} >
-     <Tooltip title="Sửa"  >
+    
+     <IconButton >
+     <Tooltip title="Sửa">
        <CreateIcon />
        </Tooltip>     
      </IconButton>
   
-       <IconButton disabled={RowsSelected.length<=0?true:false} >
+       <IconButton >
        <Tooltip title="Xóa">
          <DeleteOutlineIcon />
          </Tooltip> 
@@ -123,7 +100,3 @@ const ToolBar = (props) => {
   );
 };
 export default ToolBar;
-
-
-
-

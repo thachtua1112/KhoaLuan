@@ -115,9 +115,9 @@ const Search = (props) => {
             if (item)
               return setFilter({
                 ...Filter,
-                ...{ setOrgStructureID: item.ID },
+                ...{ OrgStructureID: item.ID },
               });
-            const { setOrgStructureID, ...FilterNew } = Filter;
+            const { OrgStructureID, ...FilterNew } = Filter;
             setFilter(FilterNew);
           }}
           getOptionLabel={(option) =>
@@ -175,31 +175,31 @@ const Search = (props) => {
              className={classes.date}
              format="dd/MM/yyyy"
              value={
-               !Filter.DateTimeKeeping
+               !Filter.DateKeeping
                  ? null
-                 : !Filter.DateTimeKeeping["$gt"]
+                 : !Filter.DateKeeping["$gt"]
                  ? null
-                 : Filter.DateTimeKeeping["$gt"]
+                 : Filter.DateKeeping["$gt"]
              }
              maxDate={
-               !Filter.DateTimeKeeping
+               !Filter.DateKeeping
                  ? new Date()
-                 : !Filter.DateTimeKeeping["$lte"]
+                 : !Filter.DateKeeping["$lte"]
                  ? new Date()
-                 : Filter.DateTimeKeeping["$lte"]
+                 : Filter.DateKeeping["$lte"]
              }
              onChange={(date) => {
                if (null !== date)
                  return setFilter({
                    ...Filter,
-                   ...{ DateTimeKeeping: { ...Filter.DateTimeKeeping, $gt: date } },
+                   ...{ DateKeeping: { ...Filter.DateKeeping, $gt: date } },
                  });
-               if (!Filter.DateTimeKeeping) {
-                 const { DateTimeKeeping, ...FilterNew } = Filter;
+               if (!Filter.DateKeeping) {
+                 const { DateKeeping, ...FilterNew } = Filter;
                  return setFilter(FilterNew);
                }
-               const { $gt, ...DateTimeKeepingNew } = Filter.DateTimeKeeping;
-               setFilter({ ...Filter, DateTimeKeeping: DateTimeKeepingNew });
+               const { $gt, ...DateKeepingNew } = Filter.DateKeeping;
+               setFilter({ ...Filter, DateKeeping: DateKeepingNew });
              }}
            />
            <KeyboardDatePicker
@@ -209,34 +209,34 @@ const Search = (props) => {
              fullWidth={false}
              className={classes.date}
              minDate={
-               !Filter.DateTimeKeeping
+               !Filter.DateKeeping
                  ? 0
-                 : !Filter.DateTimeKeeping["$gt"]
+                 : !Filter.DateKeeping["$gt"]
                  ? 0
-                 : Filter.DateTimeKeeping["$gt"]
+                 : Filter.DateKeeping["$gt"]
              }
              maxDate={new Date()}
              label="Đến ngày"
              format="dd/MM/yyyy"
              value={
-               !Filter.DateTimeKeeping
+               !Filter.DateKeeping
                  ? null
-                 : !Filter.DateTimeKeeping["$lte"]
+                 : !Filter.DateKeeping["$lte"]
                  ? null
-                 : Filter.DateTimeKeeping["$lte"]
+                 : Filter.DateKeeping["$lte"]
              }
              onChange={(date) => {
                if (null !== date)
                  return setFilter({
                    ...Filter,
-                   ...{ DateTimeKeeping: { ...Filter.DateTimeKeeping, $lte: date } },
+                   ...{ DateKeeping: { ...Filter.DateKeeping, $lte: date } },
                  });
-               if (!Filter.DateTimeKeeping) {
-                 const { DateTimeKeeping, ...FilterNew } = Filter;
+               if (!Filter.DateKeeping) {
+                 const { DateKeeping, ...FilterNew } = Filter;
                  return setFilter(FilterNew);
                }
-               const { $lte, ...DateTimeKeepingNew } = Filter.DateTimeKeeping;
-               setFilter({ ...Filter, DateTimeKeeping: DateTimeKeepingNew });
+               const { $lte, ...DateKeepingNew } = Filter.DateKeeping;
+               setFilter({ ...Filter, DateKeeping: DateKeepingNew });
              }}
            />
          </div>
@@ -253,7 +253,7 @@ export default Search;
 
 const StatusValue = [
   {
-    value: null,
+    value: "",
     label: "None",
   },
   {

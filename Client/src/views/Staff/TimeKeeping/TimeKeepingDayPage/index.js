@@ -72,10 +72,26 @@ const TimeKeepingDayPage = () => {
     setnoItem(Loading)
     setListDataTimeKeeping([])
     setRowsSelected([])
-    const res = await TimeKeepingAPI.getDataTimeKeeping();
+    const res = await TimeKeepingAPI.getDataTimeKeeping(Filter);
     setListDataTimeKeeping(res.data.data);
     setnoItem(noItemView)
   };
+
+
+  const reload=async()=>{
+    const res = await TimeKeepingAPI.getDataTimeKeeping(Filter);
+    setListDataTimeKeeping(res.data.data);
+  }
+
+  const onCalculateTimeKeeping= async()=>{
+    const listCalculate= RowsSelected.filter(item=>{
+     return "DA_TINH_CONG"!==item.Status
+    })
+    await TimeKeepingAPI.calculateTimeKeeping({listCalculate:listCalculate})
+    setRowsSelected([])
+    reload()
+  }
+
 
 
   
@@ -95,7 +111,7 @@ const TimeKeepingDayPage = () => {
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar  RowsSelected={RowsSelected} searchDataTimeKeeping={searchDataTimeKeeping} />
+          <ToolBar  onCalculateTimeKeeping={onCalculateTimeKeeping} RowsSelected={RowsSelected} searchDataTimeKeeping={searchDataTimeKeeping} />
         </Paper>
       </Grid>
 
@@ -113,6 +129,14 @@ export default TimeKeepingDayPage;
 const fields = [
   //{ _style: { width: "250px" }, key: "ProfileID", label: "ProfileID" },
   { _style: { width: "200px" }, key: "DateKeeping", label: "Ngày" },
+  {
+    _style: { width: "150px" },
+    key: "Status",
+    label: "Trạng thái",
+  },
+  { _style: { width: "100px" }, key: "TimeIn", label: "Giờ vào" },
+  { _style: { width: "100px" }, key: "TimeOut", label: "Giờ ra" },
+  
   { _style: { width: "150px" }, key: "CodeEmp", label: "Mã nhân viên" },
   { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
   {
@@ -121,13 +145,7 @@ const fields = [
 
     label: "Phòng ban",
   },
-  { _style: { width: "100px" }, key: "TimeIn", label: "Giờ vào" },
-  { _style: { width: "100px" }, key: "TimeOut", label: "Giờ ra" },
-  {
-    _style: { width: "250px" },
-    key: "Status",
-    label: "Trạng thái",
-  },
+ 
   {
     _style: { width: "100px" },
     key: "TotalHours",

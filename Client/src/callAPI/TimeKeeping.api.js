@@ -5,7 +5,7 @@ const getDataTimeKeeping = (body = null) => {
 };
 
 const calculateTimeKeeping = (body = null) => {
-  return callAPI(`/timekeeping`, "POST", body);
+  return callAPI(`/timekeeping/calculate`, "POST", body);
 };
 
 export default { getDataTimeKeeping, calculateTimeKeeping };
