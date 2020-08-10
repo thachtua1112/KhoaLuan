@@ -1,5 +1,5 @@
 module.exports = ({ name, gender,DateOfBirth, PAStreet, IDNo,IDDateOfIssue,IDPlaceOfIssue,
-    DateContract,
+    DateContract,ContractNo
 }) => {
     const today = new Date();
 return `
@@ -45,7 +45,7 @@ return `
       <p><em>Ng&agrave;y th&aacute;ng năm sinh</em>: ${DateOfBirth}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
       <p><em>Địa chỉ cư tr&uacute;</em>: ${PAStreet}</p>
       <p><em>Số CMND/Hộ chiếu</em>: ${IDNo}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>cấp ng&agrave;y</em>: ${IDDateOfIssue}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>tại</em>: ${IDPlaceOfIssue}</p>
-      <p><em>Số sổ lao động</em> (nếu c&oacute;):</p>
+      <p><em>Số sổ lao động</em> (nếu c&oacute;): ${ContractNo}</p>
       <p>Thỏa thuận k&yacute; kết hợp đồng lao động v&agrave; cam kết l&agrave;m đ&uacute;ng những điều khoản sau đ&acirc;y:</p>
       <h3>Điều 1: Thời hạn của hợp đồng lao động</h3>
       <ol>

@@ -14,6 +14,7 @@ const TimeKeepingRoute = require("./Att_TimeKeeping.route");
 
 const TimeKeepingGroupRoute = require("./Att_TimeKeepingGroup.route");
 const NewStaffRoute = require("./NewStaff.route");
+const ProfileQualificationRoute = require("./Hre_ProfileQualification.route");
 
 const routeAPI = express.Router();
 routeAPI.use("/positions", PositionRoute);
@@ -26,6 +27,7 @@ routeAPI.use("/stop-workings", StopWorkingRoute);
 routeAPI.use("/contract-types", ContractTypeRoute);
 routeAPI.use("/hre-contract", HreContractRoute);
 routeAPI.use("/new-staff", NewStaffRoute);
+routeAPI.use("/profile-qualification", ProfileQualificationRoute);
 
 routeAPI.use("/timekeeping", TimeKeepingRoute);
 

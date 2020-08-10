@@ -13,6 +13,7 @@ import { IconButton } from "@material-ui/core";
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
 import { UpDateProfileApi } from '../../../../callAPI/Hre_Profile.api';
 import qs from 'qs'
+import ProfileQualificationChild from './ProfileQualification';
 const StyledTableCell = withStyles((theme) => ({
   head: {
     backgroundColor: theme.palette.common.black,
@@ -23,7 +24,10 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 const Infor= (props)=>{
-  const data=props.data
+  const {
+    IDQualification,
+    data
+  }=props
   const [edit,setEdit]= useState(false)
   const [phone, setPhone] = useState("");
   const [address, setAddress]= useState("")
@@ -118,10 +122,7 @@ const Infor= (props)=>{
         </Table>
       </TableContainer>
       <TableContainer>
-        <Table
-
-
-        >
+        <Table>
           <TableHead>
           <TableRow><StyledTableCell colSpan={8}> <b>Liên hệ</b></StyledTableCell></TableRow>
 
@@ -158,6 +159,7 @@ const Infor= (props)=>{
           }
         </Table>
       </TableContainer>
+      <ProfileQualificationChild IDQualification={IDQualification}/>
     </Paper>
   )
 
