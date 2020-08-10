@@ -185,7 +185,7 @@ export default function NewContractPage() {
               <TableCell>
             Lương cơ bản
             <CInput onChange={Up_Salary} type = "number" required min = "1000000" ></CInput>
-          </TableCell>
+            </TableCell>
             <TableCell>
             Ngày có hiệu lực
             <CInput onChange={Up_StartDay} type="date" data-date-format="MMMM DD YYYY"></CInput>
