@@ -10,7 +10,7 @@ import { CInput } from '@coreui/react';
 import EditIcon from '@material-ui/icons/Edit';
 import { IconButton } from "@material-ui/core";
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
-import qs from 'qs'
+//import qs from 'qs'
 import { GetIdProfileQualificationApi } from '../../../../callAPI/Hre_ProfileQualification.api';
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -27,8 +27,9 @@ const ProfileQualificationChild= (props)=>{
   const [edit,setEdit]= useState(false)
   const [Qualification,setQualification]= useState([])
  useEffect(()=>{
-  GetIdProfileQualificationApi(IDQualification).then(res=>{
+  GetIdProfileQualificationApi(`${IDQualification}`).then(res=>{
     setQualification(res.data)
+    console.log("adadadad",IDQualification)
   })
  },[IDQualification])
  const On_edit = ()=>{
@@ -46,7 +47,7 @@ const On_update = ()=>{
       <TableRow><StyledTableCell colSpan={8}> <b>Trình độ chuyên môn</b></StyledTableCell></TableRow>
       </TableHead>
       {
-        Qualification.length===0?"": Qualification.map((index)=> { return (
+        Qualification.map((index)=> { return (
       <TableBody key={index.ID}>
       {edit===false?(
         <TableRow>
@@ -74,7 +75,7 @@ const On_update = ()=>{
       </TableBody>
       )}
       )
-   }
+  }
     </Table>
   </TableContainer>
   )
