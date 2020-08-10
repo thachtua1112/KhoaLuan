@@ -35,6 +35,18 @@ module.exports.get = async (req, res) => {
     return res.sendStatus(403);
   }
 };
+module.exports.Retired = async (req, res) => {
+  const today = new Date();
+  today.setFullYear(today.getFullYear()-40)
+  console.log(today)
+  try {
+    const result = await Hre_ProfileModel.find({ DateOfBirth:{$lte: today}});
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.sendStatus(403);
+  }
+};
+
 
 module.exports.getByID = async (req, res) => {
   try {

@@ -28,18 +28,23 @@ module.exports.NotYet_HreContract= async function(req,res){
 
 module.exports.HreContract= async function(req,res){
     try{
-        const contract = await Hre_ContractModel.distinct("ProfileID1");
-        const NotYet = await Hre_ProfileModel.find({ProfileID:
-            { $in:  contract }
-        })
-        return res.json({
-          result:NotYet
-        })
-    }
-    catch(err)
-    {
-       return res.sendStatus(403)
-    }
+      const contract = await Hre_ContractModel.aggregate([
+       {
+         $lookup: {
+           from: 'hre_profiles',
+           localField: 'ProfileID1',
+           foreignField: 'ProfileID',
+           as: 'profiles',
+         }
+       }
+      ])
+       return res.json(contract)
+     }
+     catch(err)
+     {
+       console.log(err)
+       res.sendStatus(403)
+     }
   }
 
 module.exports.Expire_Contract= async function(req,res){
@@ -53,7 +58,7 @@ module.exports.Expire_Contract= async function(req,res){
           DateEnd: 1,
           DateSigned:1,
           DateStart:1
-        } 
+        }
     },
     {
       $group:{
@@ -77,28 +82,6 @@ module.exports.Expire_Contract= async function(req,res){
       }
     }
    ])
-    /*const contract1= await Hre_ContractModel.aggregate([
-      {
-      $lookup: {
-        from: 'hre_profiles',
-        localField: 'ProfileID1',
-        foreignField: 'ProfileID',
-        as: 'profiles',
-      }
-    },
-    {
-      $project:{
-        ContractNo:1,
-        DateSigned:1,
-        DateStart:1,
-        DateEnd:1,
-        end:{$gte:["DateEnd",new Date()]},
-        JobDescription:1,
-        profiles: { "$arrayElemAt": [ "$profiles", 0 ] },
-      }
-    }
-  
-  ])*/
     return res.json(contract)
   }
   catch(err)

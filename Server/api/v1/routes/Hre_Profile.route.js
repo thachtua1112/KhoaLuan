@@ -9,6 +9,7 @@ ProfileRoute.route("/")
   .post(ProfileController.create);
 
 ProfileRoute.get("/not-yet-contract", ProfileController.NotYet_THrProfile);
+ProfileRoute.get("/retired", ProfileController.Retired);
 
 //ProfileRoute.get("/position/:id/profiles", ProfileController.getWithPosition);
 
