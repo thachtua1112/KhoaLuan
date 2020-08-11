@@ -17,4 +17,25 @@ module.exports.getByID = async (req, res) => {
     } catch (err) {
       return res.sendStatus(403);
     }
-  };    
+  };
+
+  module.exports.create = async (req, res) => {
+    try {
+      const  data  = req.body;
+      const result = await Hre_ProfileQualificationModel.create(data);
+      return res.status(200).json(result);
+    } catch (err) {
+      return res.sendStatus(403);
+    }
+  };
+  module.exports.update = async (req, res) => {
+    try {
+      const { ID } = req.params;
+      const data = req.body;
+      const result = await Hre_ProfileQualificationModel.findOneAndUpdate({ ProfileID1: ID }, data, {
+        new: true,
+      });      return res.status(200).json(result);
+    } catch (err) {
+      return res.sendStatus(403);
+    }
+  };

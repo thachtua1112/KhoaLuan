@@ -62,6 +62,7 @@ module.exports.update = async (req, res) => {
   try {
     const { ID } = req.params;
     const data = req.body;
+    console.log(data)
     const result = await Hre_ProfileModel.findOneAndUpdate({ ID: ID }, data, {
       new: true,
     });
