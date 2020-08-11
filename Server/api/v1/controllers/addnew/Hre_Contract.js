@@ -26,8 +26,10 @@ module.exports.NotYet_HreContract= async function(req,res){
     }
   }
 
-module.exports.HreContract= async function(req,res){
+module.exports.HistoryById= async function(req,res){
     try{
+      const { ID } = req.params;
+      console.log(ID)
       const contract = await Hre_ContractModel.aggregate([
        {
          $lookup: {
@@ -35,6 +37,11 @@ module.exports.HreContract= async function(req,res){
            localField: 'ProfileID1',
            foreignField: 'ProfileID',
            as: 'profiles',
+         }
+       },
+       {
+         $match:{
+          ProfileID1:ID
          }
        }
       ])
@@ -46,6 +53,47 @@ module.exports.HreContract= async function(req,res){
        res.sendStatus(403)
      }
   }
+  module.exports.HreContract= async function(req,res){
+    try {
+      const contract = await Hre_ContractModel.aggregate([
+        {
+           $sort: { 
+              ProfileID1: 1, 
+              DateEnd: 1,
+              DateSigned:1,
+              DateStart:1
+            }
+        },
+        {
+          $group:{
+            _id:"$ProfileID1",
+            DateSigned:{ $last: "$DateSigned" },
+            DateStart:{ $last: "$DateStart" },
+            DateEnd:{ $last: "$DateEnd" },
+          }
+        },
+        {
+          $lookup: {
+            from: 'hre_profiles',
+            localField: '_id',
+            foreignField: 'ProfileID',
+            as: 'profiles',
+          }
+        },
+        {
+          $match:{
+            DateEnd:{$gt: new Date()}
+          }
+        }
+       ])
+        return res.json(contract)
+      }
+      catch(err)
+      {
+        console.log(err)
+        res.sendStatus(403)
+      }
+  } 
 
 module.exports.Expire_Contract= async function(req,res){
   try{

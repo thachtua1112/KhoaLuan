@@ -7,6 +7,7 @@ HreContractRoute.get("/", HreContractController.getAll);
 HreContractRoute.get("/not-yet-contract", HreContractController.NotYet_HreContract);
 
 HreContractRoute.get("/contract", HreContractController.HreContract);
+HreContractRoute.get("/history/:ID", HreContractController.HistoryById);
 
 
 //HreContractRoute.get("/position/:id/profiles", ProfileController.getWithPosition);

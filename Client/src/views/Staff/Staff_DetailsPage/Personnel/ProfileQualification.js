@@ -42,12 +42,9 @@ const ProfileQualificationChild= (props)=>{
  }
  const up_Place = (e)=>{
   setPlace(e.target.value)
-  console.log(place)
-
 }
  const On_edit = ()=>{
   setEdit(true)
-  console.log(Qualification)
 }
 const On_update = ()=>{
   setEdit(false)
