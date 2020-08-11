@@ -122,6 +122,7 @@ const ReceiveNewStaffPage = () => {
               fields={ProfileFields}
               items={loadFiles}
               hover
+              tableFilter
               size='sm'
               striped
               bordered

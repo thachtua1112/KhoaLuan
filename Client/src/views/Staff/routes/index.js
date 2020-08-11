@@ -16,7 +16,7 @@ import TimeKeepingDayPage from "../TimeKeeping/TimeKeepingDayPage";
 import TimeKeepingGroupPage from "../TimeKeeping/TimeKeepingGroupPage";
 
 
-import ReceiveNewStaffPage from "../ReceiveNewStaff";
+import ReceiveNewStaffPage from "../ReceiveNewStaff/ReceiveNewEmployee";
 import ExtendContractPage from "../ContractPage/Expire_ContractPage/extendContract.child";
 import ListNewEmployeePage from "../ReceiveNewStaff/ListNewEmployeePage";
 

@@ -16,14 +16,12 @@ import Infor from "./Infor";
 import { GetHre_Profie_Api } from "../../../../callAPI/Hre_Profile.api";
 const Personnel = (props) => {
   const [infor, setInfor] = useState([]);
-  const [Qualification, setQualification] = useState([]);
-  const params = props.params;
+  const {params} = props;
 
   useEffect(() => {
     GetHre_Profie_Api(params).then((res) => {
       if (res.data) {
         setInfor([res.data]);
-        setQualification(res.data.ProfileID)
       }
     });
   }, [params]);
@@ -40,7 +38,7 @@ const Personnel = (props) => {
                 </CNavItem>
               </CNav>
               <CTabContent>
-                <CTabPane>{<Infor data={infor} IDQualification={Qualification}/>}</CTabPane>
+                <CTabPane>{<Infor data={infor} IDQualification={params}/>}</CTabPane>
 
               </CTabContent>
             </CTabs>

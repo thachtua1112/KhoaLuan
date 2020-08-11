@@ -24,10 +24,8 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 const Infor= (props)=>{
-  const {
-    IDQualification,
-    data
-  }=props
+  const data=props.data
+  const IDQualification = props.IDQualification
   const [edit,setEdit]= useState(false)
   const [phone, setPhone] = useState("");
   const [address, setAddress]= useState("")

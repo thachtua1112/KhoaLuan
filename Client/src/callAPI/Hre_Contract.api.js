@@ -16,8 +16,12 @@ const  Expire_ContractApi = () =>
 {
   return callAPI("/hre-contract/expires","GET",null)
 }
+const GetHistoryContractApi = (body) =>
+{
+  return callAPI(`/hre-contract/history/${body}`,"GET",null)
+}
 const CreateContractApi = (body) =>
 {
   return callAPI("/hre-contract","POST",body)
 }
-export {CreateContractApi,Notyet_ContractApi,Expire_ContractApi,GetContractApi,ListContractApi}
+export {CreateContractApi,Notyet_ContractApi,Expire_ContractApi,GetContractApi,ListContractApi,GetHistoryContractApi}

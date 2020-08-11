@@ -1,12 +1,13 @@
 import React from 'react'
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
+//import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import { TableHead } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { CDataTable,CSidebarNav } from '@coreui/react';
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -18,6 +19,21 @@ const StyledTableCell = withStyles((theme) => ({
   },
 }))(TableCell);
 
+const getBadge = Gender => {
+  switch (Gender) {
+    case 'E_FEMALE': return 'Nữ'
+    default: return 'Nam'
+  }
+}
+const fields = [
+  // { key: 'ContractNo',_style: { width: '300px'}, label: "Số hợp đồng" },
+   { key: 'CodeEmp',_style: { width: '300px'}, label: "Mã nhân viên"  },
+   { key: 'ProfileName',_style: { width: '300px'},label: "Họ & tên" },
+   { key: 'Gender',_style: { width: '150px'},label: "Giới tính"  },
+   { key: 'DateSigned',_style: { width: '300px'},label: "Ngày kí"  },
+   { key: 'DateStart',_style: { width: '300px'},label: "Ngày có hiệu lực"  },
+   { key: 'DateEnd',_style: { width: '300px'},label: "Ngày hết hạn"  },
+  ]
 const ContractTable = (props)=>{
   const data = props.data;
   return (
@@ -26,37 +42,49 @@ const ContractTable = (props)=>{
       <Table >
       <TableHead>
       <TableRow><StyledTableCell colSpan={8}> <b>Thông tin hợp đồng</b></StyledTableCell></TableRow>
-
       </TableHead>
-          {
-            data.map((index)=> { return (
-            <TableBody key={index.ID}>
-              <TableRow hover role="checkbox" tabIndex={-1} >
-                <TableCell align="right"><b>Họ và tên</b></TableCell>
-                <TableCell>{index.ProfileName}</TableCell>
-                <TableCell align="right"><b>Mã nhân viên</b></TableCell>
-                <TableCell >{index.CodeEmp}</TableCell>
-                <TableCell align="right"><b>Ngày vào làm</b></TableCell>
-                <TableCell >{index.DateHire}</TableCell>
-                <TableCell align="right"><b>Ngày kí hợp đồng</b></TableCell>
-                <TableCell >{index.DateContract}</TableCell>
-              </TableRow>
-              <TableRow hover role="checkbox" tabIndex={-1} >
-                <TableCell align="right"><b>Chức vụ</b></TableCell>
-                <TableCell>{index.PositionName}</TableCell>
-                <TableCell align="right"><b>Chi nhánh</b></TableCell>
-                <TableCell >{index.E_DIVISION}</TableCell>
-                <TableCell align="right"><b>Bộ phận</b></TableCell>
-                <TableCell >{index.E_DEPARTMENT}</TableCell>
-                <TableCell align="right"><b>Vị trí</b></TableCell>
-                <TableCell >{index.E_SECTION}</TableCell>
-              </TableRow>
-            </TableBody>
-            )
-          })
-        }
       </Table>
     </TableContainer>
+    <CSidebarNav>
+    <CDataTable
+      items={data}
+      fields={fields}
+      hover
+     // size='sm'
+      striped
+      bordered
+      itemsPerPage={15}
+      pagination
+     // onRowClick={(item) => history.push(`/nhan-su/hop-dong/tao-moi-hop-dong/${item.CodeEmp}`)}
+      scopedSlots = {{
+        'Gender':
+          (item)=>(
+            <td>
+              {getBadge(item.profiles[0].Gender)}
+            </td>
+          ),
+          "DateHire":
+          (item)=>( <td>
+            {
+              new Date(item.DateHire).toLocaleString('en-GB')
+            }
+          </td>),
+          "ProfileName":
+          (item)=>(
+            <td>
+              {item.profiles[0].ProfileName}
+            </td>
+          ),
+          "CodeEmp":
+          (item)=>(
+            <td>
+            {item.profiles[0].CodeEmp}
+            </td>
+          )
+      }
+    }
+    />
+  </CSidebarNav>
   </Paper>
   )
 }

@@ -14,12 +14,12 @@ import {
   Paper
 } from '@material-ui/core'
 import ContractTable from './Contract_table'
-import { THre_Profie_Api } from '../../../../callAPI/T_HreProfile.api'
+import { GetHistoryContractApi } from '../../../../callAPI/Hre_Contract.api'
 const ContractCover = (props) =>{
   const params = props.params;
   const [contract,setContract]=useState([]);
   useEffect(()=>{
-    THre_Profie_Api(params).then(res=>{
+    GetHistoryContractApi(params).then(res=>{
       if(res.data)
       {
         setContract(res.data)
