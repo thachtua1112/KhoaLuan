@@ -14,7 +14,7 @@ module.exports.getAll = async (req, res) => {
 module.exports.getByID = async (req, res) => {
   try{
     const { ID } = req.params;
-    const result = await OrgUnitModel.find({ ID: ID });
+    const result = await OrgUnitModel.findOne({ OrgstructureID: ID });
     return res.status(200).json(result);    
   }
   catch(err)

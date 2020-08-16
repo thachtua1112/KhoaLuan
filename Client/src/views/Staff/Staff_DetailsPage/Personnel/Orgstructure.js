@@ -37,7 +37,7 @@ console.log("render",OrgStructureID)
       <TableRow><StyledTableCell colSpan={8}> <b>Vị trí làm việc</b></StyledTableCell></TableRow>
       </TableHead>
       {
-      OrgStructure.map((index)=> {console.log("index.ID",index.ID); return (
+      OrgStructure.map((index)=> {return (
       <TableBody key={index.ID}>
         <TableRow hover>
           <TableCell align="right"><b>Bộ phận trực thuộc</b></TableCell>

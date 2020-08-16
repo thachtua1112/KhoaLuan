@@ -4,9 +4,9 @@ const PositionController = require("../controllers/Cat_Position.controller");
 
 const PositionRoute = express.Router();
 
-PositionRoute.get("/", PositionController.getAll);
+//PositionRoute.get("/", PositionController.getAll);
 
-PositionRoute.get("/filter", PositionController.getWithFilter);
+PositionRoute.get("/", PositionController.getWithFilter);
 
 PositionRoute.get("/:ID", PositionController.getByID);
 
