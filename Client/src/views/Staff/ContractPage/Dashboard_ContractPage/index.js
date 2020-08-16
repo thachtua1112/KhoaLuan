@@ -67,7 +67,6 @@ const ContractPage = () => {
   const [staff,setStaff]=useState([]);
   const [load,setLoad]=useState(false);
 
-  const [codeEpm,setCodeEpm]=useState("");
   const [profilename,setProfileName]=useState("");
   const [gender,setGender]=useState("");
   const [DateOfBirth,setDateOfBirth]=useState("")
@@ -90,13 +89,13 @@ const ContractPage = () => {
   const up_Profile = (item)=> {
     setProfileName(item.profiles[0].ProfileName)
     setGender(getBadge(item.profiles[0].Gender))
-    setCodeEpm(item.profiles[0].CodeEmp)
     setDateContract(item.DateSigned)
     setContractNo(item.ContractNo)
       //liên kết thông tin
-      GetHre_Profie_Api(`${codeEpm}`).then((res)=>{
+      GetHre_Profie_Api(item.profiles[0].ProfileID).then((res)=>{
         if(res.data)
         {
+          console.log(res.data)
           setDateOfBirth(res.data.DateOfBirth)
           setPAStreet(res.data.PAddress)
           setIDNo(res.data.IDNo)

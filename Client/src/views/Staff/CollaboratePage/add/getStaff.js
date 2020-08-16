@@ -7,9 +7,9 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
-import { Notyet_ContractApi } from '../../../../callAPI/Hre_Contract.api';
-//import { GetHre_Profie_Api } from '../../../../callAPI/Hre_Profile.api';
+//import { Notyet_ContractApi } from '../../../../callAPI/Hre_Contract.api';
 import { CInput } from '@coreui/react';
+import { SelectStaffCollaborateApi } from '../../../../callAPI/Hre_Collaborates.api';
 
 
 export default function GetStaff(props) {
@@ -19,7 +19,7 @@ export default function GetStaff(props) {
   const [Staff, setStaff]=useState([])
   useEffect(()=>{
 
-    Notyet_ContractApi().then(res=>{
+    SelectStaffCollaborateApi().then(res=>{
       if(res.data)
       {
         return setStaff(res.data)
@@ -34,11 +34,20 @@ export default function GetStaff(props) {
   }=props
   const up_name =(e)=>{
     setName(e)
+    console.log(name)
   }
   const up_Code =(e)=>{
     setCode(e)
   }
-
+  /*let filter = Staff.filter(
+    (contact)=>{
+      if(contact.profiles)
+      {
+        return contact.profiles.ProfileName.toLowerCase().indexOf(name.trim().toLowerCase()) !== -1;
+      }
+      return 0;
+    }
+  );*/
   return (
     <TableRow hover>
       <TableCell>
@@ -48,18 +57,22 @@ export default function GetStaff(props) {
           //id="checkboxes-tags-demo"
           options={code.length<=0?Staff:code}
           disableCloseOnSelect
-          getOptionLabel={(option) => option.ProfileName}
-          renderOption={(option, { selected }) => (
+          getOptionLabel={(option) => option.profiles?option.profiles.ProfileName:""}
+          renderOption={(option, { selected }) => {
+            if (option.profiles)
+            {
+            return (
             <React.Fragment>
               <Checkbox
                 icon={icon}
                 checkedIcon={checkedIcon}
                 checked={selected}
               />
-              {option.ProfileName}
-            </React.Fragment>
-          )}
-          onChange={(event,item)=>{up_name(item==null?"":item);IdStaff(item==null?"":item)}}
+              {option.profiles.ProfileName}
+            </React.Fragment>)}
+          }}
+          onChange={(event,item)=>{up_name(item==null?"":item);IdStaff(item==null?"":item)
+        }}
          // onChange={up_name}
           renderInput={(params) => (
             <TextField {...params} variant="outlined" size="small" placeholder="Họ và tên nhân viên" />
@@ -73,17 +86,20 @@ export default function GetStaff(props) {
           id="checkboxes-tags-demo"
           options={name.length<=0?Staff:name}
           disableCloseOnSelect
-          getOptionLabel={(option) => option.CodeEmp}
-          renderOption={(option, { selected }) => (
+          getOptionLabel={(option) => option.profiles?option.profiles.ProfileName:""}
+          renderOption={(option, { selected }) => {
+            if(option.profiles)
+            {
+            return (
             <React.Fragment>
               <Checkbox
                 icon={icon}
                 checkedIcon={checkedIcon}
                 checked={selected}
               />
-              {option.CodeEmp}
-            </React.Fragment>
-          )}
+              {option.profiles.CodeEmp}
+            </React.Fragment>)}
+          }}
           onChange={(event,item)=>{up_Code(item==null?"":item)}}
           renderInput={(params) => (
             <TextField {...params} variant="outlined" size="small" placeholder="Mã nhân viên" />
@@ -91,7 +107,7 @@ export default function GetStaff(props) {
         />
     </TableCell>
     <TableCell>
-    Ngày kí hợp đồng
+    Ngày kí
       <CInput onChange={(e)=>DateSignature(new Date(e.target.value))} data-date-format="MMMM DD YYYY" type="date" ></CInput>
     </TableCell>
   </TableRow>

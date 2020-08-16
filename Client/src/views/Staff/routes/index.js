@@ -19,6 +19,8 @@ import TimeKeepingGroupPage from "../TimeKeeping/TimeKeepingGroupPage";
 import ReceiveNewStaffPage from "../ReceiveNewStaff/ReceiveNewEmployee";
 import ExtendContractPage from "../ContractPage/Expire_ContractPage/extendContract.child";
 import ListNewEmployeePage from "../ReceiveNewStaff/ListNewEmployeePage";
+import CollaboratePage from "../CollaboratePage";
+import NewCollaboratePage from "../CollaboratePage/add";
 
 /*
 const NewContractPage = React.lazy(() =>
@@ -125,6 +127,17 @@ const staffRoute = [
     name:"Thêm danh sách nhân viên",
     component:ReceiveNewStaffPage
   },
+  {
+    path:"/nhan-su/qua-trinh-cong-tac",
+    exact: true,
+    name:"Quá trình công tác",
+    component:CollaboratePage
+  },
+  {
+    path:"/nhan-su/qua-trinh-cong-tac/dieu-dong-bo-nhiem",
+    name:"Quá trình điều động, bổ nhiệm",
+    component:NewCollaboratePage
+  },
 
   ///
   {
@@ -136,19 +149,16 @@ const staffRoute = [
   {
     path: "/cham-cong/tong-hop-cong",
     name: "Tổng hợp công",
-    exact: true,
     component: CalculateKeepingPage,
   },
   {
     path: "/cham-cong/du-lieu-ngay-cong",
     name: "Dữ liệu ngày công",
-    exact: true,
     component: TimeKeepingDayPage,
   },
   {
     path: "/cham-cong/du-lieu-tong-hop-cong",
     name: "Dữ liệu tổng hợp công",
-    exact: true,
     component: TimeKeepingGroupPage,
   },
   {

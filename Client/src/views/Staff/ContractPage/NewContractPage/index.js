@@ -92,7 +92,7 @@ export default function NewContractPage() {
     seSalary(e.target.value)
   }
   const Up_StartDay = (e)=>{
-    SetStartDay(new Date(e.target.value).toLocaleString('en-GB'))
+    SetStartDay(new Date(e.target.value))//.toLocaleString('en-GB'))
     SetEndDay(new Date(e.target.value))
   }
   const upload = ()=>{
@@ -107,18 +107,18 @@ export default function NewContractPage() {
           ProfileID1:IdProfile[i-1].ProfileID,
           ContractNo:ContractNo,
           ContractTypeID:IdContractType,
-          DateSigned:new Date (DateSignature).toLocaleString('en-GB'),
+          DateSigned:new Date (DateSignature),//.toLocaleString('en-GB'),
           DateCreate:new Date(),
           DateStart: StartDay,
           Salary:salary,
           UserCreate:localStorage.getItem('username')==null?"":localStorage.getItem('username'),
-          DateEnd:new Date(EndDay).toLocaleString('en-GB')
+          DateEnd:EndDay.toString()==="Invalid Date"?"NaN": new Date(EndDay)//.toLocaleString('en-GB')
         }))
         i--;
       }
       return;
     }
-    return alert("Thêm không thành công, bạn đã bỏ qua mục nào đó rồi, à hihi")
+    return alert("Thêm không thành công")
   }
 
   //phụ cấp

@@ -9,7 +9,7 @@ import { TableHead } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { CInput } from '@coreui/react';
 import EditIcon from '@material-ui/icons/Edit';
-import { IconButton } from "@material-ui/core";
+import { IconButton,Tooltip } from "@material-ui/core";
 import SpellcheckIcon from '@material-ui/icons/Spellcheck';
 import { UpDateProfileApi } from '../../../../callAPI/Hre_Profile.api';
 import qs from 'qs'
@@ -130,7 +130,7 @@ const Infor= (props)=>{
           <TableBody key={index.ID}>
           {edit===false?(
             <TableRow>
-              <TableCell><IconButton onClick={On_edit}><EditIcon/></IconButton></TableCell>
+              <TableCell><Tooltip title="Sửa"><IconButton onClick={On_edit}><EditIcon/></IconButton></Tooltip></TableCell>
               <TableCell align="right"><b>Số điện thoại</b></TableCell>
               <TableCell colSpan='2'>{phone===''? index.Cellphone :phone   }</TableCell>
               <TableCell align="right"><b>Địa chỉ</b></TableCell>
@@ -139,7 +139,8 @@ const Infor= (props)=>{
           ):
           (
             <TableRow>
-              <TableCell><IconButton onClick={On_update}><SpellcheckIcon /></IconButton></TableCell>
+              <TableCell><Tooltip title="Cập nhật"><IconButton onClick={On_update}><SpellcheckIcon /></IconButton></Tooltip>
+              </TableCell>
               <TableCell align="right"><b>Số điện thoại</b></TableCell>
               <TableCell colSpan='2'>
                 <CInput type='tel' onChange={Up_Phone} placeholder={index.Cellphone}></CInput>

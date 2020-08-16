@@ -80,6 +80,11 @@ export default [
     _children: [
       {
         _tag: "CSidebarNavItem",
+        name: "Tạo mới hợp đồng",
+        to: "/nhan-su/hop-dong/tao-moi-hop-dong",
+      },
+      {
+        _tag: "CSidebarNavItem",
         name: "Danh sách hợp đồng",
         to: "/nhan-su/hop-dong/ds-hop-dong",
       },

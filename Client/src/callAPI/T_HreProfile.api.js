@@ -19,7 +19,7 @@ export const THre_Profie_Api =(body)=>{
   return callAPI(`/t-profiles/${body}`,"GET",null)
 
 }
-export const All_THreProfie_Api =(body)=>{
+export const THreProfie_Api =(body)=>{
   return callAPI('/t-profiles',"GET",body)
 
 }

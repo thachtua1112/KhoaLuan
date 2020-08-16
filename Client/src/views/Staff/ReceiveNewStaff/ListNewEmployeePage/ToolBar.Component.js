@@ -43,33 +43,33 @@ const ToolBar = (props) => {
   const {  onSearch ,RowSelected ,setshowNewProfile } = props;
 
   const goDetail = () => {
-    history.push(`/nhan-su/chi-tiet-nhan-vien/${RowSelected.CodeEmp}`);
+    history.push(`/nhan-su/chi-tiet-nhan-vien/${RowSelected.ProfileID}`);
   };
 
   return (
-   
+
       <Toolbar variant="dense" disableGutters className={classes.root} >
-      <div className={classes.left}> 
+      <div className={classes.left}>
          <Chip
             icon={<SearchIcon />}
             label="Tìm kiếm"
             clickable
-            className={classes.search} 
+            className={classes.search}
             onClick={onSearch}
-            color="primary" 
+            color="primary"
             />
             <Typography variant="h6" component="h2">
             Nhân viên : {RowSelected?RowSelected.ProfileName:null}
             </Typography>
-  
-    </div> 
-      
-     
-     <div className={classes.right}> 
+
+    </div>
+
+
+     <div className={classes.right}>
 
     <div>
 
-  
+
     <IconButton onClick={()=>setshowNewProfile(true)}>
     <Tooltip title="Thêm hồ sơ">
       <NoteAddIcon />
@@ -81,42 +81,42 @@ const ToolBar = (props) => {
        <FindInPageIcon />
        </Tooltip>
      </IconButton>
-    
+
      <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
      <Tooltip title="Cập nhật thông tin">
        <CreateIcon />
-       </Tooltip>     
+       </Tooltip>
      </IconButton>
-  
-    
+
+
        <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
        <Tooltip title="Xóa hồ sơ">
          <DeleteOutlineIcon />
-         </Tooltip> 
+         </Tooltip>
        </IconButton>
-     
+
      </div>
      <div
      className={classes.setting}
      >
-    
+
         <IconButton>
         <Tooltip title="Export">
           <SaveAltIcon />
-          </Tooltip>     
+          </Tooltip>
         </IconButton>
-    
+
         <IconButton>
         <Tooltip title="Cài đặt hiển thị">
           <SettingsIcon />
           </Tooltip>
         </IconButton>
-     
+
       </div>
       </div>
-       
+
       </Toolbar>
-   
+
   );
 };
 export default ToolBar;

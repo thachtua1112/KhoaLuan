@@ -33,70 +33,69 @@ const useStyles = makeStyles((theme) => ({
 
 const ToolBar = (props) => {
 
-    const classes = useStyles();
+  const classes = useStyles();
 
-  const {  TongHopCong ,RowsSelected } = props;
-
+  const { RowsSelected } = props;//TongHopCong
 
   return (
-   
+
       <Toolbar variant="dense" disableGutters className={classes.root} >
-      <div className={classes.left}> 
+      <div className={classes.left}>
       <Chip
       icon={<SearchIcon />}
       label="TÌM KIẾM"
       clickable
-      className={classes.search} 
+      className={classes.search}
       //onClick={searchDataTimeKeeping}
-      color="primary" 
+      color="primary"
       />
             <Typography variant="h6" component="h2" style={{width:"200px"}}>
             {RowsSelected.length>0?`${RowsSelected.length} dòng đã chọn`:null}
             </Typography>
 
-          
-  
-    </div> 
-      
-     
-     <div className={classes.right}> 
-    
+
+
+    </div>
+
+
+     <div className={classes.right}>
+
 
     <div>
     <Chip
     icon={<ReplaySharpIcon />}
     label="TỔNG HỢP LẠI"
     clickable
-    className={classes.search} 
-    color="primary" 
+    className={classes.search}
+    color="primary"
     />
      <IconButton   >
       <Tooltip   title="Xem chi tiết">
        <FindInPageIcon />
        </Tooltip>
      </IconButton>
-    
+
      <IconButton >
      <Tooltip title="Sửa">
        <CreateIcon />
-       </Tooltip>     
+       </Tooltip>
      </IconButton>
-  
+
        <IconButton >
        <Tooltip title="Xóa">
          <DeleteOutlineIcon />
-         </Tooltip> 
+         </Tooltip>
        </IconButton>
-     
+
      </div>
      <div
      className={classes.setting}
-     >     
+     >
       </div>
       </div>
-       
+
       </Toolbar>
-   
+
   );
 };
 export default ToolBar;

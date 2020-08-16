@@ -4,14 +4,15 @@ import { useHistory } from "react-router-dom";
 
 import { Toolbar, Tooltip, IconButton,makeStyles, Chip, Typography } from "@material-ui/core";
 
-import CreateIcon from "@material-ui/icons/Create";
+//import CreateIcon from "@material-ui/icons/Create";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import SettingsIcon from "@material-ui/icons/Settings";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
 import FindInPageIcon from "@material-ui/icons/FindInPage";
 import SearchIcon from "@material-ui/icons/Search";
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
-
+import ProfileAPI from "../../../callAPI/Profile.api";
+import CustomizedDialogs from "./UpdateStatus";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,7 +44,9 @@ const ToolBar = (props) => {
   const {  onSearch ,RowSelected ,setshowNewProfile } = props;
 
   const goDetail = () => {
-    history.push(`/nhan-su/chi-tiet-nhan-vien/${RowSelected.ProfileID}`);
+    ProfileAPI.getProfiles({CodeEmp:RowSelected.CodeEmp}).then(res=>{
+      history.push(`/nhan-su/chi-tiet-nhan-vien/${res.data[0].ProfileID}`);
+    })
   };
 
   return (
@@ -63,14 +66,14 @@ const ToolBar = (props) => {
             </Typography>
 
     </div>
-
+    <CustomizedDialogs/>
 
      <div className={classes.right}>
 
     <div>
 
 
-    <IconButton onClick={()=>setshowNewProfile(true)}>
+    <IconButton onClick={()=>setshowNewProfile(true)} disabled={RowSelected.Status==='Chuẩn bị công tác'?false:true}>
     <Tooltip title="Thêm hồ sơ">
       <NoteAddIcon />
       </Tooltip>
@@ -79,12 +82,6 @@ const ToolBar = (props) => {
      <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}   onClick={goDetail}>
       <Tooltip   title="Xem chi tiết hồ sơ">
        <FindInPageIcon />
-       </Tooltip>
-     </IconButton>
-
-     <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
-     <Tooltip title="Cập nhật thông tin">
-       <CreateIcon />
        </Tooltip>
      </IconButton>
 
@@ -114,7 +111,6 @@ const ToolBar = (props) => {
 
       </div>
       </div>
-
       </Toolbar>
 
   );
