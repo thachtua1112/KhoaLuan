@@ -4,11 +4,12 @@ const OrgUnitController = require("../controllers/Cat_OrgUnit.controller");
 
 const OrgUnitRoute = express.Router();
 
-OrgUnitRoute.get("/", OrgUnitController.getAll);
-
-OrgUnitRoute.get("/filter", OrgUnitController.getWithFilter);
+//OrgUnitRoute.get("/", OrgUnitController.getAll);
 
 OrgUnitRoute.get("/:ID", OrgUnitController.getByID);
+
+OrgUnitRoute.get("/", OrgUnitController.getWithFilter);
+
 
 OrgUnitRoute.post("/", OrgUnitController.create);
 

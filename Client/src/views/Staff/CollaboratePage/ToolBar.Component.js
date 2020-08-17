@@ -48,6 +48,11 @@ const ToolBar = (props) => {
       history.push(`/nhan-su/chi-tiet-nhan-vien/${res.data[0].ProfileID}`);
     })
   };
+  const goUpdate = () => {
+    ProfileAPI.getProfiles({CodeEmp:RowSelected.CodeEmp}).then(res=>{
+      history.push(`/nhan-su/qua-trinh-cong-tac/cap-nhat-ho-so/${res.data[0].ProfileID}`);
+    })
+  };
 
   return (
 
@@ -75,6 +80,12 @@ const ToolBar = (props) => {
 
     <IconButton onClick={()=>setshowNewProfile(true)} disabled={RowSelected.Status==='Chuẩn bị công tác'?false:true}>
     <Tooltip title="Thêm hồ sơ">
+      <NoteAddIcon />
+      </Tooltip>
+    </IconButton>
+
+    <IconButton  onClick={goUpdate} disabled={RowSelected.Status==='Chuẩn bị công tác'?false:true}>
+    <Tooltip title="Thay đổi hồ sơ">
       <NoteAddIcon />
       </Tooltip>
     </IconButton>

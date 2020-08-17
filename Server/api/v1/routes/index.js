@@ -1,7 +1,7 @@
 const express = require("express");
 
 const ProfileRoute = require("./Hre_Profile.route");
-const T_ProfileRoute = require("./T_Hre_Profile.route");
+const Hre_CollaborateRoute = require("./Hre_Collaborate.route");
 const PositionRoute = require("./Cat_Position.route");
 const OrgUnitRoute = require("./Cat_OrgUnit.route");
 const OrgStructureRoute = require("./Cat_OrgStructure.route");
@@ -20,7 +20,9 @@ const ProfileQualificationRoute = require("./Hre_ProfileQualification.route");
 const routeAPI = express.Router();
 routeAPI.use("/positions", PositionRoute);
 routeAPI.use("/profiles", ProfileRoute);
-routeAPI.use("/t-profiles", T_ProfileRoute);
+//routeAPI.use("/t-profiles", T_ProfileRoute);
+routeAPI.use("/hre-collaborates", Hre_CollaborateRoute);
+
 routeAPI.use("/org-structures", OrgStructureRoute);
 routeAPI.use("/org-units", OrgUnitRoute);
 routeAPI.use("/work-histories", WorkHistoryRoute);

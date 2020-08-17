@@ -86,6 +86,7 @@ module.exports.HistoryById= async function(req,res){
           }
         }
        ])
+       // await contract.limit(10)
         return res.json(contract)
       }
       catch(err)

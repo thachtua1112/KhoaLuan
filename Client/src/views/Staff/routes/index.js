@@ -15,6 +15,7 @@ import ExtendContractPage from "../ContractPage/Expire_ContractPage/extendContra
 import ListNewEmployeePage from "../ReceiveNewStaff/ListNewEmployeePage";
 import CollaboratePage from "../CollaboratePage";
 import NewCollaboratePage from "../CollaboratePage/add";
+import UpdateCollaboratePage from "../CollaboratePage/update";
 
 /*
 const NewContractPage = React.lazy(() =>
@@ -131,6 +132,11 @@ const staffRoute = [
     path:"/nhan-su/qua-trinh-cong-tac/dieu-dong-bo-nhiem",
     name:"Quá trình điều động, bổ nhiệm",
     component:NewCollaboratePage
+  },
+  {
+    path:"/nhan-su/qua-trinh-cong-tac/cap-nhat-ho-so/:ProfileID",
+    name:"Cập nhật hồ sơ công tác",
+    component:UpdateCollaboratePage
   },
 
   {

@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const NewStaffSchema = new Schema
 ({
+    ProfileID: { type: Schema.Types.String },
     ProfileName: { type: Schema.Types.String },
     NameFamily: { type: Schema.Types.String },
     FirstName: { type: Schema.Types.String },
