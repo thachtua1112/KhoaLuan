@@ -22,7 +22,7 @@ import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import qs from 'qs'
-import { CInput, CSelect } from '@coreui/react';
+import { CInput, CSelect, CForm } from '@coreui/react';
 import ContractNumber from './getContract';
 import GetStaff from './getStaff';
 import  ContractType  from './getContractType';
@@ -184,11 +184,11 @@ export default function NewContractPage() {
               </TableCell>
               <TableCell>
             Lương cơ bản
-            <CInput onChange={Up_Salary} type = "number" required min = "1000000" ></CInput>
+            <CInput onChange={Up_Salary} type = "number" required min = "1000000"></CInput>
             </TableCell>
             <TableCell>
             Ngày có hiệu lực
-            <CInput onChange={Up_StartDay} type="date" data-date-format="MMMM DD YYYY"></CInput>
+            <CInput onChange={Up_StartDay} type="date" data-date-format="MMMM DD YYYY" required></CInput>
             </TableCell>
 
           </TableRow>
@@ -315,9 +315,11 @@ export default function NewContractPage() {
           <Button onClick={handleClose} color="primary">
             Cancle
           </Button>
-          <Button onClick={upload} color="primary">
+          <CForm onSubmit={upload}>
+          <Button type='submit' color="primary">
             Ok
           </Button>
+          </CForm>
         </DialogActions>
       </Dialog>
   </Paper>

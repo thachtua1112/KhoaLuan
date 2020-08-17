@@ -7,6 +7,9 @@ export const HreCollaboratesApi =(body)=>{
 export const CreateHreCollaboratesApi =(body)=>{
   return callAPI(`/hre-collaborates`,"POST",body)
 }
+export const UpdaHreCollaboratesApi =(id,body)=>{
+  return callAPI(`/hre-collaborates/${id}`,"PUT",body)
+}
 export const SelectStaffCollaborateApi =()=>{
   return callAPI(`/hre-collaborates/select-staff`,"GET",null)
 }

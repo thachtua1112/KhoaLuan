@@ -22,9 +22,9 @@ import Slide from '@material-ui/core/Slide';
 import qs from 'qs'
 import { CInput, CForm } from '@coreui/react';
 import PositionName from './getPosition';
-import GetStaff from './getStaff';
 import  Company  from './getCompany';
-import { CreateHreCollaboratesApi } from '../../../../callAPI/Hre_Collaborates.api';
+import {  UpdaHreCollaboratesApi } from '../../../../callAPI/Hre_Collaborates.api';
+import {Redirect} from 'react-router-dom'
 
 const useStyles = makeStyles({
   root: {
@@ -44,14 +44,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
-export default function NewCollaboratePage() {
+export default function UpdateCollaboratePage({match}) {
+  const paramater = match.params.ProfileID;
+  const [Nav, setNav] = useState(false)
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [NamePosition, setNamePosition] = useState("")
-  const [IdProfile, SetIdProfile] = useState([])
   const [StartDay, SetStartDay] = useState(new Date());
   const [EndDay, SetEndDay] = useState(new Date());
-  const [DateSignature,setDateSignature]=useState(new Date())
   const [Time, setTime] = useState(null)
   const [NhaMay,setNhaMay]= useState("")
   const [MaNhaMay,setMaNhaMay]= useState("")
@@ -64,7 +64,6 @@ export default function NewCollaboratePage() {
   const [To,setTo]=useState("")
   const [MaTo,setMaTo]=useState("")
 
-
   const Up_StartDay = (e)=>{
     SetStartDay(new Date(e.target.value))//.toLocaleString('en-GB'))
     SetEndDay(new Date(e.target.value))
@@ -72,18 +71,9 @@ export default function NewCollaboratePage() {
   const upload = ()=>{
     setOpen(false);
     EndDay.setMonth(EndDay.getMonth()+Time)
-    let i=IdProfile.length;
-    if(i!==0){
-      alert("Thêm thành công")
-      while(i!==0)
-      {
-        CreateHreCollaboratesApi(qs.stringify({
-          ProfileID:IdProfile[i-1].profiles.ProfileID,
-          CodeEmp:IdProfile[i-1].profiles.CodeEmp,
-          ProfileName:IdProfile[i-1].profiles.ProfileName,
-          Status:"Chuẩn bị công tác",
+    UpdaHreCollaboratesApi(paramater,qs.stringify({
           DateCreate:new Date(),
-          DateSignature:new Date (DateSignature),//.toLocaleString('en-GB'),
+          DateSignature:new Date (),//.toLocaleString('en-GB'),
           DateStart: StartDay,
           DateEnd:new Date(EndDay),//.toLocaleString('en-GB'),
           Time:Time,
@@ -98,13 +88,15 @@ export default function NewCollaboratePage() {
           E_TEAM_CODE:MaBoPhan,
           E_SECTION: To,//Tổ công tác
           E_SECTION_CODE:MaTo
-        }))
-        i--;
-      }
-      return;
+        })).then(res=>{
+          if(res.data)
+          {
+            alert("Cập nhật thành công")
+            return setNav(true)
+          }
+          return alert("Cập nhật không thành công")
+        })
     }
-    return alert("Thêm không thành công")
-  }
 
   //phụ cấp
   //Các khoản phụ cấp
@@ -117,13 +109,11 @@ export default function NewCollaboratePage() {
     setOpen(false);
   };
 
-  return (
+  return Nav===true? <Redirect to='/nhan-su/qua-trinh-cong-tac' />: (
   <Paper className={classes.root}>
       <TableContainer>
         <Table stickyHeader aria-label="sticky table">
         <TableBody>
-
-          <GetStaff IdStaff={SetIdProfile} DateSignature={setDateSignature}/>
           <TableRow hover role="checkbox" tabIndex={-1} >
             <TableCell>
               Chức vụ

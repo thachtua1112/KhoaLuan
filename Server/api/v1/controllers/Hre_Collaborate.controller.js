@@ -111,10 +111,15 @@ module.exports.getByID = async (req, res) => {
 module.exports.update = async (req, res) => {
   try {
     const { ID } = req.params;
-    const { data } = req.body;
-    const result = Hre_CollaborateModel.findOneAndUpdate({ ID: ID }, data);
+    const  data = req.body;
+    //console.log("data",data)
+    const result = await Hre_CollaborateModel.findOneAndUpdate({ ProfileID: ID }, data,{
+      new: true
+    });
+    console.log("result",result)
     return res.status(200).json(result);
   } catch (err) {
+    console.log(err)
     return res.sendStatus(403);
   }
 };
