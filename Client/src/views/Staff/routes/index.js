@@ -10,12 +10,6 @@ import ExpireContractPage from "../ContractPage/Expire_ContractPage";
 
 
 
-
-import CalculateKeepingPage from "../TimeKeeping/CalculateKeepingPage";
-import TimeKeepingDayPage from "../TimeKeeping/TimeKeepingDayPage";
-import TimeKeepingGroupPage from "../TimeKeeping/TimeKeepingGroupPage";
-
-
 import ReceiveNewStaffPage from "../ReceiveNewStaff/ReceiveNewEmployee";
 import ExtendContractPage from "../ContractPage/Expire_ContractPage/extendContract.child";
 import ListNewEmployeePage from "../ReceiveNewStaff/ListNewEmployeePage";
@@ -139,28 +133,6 @@ const staffRoute = [
     component:NewCollaboratePage
   },
 
-  ///
-  {
-    path: "/cham-cong",
-    name: "Chấm công",
-    exact: true,
-    component: CalculateKeepingPage,
-  },
-  {
-    path: "/cham-cong/tong-hop-cong",
-    name: "Tổng hợp công",
-    component: CalculateKeepingPage,
-  },
-  {
-    path: "/cham-cong/du-lieu-ngay-cong",
-    name: "Dữ liệu ngày công",
-    component: TimeKeepingDayPage,
-  },
-  {
-    path: "/cham-cong/du-lieu-tong-hop-cong",
-    name: "Dữ liệu tổng hợp công",
-    component: TimeKeepingGroupPage,
-  },
   {
     path: "/nhan-su/hop-dong/ds-hop-dong-het-han",
     name: "Danh sách hợp đồng hết hạn",

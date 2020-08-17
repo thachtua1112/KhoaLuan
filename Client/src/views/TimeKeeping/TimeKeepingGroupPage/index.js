@@ -10,7 +10,7 @@ import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
 import Content from "./Content.Component";
 
-import TimeKeepingGroupAPI from "../../../../callAPI/TimeKeepingGroup.api"
+import TimeKeepingGroupAPI from "../../../callAPI/TimeKeepingGroup.api"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   content: { height: "75vh", paddingLeft: theme.spacing(1) },
 }));
 
-const CalculateKeepingPage = () => {
+const TimeKeepingGroupPage = () => {
   const classes = useStyles();
 
 const initDate=new Date()
@@ -74,7 +74,7 @@ initDate.setHours(0)
   );
 };
 
-export default CalculateKeepingPage;
+export default TimeKeepingGroupPage;
 
 const fields = [
   { _style: { width: "150px" }, key: "KiCong", label: "Kì công" },

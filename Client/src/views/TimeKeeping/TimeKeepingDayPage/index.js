@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import TimeKeepingAPI from "../../../../callAPI/TimeKeeping.api";
+import TimeKeepingAPI from "../../../callAPI/TimeKeeping.api";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     //height: "100vh" ,
-    paddingLeft: theme.spacing(1)
+   // paddingLeft: theme.spacing(1)
   },
   search: {  },
   toolbar: {
@@ -73,6 +73,7 @@ const TimeKeepingDayPage = () => {
     setListDataTimeKeeping([])
     setRowsSelected([])
     const res = await TimeKeepingAPI.getDataTimeKeeping(Filter);
+    console.log(res.data.data)
     setListDataTimeKeeping(res.data.data);
     setnoItem(noItemView)
   };
@@ -141,7 +142,7 @@ const fields = [
   { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
   {
     _style: { width: "300px" },
-    key: "OrgStructureID",
+    key: "OrgStructureName",
 
     label: "Phòng ban",
   },

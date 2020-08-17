@@ -53,9 +53,6 @@ const ToolBar = (props) => {
             <Typography variant="h6" component="h2" style={{width:"200px"}}>
             {RowsSelected.length>0?`${RowsSelected.length} dòng đã chọn`:null}
             </Typography>
-
-          
-  
     </div> 
       
      
@@ -63,25 +60,12 @@ const ToolBar = (props) => {
     
 
     <div>
-    <Chip
-    icon={<ReplaySharpIcon />}
-    label="TỔNG HỢP LẠI"
-    clickable
-    className={classes.search} 
-    color="primary" 
-    />
      <IconButton   >
       <Tooltip   title="Xem chi tiết">
        <FindInPageIcon />
        </Tooltip>
      </IconButton>
     
-     <IconButton >
-     <Tooltip title="Sửa">
-       <CreateIcon />
-       </Tooltip>     
-     </IconButton>
-  
        <IconButton >
        <Tooltip title="Xóa">
          <DeleteOutlineIcon />

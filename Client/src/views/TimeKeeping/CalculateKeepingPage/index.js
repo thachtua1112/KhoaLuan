@@ -10,7 +10,7 @@ import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
 import Content from "./Content.Component";
 
-import TimeKeepingGroupAPI from "../../../../callAPI/TimeKeepingGroup.api"
+import TimeKeepingGroupAPI from "../../../callAPI/TimeKeepingGroup.api"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   content: { height: "75vh", paddingLeft: theme.spacing(1) },
 }));
 
-const TimeKeepingGroupPage = () => {
+const CalculateKeepingPage = () => {
   const classes = useStyles();
 
 const initDate=new Date()
@@ -74,31 +74,31 @@ initDate.setHours(0)
   );
 };
 
-export default TimeKeepingGroupPage;
+export default CalculateKeepingPage;
 
 const fields = [
-  { _style: { width: "150px" }, key: "KiCong", label: "Kì công" },
-  { _style: { width: "150px" }, key: "Year", label: "Năm" },
-  { _style: { width: "150px" }, key: "Month", label: "Tháng" },
-  { _style: { width: "150px" }, key: "CodeEmp", label: "Mã nhân viên" },
+  { _style: { width: "100px" }, key: "KiCong", label: "Kì công" },
+  { _style: { width: "80px" }, key: "Year", label: "Năm" },
+  { _style: { width: "80px" }, key: "Month", label: "Tháng" },
+  { _style: { width: "120px" }, key: "CodeEmp", label: "Mã nhân viên" },
   { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
   {
-    _style: { width: "300px" },
-    key: "OrgStructureID",
+    _style: { width: "250px" },
+    key: "OrgStructureName",
 
     label: "Phòng ban",
   },
-  { _style: { width: "250px" }, key: "TotalKeepingReality", label: "Tổng ngày công thực tế" },
+  { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Ngày công thực tế" },
   {
-    _style: { width: "250px" },
+    _style: { width: "140px" },
     key: "SabbaticalLeave",
     label: "Nghỉ có phép",
   },
-  { _style: { width: "250px" }, key: "UnSabbaticalLeave", label: "Nghỉ không phép" },
-  { _style: { width: "250px" }, key: "SumKeeping", label: "Tổng hợp công" },
+  { _style: { width: "140px" }, key: "UnSabbaticalLeave", label: "Nghỉ không phép" },
+  { _style: { width: "140px" }, key: "SumKeeping", label: "Tổng hợp công" },
   { _style: { width: "250px" }, key: "avssds", label: "Ghi chú" },
   {
-    _style: { width: "250px" },
+    _style: { width: "100px" },
     key: "Status",
     label: "Status",
   },
