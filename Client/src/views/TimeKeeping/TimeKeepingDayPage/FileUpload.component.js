@@ -1,7 +1,7 @@
 import React ,{useState}from "react"
 import { CModal, CModalHeader, CModalBody, CModalFooter,CInputFile, CDataTable } from "@coreui/react"
-import ArchiveIcon from '@material-ui/icons/Archive';
-import { Grid ,makeStyles, Button, Paper, Chip} from "@material-ui/core"
+//import ArchiveIcon from '@material-ui/icons/Archive';
+import { Grid ,makeStyles, Button, Paper} from "@material-ui/core"
 
 import {  CSVLink } from "react-csv";
 
@@ -9,7 +9,7 @@ import {  CSVLink } from "react-csv";
 import {csv} from 'd3'
 
 
-import TimeKeeingAPI from "../../../callAPI/TimeKeeping.api"
+//import TimeKeeingAPI from "../../../callAPI/TimeKeeping.api"
 
 
 
@@ -54,9 +54,9 @@ const FileUpload=(props)=>{
     reader.readAsDataURL(event.target.files[0]);
   }
 
-  const onUpload= async(event)=>{
-    TimeKeeingAPI.importDataTimeKeeping(DataImport)
-  }
+  // const onUpload= async(event)=>{
+  //   TimeKeeingAPI.importDataTimeKeeping(DataImport)
+  // }
 
   return <CModal
   size="lg"

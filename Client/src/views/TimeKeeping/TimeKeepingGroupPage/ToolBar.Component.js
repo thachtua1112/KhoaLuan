@@ -35,7 +35,7 @@ const ToolBar = (props) => {
 
     const classes = useStyles();
 
-  const {  TongHopCong ,RowsSelected } = props;
+  const {  RowsSelected } = props;
 
 
   return (
