@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import OrgStructureAPI from "../../../../callAPI/OrgStructure.api";
+import OrgStructureAPI from "../../../callAPI/OrgStructure.api";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -177,9 +177,9 @@ const Search = (props) => {
              value={
                !Filter.DateKeeping
                  ? null
-                 : !Filter.DateKeeping["$gt"]
+                 : !Filter.DateKeeping["$gte"]
                  ? null
-                 : Filter.DateKeeping["$gt"]
+                 : Filter.DateKeeping["$gte"]
              }
              maxDate={
                !Filter.DateKeeping
@@ -192,13 +192,13 @@ const Search = (props) => {
                if (null !== date)
                  return setFilter({
                    ...Filter,
-                   ...{ DateKeeping: { ...Filter.DateKeeping, $gt: date } },
+                   ...{ DateKeeping: { ...Filter.DateKeeping, $gte: date } },
                  });
                if (!Filter.DateKeeping) {
                  const { DateKeeping, ...FilterNew } = Filter;
                  return setFilter(FilterNew);
                }
-               const { $gt, ...DateKeepingNew } = Filter.DateKeeping;
+               const { $gte, ...DateKeepingNew } = Filter.DateKeeping;
                setFilter({ ...Filter, DateKeeping: DateKeepingNew });
              }}
            />
@@ -211,9 +211,9 @@ const Search = (props) => {
              minDate={
                !Filter.DateKeeping
                  ? 0
-                 : !Filter.DateKeeping["$gt"]
+                 : !Filter.DateKeeping["$gte"]
                  ? 0
-                 : Filter.DateKeeping["$gt"]
+                 : Filter.DateKeeping["$gte"]
              }
              maxDate={new Date()}
              label="Đến ngày"

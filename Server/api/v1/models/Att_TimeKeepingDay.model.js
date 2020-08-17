@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const Att_TimeKeepingSchema = new Schema({
+const Att_TimeKeepingDaySchema = new Schema({
   ProfileID: { type: Schema.Types.String, required: true },
   DateKeeping: { type: Schema.Types.Date, required: true },
-  TimeIn: { type: Schema.Types.Date },
-  TimeOut: { type: Schema.Types.Date },
+  TimeIn: { type: Schema.Types.Date ,required: true },
+  TimeOut: { type: Schema.Types.Date ,required: true },
   TimeKeepingType: { type: Schema.Types.String },
   Description: { type: Schema.Types.String },
   Total: {
@@ -41,11 +41,11 @@ const Att_TimeKeepingSchema = new Schema({
   // },
 });
 
-Att_TimeKeepingSchema.pre("findOneAndUpdate", async function (next) {
+Att_TimeKeepingDaySchema.pre("findOneAndUpdate", async function (next) {
   next();
 });
 
-Att_TimeKeepingSchema.post("findOneAndUpdate", async function (doc) {
+Att_TimeKeepingDaySchema.post("findOneAndUpdate", async function (doc) {
   const { TimeOut, TimeIn } = this._update.$set;
 
   //cap nhat Status
@@ -61,19 +61,21 @@ Att_TimeKeepingSchema.post("findOneAndUpdate", async function (doc) {
   }
 });
 
-Att_TimeKeepingSchema.virtual("Profile", {
+Att_TimeKeepingDaySchema.virtual("Profile", {
   ref: "Hre_Profile",
   localField: "ProfileID",
   foreignField: "ProfileID",
   justOne: true,
 });
 
-Att_TimeKeepingSchema.set("toObject", { virtuals: true });
-Att_TimeKeepingSchema.set("toJSON", { virtuals: true });
+Att_TimeKeepingDaySchema.set("toObject", { virtuals: true });
+Att_TimeKeepingDaySchema.set("toJSON", { virtuals: true });
 
-const Att_TimeKeepingModel = mongoose.model(
+Att_TimeKeepingDaySchema.index({ProfileID: 1, DateKeeping: 1}, {unique: true})
+
+const Att_TimeKeepingDayModel = mongoose.model(
   "Att_TimeKeeping",
-  Att_TimeKeepingSchema
+  Att_TimeKeepingDaySchema
 );
 
-module.exports = Att_TimeKeepingModel;
+module.exports = Att_TimeKeepingDayModel;

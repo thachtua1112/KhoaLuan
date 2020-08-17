@@ -1,12 +1,12 @@
 import callAPI from "./callAPI";
 
 const getDataTimeKeepingGroup = (body = null) => {
-  return callAPI(`/timekeeping-group`, "GET", body);
+  return callAPI(`/timekeeping-groups`, "GET", body);
 };
 
 
 const calculateTimeKeepingGroup = (body = null) => {
-    return callAPI(`/timekeeping-group/calculate`, "POST", body);
+    return callAPI(`/timekeeping-groups/synthesis`, "POST", body);
   };
 
 export default { getDataTimeKeepingGroup,calculateTimeKeepingGroup };

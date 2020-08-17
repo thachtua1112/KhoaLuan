@@ -1,10 +1,12 @@
-const Att_TimeKeepingModel = require("../models/Att_TimeKeeping.model");
+const Att_TimeKeepingDayModel = require("../models/Att_TimeKeepingDay.model");
+const Hre_ProfileModel = require("../models/Hre_Profile.model");
+
 
 //Them ddu llieu cham cong
 module.exports.create = async (req, res) => {
   try {
     const data = req.body;
-    const result = await Att_TimeKeepingModel.create(data);
+    const result = await Att_TimeKeepingDayModel.create(data);
     //console.log(result);
     return res.json({
       ms: "GET",
@@ -22,7 +24,7 @@ module.exports.update = async (req, res) => {
   const data = req.body;
   const { _id } = req.params;
   try {
-    const result = await Att_TimeKeepingModel.findOneAndUpdate(
+    const result = await Att_TimeKeepingDayModel.findOneAndUpdate(
       _id,
       {
         ...data,
@@ -45,19 +47,81 @@ module.exports.update = async (req, res) => {
 //get du lieu cham cong
 module.exports.get = async (req, res) => {
   try {
-    const { OrgStructureID, ProfileName, CodeEmp, ...filter } = req.query;
-    console.log("FILTER", filter);
-    const result = await Att_TimeKeepingModel.find(filter).populate({
-      path: "Profile",
-      match: {
-        SortID: 156075,
+ 
+    const {Status,DateKeeping ,...filterProfile } =  req.query;
+    const {OrgStructureID,ProfileName, CodeEmp,...filterTimeKeeping } =  req.query;
+
+    if(filterTimeKeeping.DateKeeping){
+      if(filterTimeKeeping.DateKeeping["$gte"]){
+        filterTimeKeeping.DateKeeping["$gte"]=new Date(filterTimeKeeping.DateKeeping["$gte"])
+      }
+      if(filterTimeKeeping.DateKeeping["$lte"]){
+        filterTimeKeeping.DateKeeping["$lte"]=new Date(filterTimeKeeping.DateKeeping["$lte"])
+      }
+    }
+    
+
+    const data= await Hre_ProfileModel.aggregate([
+      {
+        $match:filterProfile
       },
-      select: { _id: 0, ProfileName: 1, CodeEmp: 1, OrgStructureID: 1 },
-    });
-    console.log("RESULT", result);
+      {
+        $project:{
+          _id:0,
+          CodeEmp:1,
+          ProfileName:1,
+          ProfileID:1,
+          OrgStructureID:1
+        }
+      },
+      {
+        $lookup:{
+          from: "cat_orgstructures",
+          localField:"OrgStructureID",
+          foreignField:"ID",
+          as: "OrgStructure"
+        }
+      },
+      {
+        $project:{     
+          CodeEmp:1,
+          ProfileName:1,
+          ProfileID:1,
+          OrgStructureName:{ $arrayElemAt: [ "$OrgStructure.OrgStructureName", 0 ] },
+        }
+      },
+      {
+        $lookup:{
+          from: "att_timekeepings",
+          localField:"ProfileID",
+          foreignField:"ProfileID",
+          as: "TimeKeeping"
+        }
+      },
+      {$unwind:"$TimeKeeping"},
+    
+      {
+        $project:{     
+          CodeEmp:1,
+          ProfileName:1,
+          OrgStructureName:1,
+          _id:"$TimeKeeping._id",
+          DateKeeping:"$TimeKeeping.DateKeeping",
+          TimeKeepingType:"$TimeKeeping.TimeKeepingType",
+          TimeIn:"$TimeKeeping.TimeIn",
+          TimeOut:"$TimeKeeping.TimeOut",
+          Description:"$TimeKeeping.Description",
+          Status:"$TimeKeeping.Status",
+          Total:"$TimeKeeping.Total",
+        }
+      },
+      {
+        $match:filterTimeKeeping
+      },
+    ])
     return res.json({
       ms: "GET TIME KEEPING DAY",
-      data: result,
+      data
     });
   } catch (err) {
     console.log(err);
@@ -65,27 +129,32 @@ module.exports.get = async (req, res) => {
   }
 };
 
-//tinh ngay cong
-module.exports.calculateTimeKeeping = async (req, res) => {
-  try {
-    const { listCalculate } = req.body;
-    const listCalculateResult = [];
-    for (let index = 0; index < listCalculate.length; index++) {
-      const element = listCalculate[index];
-      const data = await Att_TimeKeepingModel.findOneAndUpdate(
-        { _id: element._id },
-        {
-          Total: new Date(element.TimeOut) - new Date(element.TimeIn),
-          Status: "DA_TINH_CONG",
-        },
-        { new: true }
-      );
-      listCalculateResult.push(data);
-    }
 
-    res.json({ ms: "TINH CONG", data: listCalculateResult });
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(403);
+
+module.exports.import=async(req,res)=>{
+  try {
+  const dataImport=req.body.map(item=>{
+      return {...item,DateKeeping:new Date(item.DateKeeping),TimeIn:new Date(item.TimeIn),TimeOut:new Date(item.TimeOut),Status:"CHUA_TINH_CONG",TimeKeepingType:"BANG_TAY"}
+  })
+   await Att_TimeKeepingDayModel.insertMany(dataImport)
+    res.json({ms:"IMPORT_THANH_CONG"})
+  } catch (error) {
+    console.log(error)
+    res.json(403)
   }
-};
+ 
+}
+
+
+
+module.exports.delete=async(req,res)=>{
+  res.json("DELETE")
+}
+
+
+module.exports.calculate=async(req,res)=>{
+  res.json("calculate")
+}
+
+
+

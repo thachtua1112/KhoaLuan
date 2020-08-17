@@ -6,13 +6,10 @@ const TimeKeepingGroupRoute = express.Router();
 
 TimeKeepingGroupRoute.get("/", TimeKeepingGroupController.get);
 
-TimeKeepingGroupRoute.post("/calculate", TimeKeepingGroupController.calculate);
-
-TimeKeepingGroupRoute.post(
-  "/:CodeEmp",
-  TimeKeepingGroupController.synthesisTimeKeeping
-);
 
 TimeKeepingGroupRoute.patch("/:_id", TimeKeepingGroupController.update);
 
+TimeKeepingGroupRoute.post("/synthesis", TimeKeepingGroupController.synthesis);
+
 module.exports = TimeKeepingGroupRoute;
+

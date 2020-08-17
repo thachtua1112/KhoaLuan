@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
+
 
 import { Toolbar, Tooltip, IconButton,makeStyles, Chip, Typography } from "@material-ui/core";
+
+
+import UnarchiveIcon from '@material-ui/icons/Unarchive';
 
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
@@ -12,6 +16,8 @@ import NoteAddIcon from '@material-ui/icons/NoteAdd';
 
 
 import SearchIcon from "@material-ui/icons/Search";
+
+import FileUpload from "./FileUpload.component"
 
 
 
@@ -39,7 +45,9 @@ const useStyles = makeStyles((theme) => ({
 
 const ToolBar = (props) => {
 
-    const classes = useStyles();
+  const classes = useStyles();
+
+  const [showFileUpload,setshowFileUpload]= useState(false)
 
   const {   RowsSelected ,searchDataTimeKeeping,onCalculateTimeKeeping} = props;
 
@@ -52,6 +60,7 @@ const ToolBar = (props) => {
   return (
    
       <Toolbar variant="dense" disableGutters className={classes.root} >
+        <FileUpload showFileUpload={showFileUpload} setshowFileUpload={setshowFileUpload}/>
       <div className={classes.left}> 
          <Chip
             icon={<SearchIcon />}
@@ -86,7 +95,14 @@ const ToolBar = (props) => {
     />
 
 
-
+<Chip
+    onClick={()=>setshowFileUpload(true)}
+    icon={<UnarchiveIcon />}
+    label="TAI LEN"
+    clickable 
+    className={classes.search} 
+    color="primary" 
+    />
 
      <IconButton disabled={RowsSelected.length!==1?true:false}  >
       <Tooltip   title="Xem chi tiết"  >
@@ -105,7 +121,7 @@ const ToolBar = (props) => {
        </Tooltip>     
      </IconButton>
   
-       <IconButton disabled={RowsSelected.length<=0?true:false} >
+       <IconButton disabled={RowsSelected.length!==1?true:false} >
        <Tooltip title="Xóa">
          <DeleteOutlineIcon />
          </Tooltip> 

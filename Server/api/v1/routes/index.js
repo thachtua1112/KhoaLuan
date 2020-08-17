@@ -10,9 +10,10 @@ const WorkHistoryRoute = require("./Hre_WorkHistory.route");
 const StopWorkingRoute = require("./Hre_StopWorking.route");
 const HreContractRoute = require("./Hre_Contract.route");
 
-const TimeKeepingRoute = require("./Att_TimeKeeping.route");
+const TimeKeepingDayRoute = require("./Att_TimeKeepingDay.route");
 
 const TimeKeepingGroupRoute = require("./Att_TimeKeepingGroup.route");
+const SalaryRoute = require("./Salary.route");
 const NewStaffRoute = require("./NewStaff.route");
 const ProfileQualificationRoute = require("./Hre_ProfileQualification.route");
 
@@ -31,8 +32,10 @@ routeAPI.use("/hre-contract", HreContractRoute);
 routeAPI.use("/new-staff", NewStaffRoute);
 routeAPI.use("/profile-qualification", ProfileQualificationRoute);
 
-routeAPI.use("/timekeeping", TimeKeepingRoute);
+routeAPI.use("/timekeeping-days", TimeKeepingDayRoute);
 
-routeAPI.use("/timekeeping-group", TimeKeepingGroupRoute);
+routeAPI.use("/timekeeping-groups", TimeKeepingGroupRoute);
+
+routeAPI.use("/salarys",SalaryRoute)
 
 module.exports = routeAPI;

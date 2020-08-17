@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import OrgStructureAPI from "../../../../callAPI/OrgStructure.api";
+import OrgStructureAPI from "../../../callAPI/OrgStructure.api";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -114,9 +114,9 @@ const Search = (props) => {
                 if (item)
                   return setFilter({
                     ...Filter,
-                    ...{ setOrgStructureID: item.ID },
+                    ...{ OrgStructureID: item.ID },
                   });
-                const { setOrgStructureID, ...FilterNew } = Filter;
+                const { OrgStructureID, ...FilterNew } = Filter;
                 setFilter(FilterNew);
               }}
               getOptionLabel={(option) =>
