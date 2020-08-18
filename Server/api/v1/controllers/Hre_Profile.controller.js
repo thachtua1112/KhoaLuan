@@ -19,17 +19,61 @@ module.exports.NotYet_THrProfile = async function (req, res) {
 module.exports.get = async (req, res) => {
   try {
     const filter = req.query;
-    const result = await Hre_ProfileModel.find(filter)
-      .populate({
-        path: "OrgStructure",
-        select: { _id: 0, OrgStructureName: 1, Code: 1 },
-        justOne: true,
-      })
-      .populate({
-        path: "Position",
-        select: { PositionName: 1 },
-        justOne: true,
-      });
+    if(filter.DateHire){
+      if(filter.DateHire.$lte){
+        filter.DateHire.$lte=new Date(filter.DateHire.$lte)
+      }
+      if(filter.DateHire.$gt){
+        filter.DateHire.$gt=new Date(filter.DateHire.$gt)
+      }
+    }
+    const result = await Hre_ProfileModel.aggregate([
+      {
+      $match:filter
+      },
+      {
+        $lookup:{
+            "from": "cat_orgstructures",     
+            "localField": "OrgStructureID",     
+            "foreignField": "ID",     
+            "as": "OrgStructure"   
+        } 
+    },
+    {
+      $lookup:{
+          "from": "cat_positions",     
+          "localField": "PositionID",     
+          "foreignField": "ID",     
+          "as": "Position"   
+      } 
+    },
+    { $unwind: {path: "$OrgStructure"} },
+    { $unwind: {path: "$Position"} },
+    {
+      $addFields:{
+        OrgStructureName:"$OrgStructure.OrgStructureName",
+        PositionName:"$Position.PositionName"
+      }
+    },
+    {
+      $project:{
+        Position:0,
+        OrgStructure:0
+      }
+    }
+  ])
+
+    // const result = await Hre_ProfileModel.find(filter)
+    //   .populate({
+    //     path: "OrgStructure",
+    //     select: { _id: 0, OrgStructureName: 1, Code: 1 },
+    //     justOne: true,
+    //   })
+    //   .populate({
+    //     path: "Position",
+    //     select: { PositionName: 1 },
+    //     justOne: true,
+    //   });
     return res.status(200).json(result);
   } catch (err) {
     return res.sendStatus(403);
