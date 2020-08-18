@@ -124,11 +124,7 @@ const OrgStructurePage = () => {
               open={Boolean(anchorEl)}
               onClose={handleCloseExport}
             >
-              <MenuItem
-                onClick={(event) => {
-                  exportPDF();
-                }}
-              >
+              <MenuItem>
                 <CSVLink
                   data={ListProfile}
                   headers={fields}

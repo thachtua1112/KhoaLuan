@@ -4,14 +4,14 @@ import { useHistory } from "react-router-dom";
 
 import { Toolbar, Tooltip, IconButton,makeStyles, Chip, Typography } from "@material-ui/core";
 
-import CreateIcon from "@material-ui/icons/Create";
-import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import SettingsIcon from "@material-ui/icons/Settings";
-import NoteAddIcon from "@material-ui/icons/NoteAdd";
 import FindInPageIcon from "@material-ui/icons/FindInPage";
 import SearchIcon from "@material-ui/icons/Search";
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
 
+//import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
+//import NoteAddIcon from "@material-ui/icons/NoteAdd";
+//import CreateIcon from "@material-ui/icons/Create";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,7 +40,9 @@ const ToolBar = (props) => {
 
   const history = useHistory();
 
-  const {  onSearch ,RowSelected ,setshowNewProfile } = props;
+  const {  onSearch ,RowSelected ,
+    //setshowNewProfile
+   } = props;
 
   const goDetail = () => {
     history.push(`/nhan-su/chi-tiet-nhan-vien/${RowSelected.ProfileID}`);
@@ -69,12 +71,13 @@ const ToolBar = (props) => {
 
     <div>
 
-
-    <IconButton onClick={()=>setshowNewProfile(true)}>
-    <Tooltip title="Thêm hồ sơ">
-      <NoteAddIcon />
-      </Tooltip>
-    </IconButton>
+    {
+    // <IconButton onClick={()=>setshowNewProfile(true)}>
+    // <Tooltip title="Thêm hồ sơ">
+    //   <NoteAddIcon />
+    //   </Tooltip>
+    // </IconButton>
+    }
 
      <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}   onClick={goDetail}>
       <Tooltip   title="Xem chi tiết hồ sơ">
@@ -82,18 +85,22 @@ const ToolBar = (props) => {
        </Tooltip>
      </IconButton>
 
-     <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
-     <Tooltip title="Cập nhật thông tin">
-       <CreateIcon />
-       </Tooltip>
-     </IconButton>
+      {
+    //  <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
+    //  <Tooltip title="Cập nhật thông tin">
+    //    <CreateIcon />
+    //    </Tooltip>
+    //  </IconButton>
+      }
 
-
-       <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
-       <Tooltip title="Xóa hồ sơ">
-         <DeleteOutlineIcon />
-         </Tooltip>
-       </IconButton>
+{
+//  <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
+//  <Tooltip title="Xóa hồ sơ">
+//    <DeleteOutlineIcon />
+//    </Tooltip>
+//  </IconButton>
+}
+      
 
      </div>
      <div

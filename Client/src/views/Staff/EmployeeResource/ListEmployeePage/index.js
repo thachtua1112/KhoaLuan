@@ -4,7 +4,7 @@ import { Grid, Paper, CircularProgress } from "@material-ui/core";
 
 import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
-import NewProfile from "./NewProifile.Component"
+//import NewProfile from "./NewProifile.Component"
 
 import { makeStyles } from "@material-ui/core/styles";
 import Content from "./Content.Component";
@@ -18,7 +18,6 @@ import { cilBan } from "@coreui/icons";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    paddingLeft: theme.spacing(1)
   },
   search: {},
   toolbar: {},
@@ -61,7 +60,7 @@ const ListEmployeePage = (props) => {
   const [ListProfile, setListProfile] = useState([]);
   const [noItem, setnoItem] = useState(noItemView)
 
-  const [showNewProfile, setshowNewProfile] = useState(false)
+  //const [showNewProfile, setshowNewProfile] = useState(false)
 
   const onSearch = async () => {
     try {
@@ -78,7 +77,10 @@ const ListEmployeePage = (props) => {
 
   return (
     <Grid className={classes.root}>
-    <Grid item><NewProfile setshowNewProfile={setshowNewProfile} showNewProfile={showNewProfile}/></Grid>
+      {
+           // <Grid item><NewProfile setshowNewProfile={setshowNewProfile} showNewProfile={showNewProfile}/></Grid>
+      }
+  
       <Grid item>
         <Paper variant="outlined" className={classes.search}>
 
@@ -87,7 +89,9 @@ const ListEmployeePage = (props) => {
       </Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.toolbar}>
-          <ToolBar setshowNewProfile={setshowNewProfile} onSearch={onSearch} RowSelected={RowSelected} />
+          <ToolBar 
+         // setshowNewProfile={setshowNewProfile} 
+          onSearch={onSearch} RowSelected={RowSelected} />
         </Paper>
       </Grid>
       <Grid item>
