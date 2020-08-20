@@ -145,10 +145,8 @@ module.exports.create = async (req, res) => {
 
 module.exports.delete = async (req, res) => {
   try{
-    const { _id } = req.params;
-    const result = await StopWorkingModel.findById(
-      _id
-    );
+    const { ID } = req.params;
+    const result = await StopWorkingModel.findByIdAndDelete(ID);
     res.status(200).json(result);
   }
   catch(err)

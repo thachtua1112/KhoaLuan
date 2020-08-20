@@ -11,8 +11,8 @@ StopWorkingRoute.route("/")
 
 StopWorkingRoute.route("/:ID")
 .get(StopWorkingController.getByID)
-.post(StopWorkingController.update)
-.delete( StopWorkingController.delete);
+.put(StopWorkingController.update)
+.delete(StopWorkingController.delete);
 
 
 
