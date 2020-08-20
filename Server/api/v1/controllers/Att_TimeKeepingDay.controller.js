@@ -98,7 +98,7 @@ module.exports.get = async (req, res) => {
           as: "TimeKeeping"
         }
       },
-      {$unwind:"$TimeKeeping"},
+      {$unwind:{path:"$TimeKeeping",preserveNullAndEmptyArrays: true}},
     
       {
         $project:{     

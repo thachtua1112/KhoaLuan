@@ -47,8 +47,8 @@ module.exports.get = async (req, res) => {
           "as": "Position"   
       } 
     },
-    { $unwind: {path: "$OrgStructure"} },
-    { $unwind: {path: "$Position"} },
+    { $unwind: {path: "$OrgStructure",preserveNullAndEmptyArrays: true} },
+    { $unwind: {path: "$Position",preserveNullAndEmptyArrays: true} },
     {
       $addFields:{
         OrgStructureName:"$OrgStructure.OrgStructureName",
