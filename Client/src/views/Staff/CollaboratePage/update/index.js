@@ -24,7 +24,7 @@ import { CInput, CForm } from '@coreui/react';
 import PositionName from './getPosition';
 import  Company  from './getCompany';
 import {  UpdaHreCollaboratesApi } from '../../../../callAPI/Hre_Collaborates.api';
-import {Redirect} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 
 const useStyles = makeStyles({
   root: {
@@ -46,7 +46,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function UpdateCollaboratePage({match}) {
   const paramater = match.params.ProfileID;
-  const [Nav, setNav] = useState(false)
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [NamePosition, setNamePosition] = useState("")
@@ -63,6 +62,7 @@ export default function UpdateCollaboratePage({match}) {
   const [MaBoPhan,setMaBoPhan]=useState("")
   const [To,setTo]=useState("")
   const [MaTo,setMaTo]=useState("")
+  const history = useHistory();
 
   const Up_StartDay = (e)=>{
     SetStartDay(new Date(e.target.value))//.toLocaleString('en-GB'))
@@ -92,7 +92,7 @@ export default function UpdateCollaboratePage({match}) {
           if(res.data)
           {
             alert("Cập nhật thành công")
-            return setNav(true)
+            return history.push(`/nhan-su/qua-trinh-cong-tac/dieu-dong-bo-nhiem`)
           }
           return alert("Cập nhật không thành công")
         })
@@ -109,7 +109,7 @@ export default function UpdateCollaboratePage({match}) {
     setOpen(false);
   };
 
-  return Nav===true? <Redirect to='/nhan-su/qua-trinh-cong-tac' />: (
+  return (
   <Paper className={classes.root}>
       <TableContainer>
         <Table stickyHeader aria-label="sticky table">

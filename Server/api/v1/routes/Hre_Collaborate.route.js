@@ -6,6 +6,7 @@ const Hre_CollaborateRoute = express.Router();
 
 Hre_CollaborateRoute.get("/",Hre_CollaborateController.UpdateStatus ,Hre_CollaborateController.get);
 Hre_CollaborateRoute.get("/select-staff", Hre_CollaborateController.SelectStaffCollaborate);
+Hre_CollaborateRoute.get("/bonus-disciplines", Hre_CollaborateController.Bonus_Discipline);
 
 //T_ProfileRoute.get("/filter", T_ProfileController.getWithFilter);
 

@@ -1,96 +1,187 @@
-import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
-import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
-import { Tooltip, IconButton } from "@material-ui/core";
-import CreateIcon from "@material-ui/icons/Create";
+import React ,{useState, useEffect}from "react"
+import { CModal, CModalHeader, CModalBody, CModalFooter } from "@coreui/react"
+import { Grid, TextField, FormControl, MenuItem ,makeStyles, Button} from "@material-ui/core"
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import Checkbox from '@material-ui/core/Checkbox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import qs from 'qs'
 
-const styles = (theme) => ({
+import { BonusHreCollaboratesApi,UpdaHreCollaboratesApi } from "../../../callAPI/Hre_Collaborates.api";
+
+const useStyles = makeStyles((theme) => ({
   root: {
-    margin: 0,
-    padding: theme.spacing(2),
-  },
-  closeButton: {
-    position: 'absolute',
-    right: theme.spacing(1),
-    top: theme.spacing(1),
-    color: theme.palette.grey[500],
-  },
-});
-
-const DialogTitle = withStyles(styles)((props) => {
-  const { children, classes, onClose, ...other } = props;
-  return (
-    <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
-      {onClose ? (
-        <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </MuiDialogTitle>
-  );
-});
-
-const DialogContent = withStyles((theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme) => ({
-  root: {
-    margin: 0,
+    flexGrow: 1,
     padding: theme.spacing(1),
   },
-}))(MuiDialogActions);
+  paper: {
+    //padding: theme.spacing(1),
+  },
+  date: {
+    width: theme.spacing(24),
+    marginRight: theme.spacing(2),
+  },
+}));
 
-export default function CustomizedDialogs() {
-  const [open, setOpen] = React.useState(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
 
-  return (
-    <div>
-    <IconButton onClick={handleClickOpen} >
-    <Tooltip title="Cập nhật thông tin">
-      <CreateIcon />
-      </Tooltip>
-    </IconButton>
-      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-        <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Xét nhân viên công tác
-        </DialogTitle>
-        <DialogContent dividers>
-          <Typography gutterBottom>
-            Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-            in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-          </Typography>
-          <Typography gutterBottom>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-            lacus vel augue laoreet rutrum faucibus dolor auctor.
-          </Typography>
-          <Typography gutterBottom>
-            Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-            scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-            auctor fringilla.
-          </Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose} color="primary">
-            Save changes
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
+const StatusUptoDate=(props)=>{
+  const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+  const checkedIcon = <CheckBoxIcon fontSize="small" />;
+
+  const classes = useStyles();
+  const {showNewProfile, setshowNewProfile} =props
+  const [NewProfile, setNewProfile] = useState({})
+
+  const [Staff,setStaff] = useState([])
+  const [IdProfile,setIdProfile]=useState([])
+  const [NameProfile,setNameProfile]=useState([])
+
+  console.log( "NewProfile",NewProfile)
+  useEffect(()=>{
+    BonusHreCollaboratesApi().then(res=>{
+      if(res.data)
+      {
+       setStaff(res.data)
+      }
+    })
+  },[])
+  const Update = ()=>{
+    console.log(IdProfile)
+    let i=IdProfile.length
+    while(i>0)
+    {
+      UpdaHreCollaboratesApi(IdProfile[i-1].ProfileID,qs.stringify(NewProfile))
+      i--
+    }
+  }
+return <CModal
+size="lg"
+show={showNewProfile}
+onClose={()=>setshowNewProfile(false)}
+//onClosed={()=>setshowNewProfile(false)}
+closeOnBackdrop={false}
+>
+<CModalHeader closeButton>Xét thưởng/ kỉ luật cho nhân viên</CModalHeader>
+<CModalBody>
+<Grid className={classes.root} container spacing={1}>
+<Grid className={classes.paper} container spacing={2}>
+  <Grid item xs={4}>
+    Mã nhân viên
+    <Autocomplete
+    multiple
+    //id="checkboxes-tags-demo"
+    options={NameProfile.length===0?Staff:NameProfile}
+    disableCloseOnSelect
+    getOptionLabel={(option) => option.CodeEmp}
+    renderOption={(option, { selected }) => (
+      <React.Fragment>
+        <Checkbox
+          icon={icon}
+          checkedIcon={checkedIcon}
+          checked={selected}
+        />
+        {option.CodeEmp}
+      </React.Fragment>)
+    }
+    onChange={(event,item)=>{setIdProfile(item==null?"":item)}}
+    renderInput={(params) => (
+      <TextField {...params} variant="outlined" size="small" placeholder="Mã nhân viên" />
+    )}
+  />
+  </Grid>
+  <Grid item xs={4}>
+    Tên nhân viên
+    <Autocomplete
+    multiple
+    //id="checkboxes-tags-demo"
+    options={IdProfile.length===0?Staff:IdProfile}
+    disableCloseOnSelect
+    getOptionLabel={(option) => option.ProfileName}
+    renderOption={(option, { selected }) => (
+      <React.Fragment>
+        <Checkbox
+          icon={icon}
+          checkedIcon={checkedIcon}
+          checked={selected}
+        />
+        {option.ProfileName}
+      </React.Fragment>)
+    }
+    onChange={(event,item)=>{setNameProfile(item==null?"":item)}}
+    renderInput={(params) => (
+      <TextField {...params} variant="outlined" size="small" placeholder="Họ và tên nhân viên" />
+    )}
+  />
+  </Grid>
+  <Grid item xs={4}>
+  <FormControl fullWidth>
+    Xét thưởng/ kỉ luật
+    {
+      <TextField
+        select
+        value={!NewProfile.Status ? "" : NewProfile.Status}
+        onChange={(event) => {
+          if ("" !== event.target.value.trim())
+            return setNewProfile({
+              ...NewProfile,
+              ...{ Status: event.target.value.trim() },
+            });
+          const { Status, ...NewProfileNew } = NewProfile;
+          setNewProfile(NewProfileNew);
+        }}
+        size="small"
+        variant="outlined"
+      >
+        {GenderValue.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+      </TextField>
+    }
+  </FormControl>
+</Grid>
+    <Grid item xs={12}>
+    Ghi chú
+    <TextField
+      value={!NewProfile.Reason ? "" : NewProfile.Reason}
+      onChange={(event) => {
+        if ("" !== event.target.value.trim())
+          return setNewProfile({
+            ...NewProfile,
+            ...{ Reason: event.target.value },
+          });
+        const { Reason, ...NewProfileNew } = NewProfile;
+        setNewProfile(NewProfileNew);
+      }}
+      placeholder="Vui lòng nhập"
+      variant="outlined"
+      fullWidth
+      type='search'
+    />
+    </Grid>
+</Grid>
+</Grid>
+</CModalBody>
+<CModalFooter>
+  <Button onClick={()=>{Update();setshowNewProfile(false)}} variant="contained" color="primary" >Lưu và thoát</Button>
+</CModalFooter>
+</CModal>
 }
+
+export default StatusUptoDate
+
+const GenderValue = [
+  {
+    value: "",
+    label: "None",
+  },
+  {
+    value: "Khen thưởng",
+    label: "Khen thưởng",
+  },
+  {
+    value: "Kỉ luật",
+    label: "Kỉ luật",
+  },
+];

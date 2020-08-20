@@ -132,6 +132,11 @@ const staffRoute = [
   {
     path:"/nhan-su/qua-trinh-cong-tac/dieu-dong-bo-nhiem",
     name:"Quá trình điều động, bổ nhiệm",
+    component:CollaboratePage
+  },
+  {
+    path:"/nhan-su/qua-trinh-cong-tac/dieu-dong-nhan-vien",
+    name:"Bổ nhiệm nhân viên đi công tác",
     component:NewCollaboratePage
   },
   {

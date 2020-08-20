@@ -129,7 +129,7 @@ module.exports.create = async (req, res) => {
 module.exports.delete = async (req, res) => {
   try {
     const { ID } = req.params;
-    const result = await Hre_ProfileModel.findOneAndUpdate(
+    const result = await Hre_ProfileModel.findOneAndDelete(
       { ID: ID },
       { IsDelete: true }
     );
