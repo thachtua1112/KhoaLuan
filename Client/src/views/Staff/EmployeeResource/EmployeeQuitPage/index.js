@@ -55,12 +55,11 @@ const EmployeeQuitPage = (props) => {
 
   return (
     <Grid className={classes.root}>
-
-   <NewAndDetail 
+{!ShowNewAndDetail.show?null:<NewAndDetail 
     Show={ShowNewAndDetail}
     document={RowSelected} 
     setShow={setShowNewAndDetail} 
-    />
+    />}
       <Grid item>
         <Paper variant="outlined" className={classes.search}>
 
