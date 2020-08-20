@@ -87,6 +87,16 @@ module.exports.UpdateStatus = async (req, res,next) => {
     res.sendStatus(403)
   }
 }
+module.exports.Bonus_Discipline = async (req, res) => {
+  try{
+    const result = await Hre_CollaborateModel.find({Status:{$nin:["Chuẩn bị công tác"]},DateEnd:{$gte: new Date()}})
+    res.json(result)
+  }
+  catch(err)
+  {
+    res.sendStatus(403)
+  }
+}
 module.exports.get = async (req, res) => {
   try {
     const filter = req.query;
@@ -116,7 +126,6 @@ module.exports.update = async (req, res) => {
     const result = await Hre_CollaborateModel.findOneAndUpdate({ ProfileID: ID }, data,{
       new: true
     });
-    console.log("result",result)
     return res.status(200).json(result);
   } catch (err) {
     console.log(err)
@@ -127,7 +136,6 @@ module.exports.update = async (req, res) => {
 module.exports.create = async (req, res) => {
   try {
     const  data  = req.body;
-    console.log("data",data)
     const result = await Hre_CollaborateModel.create( data );
     return res.status(200).json(result);
   } catch (err) {
@@ -139,8 +147,8 @@ module.exports.create = async (req, res) => {
 module.exports.delete = async (req, res) => {
   try {
     const { ID } = req.params;
-    const result = await Hre_CollaborateModel.findOneAndUpdate(
-      { ID: ID },
+    const result = await Hre_CollaborateModel.findOneAndDelete(
+      { ProfileID: ID },
       { IsDelete: true }
     );
     return res.status(200).json(result);
