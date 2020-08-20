@@ -10,7 +10,7 @@ const create = (body) => {
 
 
 const update = (ID,body) => {
-    return callAPI(`/stop-workings/${ID}`, "POST",body);
+    return callAPI(`/stop-workings/${ID}`, "PUT",body);
 };
 
 

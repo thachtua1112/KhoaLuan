@@ -11,6 +11,7 @@ import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
 
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
       paddingLeft: "4px",
@@ -36,7 +37,9 @@ const ToolBar = (props) => {
 
     const classes = useStyles();
 
-  const {  onSearch ,RowSelected ,
+  const {  onSearch ,
+    RowSelected ,
+    onDelete,
     setShowNewAndDetail,
    } = props;
 
@@ -53,6 +56,8 @@ const ToolBar = (props) => {
       option:"update"
     })
   };
+
+
 
   return (
 
@@ -92,7 +97,7 @@ const ToolBar = (props) => {
     
       
     
-  <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
+  <IconButton onClick={onDelete} disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
   <Tooltip title="Xóa hồ sơ">
    <DeleteOutlineIcon />
    </Tooltip>

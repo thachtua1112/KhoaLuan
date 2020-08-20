@@ -53,6 +53,19 @@ const EmployeeQuitPage = (props) => {
     }
   };
 
+
+  const onDelete = async () => {
+    try {
+      setRowSelected({})
+      await StopWorkingAPI.deleteX(RowSelected._id);
+      const index=ListProfile.findIndex((item)=>item._id===RowSelected._id)
+      if(-1!==index)
+        setListProfile([...ListProfile.slice(0,index),...ListProfile.slice(index+1,ListProfile.length)]);
+    } catch (error) {
+      console.log("DanhSachNhanVien ProfileAPI ERR", error);
+    }
+  };
+
   return (
     <Grid className={classes.root}>
 {!ShowNewAndDetail.show?null:<NewAndDetail 
@@ -71,7 +84,9 @@ const EmployeeQuitPage = (props) => {
           <ToolBar 
            onSearch={onSearch}
            setShowNewAndDetail={setShowNewAndDetail}
-           RowSelected={RowSelected} />
+           RowSelected={RowSelected}
+           onDelete={onDelete}
+            />
         </Paper>
       </Grid>
       <Grid item>
