@@ -1,6 +1,8 @@
+const ObjectID =require("mongoose").Types.ObjectId
 const StopWorkingModel = require("../models/Hre_StopWorking.model");
 
-module.exports.getAll = async (req, res) => {
+
+module.exports.get = async (req, res) => {
   try{
     const result = await StopWorkingModel.find({});
     return res.status(200).json(result);
@@ -13,8 +15,8 @@ module.exports.getAll = async (req, res) => {
 
 module.exports.getByID = async (req, res) => {
   try{
-    const { ID } = req.params;
-    const result = await StopWorkingModel.find({ ID: ID });
+    const { _id } = req.params;
+    const result = await StopWorkingModel.findById(_id);
     return res.status(200).json(result);   
   }
   catch(err)
@@ -23,17 +25,7 @@ module.exports.getByID = async (req, res) => {
   }
 };
 
-module.exports.getWithFilter = async (req, res) => {
-  try{
-    const filter = req.query;
-    const result = await StopWorkingModel.find(filter);
-    return res.status(200).json(result);  
-  }
-  catch(err)
-  {
-    return res.sendStatus(403)
-  }
-};
+
 
 module.exports.update = async (req, res) => {
   try{
@@ -50,22 +42,45 @@ module.exports.update = async (req, res) => {
 
 module.exports.create = async (req, res) => {
   try{
-    const { data } = req.body;
-    const result = await StopWorkingModel.create({ data });
-    return res.status(200).json(result); 
+    const  data  = req.body;
+    const result = await StopWorkingModel.create({...data,Status:"CHUA_DUYET"});
+    const resultData=await StopWorkingModel.aggregate([{
+      $match:result
+    },
+    {
+      $lookup:{
+        from: "hre_profiles",
+        localField:"CodeEmp",
+        foreignField:"CodeEmp",
+        as: "Profile"
+      }
+    },
+    {
+      $addFields:{
+        ProfileName:"$Profile.ProfileName"
+      }
+    },
+    {
+      $project:{
+        Profile:0,
+        //"ProfileName": { "$arrayElemAt": [ "$ProfileName", 0 ] } 
+      }
+    }
+  ])
+    return res.status(200).json({data:resultData}); 
   }
   catch(err)
   {
+    console.log(err)
     return res.sendStatus(403)
   }
 };
 
 module.exports.delete = async (req, res) => {
   try{
-    const { ID } = req.params;
-    const result = await StopWorkingModel.findOneAndUpdate(
-      { ID: ID },
-      { IsDelete: true }
+    const { _id } = req.params;
+    const result = await StopWorkingModel.findById(
+      _id
     );
     res.status(200).json(result);
   }
