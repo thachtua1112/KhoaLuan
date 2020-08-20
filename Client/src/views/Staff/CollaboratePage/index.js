@@ -4,8 +4,6 @@ import { Grid, Paper, CircularProgress } from "@material-ui/core";
 
 import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
-import NewProfile from "./NewProifile.Component"
-
 import { makeStyles } from "@material-ui/core/styles";
 import Content from "./Content.Component";
 
@@ -13,6 +11,7 @@ import { CongTac } from "../utils/fieldsProfile";
 import CIcon from "@coreui/icons-react";
 import { cilBan } from "@coreui/icons";
 import { HreCollaboratesApi } from "../../../callAPI/Hre_Collaborates.api";
+import StatusUptoDate from "./UpdateStatus";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -77,7 +76,7 @@ const CollaboratePage = (props) => {
 
   return (
     <Grid className={classes.root}>
-    <Grid item><NewProfile setshowNewProfile={setshowNewProfile} showNewProfile={showNewProfile}/></Grid>
+    <Grid item><StatusUptoDate setshowNewProfile={setshowNewProfile} showNewProfile={showNewProfile}/></Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.search}>
 

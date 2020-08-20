@@ -13,7 +13,7 @@ export default function PositionName(props) {
       SetPosition(res.data)
     })
   },[])
-
+  console.log("abc",Position)
   return (
     <div>
     <Autocomplete

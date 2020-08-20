@@ -75,7 +75,7 @@ const Search = (props) => {
               if ("" !== event.target.value.trim())
                 return setFilter({
                   ...Filter,
-                  ...{ ProfileName: event.target.value.trim() },
+                  ...{ ProfileName: event.target.value },
                 });
               const { ProfileName, ...FilterNew } = Filter;
               setFilter(FilterNew);
