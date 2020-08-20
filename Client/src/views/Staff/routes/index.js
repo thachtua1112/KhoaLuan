@@ -4,6 +4,7 @@ import NewContractPage from "../ContractPage/NewContractPage";
 import OrgStructurePage from "../OrgStructurePage";
 import DetailsStaffPage from "../Staff_DetailsPage";
 import ListEmployeePage from "../EmployeeResource/ListEmployeePage";
+import EmployeeQuitPage from "../EmployeeResource/EmployeeQuitPage";
 import NotYet_ContractPage from "../ContractPage/NotYet_ContractPage";
 import ContractPage from "../ContractPage/Dashboard_ContractPage";
 import ExpireContractPage from "../ContractPage/Expire_ContractPage";
@@ -63,7 +64,7 @@ const staffRoute = [
   {
     path: "/nhan-su/du-lieu-nhan-vien/nhan-vien-nghi-viec",
     name: "Nhân viên nghỉ viec",
-    component: ListEmployeePage,
+    component: EmployeeQuitPage,
     exact: true,
   },
   {

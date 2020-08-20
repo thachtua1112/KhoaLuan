@@ -4,4 +4,9 @@ const getProfiles = (body) => {
   return callAPI(`/profiles`, "GET", body);
 };
 
-export default { getProfiles };
+
+const getProfilesbyCodeEmp = (CodeEmp) => {
+  return callAPI(`/profiles`, "GET",{CodeEmp:CodeEmp});
+};
+
+export default { getProfiles,getProfilesbyCodeEmp };
