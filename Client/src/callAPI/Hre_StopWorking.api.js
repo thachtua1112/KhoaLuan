@@ -8,9 +8,6 @@ const create = (body) => {
     return callAPI(`/stop-workings`, "POST", body);
   };
 
-const getByID = (ID) => {
-    return callAPI(`/stop-workings/${ID}`, "GET");
-};
 
 const update = (ID,body) => {
     return callAPI(`/stop-workings/${ID}`, "POST",body);
@@ -22,4 +19,4 @@ const deleteX = (ID) => {
 };
 
 
-export default { get,getByID,update,deleteX,create };
+export default { get,update,deleteX,create };

@@ -153,31 +153,31 @@ const Search = (props) => {
                     className={classes.date}
                     format="dd/MM/yyyy"
                     value={
-                      !Filter.DateHire
+                      !Filter.DateStop
                         ? null
-                        : !Filter.DateHire["$gt"]
+                        : !Filter.DateStop["$gt"]
                         ? null
-                        : Filter.DateHire["$gt"]
+                        : Filter.DateStop["$gt"]
                     }
                     maxDate={
-                      !Filter.DateHire
+                      !Filter.DateStop
+                        ? new Date("01/01/2100")
+                        : !Filter.DateStop["$lte"]
                         ? new Date()
-                        : !Filter.DateHire["$lte"]
-                        ? new Date()
-                        : Filter.DateHire["$lte"]
+                        : Filter.DateStop["$lte"]
                     }
                     onChange={(date) => {
                       if (null !== date)
                         return setFilter({
                           ...Filter,
-                          ...{ DateHire: { ...Filter.DateHire, $gt: date } },
+                          ...{ DateStop: { ...Filter.DateStop, $gt: date } },
                         });
-                      if (!Filter.DateHire) {
-                        const { DateHire, ...FilterNew } = Filter;
+                      if (!Filter.DateStop) {
+                        const { DateStop, ...FilterNew } = Filter;
                         return setFilter(FilterNew);
                       }
-                      const { $gt, ...DateHireNew } = Filter.DateHire;
-                      setFilter({ ...Filter, DateHire: DateHireNew });
+                      const { $gt, ...DateStopNew } = Filter.DateStop;
+                      setFilter({ ...Filter, DateStop: DateStopNew });
                     }}
                   />
                   <KeyboardDatePicker
@@ -187,34 +187,33 @@ const Search = (props) => {
                     fullWidth={false}
                     className={classes.date}
                     minDate={
-                      !Filter.DateHire
+                      !Filter.DateStop
                         ? 0
-                        : !Filter.DateHire["$gt"]
+                        : !Filter.DateStop["$gt"]
                         ? 0
-                        : Filter.DateHire["$gt"]
+                        : Filter.DateStop["$gt"]
                     }
-                    maxDate={new Date()}
                     label="Đến ngày"
                     format="dd/MM/yyyy"
                     value={
-                      !Filter.DateHire
+                      !Filter.DateStop
                         ? null
-                        : !Filter.DateHire["$lte"]
+                        : !Filter.DateStop["$lte"]
                         ? null
-                        : Filter.DateHire["$lte"]
+                        : Filter.DateStop["$lte"]
                     }
                     onChange={(date) => {
                       if (null !== date)
                         return setFilter({
                           ...Filter,
-                          ...{ DateHire: { ...Filter.DateHire, $lte: date } },
+                          ...{ DateStop: { ...Filter.DateStop, $lte: date } },
                         });
-                      if (!Filter.DateHire) {
-                        const { DateHire, ...FilterNew } = Filter;
+                      if (!Filter.DateStop) {
+                        const { DateStop, ...FilterNew } = Filter;
                         return setFilter(FilterNew);
                       }
-                      const { $lte, ...DateHireNew } = Filter.DateHire;
-                      setFilter({ ...Filter, DateHire: DateHireNew });
+                      const { $lte, ...DateStopNew } = Filter.DateStop;
+                      setFilter({ ...Filter, DateStop: DateStopNew });
                     }}
                   />
                 </div>

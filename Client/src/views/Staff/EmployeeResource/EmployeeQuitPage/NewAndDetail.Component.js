@@ -67,7 +67,10 @@ const NewAndDetail=(props)=>{
       setStatusOption("update")
       return setStatusModifile(false)
     }
-    
+    const {_id,...newDocument}=Document
+    const data=await StopWorkingAPI.update(_id,newDocument);
+      setDocument({...data.data.data[0],DateStop:new Date(data.data.data[0].DateStop)})
+      setStatusModifile(false)
   }
 
   return <CModal
