@@ -9,9 +9,9 @@ StopWorkingRoute.route("/")
 .get(StopWorkingController.get)
 .post( StopWorkingController.create);
 
-StopWorkingRoute.route("/:_id")
+StopWorkingRoute.route("/:ID")
 .get(StopWorkingController.getByID)
-.put(StopWorkingController.update)
+.post(StopWorkingController.update)
 .delete( StopWorkingController.delete);
 
 
