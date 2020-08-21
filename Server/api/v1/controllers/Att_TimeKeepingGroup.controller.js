@@ -5,11 +5,51 @@ const Att_TimeKeepingDayModel = require("../models/Att_TimeKeepingDay.model");
 const Hre_ProfileModel = require("../models/Hre_Profile.model");
 
 
-//get du lieu cham cong
+//get du lieu tong hop cong
 module.exports.get = async (req, res) => {
   try {
     const filter = req.query;
-    const result = await Att_TimeKeepingGroupModel.find(filter);
+    const result = await Att_TimeKeepingGroupModel.aggregate([
+      {
+        $lookup:{
+          from: "hre_profiles",
+          localField:"ProfileID",
+          foreignField:"ProfileID",
+          as: "Profile"
+        }
+      },
+      {
+        $addFields:{
+          ProfileName:{ "$arrayElemAt": [ "$Profile.ProfileName", 0 ] } ,
+          CodeEmp:{ "$arrayElemAt": [ "$Profile.CodeEmp", 0 ] },
+          OrgStructureID:{ "$arrayElemAt": [ "$Profile.OrgStructureID", 0 ] }  
+        }
+      },
+      {
+        $lookup:{
+          from: "cat_orgstructures",
+          localField:"OrgStructureID",
+          foreignField:"ID",
+          as: "OrgStructure"
+        }
+      },
+      {
+        $addFields:{
+          OrgStructureName:{ "$arrayElemAt": [ "$OrgStructure.OrgStructureName", 0 ] }  
+        }
+      },
+      {
+        $project:{
+          OrgStructure:0,
+          Profile:0
+        }
+      },
+      {
+        $match:filter
+      },
+    ])
+
+   
     return res.json({
       ms: "GET TIMEKEEPING GROUP",
       data: result,
@@ -199,8 +239,6 @@ module.exports.synthesis = async (req, res) => {
         }
       },
     ])
-
-    console.log(data.length,filter)
 
    res.json({
      message:"TONG_HOP_CONG",

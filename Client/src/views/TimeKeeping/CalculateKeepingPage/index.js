@@ -78,14 +78,13 @@ export default CalculateKeepingPage;
 
 const fields = [
   { _style: { width: "100px" }, key: "KiCong", label: "Kì công" },
-  { _style: { width: "80px" }, key: "Year", label: "Năm" },
-  { _style: { width: "80px" }, key: "Month", label: "Tháng" },
+  // { _style: { width: "80px" }, key: "Year", label: "Năm" },
+  // { _style: { width: "80px" }, key: "Month", label: "Tháng" },
   { _style: { width: "120px" }, key: "CodeEmp", label: "Mã nhân viên" },
   { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
   {
     _style: { width: "250px" },
     key: "OrgStructureName",
-
     label: "Phòng ban",
   },
   { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Ngày công thực tế" },

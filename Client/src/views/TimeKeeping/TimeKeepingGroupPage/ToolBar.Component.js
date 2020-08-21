@@ -2,11 +2,13 @@ import React from "react";
 
 import { Toolbar, Tooltip, IconButton,makeStyles, Chip, Typography } from "@material-ui/core";
 
-import CreateIcon from "@material-ui/icons/Create";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import FindInPageIcon from "@material-ui/icons/FindInPage";
 import SearchIcon from '@material-ui/icons/Search';
-import ReplaySharpIcon from '@material-ui/icons/ReplaySharp';
+
+
+import SaveAltIcon from '@material-ui/icons/SaveAlt';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 
 
@@ -35,7 +37,7 @@ const ToolBar = (props) => {
 
     const classes = useStyles();
 
-  const {  RowsSelected } = props;
+  const {  RowsSelected ,onSearch} = props;
 
 
   return (
@@ -47,15 +49,12 @@ const ToolBar = (props) => {
       label="TÌM KIẾM"
       clickable
       className={classes.search} 
-      //onClick={searchDataTimeKeeping}
+      onClick={onSearch}
       color="primary" 
       />
             <Typography variant="h6" component="h2" style={{width:"200px"}}>
             {RowsSelected.length>0?`${RowsSelected.length} dòng đã chọn`:null}
             </Typography>
-
-          
-  
     </div> 
       
      
@@ -63,25 +62,11 @@ const ToolBar = (props) => {
     
 
     <div>
-    <Chip
-    icon={<ReplaySharpIcon />}
-    label="TỔNG HỢP LẠI"
-    clickable
-    className={classes.search} 
-    color="primary" 
-    />
      <IconButton   >
       <Tooltip   title="Xem chi tiết">
        <FindInPageIcon />
        </Tooltip>
-     </IconButton>
-    
-     <IconButton >
-     <Tooltip title="Sửa">
-       <CreateIcon />
-       </Tooltip>     
-     </IconButton>
-  
+     </IconButton> 
        <IconButton >
        <Tooltip title="Xóa">
          <DeleteOutlineIcon />
@@ -92,6 +77,17 @@ const ToolBar = (props) => {
      <div
      className={classes.setting}
      >     
+      <IconButton>
+        <Tooltip title="Export">
+          <SaveAltIcon />
+          </Tooltip>
+        </IconButton>
+
+        <IconButton>
+        <Tooltip title="Cài đặt hiển thị">
+          <SettingsIcon />
+          </Tooltip>
+        </IconButton>
       </div>
       </div>
        

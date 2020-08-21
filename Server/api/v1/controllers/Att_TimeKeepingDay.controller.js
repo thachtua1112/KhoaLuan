@@ -4,43 +4,75 @@ const Hre_ProfileModel = require("../models/Hre_Profile.model");
 
 //Them ddu llieu cham cong
 module.exports.create = async (req, res) => {
-  try {
-    const data = req.body;
-    const result = await Att_TimeKeepingDayModel.create(data);
-    //console.log(result);
-    return res.json({
-      ms: "GET",
-      data: result,
-    });
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(403);
+  try{
+    const  {CodeEmp,...data}  = req.body;
+    const Profile= await Hre_ProfileModel.findOne({CodeEmp:CodeEmp})
+    const result = await Att_TimeKeepingDayModel.create({...data,ProfileID:Profile.ProfileID,TimeKeepingType:"BANG_TAY",Status:"CHUA_TINH_CONG"});
+    const resultData=await Att_TimeKeepingDayModel.aggregate([{
+      $match:result
+    },
+    {
+      $lookup:{
+        from: "hre_profiles",
+        localField:"ProfileID",
+        foreignField:"ProfileID",
+        as: "Profile"
+      }
+    },
+    {
+      $addFields:{
+        ProfileName:{ "$arrayElemAt": [ "$Profile.ProfileName", 0 ] },
+        CodeEmp:{ "$arrayElemAt": [ "$Profile.CodeEmp", 0 ] } 
+      }
+    },
+    {
+      $project:{
+        Profile:0,
+      }
+    }
+  ])
+    return res.status(200).json({data:resultData[0]}); 
+  }
+  catch(err)
+  {
+    console.log(err)
+    return res.sendStatus(403)
   }
 };
 
 module.exports.update = async (req, res) => {
-  console.log(" timmkeeping UPDATE");
-
-  const data = req.body;
-  const { _id } = req.params;
-  try {
-    const result = await Att_TimeKeepingDayModel.findOneAndUpdate(
-      _id,
-      {
-        ...data,
-        //Total: 100,
+  try{
+    const { ID } = req.params;
+    const  data  = req.body;
+    const result = await Att_TimeKeepingDayModel.findOneAndUpdate({_id:ID}, {...data,Status:"CHUA_TINH_CONG"},{new:true});
+    const resultData=await Att_TimeKeepingDayModel.aggregate([{
+      $match:result
+    },
+    {
+      $lookup:{
+        from: "hre_profiles",
+        localField:"ProfileID",
+        foreignField:"ProfileID",
+        as: "Profile"
       }
-      //{ rawResult: true }
-    );
-    console.log(result);
-    return res.json({
-      ms: "PUT",
-      data: result,
-    });
-    res.json({ update: _id });
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(403);
+    },
+    {
+      $addFields:{
+        ProfileName:{ "$arrayElemAt": [ "$Profile.ProfileName", 0 ] },
+        CodeEmp:{ "$arrayElemAt": [ "$Profile.CodeEmp", 0 ] } ,
+      }
+    },
+    {
+      $project:{
+        Profile:0,
+      }
+    }
+  ])
+    return res.status(200).json({data:resultData[0]}); 
+  }
+  catch(err)
+  {
+    return res.sendStatus(403)
   }
 };
 
@@ -60,7 +92,6 @@ module.exports.get = async (req, res) => {
       }
     }
     
-
     const data= await Hre_ProfileModel.aggregate([
       {
         $match:filterProfile
@@ -147,13 +178,34 @@ module.exports.import=async(req,res)=>{
 
 
 
-module.exports.delete=async(req,res)=>{
-  res.json("DELETE")
-}
+module.exports.delete = async (req, res) => {
+  try{
+    const { ID } = req.params;
+    const result = await Att_TimeKeepingDayModel.findByIdAndDelete(ID);
+    res.status(200).json(result);
+  }
+  catch(err)
+  {
+    return res.sendStatus(403)
+  }
+};
 
 
 module.exports.calculate=async(req,res)=>{
-  res.json("calculate")
+  try {
+    const {listCalculate}=req.body
+  await Att_TimeKeepingDayModel.update({ _id:{ $in:listCalculate}},[
+    {$set:{
+      Total: {$subtract:["$TimeOut","$TimeIn"]},
+      Status:"DA_TINH_CONG"
+    }}
+  ], {multi: true})
+
+  res.json({ms:"FINISHED"})
+  } catch (error) {
+    console.log(error)
+    res.json(403)
+  }
 }
 
 

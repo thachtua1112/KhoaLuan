@@ -5,12 +5,14 @@ import TimeKeepingAPI from "../../../callAPI/TimeKeeping.api";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Grid, Paper, CircularProgress } from "@material-ui/core";
+import CIcon from "@coreui/icons-react";
+import { cilBan } from "@coreui/icons";
 
 import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
 import Content from "./Content.Component";
-import CIcon from "@coreui/icons-react";
-import { cilBan } from "@coreui/icons";
+import NewAndDetail from "./NewAndDetail.Component";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,14 +68,13 @@ const TimeKeepingDayPage = () => {
 
   const [noItem, setnoItem] = useState(noItemView)
 
-
+  const [Option, setOption] = useState(null)
 
   const searchDataTimeKeeping = async () => {
     setnoItem(Loading)
     setListDataTimeKeeping([])
     setRowsSelected([])
     const res = await TimeKeepingAPI.getDataTimeKeeping(Filter);
-    console.log(res.data.data)
     setListDataTimeKeeping(res.data.data);
     setnoItem(noItemView)
   };
@@ -84,12 +85,17 @@ const TimeKeepingDayPage = () => {
     setListDataTimeKeeping(res.data.data);
   }
 
-  const onCalculateTimeKeeping= async()=>{
+    const onDelete= async()=>{
+      await TimeKeepingAPI.deleteX(RowsSelected[0]._id)
+      setRowsSelected([])
+      reload()
+    }
+    const onCalculateTimeKeeping= async()=>{
     const listCalculate= RowsSelected.filter(item=>{
      return "DA_TINH_CONG"!==item.Status
     })
-    await TimeKeepingAPI.calculateTimeKeeping({listCalculate:listCalculate})
-    setRowsSelected([])
+    await TimeKeepingAPI.calculateTimeKeeping({listCalculate:listCalculate.map(item=>item._id)})
+    setRowsSelected(RowsSelected.filter(item=>item.Status==="DA_TINH_CONG"))
     reload()
   }
 
@@ -102,6 +108,7 @@ const TimeKeepingDayPage = () => {
     <Grid container className={classes.root}>
       <Grid item xs={12}>
         <Paper className={classes.search}>
+        {!Option?null: <NewAndDetail document={"update"!==Option?null:RowsSelected[0]} option={Option} show={setOption} />}
           {
             <Search
             Filter={Filter}
@@ -112,7 +119,7 @@ const TimeKeepingDayPage = () => {
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar  onCalculateTimeKeeping={onCalculateTimeKeeping} RowsSelected={RowsSelected} searchDataTimeKeeping={searchDataTimeKeeping} />
+          <ToolBar onDelete={onDelete} show={setOption} onCalculateTimeKeeping={onCalculateTimeKeeping} RowsSelected={RowsSelected} searchDataTimeKeeping={searchDataTimeKeeping} />
         </Paper>
       </Grid>
 
@@ -129,7 +136,7 @@ export default TimeKeepingDayPage;
 
 const fields = [
   //{ _style: { width: "250px" }, key: "ProfileID", label: "ProfileID" },
-  { _style: { width: "200px" }, key: "DateKeeping", label: "Ngày" },
+  { _style: { width: "150px" }, key: "DateKeeping", label: "Ngày" },
   {
     _style: { width: "150px" },
     key: "Status",
@@ -138,12 +145,11 @@ const fields = [
   { _style: { width: "100px" }, key: "TimeIn", label: "Giờ vào" },
   { _style: { width: "100px" }, key: "TimeOut", label: "Giờ ra" },
   
-  { _style: { width: "150px" }, key: "CodeEmp", label: "Mã nhân viên" },
+  { _style: { width: "120px" }, key: "CodeEmp", label: "Mã nhân viên" },
   { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
   {
     _style: { width: "300px" },
     key: "OrgStructureName",
-
     label: "Phòng ban",
   },
  

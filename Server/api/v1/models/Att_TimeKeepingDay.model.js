@@ -15,6 +15,7 @@ const Att_TimeKeepingDaySchema = new Schema({
       return this.TimeOut - this.TimeIn;
     },
   },
+  IsLock: { type: Schema.Types.Boolean },
   Status: {
     type: Schema.Types.String,
     // default: function () {

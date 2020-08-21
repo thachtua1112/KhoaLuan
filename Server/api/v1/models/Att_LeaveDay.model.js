@@ -20,6 +20,7 @@ const Att_LeaveDaySchema = new Schema({
   
   UserUpdate: { type: Schema.Types.String },
   UserCreate: { type: Schema.Types.String },
+  IsLock: { type: Schema.Types.Boolean },
 },{timestamps:true});
 
 const Att_LeaveDayModel = mongoose.model("Att_LeaveDay", Att_LeaveDaySchema);

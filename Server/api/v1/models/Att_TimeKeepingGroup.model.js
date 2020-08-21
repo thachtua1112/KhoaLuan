@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const Att_TimeKeepingGroupSchema = new Schema({
   ProfileID: { type: Schema.Types.String, required: true },
+  //CodeEmp: { type: Schema.Types.String },
   KiCong: { type: Schema.Types.String, required: true },
   Month: {
     type: Schema.Types.Number,
@@ -21,6 +22,7 @@ const Att_TimeKeepingGroupSchema = new Schema({
   TotalKeepingReality: { type: Schema.Types.Number },
   SumKeeping: { type: Schema.Types.Number },
   Description: { type: Schema.Types.String },
+  IsLock: { type: Schema.Types.Boolean },
 });
 
 Att_TimeKeepingGroupSchema.index({ProfileID: 1, KiCong: 1}, {unique: true})

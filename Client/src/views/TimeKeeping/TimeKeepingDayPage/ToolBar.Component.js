@@ -6,13 +6,15 @@ import { Toolbar, Tooltip, IconButton,makeStyles, Chip, Typography } from "@mate
 
 import UnarchiveIcon from '@material-ui/icons/Unarchive';
 
-import CreateIcon from "@material-ui/icons/Create";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 
 import FindInPageIcon from "@material-ui/icons/FindInPage";
 
 import ExposureIcon from '@material-ui/icons/Exposure';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
+
+import SaveAltIcon from '@material-ui/icons/SaveAlt';
+import SettingsIcon from '@material-ui/icons/Settings';
 
 
 import SearchIcon from "@material-ui/icons/Search";
@@ -49,7 +51,7 @@ const ToolBar = (props) => {
 
   const [showFileUpload,setshowFileUpload]= useState(false)
 
-  const {   RowsSelected ,searchDataTimeKeeping,onCalculateTimeKeeping} = props;
+  const {  onDelete,show, RowsSelected ,searchDataTimeKeeping,onCalculateTimeKeeping} = props;
 
 
   
@@ -104,24 +106,19 @@ const ToolBar = (props) => {
     color="primary" 
     />
 
-     <IconButton disabled={RowsSelected.length!==1?true:false}  >
+     <IconButton onClick={()=>show("update")} disabled={RowsSelected.length!==1?true:false}  >
       <Tooltip   title="Xem chi tiết"  >
        <FindInPageIcon />
        </Tooltip>
      </IconButton>
+    
+     <IconButton onClick={()=>show("new")}>
      <Tooltip title="Thêm dữ liệu chấm công">
-     <IconButton>
        <NoteAddIcon />
+       </Tooltip>
      </IconButton>
-     </Tooltip>
-     
-     <IconButton disabled={RowsSelected.length!==1?true:false} >
-     <Tooltip title="Sửa"  >
-       <CreateIcon />
-       </Tooltip>     
-     </IconButton>
-  
-       <IconButton disabled={RowsSelected.length!==1?true:false} >
+      
+       <IconButton onClick={onDelete} disabled={RowsSelected.length!==1?true:false} >
        <Tooltip title="Xóa">
          <DeleteOutlineIcon />
          </Tooltip> 
@@ -131,6 +128,17 @@ const ToolBar = (props) => {
      <div
      className={classes.setting}
      >     
+      <IconButton>
+        <Tooltip title="Export">
+          <SaveAltIcon />
+          </Tooltip>
+        </IconButton>
+
+        <IconButton>
+        <Tooltip title="Cài đặt hiển thị">
+          <SettingsIcon />
+          </Tooltip>
+        </IconButton>
       </div>
       </div>
        

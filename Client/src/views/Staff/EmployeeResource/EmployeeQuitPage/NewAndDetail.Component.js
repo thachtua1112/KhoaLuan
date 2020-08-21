@@ -1,5 +1,5 @@
 import React ,{useState}from "react"
-import { CModal, CModalHeader, CModalBody, CModalFooter } from "@coreui/react"
+import { CModal, CModalBody, CModalFooter } from "@coreui/react"
 import {Select, Grid, TextField, FormControl ,makeStyles, Button,
 Dialog,DialogTitle,DialogActions
 } from "@material-ui/core"
@@ -77,9 +77,9 @@ const NewAndDetail=(props)=>{
     size="xl"
     show={Show.show}
     onClose={handleOnClose}
+    onClosed={handleOnClose}
     closeOnBackdrop={false}
     >
-<CModalHeader closeButton></CModalHeader>
 <CModalBody>
 <Grid className={classes.root} container spacing={1}>
 <Grid className={classes.paper} container spacing={2}>

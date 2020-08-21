@@ -28,19 +28,17 @@ const useStyles = makeStyles((theme) => ({
 const TimeKeepingGroupPage = () => {
   const classes = useStyles();
 
-const initDate=new Date()
-initDate.setDate(1)
-initDate.setHours(0)
 
 
-  const [Filter, setFilter] = useState({KiCong:initDate})
+  const [Filter, setFilter] = useState({})
    
   const [ListDataTimeKeeping, setListDataTimeKeeping] = useState([]);
 
   const [RowsSelected, setRowsSelected] = useState([]);
 
-  const TongHopCong= async()=>{
-    const res= await TimeKeepingGroupAPI.calculateTimeKeepingGroup(Filter)
+  const onSearch= async()=>{
+    const filter ={...Filter,...(!Filter.KiCong?null:{KiCong:`${("0" +(Filter.KiCong.getMonth()+1)).slice(-2)}/${Filter.KiCong.getFullYear()}`})}
+    const res= await TimeKeepingGroupAPI.getDataTimeKeepingGroup(filter)
     setListDataTimeKeeping(res.data.data)
   }
  
@@ -59,7 +57,7 @@ initDate.setHours(0)
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar TongHopCong={TongHopCong}  RowsSelected={RowsSelected} />
+          <ToolBar onSearch={onSearch}  RowsSelected={RowsSelected} />
         </Paper>
       </Grid>
 
@@ -77,25 +75,24 @@ initDate.setHours(0)
 export default TimeKeepingGroupPage;
 
 const fields = [
-  { _style: { width: "150px" }, key: "KiCong", label: "Kì công" },
-  { _style: { width: "150px" }, key: "Year", label: "Năm" },
-  { _style: { width: "150px" }, key: "Month", label: "Tháng" },
-  { _style: { width: "150px" }, key: "CodeEmp", label: "Mã nhân viên" },
+  { _style: { width: "80px" }, key: "KiCong", label: "Kì công" },
+  // { _style: { width: "150px" }, key: "Year", label: "Năm" },
+  // { _style: { width: "150px" }, key: "Month", label: "Tháng" },
+  { _style: { width: "120px" }, key: "CodeEmp", label: "Mã nhân viên" },
   { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
   {
-    _style: { width: "300px" },
-    key: "OrgStructureID",
-
+    _style: { width: "250px" },
+    key: "OrgStructureName",
     label: "Phòng ban",
   },
-  { _style: { width: "250px" }, key: "TotalKeepingReality", label: "Tổng ngày công thực tế" },
+  { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Ngày công thực tế" },
   {
-    _style: { width: "250px" },
+    _style: { width: "150px" },
     key: "SabbaticalLeave",
     label: "Nghỉ có phép",
   },
-  { _style: { width: "250px" }, key: "UnSabbaticalLeave", label: "Nghỉ không phép" },
-  { _style: { width: "250px" }, key: "SumKeeping", label: "Tổng hợp công" },
+  { _style: { width: "150px" }, key: "UnSabbaticalLeave", label: "Nghỉ không phép" },
+  { _style: { width: "150px" }, key: "SumKeeping", label: "Tổng hợp công" },
   { _style: { width: "250px" }, key: "avssds", label: "Ghi chú" },
   {
     _style: { width: "250px" },

@@ -114,9 +114,9 @@ const Search = (props) => {
                 if (item)
                   return setFilter({
                     ...Filter,
-                    ...{ setOrgStructureID: item.ID },
+                    ...{ OrgStructureID: item.ID },
                   });
-                const { setOrgStructureID, ...FilterNew } = Filter;
+                const { OrgStructureID, ...FilterNew } = Filter;
                 setFilter(FilterNew);
               }}
               getOptionLabel={(option) =>
@@ -136,14 +136,14 @@ const Search = (props) => {
               <div>
                 <KeyboardDatePicker
                   inputVariant="outlined"
-                  // clearable
+                  clearable
                   size="small"
                   fullWidth={false}
                   className={classes.date1}
-                  emptyLabel="Kì công"
+                  emptyLabel="__/____"
                   views={["year", "month"]}
                   format="MM/yyyy"
-                  value={!Filter.KiCong ? new Date() : Filter.KiCong}
+                  value={!Filter.KiCong ? null : Filter.KiCong}
                   onChange={(date) => {
                     if (date)
                       return setFilter({

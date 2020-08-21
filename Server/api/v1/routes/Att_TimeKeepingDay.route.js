@@ -14,7 +14,7 @@ TimeKeepingDayRoute.route("/import")
 TimeKeepingDayRoute.route("/calculate")
 .post(TimeKeepingDayController.calculate)
 
-TimeKeepingDayRoute.route("/:_id")
+TimeKeepingDayRoute.route("/:ID")
 .put(TimeKeepingDayController.update)
 .delete(TimeKeepingDayController.delete)
 
