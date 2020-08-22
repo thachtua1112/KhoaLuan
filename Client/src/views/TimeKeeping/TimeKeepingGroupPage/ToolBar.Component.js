@@ -37,7 +37,7 @@ const ToolBar = (props) => {
 
     const classes = useStyles();
 
-  const {  RowsSelected ,onSearch} = props;
+  const { setConfimDelete, RowsSelected ,onSearch,show} = props;
 
 
   return (
@@ -52,8 +52,8 @@ const ToolBar = (props) => {
       onClick={onSearch}
       color="primary" 
       />
-            <Typography variant="h6" component="h2" style={{width:"200px"}}>
-            {RowsSelected.length>0?`${RowsSelected.length} dòng đã chọn`:null}
+            <Typography variant="h6" component="h2" >
+            {RowsSelected?`KI CONG ${RowsSelected.KiCong} NHAN VIEN ${RowsSelected.ProfileName}`:null}
             </Typography>
     </div> 
       
@@ -62,12 +62,12 @@ const ToolBar = (props) => {
     
 
     <div>
-     <IconButton   >
+     <IconButton disabled={RowsSelected?false:true} onClick={()=>show(true)}  >
       <Tooltip   title="Xem chi tiết">
        <FindInPageIcon />
        </Tooltip>
      </IconButton> 
-       <IconButton >
+       <IconButton onClick={()=>setConfimDelete(true)} disabled={RowsSelected?false:true} >
        <Tooltip title="Xóa">
          <DeleteOutlineIcon />
          </Tooltip> 

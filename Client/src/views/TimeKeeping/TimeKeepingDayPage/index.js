@@ -4,7 +4,7 @@ import TimeKeepingAPI from "../../../callAPI/TimeKeeping.api";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Grid, Paper, CircularProgress } from "@material-ui/core";
+import { Grid, Paper, CircularProgress, Dialog, DialogTitle, DialogActions, Button } from "@material-ui/core";
 import CIcon from "@coreui/icons-react";
 import { cilBan } from "@coreui/icons";
 
@@ -70,6 +70,8 @@ const TimeKeepingDayPage = () => {
 
   const [Option, setOption] = useState(null)
 
+  const [ConfimDelete, setConfimDelete] = useState(false)
+
   const searchDataTimeKeeping = async () => {
     setnoItem(Loading)
     setListDataTimeKeeping([])
@@ -88,6 +90,7 @@ const TimeKeepingDayPage = () => {
     const onDelete= async()=>{
       await TimeKeepingAPI.deleteX(RowsSelected[0]._id)
       setRowsSelected([])
+      setConfimDelete(false)
       reload()
     }
     const onCalculateTimeKeeping= async()=>{
@@ -119,7 +122,7 @@ const TimeKeepingDayPage = () => {
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar onDelete={onDelete} show={setOption} onCalculateTimeKeeping={onCalculateTimeKeeping} RowsSelected={RowsSelected} searchDataTimeKeeping={searchDataTimeKeeping} />
+          <ToolBar setConfimDelete={setConfimDelete} show={setOption} onCalculateTimeKeeping={onCalculateTimeKeeping} RowsSelected={RowsSelected} searchDataTimeKeeping={searchDataTimeKeeping} />
         </Paper>
       </Grid>
 
@@ -128,6 +131,25 @@ const TimeKeepingDayPage = () => {
             <Content noItem={noItem} fields={fields} RowsSelected={RowsSelected} setRowsSelected={setRowsSelected} data={ListDataTimeKeeping} />
         </Paper>
       </Grid>
+      <Dialog
+      open={ConfimDelete}
+      disableBackdropClick={true}
+      disableEscapeKeyDown={true}
+    >
+      <DialogTitle >XAC NHAN XOA</DialogTitle>
+       <DialogActions>
+          <Button 
+          onClick={()=>setConfimDelete(false)}
+           color="primary">
+            Khong
+          </Button>
+          <Button
+           onClick={onDelete} 
+           color="primary" autoFocus>
+            Co
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 };

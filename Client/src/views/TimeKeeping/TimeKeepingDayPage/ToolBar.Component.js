@@ -51,7 +51,7 @@ const ToolBar = (props) => {
 
   const [showFileUpload,setshowFileUpload]= useState(false)
 
-  const {  onDelete,show, RowsSelected ,searchDataTimeKeeping,onCalculateTimeKeeping} = props;
+  const {  setConfimDelete,show, RowsSelected ,searchDataTimeKeeping,onCalculateTimeKeeping} = props;
 
 
   
@@ -118,7 +118,7 @@ const ToolBar = (props) => {
        </Tooltip>
      </IconButton>
       
-       <IconButton onClick={onDelete} disabled={RowsSelected.length!==1?true:false} >
+       <IconButton onClick={()=>setConfimDelete(true)} disabled={RowsSelected.length!==1?true:false} >
        <Tooltip title="Xóa">
          <DeleteOutlineIcon />
          </Tooltip> 

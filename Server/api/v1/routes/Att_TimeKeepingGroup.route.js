@@ -9,8 +9,10 @@ TimeKeepingGroupRoute.route("/")
 .get(TimeKeepingGroupController.get);
 
 
-TimeKeepingGroupRoute.route("/:_id")
-.patch(TimeKeepingGroupController.update);
+TimeKeepingGroupRoute.route("/:ID")
+.put(TimeKeepingGroupController.update)
+.delete(TimeKeepingGroupController.delete)
+
 
 TimeKeepingGroupRoute.route("/synthesis")
 .post(TimeKeepingGroupController.synthesis);

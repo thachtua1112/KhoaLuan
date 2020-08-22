@@ -61,20 +61,57 @@ module.exports.get = async (req, res) => {
 };
 
 module.exports.update = async (req, res) => {
-  try {
-    return res.json({
-      ms: "UPDATE TIMEKEEPING GROUP",
-      //data: result,
-    });
-  } catch (err) {
-    console.log(err);
-    return res.sendStatus(403);
+  try{
+    const { ID } = req.params;
+    console.log("dang o day",ID)
+    const  data  = req.body;
+    const result = await Att_TimeKeepingGroupModel.findOneAndUpdate({_id:ID}, {...data},{new:true});
+    const resultData=await Att_TimeKeepingGroupModel.aggregate([{
+      $match:result
+    },
+    {
+      $lookup:{
+        from: "hre_profiles",
+        localField:"ProfileID",
+        foreignField:"ProfileID",
+        as: "Profile"
+      }
+    },
+    {
+      $addFields:{
+        ProfileName:{ "$arrayElemAt": [ "$Profile.ProfileName", 0 ] },
+        CodeEmp:{ "$arrayElemAt": [ "$Profile.CodeEmp", 0 ] } ,
+      }
+    },
+    {
+      $project:{
+        Profile:0,
+      }
+    }
+  ])
+    return res.status(200).json({data:resultData[0]}); 
+  }
+  catch(err)
+  {
+    return res.sendStatus(403)
   }
 };
 
+module.exports.delete = async (req, res) => {
+  try{
+    const { ID } = req.params;
+    const result = await Att_TimeKeepingGroupModel.findByIdAndDelete(ID);
+    res.status(200).json(result);
+  }
+  catch(err)
+  {
+    return res.sendStatus(403)
+  }
+};
+
+
 module.exports.synthesis = async (req, res) => {
   try {
-    
     const { KiCong,...filter}=req.body
 
     const dateKiCong=new Date(KiCong||new Date(`${("0" +(new Date().getMonth()+1)).slice(-2)}/01/${new Date().getFullYear()}`))
@@ -86,7 +123,7 @@ module.exports.synthesis = async (req, res) => {
     const TimeTo=new Date(dateKiCong);
     TimeTo.setMonth(new Date(dateKiCong).getMonth()+1)
 
-    await Hre_ProfileModel.aggregate([
+   await Hre_ProfileModel.aggregate([
       {
         $match:filter       
       },

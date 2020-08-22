@@ -304,7 +304,3 @@ const NewAndDetail=(props)=>{
 }
 
 export default NewAndDetail
-
- 
-  
-  

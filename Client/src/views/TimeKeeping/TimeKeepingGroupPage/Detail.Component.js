@@ -1,23 +1,11 @@
 import React ,{useState,useEffect}from "react"
 import { CModal, CModalBody, CModalFooter } from "@coreui/react"
-import { Grid, TextField, FormControl ,FormHelperText,makeStyles, Button,
-Dialog,DialogTitle,DialogActions
+import { Grid, TextField ,makeStyles, Button,
+Dialog,DialogTitle,DialogActions,InputAdornment 
 } from "@material-ui/core"
 
 
 
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-  KeyboardTimePicker,
-} from "@material-ui/pickers";
-
-
- import ProfileAPI from "../../../callAPI/Profile.api"
- import TimeKeepingAPI from "../../../callAPI/TimeKeeping.api";
-
-// import StopWorkingAPI from "../../../../callAPI/Hre_StopWorking.api"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -37,47 +25,28 @@ const useStyles = makeStyles((theme) => ({
 const NewAndDetail=(props)=>{
 
   const classes = useStyles();
-  const {option,document,show} =props
+  const {document,show ,onSave} =props
 
   const [Open, setOpen] = useState(false)
-  const [Document, setDocument] = useState('update'===option?document:{
-      DateKeeping:new Date(new Date().toDateString()),
-      TimeIn: new Date(`${new Date().toDateString()} 09:00`),
-      TimeOut: new Date(`${new Date().toDateString()} 17:00`),
-  })
-
-  const [Option, setOption] = useState(option)
-  const [Err, setErr] = useState({})
+  const [Document, setDocument] = useState(document)
   const [Modifile, setModifile] = useState(false)
-  const [Confim, setConfim] = useState(false)
+  const [ConfimExit, setConfimExit] = useState(false)
   
   useEffect(()=>{
     setOpen(true)
   },[])
 
   const handleOnClose=()=>{
-    if(Modifile)
-        return setConfim(true)
-    show(null)
+   if(Modifile)
+   return setConfimExit(true)
+   show(false)
   }
 
-  const onSave=async()=>{
-      if(!Document.CodeEmp||Err.CodeEmp||Err.TimeIn||Err.TimeOut)
-      return alert("DU LIEU CON THIEU HOAC BI LOI")
-      if("update"!==Option){
-        const res = await TimeKeepingAPI.create(Document)
-        alert("THEM THANH CONG")
-        setDocument(res.data.data)
-        setOption("update")
-       return setModifile(false)
-      }
-      const {_id,...data}=Document
-      const res = await TimeKeepingAPI.update(_id,data)
-      alert("LUU THANH CONG")
-      console.log(res.data.data)
-      setDocument(res.data.data)
-      setModifile(false)
-  }
+  const handleOnSave=()=>{
+    const {_id,...data}=Document
+    onSave(_id,data)
+    setModifile(false)
+   }
 
   return <CModal
     size="xl"
@@ -91,36 +60,8 @@ const NewAndDetail=(props)=>{
   <Grid item xs={3}>
     Mã nhân viên
     <TextField
-      error={!Err.CodeEmp?false:true}
-      helperText={!Err.CodeEmp?null:Err.CodeEmp}
-      placeholder="Vui lòng nhập"
-      disabled={"update"===Option?true:false}
-      value={!Document.CodeEmp?"":Document.CodeEmp}
-      onBlur={ async()=>{
-          if(!Document.CodeEmp)
-          { 
-            return setErr({...Err,CodeEmp:"BAN CHUA NHAP MA NV"})    
-          }
-          const data = await ProfileAPI.getProfilesbyCodeEmp(Document.CodeEmp)
-          if(1!==data.data.length){
-            return setErr({...Err,CodeEmp:"MA NV KO CHINH XAC"})   
-          }
-          setErr({...Err,CodeEmp:null})   
-          setDocument({...Document,ProfileName:data.data[0].ProfileName})
-      }}
-      onChange={(event) => {
-         const CodeEmpInput=event.target.value;
-         setModifile(true)
-         //setErr({...Err,CodeEmp:false,helpTextCodeEmp:null})   
-         if(""!==CodeEmpInput.trim()){
-            return setDocument({
-                ...Document,
-                CodeEmp: CodeEmpInput
-              });
-         }
-         const {CodeEmp ,...docuent}=Document
-         setDocument(docuent)
-      }}
+      disabled
+      value={Document.CodeEmp}
       variant="outlined"
       size="small"
       fullWidth
@@ -129,133 +70,126 @@ const NewAndDetail=(props)=>{
   <Grid item xs={3}>
     Tên nhân viên
     <TextField
-      value={!Document.ProfileName ? "" : Document.ProfileName}
+      value={Document.ProfileName}
       disabled
       variant="outlined"
       size="small"
       fullWidth
     />
   </Grid>
-  <MuiPickersUtilsProvider utils={DateFnsUtils}>
-    <Grid item xs={2}>
-    <FormControl fullWidth>
-        NGAY
-        <div >
-        <KeyboardDatePicker
-            inputVariant="outlined"
-            size="small"
-            disabled={"update"===Option}
-            fullWidth={false}
-            className={classes.date}
-            format="dd/MM/yyyy"
-            value={Document.DateKeeping}
-            onChange={(date) => {
-             setDocument({...Document,DateKeeping:date})
-             setModifile(true)
-            }}           
-        />      
-        </div>              
-    </FormControl>    
-    </Grid>
-    <Grid item xs={2}>
-    <FormControl error={Err.TimeIn!==null}  fullWidth>
-       GIO VAO 
-        <KeyboardTimePicker
-            ampm={false}
-            inputVariant="outlined"
-            size="small"
-            fullWidth={false}
-            className={classes.date}
-            value={Document.TimeIn}
-            onChange={(date) => {
-             const check=(new Date(date)>=new Date(Document.TimeOut))
-             if(check){
-                return setErr({...Err,TimeIn:"GIO VAO K THE LON HON HOAC BANG GIO RA"})
-             }
-             setErr({...Err,TimeIn:null})
-             setDocument({...Document,TimeIn:date})
-             setModifile(true)
-            }}           
-        />     
-    <FormHelperText>{Err.TimeIn}</FormHelperText>          
-    </FormControl>    
-    </Grid>
-    <Grid item xs={2}>
-    <FormControl error={Err.TimeOut!==null} fullWidth>
-        GIO RA
-        <KeyboardTimePicker
-            ampm={false}
-            inputVariant="outlined"
-            size="small"
-            fullWidth={false}
-            className={classes.date}
-            value={Document.TimeOut }
-            onChange={(date) => {
-            const check=(new Date(date)<=new Date(Document.TimeIn))
-             if(check){
-                return setErr({...Err,TimeOut:"GIO RA K THE NHO HON HOAC BANG GIO VAO"})
-             }
-             setErr({...Err,TimeOut:null})
-             setDocument({...Document,TimeOut:date})
-             setModifile(true)
-            }}           
-        />  
-    <FormHelperText>{Err.TimeOut}</FormHelperText>                   
-    </FormControl>    
-    </Grid>     
- </MuiPickersUtilsProvider>
+  <Grid item xs={3}>
+    KI CONG
+    <TextField
+      disabled
+      value={Document.KiCong}
+      variant="outlined"
+      size="small"
+      fullWidth
+    />
+  </Grid>
+  <Grid item xs={3}>
+    TRANG THAI
+    <TextField
+      value={Document.Status}
+      disabled
+      variant="outlined"
+      size="small"
+      fullWidth
+    />
+  </Grid>
 </Grid>
 
 <Grid className={classes.paper} container spacing={2}>
-<Grid item xs={6}>
-{"update"!==Option?null:(<Grid container spacing={2}> 
-<Grid item xs={6}>
-    <Grid>
-    LOAI CHAM CONG
+  <Grid item xs={3}>
+    NGAY CONG THUC TE
     <TextField
-      value={!Document.TimeKeepingType ? "" : Document.TimeKeepingType}
-      disabled
+      //disabled
+      value={Math.ceil((parseInt(Document.SumKeeping)/(1000*60*60*8))*100)/100}
+      onChange={(event)=>{
+        const value=(parseFloat(event.target.value)*(1000*60*60*8))
+         setDocument({...Document,
+          SumKeeping:value,
+          TotalKeepingReality:value+(parseFloat(Document.SabbaticalLeave)*(1000*60*60*8))
+          })
+          setModifile(true)
+       }}
+      inputProps={{
+        type:"number",
+        min:0,
+      }}
+      InputProps={{
+      
+        endAdornment:<InputAdornment position="end">NGAY</InputAdornment>,
+      }}
+
       variant="outlined"
       size="small"
       fullWidth
     />
-    </Grid>
-    <Grid>
-      GIO CONG
-    <TextField
-      value={!Document.Total ? "" : Math.ceil((parseInt(Document.Total)/(1000*60*60))*10)/10}
-      disabled
-      variant="outlined"
-      size="small"
-      fullWidth
-    />
-    </Grid>
   </Grid>
-<Grid item xs={6}>
-    <Grid>
-    TRANG THAI
+  <Grid item xs={3}>
+    NGHI CO PHEP
     <TextField
-      value={!Document.Status ? "" : Document.Status}
-      disabled
+      //disabled
+         value={Document.SabbaticalLeave}
+          onChange={(event)=>{
+            const value=parseFloat(event.target.value)*(1000*60*60*8)
+           setDocument({...Document,SabbaticalLeave:event.target.value,TotalKeepingReality:value+Document.SumKeeping})
+           setModifile(true)
+          }}
+        inputProps={{
+          type:"number",
+          min:0,
+        }
+        }
+        InputProps={
+        {
+          endAdornment:<InputAdornment position="end">NGAY</InputAdornment>
+        }
+      }
+      variant="outlined"
+       size="small"
+       fullWidth
+    />
+  </Grid>
+  <Grid item xs={3}>
+   NGHI KHONG PHEP
+    <TextField      
+       //disabled
+      value={Document.UnSabbaticalLeave}
+      onChange={(event)=>{
+        setDocument({...Document,UnSabbaticalLeave:event.target.value})
+        setModifile(true)
+      }}
+      inputProps={{
+        type:"number",
+        min:0,
+      }}
+      InputProps={{
+        endAdornment:<InputAdornment position="end">NGAY</InputAdornment>,
+      }}
       variant="outlined"
       size="small"
       fullWidth
     />
-    </Grid>
-    <Grid>
-    NGAY CONG
+  </Grid>
+  <Grid item xs={3}>
+   TONG CONG
     <TextField
-      value={!Document.Total ? "" : Math.ceil((parseInt(Document.Total)/(1000*60*60*8))*100)/100}
       disabled
+      value={Math.ceil((parseInt(Document.TotalKeepingReality)/(1000*60*60*8))*100)/100}
+      InputProps={{
+        type:"number",
+        endAdornment:<InputAdornment position="end">NGAY</InputAdornment>,
+      }}
       variant="outlined"
       size="small"
       fullWidth
     />
-    </Grid>
   </Grid>
 </Grid>
-)}
-</Grid>
+
+<Grid container  spacing={2}>
 <Grid item xs={6}>
     GHI CHU
     <TextField
@@ -268,6 +202,7 @@ const NewAndDetail=(props)=>{
                ...Document,
                Description: DescriptionInput
              });
+             setModifile(true)
         }}
       placeholder="Vui lòng nhập"
       multiline
@@ -277,24 +212,30 @@ const NewAndDetail=(props)=>{
       fullWidth
     />
     </Grid>
+
 </Grid>
+
  </Grid>
 </CModalBody>
 <CModalFooter>
-  <Button  variant="contained" color="primary" style={{marginRight:"10px"}} onClick={onSave} >Lưu lai</Button>
+  <Button disabled={!Modifile}
+   variant="contained" color="primary" style={{marginRight:"10px"}} onClick={handleOnSave} >Lưu lai</Button>
   <Button variant="contained" color="primary" onClick={handleOnClose} >Thoát</Button>
     <Dialog
-      open={Confim}
+      open={ConfimExit}
       disableBackdropClick={true}
       disableEscapeKeyDown={true}
-      onClose={()=>setConfim(false)}
     >
       <DialogTitle >CONG VIEC BAN DANG LAM CHUA HOAN THANH, BAN MUON TIEP TUC KHONG</DialogTitle>
        <DialogActions>
-          <Button onClick={()=>setConfim(false)} color="primary">
+          <Button 
+          onClick={()=>setConfimExit(false)}
+           color="primary">
             Tiep tuc
           </Button>
-          <Button onClick={()=>show(false)} color="primary" autoFocus>
+          <Button
+           onClick={()=>show(false)} 
+           color="primary" autoFocus>
             Thoat
           </Button>
         </DialogActions>

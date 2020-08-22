@@ -22,6 +22,7 @@ const Att_TimeKeepingGroupSchema = new Schema({
   TotalKeepingReality: { type: Schema.Types.Number },
   SumKeeping: { type: Schema.Types.Number },
   Description: { type: Schema.Types.String },
+  Status: { type: Schema.Types.String },
   IsLock: { type: Schema.Types.Boolean },
 });
 

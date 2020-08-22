@@ -14,23 +14,24 @@ const useStyles = makeStyles((theme) => ({
 
 const Content = (props) => {
   const { fields, data,RowsSelected ,setRowsSelected} = props;
-
-  const dataRender=data.map((item,index)=>{
-    for (let index = 0; index < RowsSelected.length; index++) {
-      const element = RowsSelected[index];
-      if(item._id===element._id)
+  var dataRender=data;
+  if(RowsSelected){
+  dataRender=data.map((item,index)=>{
+      if(item._id===RowsSelected._id){
         return {...item,_classes:"selected"} 
     }
     return item
   })
+}
 
   const handleSelectRow=(row)=>{
-    for (let index = 0; index < RowsSelected.length; index++) {
-      const element = RowsSelected[index];
-      if(element._id===row._id)
-      return setRowsSelected([...RowsSelected.slice(0,index),...RowsSelected.slice(index+1,RowsSelected.length)])
+    if(!RowsSelected){
+      return setRowsSelected(row)
+    }  
+    if(RowsSelected._id!==row._id){
+      return setRowsSelected(row)
     }
-    setRowsSelected([row,...RowsSelected])
+    return setRowsSelected(null)
   }
 
   const classes = useStyles();
