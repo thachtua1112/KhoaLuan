@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Grid, Paper } from "@material-ui/core";
+import { Grid, Paper, Dialog, DialogTitle, DialogActions, Button } from "@material-ui/core";
 
 import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
@@ -39,6 +39,8 @@ const EmployeeQuitPage = (props) => {
   const [ListProfile, setListProfile] = useState([]);
   const [IsLoading, setIsLoading] = useState(false);
 
+  const [ConfimDelete, setConfimDelete] = useState(false);
+
 
   const onSearch = async () => {
     try {
@@ -61,6 +63,7 @@ const EmployeeQuitPage = (props) => {
       const index=ListProfile.findIndex((item)=>item._id===RowSelected._id)
       if(-1!==index)
         setListProfile([...ListProfile.slice(0,index),...ListProfile.slice(index+1,ListProfile.length)]);
+        setConfimDelete(false)
     } catch (error) {
       console.log("DanhSachNhanVien ProfileAPI ERR", error);
     }
@@ -85,7 +88,7 @@ const EmployeeQuitPage = (props) => {
            onSearch={onSearch}
            setShowNewAndDetail={setShowNewAndDetail}
            RowSelected={RowSelected}
-           onDelete={onDelete}
+           setConfimDelete={setConfimDelete}
             />
         </Paper>
       </Grid>
@@ -100,6 +103,25 @@ const EmployeeQuitPage = (props) => {
           />
         </Paper>
       </Grid>
+      <Dialog
+      open={ConfimDelete}
+      disableBackdropClick={true}
+      disableEscapeKeyDown={true}
+    >
+      <DialogTitle >XAC NHAN XOA</DialogTitle>
+       <DialogActions>
+          <Button 
+          onClick={()=>setConfimDelete(false)}
+           color="primary">
+            Khong
+          </Button>
+          <Button
+           onClick={onDelete} 
+           color="primary" autoFocus>
+            Co
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 };

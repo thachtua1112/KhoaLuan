@@ -39,7 +39,7 @@ const ToolBar = (props) => {
 
   const {  onSearch ,
     RowSelected ,
-    onDelete,
+    setConfimDelete,
     setShowNewAndDetail,
    } = props;
 
@@ -97,7 +97,7 @@ const ToolBar = (props) => {
     
       
     
-  <IconButton onClick={onDelete} disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
+  <IconButton onClick={()=>setConfimDelete(true)} disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
   <Tooltip title="Xóa hồ sơ">
    <DeleteOutlineIcon />
    </Tooltip>
