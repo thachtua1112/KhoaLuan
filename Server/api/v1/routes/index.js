@@ -14,6 +14,8 @@ const TimeKeepingDayRoute = require("./Att_TimeKeepingDay.route");
 
 const TimeKeepingGroupRoute = require("./Att_TimeKeepingGroup.route");
 const SalaryRoute = require("./Att_Salary.route");
+const LeaveRoute = require("./Att_LeaveDay.route");
+
 const NewStaffRoute = require("./NewStaff.route");
 const ProfileQualificationRoute = require("./Hre_ProfileQualification.route");
 
@@ -33,6 +35,8 @@ routeAPI.use("/new-staff", NewStaffRoute);
 routeAPI.use("/profile-qualification", ProfileQualificationRoute);
 
 routeAPI.use("/timekeeping-days", TimeKeepingDayRoute);
+
+routeAPI.use("/leave-days", LeaveRoute);
 
 routeAPI.use("/timekeeping-groups", TimeKeepingGroupRoute);
 

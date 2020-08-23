@@ -83,14 +83,14 @@ const ToolBar = (props) => {
     <div>
     {
     <IconButton  onClick={New}>
-    <Tooltip title="Thêm NV nghỉ việc">
+    <Tooltip title="Thêm NV NV">
       <NoteAddIcon />
       </Tooltip>
     </IconButton>
     }
 
 <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}   onClick={Detail}>
-      <Tooltip  title="Xem chi tiết">
+      <Tooltip  title="Xem chi tiết hồ sơ">
        <FindInPageIcon />
        </Tooltip>
      </IconButton>
@@ -98,7 +98,7 @@ const ToolBar = (props) => {
       
     
   <IconButton onClick={()=>setConfimDelete(true)} disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
-  <Tooltip title="Xóa">
+  <Tooltip title="Xóa hồ sơ">
    <DeleteOutlineIcon />
    </Tooltip>
  </IconButton>

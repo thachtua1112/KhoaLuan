@@ -136,17 +136,17 @@ const TimeKeepingDayPage = () => {
       disableBackdropClick={true}
       disableEscapeKeyDown={true}
     >
-      <DialogTitle >XAC NHAN XOA</DialogTitle>
+      <DialogTitle >Xác nhận xóa</DialogTitle>
        <DialogActions>
           <Button 
           onClick={()=>setConfimDelete(false)}
            color="primary">
-            Khong
+            Không
           </Button>
           <Button
            onClick={onDelete} 
            color="primary" autoFocus>
-            Co
+            Có
           </Button>
         </DialogActions>
       </Dialog>

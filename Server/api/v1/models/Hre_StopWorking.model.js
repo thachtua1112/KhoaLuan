@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const Hre_StopWorkingSchema = new Schema({
-  ProfileID: { type: Schema.Types.String },
-  CodeEmp: { type: Schema.Types.String ,required:true},
+  ProfileID: { type: Schema.Types.String ,required:true},
+  CodeEmp: { type: Schema.Types.String },
   StopWorkType: { type: Schema.Types.String },
   ResignReason: { type: Schema.Types.String },
   DateStop: { type: Schema.Types.Date,required:true },

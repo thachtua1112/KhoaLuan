@@ -173,7 +173,7 @@ export default [
     _tag: "CSidebarNavItem",
     icon: "cil-puzzle",
     name: "Nghỉ-Phép",
-    to: "/cham-cong/du-lieu-tong-hop-cong",
+    to: "/cham-cong/nghi-phep",
   },
   {
     _tag: "CSidebarNavTitle",

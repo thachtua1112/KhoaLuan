@@ -93,17 +93,17 @@ const SalaryPage = () => {
       disableBackdropClick={true}
       disableEscapeKeyDown={true}
     >
-      <DialogTitle >XAC NHAN XOA</DialogTitle>
+      <DialogTitle >Xác nhận xóa</DialogTitle>
        <DialogActions>
           <Button 
           onClick={()=>setConfimDelete(false)}
            color="primary">
-            Khong
+            Không  
           </Button>
           <Button
            onClick={onDelete} 
            color="primary" autoFocus>
-            Co
+            Có
           </Button>
         </DialogActions>
       </Dialog>
@@ -124,7 +124,7 @@ const fields = [
     key: "OrgStructureName",
     label: "Phòng ban",
   },
-  { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Ngày công" },
+  { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Số ngày công" },
   //{ _style: { width: "150px" }, key: "StandardDayKeeping ", label: "Ngày công chuẩn" },
   {
     _style: { width: "150px" },

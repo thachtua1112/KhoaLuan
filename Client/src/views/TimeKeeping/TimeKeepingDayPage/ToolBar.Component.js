@@ -100,7 +100,7 @@ const ToolBar = (props) => {
 <Chip
     onClick={()=>setshowFileUpload(true)}
     icon={<UnarchiveIcon />}
-    label="TAI LEN"
+    label="Tải lên"
     clickable 
     className={classes.search} 
     color="primary" 

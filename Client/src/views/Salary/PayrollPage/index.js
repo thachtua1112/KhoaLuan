@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   content: { height: "75vh", paddingLeft: theme.spacing(1) },
 }));
 
-const CalculateKeepingPage = () => {
+const PayrollPage = () => {
   const classes = useStyles();
 
 const initDate=new Date()
@@ -39,7 +39,7 @@ initDate.setHours(0)
 
   const [RowsSelected, setRowsSelected] = useState([]);
 
-  const TongHopCong= async()=>{
+  const TinhLuong= async()=>{
     const strKiCong=`${("0" +(Filter.KiCong.getMonth()+1)).slice(-2)}/${Filter.KiCong.getFullYear()}`
     const res= await SalaryAPI.payroll({...Filter,KiCong:strKiCong})
     setListDataTimeKeeping(res.data.data)
@@ -60,7 +60,7 @@ initDate.setHours(0)
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar TongHopCong={TongHopCong}  RowsSelected={RowsSelected} />
+          <ToolBar TinhLuong={TinhLuong}  RowsSelected={RowsSelected} />
         </Paper>
       </Grid>
 
@@ -75,7 +75,7 @@ initDate.setHours(0)
   );
 };
 
-export default CalculateKeepingPage;
+export default PayrollPage;
 
 const fields = [
   { _style: { width: "80px" }, key: "KiCong", label: "Kì công" },
@@ -88,7 +88,7 @@ const fields = [
     key: "OrgStructureName",
     label: "Phòng ban",
   },
-  { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Ngày công" },
+  { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Số ngày công" },
   //{ _style: { width: "150px" }, key: "StandardDayKeeping ", label: "Ngày công chuẩn" },
   {
     _style: { width: "150px" },

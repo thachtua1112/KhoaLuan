@@ -32,7 +32,7 @@ const ToolBar = (props) => {
 
     const classes = useStyles();
 
-  const {  TongHopCong  } = props;
+  const {  TinhLuong  } = props;
 
 
   return (
@@ -44,7 +44,7 @@ const ToolBar = (props) => {
             label="TÍNH LƯƠNG"
             clickable
             className={classes.search} 
-            onClick={TongHopCong}
+            onClick={TinhLuong}
             color="primary" 
             />
     </div> 

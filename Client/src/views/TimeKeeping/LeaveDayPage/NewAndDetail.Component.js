@@ -1,6 +1,6 @@
 import React ,{useState}from "react"
 import { CModal, CModalBody, CModalFooter } from "@coreui/react"
-import {Select, Grid, TextField, FormControl ,makeStyles, Button,
+import { Grid, TextField, FormControl ,makeStyles, Button,
 Dialog,DialogTitle,DialogActions
 } from "@material-ui/core"
 
@@ -13,9 +13,9 @@ import {
 } from "@material-ui/pickers";
 
 
-import ProfileAPI from "../../../../callAPI/Profile.api"
+import ProfileAPI from "../../../callAPI/Profile.api"
 
-import StopWorkingAPI from "../../../../callAPI/Hre_StopWorking.api"
+import LeaveDayAPI from "../../../callAPI/Att_LeaveDay.api"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -38,7 +38,7 @@ const NewAndDetail=(props)=>{
   const [StatusOption, setStatusOption] = useState(Show.option)
   const [Document, setDocument] = useState("update"===StatusOption?document:{
       StopWorkType:"XIN_NGHI",
-      DateStop:new Date()
+      DayLeave:new Date()
     })
   const [StatusModifile, setStatusModifile] = useState(false)
   const [StatusConfim, setStatusConfim] = useState(false)
@@ -62,15 +62,15 @@ const NewAndDetail=(props)=>{
       if(Err.CodeEmp||Err.CodeEmp===undefined){
         return alert("Mã nhân viên chưa nhập hoặc nhập sai")    
       }
-      const data=await StopWorkingAPI.create(Document);
-      setDocument({...data.data.data[0],DateStop:new Date(data.data.data[0].DateStop)})
-      alert("Thêm thàng công")
+      const res=await LeaveDayAPI.create(Document);
+      setDocument({...res.data.data,DayLeave:new Date(res.data.data.DayLeave)})
+      alert("Thêm thành công")
       setStatusOption("update")
       return setStatusModifile(false)
     }
     const {_id,...newDocument}=Document
-    const data=await StopWorkingAPI.update(_id,newDocument);
-      setDocument({...data.data.data[0],DateStop:new Date(data.data.data[0].DateStop)})
+    const res=await LeaveDayAPI.update(_id,newDocument);
+      setDocument({...res.data.data,DayLeave:new Date(res.data.data.DayLeave)})
       alert("Lưu thành công")
       setStatusModifile(false)
   }
@@ -102,9 +102,6 @@ const NewAndDetail=(props)=>{
           if(1!==data.data.length){
             return setErr({...Err,CodeEmp:true,helpTextCodeEmp:"Mã nhân viên không chính xác"})   
           }
-          if("E_STOP"===data.data[0].StatusSyn){
-            return setErr({...Err,CodeEmp:true,helpTextCodeEmp:"Nhân viên đã nghỉ việc"})   
-          }
           setDocument({...Document,ProfileName:data.data[0].ProfileName})
       }}
       onChange={(event) => {
@@ -135,36 +132,10 @@ const NewAndDetail=(props)=>{
       fullWidth
     />
   </Grid>
+  <MuiPickersUtilsProvider utils={DateFnsUtils}>
   <Grid item xs={3}>
-    <FormControl variant="outlined" fullWidth size="small" >
-      Loại nghỉ việc
-            {
-               <Select
-               native
-               className={classes.select}
-               value={Document.StopWorkTypeValue}
-               onChange={(event)=>{
-                   setDocument({...Document,StopWorkType:event.target.value})
-                   setStatusModifile(true)
-               }}
-             >
-                {StopWorkTypeValue.map((option) => (    
-                  <option   key={option.value}  value={option.value}>
-                       
-                    {option.label} 
-                   
-                  </option>
-                
-                ))}
-              </Select>
-            }
-
-    </FormControl>
-     </Grid>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid item xs={3}>
               <FormControl fullWidth>
-                Ngày nghỉ việc
+                Ngày nghỉ
                 <div >
                   <KeyboardDatePicker
                     inputVariant="outlined"
@@ -172,16 +143,26 @@ const NewAndDetail=(props)=>{
                     fullWidth={false}
                     className={classes.date}
                     format="dd/MM/yyyy"
-                    value={!Document.DateStop ? null : Document.DateStop }
+                    value={!Document.DayLeave ? null : Document.DayLeave }
                     onChange={(date) => {
-                     setDocument({...Document,DateStop:date})
+                     setDocument({...Document,DayLeave:date})
                      setStatusModifile(true)
                     }}
                   />
                 </div>
               </FormControl>
-            </Grid>
-          </MuiPickersUtilsProvider>
+            </Grid>    
+  </MuiPickersUtilsProvider>
+    <Grid item xs={3}>
+    Trạng thái
+    <TextField
+    disabled
+      value={!Document.Status?"":Document.Status}
+      variant="outlined"
+      size="small"
+      fullWidth
+    />
+     </Grid>
  
 </Grid>
 <Grid className={classes.paper} container spacing={2}>
@@ -190,18 +171,17 @@ const NewAndDetail=(props)=>{
     <TextField
       placeholder="Vui lòng nhập"
       multiline
-      value={!Document.ResignReason?"":Document.ResignReason}
+      value={!Document.LeaveReason?"":Document.LeaveReason}
       onChange={(event) => {
         setStatusModifile(true)
-        const ResignReasonInput=event.target.value;
-        //setErr({...Err,ResignReason:false,helpTextResignReason:null})   
-        if(""!==ResignReasonInput.trim()){
+        const LeaveReasonInput=event.target.value;
+        if(""!==LeaveReasonInput.trim()){
            return setDocument({
                ...Document,
-               ResignReason: ResignReasonInput
+               LeaveReason: LeaveReasonInput
              });
         }
-        const {ResignReason ,...docuent}=Document
+        const {LeaveReason ,...docuent}=Document
         setDocument(docuent)
      }}
       rows={6}
@@ -214,18 +194,18 @@ const NewAndDetail=(props)=>{
     Ghi chú
     <TextField
       required
-      value={!Document.Note?"":Document.Note}
+      value={!Document.Description?"":Document.Description}
       onChange={(event) => {
         setStatusModifile(true)
-        const NoteInput=event.target.value;
-        //setErr({...Err,Note:false,helpTextNote:null})   
-        if(""!==NoteInput.trim()){
+        const DescriptionInput=event.target.value;
+        //setErr({...Err,Description:false,helpTextDescription:null})   
+        if(""!==DescriptionInput.trim()){
            return setDocument({
                ...Document,
-               Note: NoteInput
+               Description: DescriptionInput
              });
         }
-        const {Note ,...docuent}=Document
+        const {Description ,...docuent}=Document
         setDocument(docuent)
      }}
       placeholder="Vui lòng nhập"
@@ -238,48 +218,6 @@ const NewAndDetail=(props)=>{
     </Grid>
 </Grid>
 
-{
-  "update"!==StatusOption?null:(<Grid className={classes.paper} container spacing={2}>
-    <Grid item xs={3}>
-      Người tạo
-      <TextField
-        disabled
-        variant="outlined"
-        size="small"
-        fullWidth
-      />
-      </Grid>
-      <Grid item xs={3}>
-      Người duyệt
-      <TextField
-        disabled
-        variant="outlined"
-        size="small"
-        fullWidth
-      />
-    </Grid>
-    <Grid item xs={3}>
-      Ngày duyệt
-      <TextField
-        //value={Document.createdAt}
-        disabled
-        variant="outlined"
-        size="small"
-        fullWidth
-      />
-      </Grid>
-      <Grid item xs={3}>
-      Danh sách đen
-      <TextField
-        disabled
-        variant="outlined"
-        size="small"
-        fullWidth
-      />
-    </Grid>
-  </Grid>)
-}
-
  </Grid>
 </CModalBody>
 <CModalFooter>
@@ -287,11 +225,9 @@ const NewAndDetail=(props)=>{
   <Button variant="contained" color="primary" onClick={handleOnClose} >Thoát</Button>
     <Dialog
       open={StatusConfim}
-      // disableBackdropClick={true}
-      // disableEscapeKeyDown={true}
       onClose={()=>setStatusConfim(false)}
     >
-      <DialogTitle >Công việc đang làm chưa hoàn thành</DialogTitle>
+      <DialogTitle >Công việc chưa hoàn thành</DialogTitle>
        <DialogActions>
           <Button autoFocus onClick={()=>{
             setStatusConfim(false)
@@ -314,21 +250,6 @@ const NewAndDetail=(props)=>{
 
 export default NewAndDetail
 
-const StopWorkTypeValue = [
-    {
-      value: "XIN_NGHI",
-      label: "Xin nghỉ",
-    },
-    {
-      value: "DUOI_VIEC",
-      label: "Đuổi việc",
-    },
-    {
-        value: "HET_HD",
-        label: "Hết hợp đồng",
-      },
-  ];
 
- 
   
   

@@ -2,6 +2,8 @@
 import CalculateKeepingPage from "../CalculateKeepingPage";
 import TimeKeepingDayPage from "../TimeKeepingDayPage";
 import TimeKeepingGroupPage from "../TimeKeepingGroupPage";
+import LeaveDayPage from "../LeaveDayPage";
+
 
 
 const TimeKeepingRoute = [
@@ -28,6 +30,12 @@ const TimeKeepingRoute = [
     name: "Dữ liệu tổng hợp công",
     exact: true,
     component: TimeKeepingGroupPage,
+  },
+  {
+    path: "/cham-cong/nghi-phep",
+    name: "Nghỉ-phép",
+    exact: true,
+    component: LeaveDayPage,
   },
 ];
 

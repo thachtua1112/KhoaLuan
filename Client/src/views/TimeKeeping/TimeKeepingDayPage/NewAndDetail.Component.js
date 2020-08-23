@@ -66,14 +66,14 @@ const NewAndDetail=(props)=>{
       return alert("DU LIEU CON THIEU HOAC BI LOI")
       if("update"!==Option){
         const res = await TimeKeepingAPI.create(Document)
-        alert("THEM THANH CONG")
+        alert("Thêm thành công")
         setDocument(res.data.data)
         setOption("update")
        return setModifile(false)
       }
       const {_id,...data}=Document
       await TimeKeepingAPI.update(_id,data)
-      alert("LUU THANH CONG")
+      alert("Lưu thành công")
       setModifile(false)
      
   }
@@ -98,11 +98,11 @@ const NewAndDetail=(props)=>{
       onBlur={ async()=>{
           if(!Document.CodeEmp)
           { 
-            return setErr({...Err,CodeEmp:"BAN CHUA NHAP MA NV"})    
+            return setErr({...Err,CodeEmp:"Chưa nhập mã nhân viên"})    
           }
           const data = await ProfileAPI.getProfilesbyCodeEmp(Document.CodeEmp)
           if(1!==data.data.length){
-            return setErr({...Err,CodeEmp:"MA NV KO CHINH XAC"})   
+            return setErr({...Err,CodeEmp:"Mã nhân viên không chính xác"})   
           }
           setErr({...Err,CodeEmp:null})   
           setDocument({...Document,ProfileName:data.data[0].ProfileName})
@@ -138,7 +138,7 @@ const NewAndDetail=(props)=>{
   <MuiPickersUtilsProvider utils={DateFnsUtils}>
     <Grid item xs={2}>
     <FormControl fullWidth>
-        NGAY
+        Ngày
         <div >
         <KeyboardDatePicker
             inputVariant="outlined"
@@ -158,7 +158,7 @@ const NewAndDetail=(props)=>{
     </Grid>
     <Grid item xs={2}>
     <FormControl error={Err.TimeIn!==null}  fullWidth>
-       GIO VAO 
+       Giờ vào
         <KeyboardTimePicker
             ampm={false}
             inputVariant="outlined"
@@ -181,7 +181,7 @@ const NewAndDetail=(props)=>{
     </Grid>
     <Grid item xs={2}>
     <FormControl error={Err.TimeOut!==null} fullWidth>
-        GIO RA
+        Giờ ra
         <KeyboardTimePicker
             ampm={false}
             inputVariant="outlined"
@@ -210,7 +210,7 @@ const NewAndDetail=(props)=>{
 {"update"!==Option?null:(<Grid container spacing={2}> 
 <Grid item xs={6}>
     <Grid>
-    LOAI CHAM CONG
+    Loại chấm công
     <TextField
       value={!Document.TimeKeepingType ? "" : Document.TimeKeepingType}
       disabled
@@ -220,7 +220,7 @@ const NewAndDetail=(props)=>{
     />
     </Grid>
     <Grid>
-      GIO CONG
+      Giờ công
     <TextField
       value={!Document.Total ? "" : Math.ceil((parseInt(Document.Total)/(1000*60*60))*10)/10}
       disabled
@@ -232,7 +232,7 @@ const NewAndDetail=(props)=>{
   </Grid>
 <Grid item xs={6}>
     <Grid>
-    TRANG THAI
+    Trạng thái
     <TextField
       value={!Document.Status ? "" : Document.Status}
       disabled
@@ -242,7 +242,7 @@ const NewAndDetail=(props)=>{
     />
     </Grid>
     <Grid>
-    NGAY CONG
+    Ngày công
     <TextField
       value={!Document.Total ? "" : Math.ceil((parseInt(Document.Total)/(1000*60*60*8))*100)/100}
       disabled
@@ -256,7 +256,7 @@ const NewAndDetail=(props)=>{
 )}
 </Grid>
 <Grid item xs={6}>
-    GHI CHU
+    Ghi chú
     <TextField
       required
       value={!Document.Description?"":Document.Description}
@@ -288,13 +288,13 @@ const NewAndDetail=(props)=>{
       disableEscapeKeyDown={true}
       onClose={()=>setConfim(false)}
     >
-      <DialogTitle >CONG VIEC BAN DANG LAM CHUA HOAN THANH, BAN MUON TIEP TUC KHONG</DialogTitle>
+      <DialogTitle >Công việc chưa hoàn thành</DialogTitle>
        <DialogActions>
           <Button onClick={()=>setConfim(false)} color="primary">
-            Tiep tuc
+            Tiếp tục
           </Button>
           <Button onClick={()=>show(false)} color="primary" autoFocus>
-            Thoat
+            Thoát
           </Button>
         </DialogActions>
       </Dialog>

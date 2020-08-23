@@ -17,7 +17,7 @@ import {
 } from "@material-ui/pickers";
 
 
-import OrgStructureAPI from "../../../../callAPI/Cat_OrgStructure.api";
+import OrgStructureAPI from "../../../callAPI/Cat_OrgStructure.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -142,7 +142,7 @@ const Search = (props) => {
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid item xs={5}>
               <FormControl fullWidth>
-                Ngày nghỉ việc
+                Ngày nghỉ
                 <div>
                   <KeyboardDatePicker
                     inputVariant="outlined"
@@ -153,31 +153,31 @@ const Search = (props) => {
                     className={classes.date}
                     format="dd/MM/yyyy"
                     value={
-                      !Filter.DateStop
+                      !Filter.DateLeave
                         ? null
-                        : !Filter.DateStop["$gt"]
+                        : !Filter.DateLeave["$gt"]
                         ? null
-                        : Filter.DateStop["$gt"]
+                        : Filter.DateLeave["$gt"]
                     }
                     maxDate={
-                      !Filter.DateStop
+                      !Filter.DateLeave
                         ? new Date("01/01/2100")
-                        : !Filter.DateStop["$lte"]
+                        : !Filter.DateLeave["$lte"]
                         ? new Date()
-                        : Filter.DateStop["$lte"]
+                        : Filter.DateLeave["$lte"]
                     }
                     onChange={(date) => {
                       if (null !== date)
                         return setFilter({
                           ...Filter,
-                          ...{ DateStop: { ...Filter.DateStop, $gt: date } },
+                          ...{ DateLeave: { ...Filter.DateLeave, $gt: date } },
                         });
-                      if (!Filter.DateStop) {
-                        const { DateStop, ...FilterNew } = Filter;
+                      if (!Filter.DateLeave) {
+                        const { DateLeave, ...FilterNew } = Filter;
                         return setFilter(FilterNew);
                       }
-                      const { $gt, ...DateStopNew } = Filter.DateStop;
-                      setFilter({ ...Filter, DateStop: DateStopNew });
+                      const { $gt, ...DateLeaveNew } = Filter.DateLeave;
+                      setFilter({ ...Filter, DateLeave: DateLeaveNew });
                     }}
                   />
                   <KeyboardDatePicker
@@ -187,33 +187,33 @@ const Search = (props) => {
                     fullWidth={false}
                     className={classes.date}
                     minDate={
-                      !Filter.DateStop
+                      !Filter.DateLeave
                         ? 0
-                        : !Filter.DateStop["$gt"]
+                        : !Filter.DateLeave["$gt"]
                         ? 0
-                        : Filter.DateStop["$gt"]
+                        : Filter.DateLeave["$gt"]
                     }
                     label="Đến ngày"
                     format="dd/MM/yyyy"
                     value={
-                      !Filter.DateStop
+                      !Filter.DateLeave
                         ? null
-                        : !Filter.DateStop["$lte"]
+                        : !Filter.DateLeave["$lte"]
                         ? null
-                        : Filter.DateStop["$lte"]
+                        : Filter.DateLeave["$lte"]
                     }
                     onChange={(date) => {
                       if (null !== date)
                         return setFilter({
                           ...Filter,
-                          ...{ DateStop: { ...Filter.DateStop, $lte: date } },
+                          ...{ DateLeave: { ...Filter.DateLeave, $lte: date } },
                         });
-                      if (!Filter.DateStop) {
-                        const { DateStop, ...FilterNew } = Filter;
+                      if (!Filter.DateLeave) {
+                        const { DateLeave, ...FilterNew } = Filter;
                         return setFilter(FilterNew);
                       }
-                      const { $lte, ...DateStopNew } = Filter.DateStop;
-                      setFilter({ ...Filter, DateStop: DateStopNew });
+                      const { $lte, ...DateLeaveNew } = Filter.DateLeave;
+                      setFilter({ ...Filter, DateLeave: DateLeaveNew });
                     }}
                   />
                 </div>
