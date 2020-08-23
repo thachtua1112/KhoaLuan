@@ -15,7 +15,7 @@ import {
 
 
  import ProfileAPI from "../../../callAPI/Profile.api"
- import TimeKeepingAPI from "../../../callAPI/TimeKeeping.api";
+ import TimeKeepingAPI from "../../../callAPI/Att_TimeKeeping.api";
 
 // import StopWorkingAPI from "../../../../callAPI/Hre_StopWorking.api"
 
@@ -72,11 +72,10 @@ const NewAndDetail=(props)=>{
        return setModifile(false)
       }
       const {_id,...data}=Document
-      const res = await TimeKeepingAPI.update(_id,data)
+      await TimeKeepingAPI.update(_id,data)
       alert("LUU THANH CONG")
-      console.log(res.data.data)
-      setDocument(res.data.data)
       setModifile(false)
+     
   }
 
   return <CModal
@@ -281,7 +280,7 @@ const NewAndDetail=(props)=>{
  </Grid>
 </CModalBody>
 <CModalFooter>
-  <Button  variant="contained" color="primary" style={{marginRight:"10px"}} onClick={onSave} >Lưu lai</Button>
+  <Button disabled={!Modifile}  variant="contained" color="primary" style={{marginRight:"10px"}} onClick={onSave} >Lưu lai</Button>
   <Button variant="contained" color="primary" onClick={handleOnClose} >Thoát</Button>
     <Dialog
       open={Confim}

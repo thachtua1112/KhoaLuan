@@ -16,7 +16,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
-import OrgStructureAPI from "../../../../callAPI/OrgStructure.api";
+import OrgStructureAPI from "../../../../callAPI/Cat_OrgStructure.api";
 import {GetPositionsApi} from "../../../../callAPI/Positions.api";
 
 const useStyles = makeStyles((theme) => ({

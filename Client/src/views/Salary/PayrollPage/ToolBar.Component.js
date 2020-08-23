@@ -41,7 +41,7 @@ const ToolBar = (props) => {
       <div className={classes.left}> 
          <Chip
             icon={<FilterListSharpIcon />}
-            label="TỔNG HỢP CÔNG"
+            label="TÍNH LƯƠNG"
             clickable
             className={classes.search} 
             onClick={TongHopCong}

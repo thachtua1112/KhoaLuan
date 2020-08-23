@@ -60,13 +60,28 @@ module.exports.update = async (req, res) => {
       $addFields:{
         ProfileName:{ "$arrayElemAt": [ "$Profile.ProfileName", 0 ] },
         CodeEmp:{ "$arrayElemAt": [ "$Profile.CodeEmp", 0 ] } ,
+        OrgStructureID:{ "$arrayElemAt": [ "$Profile.OrgStructureID", 0 ] } ,
+      }
+    },
+    {
+      $lookup:{
+        from: "cat_orgstructures",
+        localField:"OrgStructureID",
+        foreignField:"ID",
+        as: "OrgStructure"
+      }
+    },
+    {
+      $addFields:{
+        OrgStructureName:{ "$arrayElemAt": [ "$OrgStructure.OrgStructureName", 0 ] } ,
       }
     },
     {
       $project:{
         Profile:0,
+        OrgStructure:0
       }
-    }
+    },
   ])
     return res.status(200).json({data:resultData[0]}); 
   }
@@ -80,29 +95,31 @@ module.exports.update = async (req, res) => {
 module.exports.get = async (req, res) => {
   try {
  
-    const {Status,DateKeeping ,...filterProfile } =  req.query;
-    const {OrgStructureID,ProfileName, CodeEmp,...filterTimeKeeping } =  req.query;
+    const filter =  req.query;
 
-    if(filterTimeKeeping.DateKeeping){
-      if(filterTimeKeeping.DateKeeping["$gte"]){
-        filterTimeKeeping.DateKeeping["$gte"]=new Date(filterTimeKeeping.DateKeeping["$gte"])
+    if(filter.DateKeeping){
+      if(filter.DateKeeping["$gte"]){
+        filter.DateKeeping["$gte"]=new Date(filter.DateKeeping["$gte"])
       }
-      if(filterTimeKeeping.DateKeeping["$lte"]){
-        filterTimeKeeping.DateKeeping["$lte"]=new Date(filterTimeKeeping.DateKeeping["$lte"])
+      if(filter.DateKeeping["$lte"]){
+        filter.DateKeeping["$lte"]=new Date(filter.DateKeeping["$lte"])
       }
     }
     
-    const data= await Hre_ProfileModel.aggregate([
+    const data= await Att_TimeKeepingDayModel.aggregate([
       {
-        $match:filterProfile
+        $lookup:{
+          from: "hre_profiles",
+          localField:"ProfileID",
+          foreignField:"ProfileID",
+          as: "Profile"
+        }
       },
       {
-        $project:{
-          _id:0,
-          CodeEmp:1,
-          ProfileName:1,
-          ProfileID:1,
-          OrgStructureID:1
+        $addFields:{
+          ProfileName:{ "$arrayElemAt": [ "$Profile.ProfileName", 0 ] },
+          OrgStructureID:{ "$arrayElemAt": [ "$Profile.OrgStructureID", 0 ] },
+          CodeEmp:{ "$arrayElemAt": [ "$Profile.CodeEmp", 0 ] } ,
         }
       },
       {
@@ -114,41 +131,19 @@ module.exports.get = async (req, res) => {
         }
       },
       {
-        $project:{     
-          CodeEmp:1,
-          ProfileName:1,
-          ProfileID:1,
-          OrgStructureName:{ $arrayElemAt: [ "$OrgStructure.OrgStructureName", 0 ] },
+        $addFields:{
+          OrgStructureName:{ "$arrayElemAt": [ "$OrgStructure.OrgStructureName", 0 ] },
         }
       },
       {
-        $lookup:{
-          from: "att_timekeepings",
-          localField:"ProfileID",
-          foreignField:"ProfileID",
-          as: "TimeKeeping"
-        }
-      },
-      {$unwind:{path:"$TimeKeeping",preserveNullAndEmptyArrays: true}},
-    
-      {
-        $project:{     
-          CodeEmp:1,
-          ProfileName:1,
-          OrgStructureName:1,
-          _id:"$TimeKeeping._id",
-          DateKeeping:"$TimeKeeping.DateKeeping",
-          TimeKeepingType:"$TimeKeeping.TimeKeepingType",
-          TimeIn:"$TimeKeeping.TimeIn",
-          TimeOut:"$TimeKeeping.TimeOut",
-          Description:"$TimeKeeping.Description",
-          Status:"$TimeKeeping.Status",
-          Total:"$TimeKeeping.Total",
+        $project:{
+          OrgStructure:0,
+          Profile:0
         }
       },
       {
-        $match:filterTimeKeeping
-      },
+        $match:filter
+      }
     ])
     return res.json({
       ms: "GET TIME KEEPING DAY",

@@ -166,19 +166,75 @@ export default [
   {
     _tag: "CSidebarNavItem",
     icon: "cil-puzzle",
-    name: "Tính công",
+    name: "Tổng hợp công",
     to: "/cham-cong/tong-hop-cong",
   },
-
   {
     _tag: "CSidebarNavItem",
     icon: "cil-puzzle",
     name: "Nghỉ-Phép",
     to: "/cham-cong/du-lieu-tong-hop-cong",
   },
-
   {
-    _tag: "CSidebarNavDivider",
+    _tag: "CSidebarNavTitle",
+    _children: ["Lương-Thuế-Bảo hiểm"],
+  },
+  {
+    _tag: "CSidebarNavDropdown",
+    name: "Lương",
+    to: "/luong",
+    icon: "cil-pencil",
+    _children: [
+      {
+      _tag: "CSidebarNavItem",
+      icon: "cil-puzzle",
+      name: "Dữ liệu lương",
+      to: "/luong/du-lieu-luong",
+    },
+    {
+      _tag: "CSidebarNavItem",
+      icon: "cil-puzzle",
+      name: "Tính lương",
+      to: "/luong/tinh-luong",
+    },]
+  },
+  {
+    _tag: "CSidebarNavDropdown",
+    name: "Thuế",
+    to: "/thue",
+    icon: "cil-pencil",
+    _children: [
+      {
+      _tag: "CSidebarNavItem",
+      icon: "cil-puzzle",
+      name: "Dữ liệu thuế",
+      to: "/thue/du-lieu-thue",
+    },
+    {
+      _tag: "CSidebarNavItem",
+      icon: "cil-puzzle",
+      name: "Tính thuế",
+      to: "/thue/tinh-thue",
+    },]
+  },
+  {
+    _tag: "CSidebarNavDropdown",
+    name: "Bảo hiểm",
+    to: "/bao-hiem",
+    icon: "cil-pencil",
+    _children: [
+      {
+      _tag: "CSidebarNavItem",
+      icon: "cil-puzzle",
+      name: "Dữ liệu bảo hiểm",
+      to: "/bao-hiem/du-lieu-bao-hiem",
+    },
+    {
+      _tag: "CSidebarNavItem",
+      icon: "cil-puzzle",
+      name: "Tính bảo hiểm",
+      to: "/bao-hiem/tinh-bao-hiem",
+    },]
   },
   {
     _tag: "CSidebarNavTitle",

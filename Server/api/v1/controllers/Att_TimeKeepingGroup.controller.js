@@ -1,6 +1,6 @@
 const Att_TimeKeepingGroupModel = require("../models/Att_TimeKeepingGroup.model");
 
-const Att_TimeKeepingDayModel = require("../models/Att_TimeKeepingDay.model");
+
 
 const Hre_ProfileModel = require("../models/Hre_Profile.model");
 
@@ -63,7 +63,6 @@ module.exports.get = async (req, res) => {
 module.exports.update = async (req, res) => {
   try{
     const { ID } = req.params;
-    console.log("dang o day",ID)
     const  data  = req.body;
     const result = await Att_TimeKeepingGroupModel.findOneAndUpdate({_id:ID}, {...data},{new:true});
     const resultData=await Att_TimeKeepingGroupModel.aggregate([{
@@ -81,13 +80,28 @@ module.exports.update = async (req, res) => {
       $addFields:{
         ProfileName:{ "$arrayElemAt": [ "$Profile.ProfileName", 0 ] },
         CodeEmp:{ "$arrayElemAt": [ "$Profile.CodeEmp", 0 ] } ,
+        OrgStructureID:{ "$arrayElemAt": [ "$Profile.OrgStructureID", 0 ] } ,
+      }
+    },
+    {
+      $lookup:{
+        from: "cat_orgstructures",
+        localField:"OrgStructureID",
+        foreignField:"ID",
+        as: "OrgStructure"
+      }
+    },
+    {
+      $addFields:{
+        OrgStructureName:{ "$arrayElemAt": [ "$OrgStructure.OrgStructureName", 0 ] } ,
       }
     },
     {
       $project:{
         Profile:0,
+        OrgStructure:0
       }
-    }
+    },
   ])
     return res.status(200).json({data:resultData[0]}); 
   }
@@ -112,18 +126,19 @@ module.exports.delete = async (req, res) => {
 
 module.exports.synthesis = async (req, res) => {
   try {
-    const { KiCong,...filter}=req.body
+    let { KiCong,...filter}=req.body
 
-    const dateKiCong=new Date(KiCong||new Date(`${("0" +(new Date().getMonth()+1)).slice(-2)}/01/${new Date().getFullYear()}`))
+    KiCong=KiCong?KiCong:`${("0" +(new Date().getMonth()+1)).slice(-2)}/${new Date().getFullYear()}`
+
+    const TimeFrom=new Date(`${KiCong.slice(0,2)}/01/${KiCong.slice(3)}`)
+
+    TimeFrom.setDate(TimeFrom.getDate()+1)
+    const TimeTo=new Date(TimeFrom);
+    TimeTo.setMonth(new Date(TimeTo).getMonth()+1)
+
   
-    const strKiCong=`${("0" +(dateKiCong.getMonth()+1)).slice(-2)}/${dateKiCong.getFullYear()}`
 
-    
-    const TimeFrom=new Date(dateKiCong)
-    const TimeTo=new Date(dateKiCong);
-    TimeTo.setMonth(new Date(dateKiCong).getMonth()+1)
-
-   await Hre_ProfileModel.aggregate([
+   const result= await Hre_ProfileModel.aggregate([
       {
         $match:filter       
       },
@@ -142,16 +157,23 @@ module.exports.synthesis = async (req, res) => {
         }
       },
       {
-        $match:{
-          "TimeKeepingDay.DateKeeping":{ $gte:TimeFrom,$lt:TimeTo }
+        $addFields:{
+          TimeKeeping:{ $filter: {
+            input: "$TimeKeepingDay",
+            as: "item",
+            cond: { $and:[
+              {$gte:["$$item.DateKeeping",TimeFrom]},
+              {$lt:["$$item.DateKeeping",TimeTo]}]
+            }
+          }}
         }
       },
       {
         "$addFields": {
-            KiCong:strKiCong,
+            KiCong:KiCong,
             SumKeeping: {
                 $reduce: {
-                    input: "$TimeKeepingDay",
+                    input: "$TimeKeeping",
                     initialValue: 0,
                     in: { $add : ["$$value", "$$this.Total"] }
                 }
@@ -175,8 +197,8 @@ module.exports.synthesis = async (req, res) => {
       },
       {
         $addFields: {
-          Year :dateKiCong.getFullYear(),
-          Month:dateKiCong.getMonth()+1,
+          Year :TimeFrom.getFullYear(),
+          Month:TimeFrom.getMonth()+1,
           UnSabbaticalLeave:{   
             $multiply:[{ $size:{
               $filter: {
@@ -214,6 +236,7 @@ module.exports.synthesis = async (req, res) => {
         $merge:{
           into:"att_timekeepinggroups",
           on:["ProfileID","KiCong"],
+         // whenMatched:"keepExisting",
           whenMatched:"replace",
           whenNotMatched:"insert"
         },
@@ -222,9 +245,26 @@ module.exports.synthesis = async (req, res) => {
     ])
    
 
-    const data=  await Hre_ProfileModel.aggregate([
+    const data=  await Att_TimeKeepingGroupModel.aggregate([
       {
-        $match:filter
+        $lookup:{
+          from: "hre_profiles",
+          localField:"ProfileID",
+          foreignField:"ProfileID",
+          as: "Profile"
+        }
+      },
+      {
+        $addFields:{
+          ProfileName:{ "$arrayElemAt": [ "$Profile.ProfileName", 0 ] },
+          OrgStructureID:{ "$arrayElemAt": [ "$Profile.OrgStructureID", 0 ] },
+          CodeEmp:{ "$arrayElemAt": [ "$Profile.CodeEmp", 0 ] } ,
+        }
+      },
+      {
+        $project:{
+          Profile:0
+        }
       },
       {
         $lookup:{
@@ -235,48 +275,19 @@ module.exports.synthesis = async (req, res) => {
         }
       },
       {
-        $lookup:{
-          from: "att_timekeepinggroups",
-          localField:"ProfileID",
-          foreignField:"ProfileID",
-          as: "TimeKeepingGroup"
-        }
-      },
-      {
-        $match:{
-          "TimeKeepingGroup.KiCong":strKiCong
+        $addFields:{
+          OrgStructureName:{ "$arrayElemAt": [ "$OrgStructure.OrgStructureName", 0 ] },
         }
       },
       {
         $project:{
-          _id:0,
-          ProfileID:1,
-          ProfileName:1,
-          CodeEmp:1,
-          OrgStructureName:{ $arrayElemAt: [ "$OrgStructure.OrgStructureName", 0 ] },
-          TimeKeepingGroup:{ $arrayElemAt: [ "$TimeKeepingGroup", 0 ] },
+          OrgStructure:0
         }
       },
       {
-        $project:{
-          _id:"$TimeKeepingGroup._id",
-          ProfileID:1,
-          ProfileName:1,
-          CodeEmp:1,
-          OrgStructureName:1,
-          KiCong:"$TimeKeepingGroup.KiCong",
-          Year:"$TimeKeepingGroup.Year",
-          Month:"$TimeKeepingGroup.Month",
-          SumKeeping:"$TimeKeepingGroup.SumKeeping",
-          UnSabbaticalLeave:"$TimeKeepingGroup.UnSabbaticalLeave",
-          SabbaticalLeave:"$TimeKeepingGroup.SabbaticalLeave",
-          TotalKeepingReality:"$TimeKeepingGroup.TotalKeepingReality",
-          TotalKeepingReality:"$TimeKeepingGroup.TotalKeepingReality",
-          Description:"$TimeKeepingGroup.Description",
-        }
-      },
+        $match:{...filter,KiCong:KiCong}
+      }
     ])
-
    res.json({
      message:"TONG_HOP_CONG",
      data

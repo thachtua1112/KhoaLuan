@@ -12,7 +12,7 @@ import Content from "./Content.Component";
 import Detail from "./Detail.Component";
 
 
-import TimeKeepingGroupAPI from "../../../callAPI/Att_TimeKeepingGroup.api"
+import SalaryAPI from "../../../callAPI/Att_Salary.api"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   content: { height: "75vh", paddingLeft: theme.spacing(1) },
 }));
 
-const TimeKeepingGroupPage = () => {
+const SalaryPage = () => {
   const classes = useStyles();
 
 
@@ -40,19 +40,20 @@ const TimeKeepingGroupPage = () => {
 
   const onSearch= async()=>{
     const filter ={...Filter,...(!Filter.KiCong?null:{KiCong:`${("0" +(Filter.KiCong.getMonth()+1)).slice(-2)}/${Filter.KiCong.getFullYear()}`})}
-    const res= await TimeKeepingGroupAPI.getDataTimeKeepingGroup(filter)
+    const res= await SalaryAPI.get(filter)
     setListDataTimeKeeping(res.data.data)
   }
 
   const onSave= async(id,data)=>{
-    const res=await TimeKeepingGroupAPI.update(id,data)
+    const res=await SalaryAPI.update(id,data)
+    console.log(res.data.data)
     setRowsSelected(res.data.data)
     const index=ListDataTimeKeeping.findIndex(item=>item._id===res.data.data._id)
     setListDataTimeKeeping([...ListDataTimeKeeping.slice(0,index),res.data.data,...ListDataTimeKeeping.slice(index+1,ListDataTimeKeeping.length)])
   }
 
   const onDelete= async()=>{
-    await TimeKeepingGroupAPI.deleteX(RowsSelected._id)
+    await SalaryAPI.deleteX(RowsSelected._id)
     const index=ListDataTimeKeeping.findIndex(item=>item._id===RowsSelected._id)
     setListDataTimeKeeping([...ListDataTimeKeeping.slice(0,index),...ListDataTimeKeeping.slice(index+1,ListDataTimeKeeping.length)])
     setRowsSelected(null)
@@ -110,7 +111,7 @@ const TimeKeepingGroupPage = () => {
   );
 };
 
-export default TimeKeepingGroupPage;
+export default SalaryPage;
 
 const fields = [
   { _style: { width: "80px" }, key: "KiCong", label: "Kì công" },
@@ -123,18 +124,18 @@ const fields = [
     key: "OrgStructureName",
     label: "Phòng ban",
   },
-  { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Ngày công thực tế" },
+  { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Ngày công" },
+  //{ _style: { width: "150px" }, key: "StandardDayKeeping ", label: "Ngày công chuẩn" },
   {
     _style: { width: "150px" },
-    key: "SabbaticalLeave",
-    label: "Nghỉ có phép",
+    key: "SalaryContract",
+    label: "Hợp đồng",
   },
-  { _style: { width: "150px" }, key: "UnSabbaticalLeave", label: "Nghỉ không phép" },
-  { _style: { width: "150px" }, key: "SumKeeping", label: "Tổng hợp công" },
+  { _style: { width: "150px" }, key: "Salary", label: "Tính lương" },
   { _style: { width: "250px" }, key: "Description", label: "Ghi chú" },
   {
     _style: { width: "250px" },
     key: "Status",
-    label: "Status",
+    label: "Trạng thái",
   },
 ];

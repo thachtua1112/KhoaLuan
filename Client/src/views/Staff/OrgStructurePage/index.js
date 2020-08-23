@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import OrgStructureAPI from "../../../callAPI/OrgStructure.api";
+import OrgStructureAPI from "../../../callAPI/Cat_OrgStructure.api";
 
 import { exportToPDF } from "../utils/exportToPDF";
 

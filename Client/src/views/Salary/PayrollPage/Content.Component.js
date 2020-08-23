@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Content = (props) => {
   const { fields, data,
-   // RowsSelected ,setRowsSelected
+   //RowsSelected ,setRowsSelected
   } = props;
 
   // const dataRender=data.map((item,index)=>{
@@ -41,15 +41,15 @@ const Content = (props) => {
       <CDataTable
       addTableClasses={classes.table}
       fields={fields}
-      items={data}
       //items={dataRender}
+      items={data}
       pagination={data.length > 20 ? true : false}
       itemsPerPage={20}
       border
       hover
       striped
       size="sm"
-      //onRowClick={handleSelectRow}
+      //`onRowClick={handleSelectRow}
       />
     </div>
   );

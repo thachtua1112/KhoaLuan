@@ -75,7 +75,7 @@ Att_TimeKeepingDaySchema.set("toJSON", { virtuals: true });
 Att_TimeKeepingDaySchema.index({ProfileID: 1, DateKeeping: 1}, {unique: true})
 
 const Att_TimeKeepingDayModel = mongoose.model(
-  "Att_TimeKeeping",
+  "Att_TimeKeepingDay",
   Att_TimeKeepingDaySchema
 );
 

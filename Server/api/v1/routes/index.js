@@ -13,7 +13,7 @@ const HreContractRoute = require("./Hre_Contract.route");
 const TimeKeepingDayRoute = require("./Att_TimeKeepingDay.route");
 
 const TimeKeepingGroupRoute = require("./Att_TimeKeepingGroup.route");
-const SalaryRoute = require("./Salary.route");
+const SalaryRoute = require("./Att_Salary.route");
 const NewStaffRoute = require("./NewStaff.route");
 const ProfileQualificationRoute = require("./Hre_ProfileQualification.route");
 

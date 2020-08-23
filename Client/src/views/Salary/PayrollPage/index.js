@@ -10,7 +10,7 @@ import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
 import Content from "./Content.Component";
 
-import TimeKeepingGroupAPI from "../../../callAPI/Att_TimeKeepingGroup.api"
+import SalaryAPI from "../../../callAPI/Att_Salary.api"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +41,7 @@ initDate.setHours(0)
 
   const TongHopCong= async()=>{
     const strKiCong=`${("0" +(Filter.KiCong.getMonth()+1)).slice(-2)}/${Filter.KiCong.getFullYear()}`
-    const res= await TimeKeepingGroupAPI.calculateTimeKeepingGroup({...Filter,KiCong:strKiCong})
+    const res= await SalaryAPI.payroll({...Filter,KiCong:strKiCong})
     setListDataTimeKeeping(res.data.data)
   }
  
@@ -78,9 +78,9 @@ initDate.setHours(0)
 export default CalculateKeepingPage;
 
 const fields = [
-  { _style: { width: "100px" }, key: "KiCong", label: "Kì công" },
-  // { _style: { width: "80px" }, key: "Year", label: "Năm" },
-  // { _style: { width: "80px" }, key: "Month", label: "Tháng" },
+  { _style: { width: "80px" }, key: "KiCong", label: "Kì công" },
+  // { _style: { width: "150px" }, key: "Year", label: "Năm" },
+  // { _style: { width: "150px" }, key: "Month", label: "Tháng" },
   { _style: { width: "120px" }, key: "CodeEmp", label: "Mã nhân viên" },
   { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
   {
@@ -88,12 +88,12 @@ const fields = [
     key: "OrgStructureName",
     label: "Phòng ban",
   },
-  { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Ngày công thực tế" },
+  { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Ngày công" },
+  //{ _style: { width: "150px" }, key: "StandardDayKeeping ", label: "Ngày công chuẩn" },
   {
-    _style: { width: "140px" },
-    key: "SabbaticalLeave",
-    label: "Nghỉ có phép",
+    _style: { width: "150px" },
+    key: "SalaryContract",
+    label: "Hợp đồng",
   },
-  { _style: { width: "140px" }, key: "UnSabbaticalLeave", label: "Nghỉ không phép" },
-  { _style: { width: "140px" }, key: "SumKeeping", label: "Tổng hợp công" },
+  { _style: { width: "150px" }, key: "Salary", label: "Tính lương" },
 ];

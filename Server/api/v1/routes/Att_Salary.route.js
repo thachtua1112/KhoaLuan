@@ -1,6 +1,6 @@
 const express = require("express");
 
-const SalaryController= require("../controllers/Salary.controller")
+const SalaryController= require("../controllers/Att_Salary.controller")
 
 const SalaryRoute = express.Router();
 
@@ -12,13 +12,19 @@ SalaryRoute.route("/")
 .patch()
 .delete()
 
+SalaryRoute.route("/:ID")
+.put(SalaryController.update)
+.delete(SalaryController.delete)
 
 SalaryRoute.route("/payroll")
 .get()
-.post(SalaryController.getListEmployeePayroll,SalaryController.getSalaryListProfilePayroll,SalaryController.payroll)
+.post(SalaryController.payroll)
 .put()
 .patch()
 .delete()
+
+
+
 
 
 
