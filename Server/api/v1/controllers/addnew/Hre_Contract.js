@@ -2,8 +2,7 @@ const Hre_ContractModel = require("../../models/Hre_Contract.model");
 const Hre_ProfileModel = require("../../models/Hre_Profile.model")
 module.exports.getAll = async (req, res) => {
   try{
-    const filter = req.query
-    const result = await Hre_ContractModel.find(filter);
+    const result = await Hre_ContractModel.find();
     return res.status(200).json(result);
   }
   catch(err)
@@ -54,6 +53,17 @@ module.exports.HistoryById= async function(req,res){
        res.sendStatus(403)
      }
   }
+  // module.exports.Contract= async function(req,res){
+  //   try{
+  //     const result = await Hre_ProfileModel.find({DateEnd:{$gt: new Date()}})
+  //     return res.json(result
+  //   )
+  //   }
+  //   catch(err)
+  //   {
+  //     res.sendStatus(403)
+  //   }
+  // }
   module.exports.HreContract= async function(req,res){
     try {
       const contract = await Hre_ContractModel.aggregate([
