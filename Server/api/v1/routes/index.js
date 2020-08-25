@@ -10,6 +10,8 @@ const WorkHistoryRoute = require("./Hre_WorkHistory.route");
 const StopWorkingRoute = require("./Hre_StopWorking.route");
 const HreContractRoute = require("./Hre_Contract.route");
 
+const HreContractExtend = require("./Hre_ContractExtend.route");
+
 const TimeKeepingDayRoute = require("./Att_TimeKeepingDay.route");
 
 const TimeKeepingGroupRoute = require("./Att_TimeKeepingGroup.route");
@@ -31,6 +33,7 @@ routeAPI.use("/work-histories", WorkHistoryRoute);
 routeAPI.use("/stop-workings", StopWorkingRoute);
 routeAPI.use("/contract-types", ContractTypeRoute);
 routeAPI.use("/hre-contract", HreContractRoute);
+routeAPI.use("/hre-contract-extend", HreContractExtend);
 routeAPI.use("/new-staff", NewStaffRoute);
 routeAPI.use("/profile-qualification", ProfileQualificationRoute);
 

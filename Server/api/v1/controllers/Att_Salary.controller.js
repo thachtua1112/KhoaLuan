@@ -8,7 +8,7 @@ const  SalaryModel = require("../models/Att_Salary.model")
 module.exports.get = async (req,res) =>{
   try{
 
-    const filter=req.body
+    const filter=req.query
     const data = await SalaryModel.aggregate([
       {
         $lookup:{
