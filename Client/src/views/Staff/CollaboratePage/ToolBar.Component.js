@@ -13,6 +13,7 @@ import SaveAltIcon from '@material-ui/icons/SaveAlt';
 import ProfileAPI from "../../../callAPI/Profile.api";
 import { DeleteHreCollaboratesApi } from "../../../callAPI/Hre_Collaborates.api";
 import { CForm } from "@coreui/react";
+import {  CSVLink } from "react-csv";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,7 +42,7 @@ const ToolBar = (props) => {
 
   const history = useHistory();
 
-  const {  onSearch ,RowSelected ,setshowNewProfile } = props;
+  const {  onSearch ,RowSelected ,setshowNewProfile,Export,HeaderExport } = props;
 
   const goDetail = () => {
     ProfileAPI.getProfiles({CodeEmp:RowSelected.CodeEmp}).then(res=>{
@@ -61,7 +62,6 @@ const ToolBar = (props) => {
    DeleteHreCollaboratesApi(RowSelected.ProfileID).then(res=>{
      if(res.data)
      {
-       console.log(res.data)
        return alert("Xóa thành công!!!")
      }
      return alert("Xóa không thành công")
@@ -126,7 +126,13 @@ const ToolBar = (props) => {
 
         <IconButton>
         <Tooltip title="Export">
+          <CSVLink
+          headers={HeaderExport}
+          data={Export}
+          filename={"qua-trinh-cong-tac.csv"}
+        >
           <SaveAltIcon />
+        </CSVLink>
           </Tooltip>
         </IconButton>
 

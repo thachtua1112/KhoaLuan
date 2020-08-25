@@ -36,7 +36,6 @@ const StatusUptoDate=(props)=>{
   const [IdProfile,setIdProfile]=useState([])
   const [NameProfile,setNameProfile]=useState([])
 
-  console.log( "NewProfile",NewProfile)
   useEffect(()=>{
     BonusHreCollaboratesApi().then(res=>{
       if(res.data)

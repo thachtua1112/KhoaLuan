@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     //padding: theme.spacing(1),
   },
   date: {
-   
+
   },
 }));
 
@@ -50,7 +50,7 @@ const NewAndDetail=(props)=>{
   const [Err, setErr] = useState({})
   const [Modifile, setModifile] = useState(false)
   const [Confim, setConfim] = useState(false)
-  
+
   useEffect(()=>{
     setOpen(true)
   },[])
@@ -75,7 +75,7 @@ const NewAndDetail=(props)=>{
       await TimeKeepingAPI.update(_id,data)
       alert("Lưu thành công")
       setModifile(false)
-     
+
   }
 
   return <CModal
@@ -97,20 +97,20 @@ const NewAndDetail=(props)=>{
       value={!Document.CodeEmp?"":Document.CodeEmp}
       onBlur={ async()=>{
           if(!Document.CodeEmp)
-          { 
-            return setErr({...Err,CodeEmp:"Chưa nhập mã nhân viên"})    
+          {
+            return setErr({...Err,CodeEmp:"Chưa nhập mã nhân viên"})
           }
           const data = await ProfileAPI.getProfilesbyCodeEmp(Document.CodeEmp)
           if(1!==data.data.length){
-            return setErr({...Err,CodeEmp:"Mã nhân viên không chính xác"})   
+            return setErr({...Err,CodeEmp:"Mã nhân viên không chính xác"})
           }
-          setErr({...Err,CodeEmp:null})   
+          setErr({...Err,CodeEmp:null})
           setDocument({...Document,ProfileName:data.data[0].ProfileName})
       }}
       onChange={(event) => {
          const CodeEmpInput=event.target.value;
          setModifile(true)
-         //setErr({...Err,CodeEmp:false,helpTextCodeEmp:null})   
+         //setErr({...Err,CodeEmp:false,helpTextCodeEmp:null})
          if(""!==CodeEmpInput.trim()){
             return setDocument({
                 ...Document,
@@ -151,10 +151,10 @@ const NewAndDetail=(props)=>{
             onChange={(date) => {
              setDocument({...Document,DateKeeping:date})
              setModifile(true)
-            }}           
-        />      
-        </div>              
-    </FormControl>    
+            }}
+        />
+        </div>
+    </FormControl>
     </Grid>
     <Grid item xs={2}>
     <FormControl error={Err.TimeIn!==null}  fullWidth>
@@ -174,10 +174,10 @@ const NewAndDetail=(props)=>{
              setErr({...Err,TimeIn:null})
              setDocument({...Document,TimeIn:date})
              setModifile(true)
-            }}           
-        />     
-    <FormHelperText>{Err.TimeIn}</FormHelperText>          
-    </FormControl>    
+            }}
+        />
+    <FormHelperText>{Err.TimeIn}</FormHelperText>
+    </FormControl>
     </Grid>
     <Grid item xs={2}>
     <FormControl error={Err.TimeOut!==null} fullWidth>
@@ -197,17 +197,17 @@ const NewAndDetail=(props)=>{
              setErr({...Err,TimeOut:null})
              setDocument({...Document,TimeOut:date})
              setModifile(true)
-            }}           
-        />  
-    <FormHelperText>{Err.TimeOut}</FormHelperText>                   
-    </FormControl>    
-    </Grid>     
+            }}
+        />
+    <FormHelperText>{Err.TimeOut}</FormHelperText>
+    </FormControl>
+    </Grid>
  </MuiPickersUtilsProvider>
 </Grid>
 
 <Grid className={classes.paper} container spacing={2}>
 <Grid item xs={6}>
-{"update"!==Option?null:(<Grid container spacing={2}> 
+{"update"!==Option?null:(<Grid container spacing={2}>
 <Grid item xs={6}>
     <Grid>
     Loại chấm công

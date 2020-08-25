@@ -85,7 +85,7 @@ const CollaboratePage = (props) => {
       </Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.toolbar}>
-          <ToolBar setshowNewProfile={setshowNewProfile} onSearch={onSearch} RowSelected={RowSelected} />
+          <ToolBar setshowNewProfile={setshowNewProfile} onSearch={onSearch} RowSelected={RowSelected} Export={ListProfile} HeaderExport={CongTac}/>
         </Paper>
       </Grid>
       <Grid item>

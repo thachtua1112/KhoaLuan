@@ -4,7 +4,7 @@ import { Autocomplete } from "@material-ui/lab";
 
 import {
   FormControl,
-  Grid,
+  Grid,MenuItem,
   TextField,
   makeStyles,
 } from "@material-ui/core";
@@ -87,23 +87,30 @@ const Search = (props) => {
           />
         </Grid>
         <Grid item xs={3}>
-          Số CMND
+          Trạng thái
           <TextField
-            value={!Filter.IDNo1 ? "" : Filter.IDNo1}
+            select
+            value={!Filter.Status ? "" : Filter.Status}
             onChange={(event) => {
               if ("" !== event.target.value.trim())
                 return setFilter({
                   ...Filter,
-                  ...{ IDNo1: event.target.value.trim() },
+                  ...{ Status: event.target.value.trim() },
                 });
-              const { IDNo1, ...FilterNew } = Filter;
+              const { Status, ...FilterNew } = Filter;
               setFilter(FilterNew);
             }}
-            placeholder="Vui lòng nhập"
+           // placeholder="Vui lòng nhập"
             variant="outlined"
             size="small"
             fullWidth
-          />
+          >
+          {StatusValue.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+          </TextField>
         </Grid>
 
       </Grid>
@@ -145,7 +152,7 @@ const Search = (props) => {
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid item xs={5}>
               <FormControl fullWidth>
-                Ngày vào làm
+                Ngày đi công tác
                 <div style={{ paddingTop: "8px" }}>
                   <KeyboardDatePicker
                     inputVariant="outlined"
@@ -231,3 +238,25 @@ const Search = (props) => {
 };
 
 export default Search;
+const StatusValue = [
+  {
+    value: "",
+    label: "None",
+  },
+  {
+    value: "Khen thưởng",
+    label: "Khen thưởng",
+  },
+  {
+    value: "Kỉ luật",
+    label: "Kỉ luật",
+  },
+  {
+    value: "Đang công tác",
+    label: "Đang công tác",
+  },
+  {
+    value: "Chuẩn bị công tác",
+    label: "Chuẩn bị công tác",
+  }
+];

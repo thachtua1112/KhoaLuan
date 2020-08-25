@@ -17,6 +17,7 @@ import Slide from '@material-ui/core/Slide';
 import {csv} from 'd3'
 import { CreateNewStaffApi } from '../../../../callAPI/Hre_Profile.api';
 import { ProfileFields } from './fielsProfile';
+import {  CSVLink } from "react-csv";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -114,6 +115,15 @@ const ReceiveNewStaffPage = () => {
                 </Button>
               </ThemeProvider>
               <CInput className={classes.button} type='file' accept='.csv' onChange={up_files}></CInput>
+              <CSVLink
+              headers={ProfileFields}
+              data={[]}
+              filename={"new-Staff-List.csv"}
+              className="btn btn-primary"
+              target="_blank"
+            >
+            Tải file mẫu
+            </CSVLink>
             </form>
 
           <CSidebarNav>
