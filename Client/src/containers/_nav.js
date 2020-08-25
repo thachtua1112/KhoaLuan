@@ -88,6 +88,7 @@ export default [
         name: "Danh sách hợp đồng",
         to: "/nhan-su/hop-dong/ds-hop-dong",
       },
+   
       {
         _tag: "CSidebarNavItem",
         name: "Ds nhân viên chưa có hợp đồng",
@@ -98,23 +99,10 @@ export default [
         name: "Danh sách hợp đồng hết hạn",
         to: "/nhan-su/hop-dong/ds-hop-dong-het-han",
       },
-    ],
-  },
-  {
-    _tag: "CSidebarNavDropdown",
-    name: "Phụ lục hợp đồng",
-    to: "/nhan-su/phu-luc-hop-dong",
-    icon: "cil-pencil",
-    _children: [
       {
         _tag: "CSidebarNavItem",
-        name: "Danh sách phụ lục hợp đồng",
-        to: "/nhan-su/hop-dong/ds-phu-luc-hop-dong",
-      },
-      {
-        _tag: "CSidebarNavItem",
-        name: "Ds phụ lục hợp đồng hết hạn",
-        to: "/nhan-su/phu-luc-hop-dong/ds-phu-luc-hop-dong-het-han",
+        name: "Phụ lục hợp đồng",
+        to: "/nhan-su/hop-dong/phu-luc-hop-dong"
       },
     ],
   },
@@ -128,16 +116,6 @@ export default [
         _tag: "CSidebarNavItem",
         name: "Qtr điều động & bổ nhiệm",
         to: "/nhan-su/qua-trinh-cong-tac/dieu-dong-bo-nhiem",
-      },
-      {
-        _tag: "CSidebarNavItem",
-        name: "Danh sách khen thưởng",
-        to: "/nhan-su/qua-trinh-cong-tac/ds-khen-thuong",
-      },
-      {
-        _tag: "CSidebarNavItem",
-        name: "Danh sách kỉ luật",
-        to: "/nhan-su/qua-trinh-cong-tac/ds-khen-thuong",
       },
     ],
   },

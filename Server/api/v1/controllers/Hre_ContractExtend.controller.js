@@ -27,6 +27,7 @@ module.exports.get=async (req,res)=>{
             },
             {
                 $addFields:{
+                    CodeEmp: { $arrayElemAt :["$Profile.CodeEmp",0]},
                     ProfileName: { $arrayElemAt :["$Profile.ProfileName",0]},
                     OrgStructureID: { $arrayElemAt :["$Profile.OrgStructureID",0]}
                 }
@@ -81,7 +82,7 @@ module.exports.getByID=async (req,res)=>{
 module.exports.create=async (req,res)=>{
     try {
         const data= req.body
-        const result = await Hre_ContractExtendModel.create({...data, DateCreate: Date.now(),DateUpdate: Date.now(),Status:""})
+        const result = await Hre_ContractExtendModel.create({...data, DateCreate: Date.now(),DateUpdate: Date.now(),Status:"E_WAITING"})
         const resultData = await Hre_ContractExtendModel.aggregate([
             {
                 $match:result
@@ -110,6 +111,7 @@ module.exports.create=async (req,res)=>{
             {
                 $addFields:{
                     ProfileName: { $arrayElemAt :["$Profile.ProfileName",0]},
+                    CodeEmp: { $arrayElemAt :["$Profile.CodeEmp",0]},
                     OrgStructureID: { $arrayElemAt :["$Profile.OrgStructureID",0]}
                 }
             },
@@ -179,6 +181,7 @@ module.exports.update=async (req,res)=>{
             {
                 $addFields:{
                     ProfileName: { $arrayElemAt :["$Profile.ProfileName",0]},
+                    CodeEmp: { $arrayElemAt :["$Profile.CodeEmp",0]},
                     OrgStructureID: { $arrayElemAt :["$Profile.OrgStructureID",0]}
                 }
             },
@@ -215,3 +218,14 @@ module.exports.update=async (req,res)=>{
     }
 }
 
+module.exports.delete = async (req, res) => {
+    try{
+      const { ID } = req.params;
+      const result = await Hre_ContractExtendModel.findByIdAndDelete(ID);
+      res.status(200).json(result);
+    }
+    catch(err)
+    {
+      return res.sendStatus(403)
+    }
+  };

@@ -12,6 +12,8 @@ ContractExtendRouter.route("/")
 ContractExtendRouter.route("/:ID")
 .get(ContractExtendController.getByID)
 .put(ContractExtendController.update)
+.delete(ContractExtendController.delete)
+
 
 
 

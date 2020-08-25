@@ -1,8 +1,8 @@
 import callAPI from "./callAPI";
 
-const GetContractApi = () =>
+const GetContractApi = (body=null) =>
 {
-  return callAPI("/hre-contract","GET",null)
+  return callAPI("/hre-contract","GET",body)
 }
 const Notyet_ContractApi = () =>
 {

@@ -9,6 +9,8 @@ import NotYet_ContractPage from "../ContractPage/NotYet_ContractPage";
 import ContractPage from "../ContractPage/Dashboard_ContractPage";
 import ExpireContractPage from "../ContractPage/Expire_ContractPage";
 
+import ContractExtendPage from "../ContractPage/ContractExtendPage";
+
 
 
 import ReceiveNewStaffPage from "../ReceiveNewStaff/ReceiveNewEmployee";
@@ -92,6 +94,11 @@ const staffRoute = [
     component: NotYet_ContractPage,
   },
   {
+    path: "/nhan-su/hop-dong/ds-hop-dong",
+    name: "Danh sách hợp đồng",
+    component: ContractPage,
+  },
+  {
     path: "/nhan-su/hop-dong/tao-moi-hop-dong",
     name: "Tạo mới hợp đồng",
     component: NewContractPage,
@@ -103,9 +110,9 @@ const staffRoute = [
     component: ExtendContractPage
   },
   {
-    path: "/nhan-su/hop-dong/ds-hop-dong",
-    name: "Danh sách hợp đồng",
-    component: ContractPage,
+    path: "/nhan-su/hop-dong/phu-luc-hop-dong",
+    name: "Phụ lục hợp đồng",
+    component: ContractExtendPage,
   },
   {
     path:"/nhan-su/tiep-nhan-nhan-vien-moi",

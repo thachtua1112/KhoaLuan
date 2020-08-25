@@ -2,7 +2,8 @@ const Hre_ContractModel = require("../../models/Hre_Contract.model");
 const Hre_ProfileModel = require("../../models/Hre_Profile.model")
 module.exports.getAll = async (req, res) => {
   try{
-    const result = await Hre_ContractModel.find();
+    const filter = req.query
+    const result = await Hre_ContractModel.find(filter);
     return res.status(200).json(result);
   }
   catch(err)

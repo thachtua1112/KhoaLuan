@@ -28,6 +28,7 @@ const Hre_ContractExtendSchema = new Schema({
   PAddress: { type: Schema.Types.String },
   OrgStructureID: { type: Schema.Types.String },
   CompanyID: { type: Schema.Types.String },
+  Description:{ type: Schema.Types.String},
   Status: { type: Schema.Types.String },
 },{timestamps:true});
 const Hre_ContractExtendModel = mongoose.model("Hre_ContractExtend", Hre_ContractExtendSchema

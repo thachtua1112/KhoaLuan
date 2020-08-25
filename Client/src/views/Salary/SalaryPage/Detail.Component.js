@@ -141,7 +141,7 @@ const NewAndDetail=(props)=>{
         }
         InputProps={
         {
-          endAdornment:<InputAdornment position="end">VN Đồng/Tháng</InputAdornment>
+          endAdornment:<InputAdornment position="end">VNĐ/Tháng</InputAdornment>
         }
       }
       variant="outlined"
@@ -159,7 +159,7 @@ const NewAndDetail=(props)=>{
         min:0,
       }}
       InputProps={{
-        endAdornment:<InputAdornment position="end">VN Đồng</InputAdornment>,
+        endAdornment:<InputAdornment position="end">VNĐ</InputAdornment>,
       }}
       variant="outlined"
       size="small"
