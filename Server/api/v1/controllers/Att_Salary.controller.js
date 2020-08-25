@@ -155,7 +155,7 @@ module.exports.create = async (req,res) =>{
         {
           $addFields:{
             KiCong:{ "$arrayElemAt": ["$TimeKeepingGroup.KiCong", 0 ] },
-            TotalKeepingReality:{ $divide:[{ "$arrayElemAt": ["$TimeKeepingGroup.TotalKeepingReality", 0 ] },1000*60*60*8]},
+            TotalKeepingReality:{ $divide:[{ "$arrayElemAt": ["$TimeKeepingGroup.TotalKeepingReality", 0 ] },1000*60*60*9]},
           }
         },
         {

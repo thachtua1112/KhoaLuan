@@ -206,7 +206,7 @@ module.exports.synthesis = async (req, res) => {
              as: "leaveday",
              cond: { $eq: [ "$$leaveday.LeaveDayType", "KHONG_PHEP" ] }
               }}},
-              8*60*60*1000],     
+              9*60*60*1000],     
           },
           SabbaticalLeave:{
             $multiply:[{ $size:{
@@ -215,7 +215,7 @@ module.exports.synthesis = async (req, res) => {
              as: "leaveday",
              cond: { $eq: [ "$$leaveday.LeaveDayType", "CO_PHEP" ] }
               }}},
-              8*60*60*1000],     
+              9*60*60*1000],     
           },
         }
       },
