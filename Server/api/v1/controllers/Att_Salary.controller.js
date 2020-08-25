@@ -199,7 +199,16 @@ module.exports.create = async (req,res) =>{
             KiCong:1,
             SalaryContract:"$ContractNew.Salary",
             Salary: {$multiply:[{
-              $ceil:{$divide:[{$multiply:["$ContractNew.Salary",{$divide:["$TotalKeepingReality",26]}]},100]}
+              $ceil:{$divide:[
+                {
+                  $cond: { if: { $lte: [ "$TotalKeepingReality", 26 ] }, then:{$multiply:["$ContractNew.Salary",{$divide:["$TotalKeepingReality",26]}]}, else: 
+                  {$multiply:["$ContractNew.Salary",
+                  {$divide:[ {$multiply:[
+                    {$subtract :["$TotalKeepingReality",26]}
+                    ,1.5]},26]}]}, }
+                },
+
+                100]}
             },100]
             },
             TotalKeepingReality:1

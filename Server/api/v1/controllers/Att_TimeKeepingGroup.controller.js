@@ -150,7 +150,7 @@ module.exports.synthesis = async (req, res) => {
       },
       {
         $lookup:{
-          from: "att_timekeepings",
+          from: "att_timekeepingdays",
           localField:"ProfileID",
           foreignField:"ProfileID",
           as: "TimeKeepingDay"
@@ -243,8 +243,7 @@ module.exports.synthesis = async (req, res) => {
        
       },
     ])
-   
-
+  
     const data=  await Att_TimeKeepingGroupModel.aggregate([
       {
         $lookup:{
