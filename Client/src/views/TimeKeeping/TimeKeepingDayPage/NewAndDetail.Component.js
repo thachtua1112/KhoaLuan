@@ -51,7 +51,7 @@ const NewAndDetail=(props)=>{
   const [Modifile, setModifile] = useState(false)
   const [Confim, setConfim] = useState(false)
 
-  useEffect(()=>{
+  useEffect(()=>{ 
     setOpen(true)
   },[])
 

@@ -295,7 +295,7 @@ export default function ExtendContractPage() {
             </TableBody>
         </Table>
       </TableContainer>
-      <Button onClick={handleClickOpen} variant="contained" color="primary"> Thêm</Button>
+      <Button onClick={handleClickOpen} variant="contained" color="primary"> Lưu</Button>
     <Dialog
         open={open}
         TransitionComponent={Transition}

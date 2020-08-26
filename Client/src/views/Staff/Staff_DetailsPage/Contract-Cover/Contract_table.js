@@ -45,6 +45,10 @@ const ContractTable = (props)=>{
       </TableHead>
       </Table>
     </TableContainer>
+    {
+      data.length===0?(
+        <h3 align = 'center'>Nhân viên này chưa có hợp đồng</h3>
+      ):
     <CSidebarNav>
     <CDataTable
       items={data}
@@ -85,6 +89,7 @@ const ContractTable = (props)=>{
     }
     />
   </CSidebarNav>
+}
   </Paper>
   )
 }

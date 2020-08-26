@@ -13,10 +13,12 @@ module.exports.getAll = async (req, res) => {
 
 module.exports.NotYet_HreContract= async function(req,res){
     try{
+        const {page} = req.query
+        console.log(page)
         const contract = await Hre_ContractModel.distinct("ProfileID1");
         const result = await Hre_ProfileModel.find({ProfileID:
             { $nin:  contract }
-        })
+        }).limit(10).skip(parseInt(page))
         return res.json(result
         )
     }

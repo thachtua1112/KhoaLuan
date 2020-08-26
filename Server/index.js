@@ -47,6 +47,7 @@ app.use("/authentication", authenticationRoute);
 app.use("/api/v1/user", loginRouter);
 app.use("/api/v1/user", verifyToken,RouterUser);
 
+
 //documents
 /*
 const pdf = require('html-pdf');
@@ -69,8 +70,25 @@ app.use("/api/v1", routeExport);
 app.get("/api/v1/fetch-pdf", (req, res) => {
   res.sendFile(`${__dirname}/result.pdf`);
 });
-app.listen(PORT, () => {
-  console.log("Server started on http://localhost:" + PORT);
+
+var cluster = require('cluster');
+
+cluster.schedulingPolicy = cluster.SCHED_RR;
+if(cluster.isMaster){
+  var cpuCount = require('os').cpus().length;
+  for (var i = 0; i < cpuCount; i += 1) {
+    cluster.fork();
+  }
+}else{
+  app.listen(PORT, () => {
+    console.log("Server started on http://localhost:" + PORT, "Process",cluster.worker.process.pid);
+  });
+}
+ 
+cluster.on('fork', function(worker) {
+console.log('forked -> Worker %d', worker.id);
 });
 
-module.exports = app;
+
+
+//module.exports = app;
