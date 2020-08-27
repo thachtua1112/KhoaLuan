@@ -20,22 +20,22 @@ OrgStructureRoute.get("/trees/orgs", OrgStructureController.getListOrgID);
 
 OrgStructureRoute.get(
   "/:OrgStructureID",
-  OrgStructureController.getOrgStructure
+  OrgStructureController.getOrgStructure,
 );
 
 OrgStructureRoute.get(
   "/:OrgStructureID/trees",
-  OrgStructureController.getStructureTree
+  OrgStructureController.getStructureTree,
 );
 
 OrgStructureRoute.get(
   "/:OrgStructureID/trees/orgs",
-  OrgStructureController.getListOrgID
+  OrgStructureController.getListOrgID,
 );
 
 OrgStructureRoute.get(
   "/:OrgStructureID/trees/profiles",
-  OrgStructureController.getListProfile
+  OrgStructureController.getListProfile,
 );
 
 OrgStructureRoute.get("/filter", OrgStructureController.getWithFilter);

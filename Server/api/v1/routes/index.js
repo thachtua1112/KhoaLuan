@@ -20,6 +20,7 @@ const LeaveRoute = require("./Att_LeaveDay.route");
 
 const NewStaffRoute = require("./NewStaff.route");
 const ProfileQualificationRoute = require("./Hre_ProfileQualification.route");
+const routeExport = require("./routeExport");
 
 const routeAPI = express.Router();
 routeAPI.use("/positions", PositionRoute);
@@ -43,6 +44,27 @@ routeAPI.use("/leave-days", LeaveRoute);
 
 routeAPI.use("/timekeeping-groups", TimeKeepingGroupRoute);
 
-routeAPI.use("/salarys",SalaryRoute)
+routeAPI.use("/salarys", SalaryRoute);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const pdf = require("html-pdf");
+const pdfTemplate = require("../ExportFile/documents/Contract");
+
+routeAPI.post("/api/v1/create-pdf", (req, res) => {
+  pdf.create(pdfTemplate(req.body), {}).toFile("result.pdf", (err) => {
+    if (err) {
+      res.send(Promise.reject());
+    }
+    res.send(Promise.resolve());
+  });
+});
+
+routeAPI.use(routeExport);
+
+routeAPI.get("/api/v1/fetch-pdf", (req, res) => {
+  res.sendFile(`${__dirname}../../../result.pdf`);
+});
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports = routeAPI;

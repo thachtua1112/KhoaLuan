@@ -56,7 +56,7 @@ const Cat_ContractTypeSchema = new Schema({
 
 const Cat_ContractTypeModel = mongoose.model(
   "Cat_ContractType",
-  Cat_ContractTypeSchema
+  Cat_ContractTypeSchema,
 );
 
 module.exports = Cat_ContractTypeModel;

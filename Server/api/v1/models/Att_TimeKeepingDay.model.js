@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const Att_TimeKeepingDaySchema = new Schema({
   ProfileID: { type: Schema.Types.String, required: true },
   DateKeeping: { type: Schema.Types.Date, required: true },
-  TimeIn: { type: Schema.Types.Date ,required: true },
-  TimeOut: { type: Schema.Types.Date ,required: true },
+  TimeIn: { type: Schema.Types.Date, required: true },
+  TimeOut: { type: Schema.Types.Date, required: true },
   TimeKeepingType: { type: Schema.Types.String },
   Description: { type: Schema.Types.String },
   Total: {
@@ -57,7 +57,7 @@ Att_TimeKeepingDaySchema.post("findOneAndUpdate", async function (doc) {
       {
         Status: "CHUA_TINH_CONG",
         Total: 0,
-      }
+      },
     );
   }
 });
@@ -72,11 +72,14 @@ Att_TimeKeepingDaySchema.virtual("Profile", {
 Att_TimeKeepingDaySchema.set("toObject", { virtuals: true });
 Att_TimeKeepingDaySchema.set("toJSON", { virtuals: true });
 
-Att_TimeKeepingDaySchema.index({ProfileID: 1, DateKeeping: 1}, {unique: true})
+Att_TimeKeepingDaySchema.index(
+  { ProfileID: 1, DateKeeping: 1 },
+  { unique: true },
+);
 
 const Att_TimeKeepingDayModel = mongoose.model(
   "Att_TimeKeepingDay",
-  Att_TimeKeepingDaySchema
+  Att_TimeKeepingDaySchema,
 );
 
 module.exports = Att_TimeKeepingDayModel;

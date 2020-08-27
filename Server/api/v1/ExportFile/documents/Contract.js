@@ -1,8 +1,16 @@
-module.exports = ({ name, gender,DateOfBirth, PAStreet, IDNo,IDDateOfIssue,IDPlaceOfIssue,
-    DateContract,ContractNo
+module.exports = ({
+  name,
+  gender,
+  DateOfBirth,
+  PAStreet,
+  IDNo,
+  IDDateOfIssue,
+  IDPlaceOfIssue,
+  DateContract,
+  ContractNo,
 }) => {
-    const today = new Date();
-return `
+  const today = new Date();
+  return `
 
 <!doctype html>
 <html>
@@ -34,7 +42,9 @@ return `
       <p style="text-align: center;"><em>Căn cứ Bộ lu&acirc;t Lao động số 10/2012/QH13, ng&agrave;y 18/06/2012 của Nước Cộng h&ograve;a X&atilde; hội Chủ nghĩa Việt Nam</em></p>
       <p style="text-align: center;"><em>Căn cứ Luật Bảo hiểm X&atilde; hội số 58/2014/QH13, ng&agrave;y 20/11/2014 của Nước Cộng h&ograve;a X&atilde; hội Chủ nghĩa Việt Nam.</em></p>
       <p style="text-align: center;">&nbsp;</p>
-      <p>H&ocirc;m nay, ng&agrave;y ${today.getDate()} th&aacute;ng ${today.getMonth()+1} năm ${today.getFullYear()} tại <strong>C&ocirc;ng Ty Cổ Phần Quốc Tế Phong Ph&uacute;</strong> ch&uacute;ng t&ocirc;i gồm:</p>
+      <p>H&ocirc;m nay, ng&agrave;y ${today.getDate()} th&aacute;ng ${
+    today.getMonth() + 1
+  } năm ${today.getFullYear()} tại <strong>C&ocirc;ng Ty Cổ Phần Quốc Tế Phong Ph&uacute;</strong> ch&uacute;ng t&ocirc;i gồm:</p>
       <p><strong>B&Ecirc;N A: C&Ocirc;NG TY CP QUỐC TẾ PHONG PH&Uacute;</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
       <p><em>Địa chỉ</em>: 48, Tăng Nhơn Ph&uacute;, Tăng Nhơn Ph&uacute; B, Quận 9, Tp. Hồ Ch&iacute; Minh</p>
       <p><em>Đại diện:</em> &Ocirc;ng/b&agrave;:<strong> NGUYỄN THỊ LI&Ecirc;N&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </strong>Chức vụ: <strong>Ph&oacute; Tổng Gi&aacute;m đốc</strong></p>
@@ -140,5 +150,5 @@ return `
     </body>
     </html>			
 
-`
-}
+`;
+};

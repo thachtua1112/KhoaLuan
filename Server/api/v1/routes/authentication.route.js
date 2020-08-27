@@ -12,19 +12,19 @@ const authenticationRoute = express.Router();
 authenticationRoute.get(
   "/login",
   //requiresLogout,
-  authenticationController.login
+  authenticationController.login,
 );
 
 authenticationRoute.get(
   "/logout",
   //requiresLogin,
-  authenticationController.logout
+  authenticationController.logout,
 );
 
 authenticationRoute.get(
   "/check-logged",
   //requiresLogin,
-  authenticationController.checkLogged
+  authenticationController.checkLogged,
 );
 
 authenticationRoute.get("/register", authenticationController.register);

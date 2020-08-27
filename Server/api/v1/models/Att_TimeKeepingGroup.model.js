@@ -26,11 +26,11 @@ const Att_TimeKeepingGroupSchema = new Schema({
   IsLock: { type: Schema.Types.Boolean },
 });
 
-Att_TimeKeepingGroupSchema.index({ProfileID: 1, KiCong: 1}, {unique: true})
+Att_TimeKeepingGroupSchema.index({ ProfileID: 1, KiCong: 1 }, { unique: true });
 
 const Att_TimeKeepingGroupModel = mongoose.model(
   "Att_TimeKeepingGroup",
-  Att_TimeKeepingGroupSchema
+  Att_TimeKeepingGroupSchema,
 );
 
 module.exports = Att_TimeKeepingGroupModel;

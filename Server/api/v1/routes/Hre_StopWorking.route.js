@@ -6,15 +6,12 @@ const { get } = require("mongoose");
 const StopWorkingRoute = express.Router();
 
 StopWorkingRoute.route("/")
-.get(StopWorkingController.get)
-.post( StopWorkingController.create);
+  .get(StopWorkingController.get)
+  .post(StopWorkingController.create);
 
 StopWorkingRoute.route("/:ID")
-.get(StopWorkingController.getByID)
-.put(StopWorkingController.update)
-.delete(StopWorkingController.delete);
-
-
-
+  .get(StopWorkingController.getByID)
+  .put(StopWorkingController.update)
+  .delete(StopWorkingController.delete);
 
 module.exports = StopWorkingRoute;

@@ -78,7 +78,7 @@ module.exports.register = async (req, res) => {
     //KT TON TAI USER KO
 
     const isExist = await User.findOne(
-      filter // find a document with that filter
+      filter, // find a document with that filter
     );
     if (isExist) return res.json("USE DA TON TAI");
 

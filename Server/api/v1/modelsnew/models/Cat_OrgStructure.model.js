@@ -28,8 +28,6 @@ const Cat_OrgStructureSchema = new Schema({
 
 const Cat_OrgStructureModel = mongoose.model(
   "Cat_OrgStructure",
-  Cat_OrgStructureSchema
+  Cat_OrgStructureSchema,
 );
 module.exports = Cat_OrgStructureModel;
-
-
