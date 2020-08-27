@@ -32,11 +32,11 @@ module.exports.HistoryById= async function(req,res){
     try{
       const { ID } = req.params;
       const contract = await Hre_ContractModel.aggregate([
-        {
-          $match:{
-           ID:ID
-          }
-        },
+       {
+        $match:{
+          ProfileID:ID
+        }
+      },
        {
          $lookup: {
            from: 'hre_profiles',

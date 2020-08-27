@@ -82,7 +82,6 @@ const ExpireContractPage = (props) => {
       console.log("DanhSachNhanVien ProfileAPI ERR", error);
     }
   };
-  console.log("Filter",Filter)
 
   return (
     <Grid className={classes.root}>

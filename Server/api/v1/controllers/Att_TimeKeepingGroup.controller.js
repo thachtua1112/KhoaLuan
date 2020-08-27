@@ -136,7 +136,7 @@ module.exports.synthesis = async (req, res) => {
     const TimeTo=new Date(TimeFrom);
     TimeTo.setMonth(new Date(TimeTo).getMonth()+1)
 
-  
+  /*
 
    const result= await Hre_ProfileModel.aggregate([
       {
@@ -145,13 +145,13 @@ module.exports.synthesis = async (req, res) => {
       {
         $project:{
           _id:0,
-          ProfileID:1
+          ID:1
         }
       },
       {
         $lookup:{
           from: "att_timekeepingdays",
-          localField:"ProfileID",
+          localField:"ID",
           foreignField:"ProfileID",
           as: "TimeKeepingDay"
         }
@@ -183,14 +183,14 @@ module.exports.synthesis = async (req, res) => {
       {
         $project:{      
           KiCong:1,        
-          ProfileID:1,
+          ID:1,//ProfileID
           SumKeeping:1
         }
       },
       {
         $lookup:{
           from: "att_leavedays",
-          localField:"ProfileID",
+          localField:"ID",//ProfileID
           foreignField:"ProfileID",
           as: "LeaveDay"
         }
@@ -235,7 +235,7 @@ module.exports.synthesis = async (req, res) => {
       { 
         $merge:{
           into:"att_timekeepinggroups",
-          on:["ProfileID","KiCong"],
+          on:["ID","KiCong"],
          // whenMatched:"keepExisting",
           whenMatched:"replace",
           whenNotMatched:"insert"
@@ -243,7 +243,7 @@ module.exports.synthesis = async (req, res) => {
        
       },
     ])
-  
+  */
     const data=  await Att_TimeKeepingGroupModel.aggregate([
       {
         $lookup:{
