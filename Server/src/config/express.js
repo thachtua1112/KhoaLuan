@@ -49,7 +49,8 @@ app.use(helmet());
 // enable CORS - Cross Origin Resource Sharing
 
 const corsOptionCredentials = {
-  origin: FrontEndUrl,
+  //origin: FrontEndUrl,
+  origin: "http://localhost:3000",
   credentials: true,
 };
 
