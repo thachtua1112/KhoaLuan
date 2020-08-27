@@ -38,16 +38,16 @@ const useStyles = makeStyles((theme) => ({
 
 const ToolBar = (props) => {
 
-    const classes = useStyles();
+  const classes = useStyles();
 
   const history = useHistory();
 
   const {  onSearch ,RowSelected ,setshowNewProfile,Export,HeaderExport } = props;
 
   const goDetail = () => {
-    ProfileAPI.getProfiles({CodeEmp:RowSelected.CodeEmp}).then(res=>{
-      history.push(`/nhan-su/chi-tiet-nhan-vien/${res.data[0].ProfileID}`);
-    })
+
+      history.push(`/nhan-su/chi-tiet-nhan-vien/${RowSelected.ProfileID}`);
+
   };
   const goUpdate = () => {
    // ProfileAPI.getProfiles({CodeEmp:RowSelected.CodeEmp}).then(res=>{

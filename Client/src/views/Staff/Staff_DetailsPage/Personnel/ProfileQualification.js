@@ -78,7 +78,7 @@ const On_Create = ()=>{
       return CreateProfileQualificationApi(qs.stringify({
         FieldOfTraining:name,
         TrainingPlace:place,
-        ProfileID1:IDQualification,
+        ProfileID:IDQualification,
         DateCreate:new Date().toLocaleString('en-GB')
        }))
   }

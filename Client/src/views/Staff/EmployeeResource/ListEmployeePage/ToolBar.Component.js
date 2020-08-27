@@ -45,7 +45,7 @@ const ToolBar = (props) => {
    } = props;
 
   const goDetail = () => {
-    history.push(`/nhan-su/chi-tiet-nhan-vien/${RowSelected.ProfileID}`);
+    history.push(`/nhan-su/chi-tiet-nhan-vien/${RowSelected.ID}`);
   };
 
   return (
@@ -100,7 +100,7 @@ const ToolBar = (props) => {
 //    </Tooltip>
 //  </IconButton>
 }
-      
+
 
      </div>
      <div
