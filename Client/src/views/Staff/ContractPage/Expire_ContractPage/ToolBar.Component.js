@@ -43,7 +43,7 @@ const ToolBar = (props) => {
   const {  onSearch ,RowSelected ,setshowNewProfile } = props;
 
   const goDetail = () => {
-    history.push(`/nhan-su/chi-tiet-nhan-vien/${RowSelected.profiles[0].ProfileID}`);
+    history.push(`/nhan-su/chi-tiet-nhan-vien/${RowSelected.profiles[0].ID}`);
   };
  // console.log(RowSelected.profiles)
   return (

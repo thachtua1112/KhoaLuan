@@ -92,7 +92,7 @@ const ContractPage = () => {
     setDateContract(item.DateSigned)
     setContractNo(item.ContractNo)
       //liên kết thông tin
-      GetHre_Profie_Api(item.profiles[0].ProfileID).then((res)=>{
+      GetHre_Profie_Api(item.profiles[0].ID).then((res)=>{
         if(res.data)
         {
           console.log(res.data)
@@ -115,8 +115,9 @@ const ContractPage = () => {
     IDPlaceOfIssue:IDPlaceOfIssue,
     DateContract:DateContract
   }
+
   const Export = ()=>{
-    console.log(Infor)
+ console.log(Infor)
     //xuất file
     CreateApi(qs.stringify(Infor))
     .then(()=> axios.get(`${config.REACT_URL_API}/fetch-pdf`, { responseType: 'blob' }))
