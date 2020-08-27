@@ -297,8 +297,8 @@ OrgStructureID: { type: Schema.Types.String },
 });
 Hre_ContractSchema.virtual("contract", {
   ref: "Hre_Profile",
-  localField: "ProfileID1",
-  foreignField: "ProfileID",
+  localField: "ProfileID",
+  foreignField: "ID",
   justOne: true,
 });
 const Hre_ContractModel = mongoose.model("Hre_Contract", Hre_ContractSchema);

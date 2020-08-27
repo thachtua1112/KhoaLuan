@@ -14,7 +14,7 @@ module.exports.getAll = async (req, res) => {
 module.exports.SelectStaffCollaborate1= async function(req,res){
   try{
       const Collaborate = await Hre_CollaborateModel.find({Status: {$in:["Chuẩn bị công tác","Đang công tác"]}}).distinct("ProfileID");
-      const result = await Hre_ProfileModel.find({ProfileID:
+      const result = await Hre_ProfileModel.find({ID:
           { $nin:  Collaborate }
       })
       return res.json(result)
@@ -39,7 +39,7 @@ module.exports.SelectStaffCollaborate= async function(req,res){
       },
       {
         $group:{
-          _id:"$ProfileID1",
+          _id:"$ProfileID",
           DateSigned:{ $last: "$DateSigned" },
           DateStart:{ $last: "$DateStart" },
           DateEnd:{ $last: "$DateEnd" },
@@ -49,14 +49,14 @@ module.exports.SelectStaffCollaborate= async function(req,res){
         $lookup: {
           from: 'hre_profiles',
           localField: '_id',
-          foreignField: 'ProfileID',
+          foreignField: 'ID',
           as: 'profiles',
         }
       },
       {
         $match:{
           DateEnd:{$gt: new Date()},
-          'profiles.ProfileID': { $nin:  Collaborate }
+          'profiles.ID': { $nin:  Collaborate }
         }
       },
       {

@@ -14,14 +14,14 @@ module.exports.get=async (req,res)=>{
             },
             {
                 $addFields:{
-                    ProfileID: { $arrayElemAt :["$Contract.ProfileID1",0]}
+                    ProfileID: { $arrayElemAt :["$Contract.ProfileID",0]}
                 }
             },
             {
                 $lookup:{
                   from: "hre_profiles",
                   localField:"ProfileID",
-                  foreignField:"ProfileID",
+                  foreignField:"ID",
                   as: "Profile"
                 }
             },
@@ -97,14 +97,14 @@ module.exports.create=async (req,res)=>{
             },
             {
                 $addFields:{
-                    ProfileID: { $arrayElemAt :["$Contract.ProfileID1",0]}
+                    ProfileID: { $arrayElemAt :["$Contract.ProfileID",0]}
                 }
             },
             {
                 $lookup:{
                   from: "hre_profiles",
                   localField:"ProfileID",
-                  foreignField:"ProfileID",
+                  foreignField:"ID",
                   as: "Profile"
                 }
             },
@@ -167,14 +167,14 @@ module.exports.update=async (req,res)=>{
             },
             {
                 $addFields:{
-                    ProfileID: { $arrayElemAt :["$Contract.ProfileID1",0]}
+                    ProfileID: { $arrayElemAt :["$Contract.ProfileID",0]}
                 }
             },
             {
                 $lookup:{
                   from: "hre_profiles",
                   localField:"ProfileID",
-                  foreignField:"ProfileID",
+                  foreignField:"ID",
                   as: "Profile"
                 }
             },
