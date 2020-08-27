@@ -78,7 +78,7 @@ const Hre_ProfileSchema = new Schema({
   IDCardCodeAtt: { type: Schema.Types.String },
   StatusItg: { type: Schema.Types.String },
   */
-  ProfileID: { type: Schema.Types.String },
+ // ProfileID: { type: Schema.Types.String },
   ID: { type: Schema.Types.String },
   ProfileName: { type: Schema.Types.String },
   NameFamily: { type: Schema.Types.String },
@@ -122,18 +122,18 @@ const Hre_ProfileSchema = new Schema({
   YearOfBirth: { type: Schema.Types.Number },
   WorkPlaceID: { type: Schema.Types.String },
   DateApplyAttendanceCode: { type: Schema.Types.Date },
-  Order: { type: Schema.Types.String },
+  Order: { type: Schema.Types.Number },
   PAddress: { type: Schema.Types.String },
   SocialInsPlaceID: { type: Schema.Types.String },
   CompanyID: { type: Schema.Types.String },
   SortID: { type: Schema.Types.Number },
-  ProbationTime: { type: Schema.Types.String },
+  ProbationTime: { type: Schema.Types.Number },
   ProbationTimeUnit: { type: Schema.Types.String },
 });
 Hre_ProfileSchema.virtual("contract", {
   ref: "Hre_Contract",
-  localField: "ProfileID",
-  foreignField: "ProfileID1",
+  localField: "ID",
+  foreignField: "ProfileID",
   justOne: true,
 });
 

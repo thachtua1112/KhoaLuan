@@ -15,8 +15,8 @@ module.exports.NotYet_HreContract= async function(req,res){
     try{
         const {page} = req.query
         console.log(page)
-        const contract = await Hre_ContractModel.distinct("ProfileID1");
-        const result = await Hre_ProfileModel.find({ProfileID:
+        const contract = await Hre_ContractModel.distinct("ProfileID");
+        const result = await Hre_ProfileModel.find({ID:
             { $nin:  contract }
         }).limit(10).skip(parseInt(page))
         return res.json(result
@@ -31,21 +31,21 @@ module.exports.NotYet_HreContract= async function(req,res){
 module.exports.HistoryById= async function(req,res){
     try{
       const { ID } = req.params;
-      console.log(ID)
       const contract = await Hre_ContractModel.aggregate([
+        {
+          $match:{
+           ID:ID
+          }
+        },
        {
          $lookup: {
            from: 'hre_profiles',
-           localField: 'ProfileID1',
-           foreignField: 'ProfileID',
+           localField: 'ProfileID',
+           foreignField: 'ID',
            as: 'profiles',
          }
-       },
-       {
-         $match:{
-          ProfileID1:ID
-         }
        }
+      
       ])
        return res.json(contract)
      }
@@ -66,12 +66,13 @@ module.exports.HistoryById= async function(req,res){
   //     res.sendStatus(403)
   //   }
   // }
+ 
   module.exports.HreContract= async function(req,res){
     try {
       const contract = await Hre_ContractModel.aggregate([
         {
            $sort: { 
-              ProfileID1: 1, 
+              ProfileID: 1, 
               DateEnd: 1,
               DateSigned:1,
               DateStart:1
@@ -79,7 +80,7 @@ module.exports.HistoryById= async function(req,res){
         },
         {
           $group:{
-            _id:"$ProfileID1",
+            _id:"$ProfileID",
             DateSigned:{ $last: "$DateSigned" },
             DateStart:{ $last: "$DateStart" },
             DateEnd:{ $last: "$DateEnd" },
@@ -89,7 +90,7 @@ module.exports.HistoryById= async function(req,res){
           $lookup: {
             from: 'hre_profiles',
             localField: '_id',
-            foreignField: 'ProfileID',
+            foreignField: 'ID',
             as: 'profiles',
           }
         },
@@ -111,12 +112,12 @@ module.exports.HistoryById= async function(req,res){
 
 module.exports.Expire_Contract= async function(req,res){
   try{
-  
+    const filter=req.query
    // const contract = await Hre_ContractModel.find({DateEnd:{$gte: new Date()}})
    const contract = await Hre_ContractModel.aggregate([
     {
        $sort: { 
-          ProfileID1: 1, 
+          ProfileID: 1, 
           DateEnd: 1,
           DateSigned:1,
           DateStart:1
@@ -124,7 +125,7 @@ module.exports.Expire_Contract= async function(req,res){
     },
     {
       $group:{
-        _id:"$ProfileID1",
+        _id:"$ProfileID",
         DateSigned:{ $last: "$DateSigned" },
         DateStart:{ $last: "$DateStart" },
         DateEnd:{ $last: "$DateEnd" },
@@ -134,13 +135,27 @@ module.exports.Expire_Contract= async function(req,res){
       $lookup: {
         from: 'hre_profiles',
         localField: '_id',
-        foreignField: 'ProfileID',
+        foreignField: 'ID',
         as: 'profiles',
       }
     },
     {
+      $addFields:{
+        ProfileName:{ "$arrayElemAt": [ "$profiles.ProfileName", 0 ] },
+        CodeEmp:{ "$arrayElemAt": [ "$profiles.CodeEmp", 0 ] },
+        OrgStructureID:{ "$arrayElemAt": [ "$profiles.OrgStructureID", 0 ] } ,
+        Gender:{ "$arrayElemAt": [ "$profiles.Gender", 0 ] } ,
+        IDNo:{ "$arrayElemAt": [ "$profiles.IDNo", 0 ] } ,
+        StatusSyn:{ "$arrayElemAt": [ "$profiles.StatusSyn", 0 ] } ,
+        PositionID:{ "$arrayElemAt": [ "$profiles.PositionID", 0 ] } ,
+      }
+    },
+    {
+      $match:filter,
+    },
+    {
       $match:{
-        DateEnd:{$lte: new Date()}
+        DateEnd:{$lte: new Date()},
       }
     }
    ])

@@ -65,7 +65,7 @@ Att_TimeKeepingDaySchema.post("findOneAndUpdate", async function (doc) {
 Att_TimeKeepingDaySchema.virtual("Profile", {
   ref: "Hre_Profile",
   localField: "ProfileID",
-  foreignField: "ProfileID",
+  foreignField: "ID",
   justOne: true,
 });
 

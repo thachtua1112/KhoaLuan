@@ -15,7 +15,7 @@ module.exports.create = async (req, res) => {
       $lookup:{
         from: "hre_profiles",
         localField:"ProfileID",
-        foreignField:"ProfileID",
+        foreignField:"ID",
         as: "Profile"
       }
     },
@@ -52,7 +52,7 @@ module.exports.update = async (req, res) => {
       $lookup:{
         from: "hre_profiles",
         localField:"ProfileID",
-        foreignField:"ProfileID",
+        foreignField:"ID",
         as: "Profile"
       }
     },
@@ -111,7 +111,7 @@ module.exports.get = async (req, res) => {
         $lookup:{
           from: "hre_profiles",
           localField:"ProfileID",
-          foreignField:"ProfileID",
+          foreignField:"ID",
           as: "Profile"
         }
       },

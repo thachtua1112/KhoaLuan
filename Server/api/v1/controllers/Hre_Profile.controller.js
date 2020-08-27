@@ -4,7 +4,7 @@ const Hre_ContractModel = require("../models/Hre_Contract.model");
 //nhân viên chưa có hợp đồng
 module.exports.NotYet_THrProfile = async function (req, res) {
   try {
-    const contract = await Hre_ContractModel.distinct("ProfileID1");
+    const contract = await Hre_ContractModel.distinct("ProfileID");
     const NotYet = await Hre_ProfileModel.find({
       ProfileID: { $nin: contract },
     });
@@ -61,7 +61,7 @@ module.exports.get = async (req, res) => {
         OrgStructure:0
       }
     }
-  ])
+  ]).limit(32)
 
     // const result = await Hre_ProfileModel.find(filter)
     //   .populate({
@@ -95,7 +95,7 @@ module.exports.Retired = async (req, res) => {
 module.exports.getByID = async (req, res) => {
   try {
     const { ID } = req.params;
-    const result = await Hre_ProfileModel.findOne({ ProfileID: ID });
+    const result = await Hre_ProfileModel.findOne({ ID: ID });
     return res.status(200).json(result);
   } catch (err) {
     return res.sendStatus(403);
