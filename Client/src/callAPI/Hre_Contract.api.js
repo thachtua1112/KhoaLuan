@@ -12,9 +12,9 @@ const  ListContractApi = () =>
 {
   return callAPI("/hre-contract/contract","GET",null)
 }
-const  Expire_ContractApi = () =>
+const  Expire_ContractApi = (body) =>
 {
-  return callAPI("/hre-contract/expires","GET",null)
+  return callAPI("/hre-contract/expires","GET",body)
 }
 const GetHistoryContractApi = (body) =>
 {

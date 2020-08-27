@@ -17,6 +17,7 @@ import {
 } from "@material-ui/pickers";
 
 import OrgStructureAPI from "../../../../callAPI/Cat_OrgStructure.api";
+import { GetPositionsApi } from "../../../../callAPI/Positions.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +38,7 @@ const Search = (props) => {
   const { Filter, setFilter } = props;
 
   const [ListOrgStructure, setListOrgStructure] = useState([]);
+  const [ListPosition, setListPosition] = useState([]);
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -44,8 +46,14 @@ const Search = (props) => {
       setListOrgStructure(res.data);
     };
     fetchAPI();
+    GetPositionsApi().then(res=>{
+      if(res.data)
+      {
+        setListPosition(res.data)
+      }
+    })
   }, []);
-
+console.log("ListPosition",ListPosition)
   return (
     <Grid className={classes.root} container spacing={1}>
       <Grid className={classes.paper} container spacing={2}>
@@ -90,14 +98,14 @@ const Search = (props) => {
         <Grid item xs={3}>
           Số CMND
           <TextField
-            value={!Filter.IDNo1 ? "" : Filter.IDNo1}
+            value={!Filter.IDNo ? "" : Filter.IDNo}
             onChange={(event) => {
               if ("" !== event.target.value.trim())
                 return setFilter({
                   ...Filter,
-                  ...{ IDNo1: event.target.value.trim() },
+                  ...{ IDNo: event.target.value.trim() },
                 });
-              const { IDNo1, ...FilterNew } = Filter;
+              const { IDNo, ...FilterNew } = Filter;
               setFilter(FilterNew);
             }}
             placeholder="Vui lòng nhập"
@@ -106,25 +114,7 @@ const Search = (props) => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
-          Thẻ căn cước CD
-          <TextField
-            value={!Filter.IDNo2 ? "" : Filter.IDNo2}
-            onChange={(event) => {
-              if ("" !== event.target.value.trim())
-                return setFilter({
-                  ...Filter,
-                  ...{ IDNo2: event.target.value.trim() },
-                });
-              const { IDNo2, ...FilterNew } = Filter;
-              setFilter(FilterNew);
-            }}
-            placeholder="Vui lòng nhập"
-            variant="outlined"
-            size="small"
-            fullWidth
-          />
-        </Grid>
+
       </Grid>
       <Grid className={classes.paper} container spacing={2}>
         <Grid item xs={3}>
@@ -156,36 +146,35 @@ const Search = (props) => {
             />
           }
         </Grid>
-
         <Grid item xs={3}>
-          <FormControl fullWidth>
-            Chức vụ
-            {
-              <TextField
-                value={!Filter.PositionID ? "" : Filter.PositionID}
-                onChange={(event) => {
-                  if ("" !== event.target.value.trim())
-                    return setFilter({
-                      ...Filter,
-                      ...{ PositionID: event.target.value.trim() },
-                    });
-                  const { PositionID, ...FilterNew } = Filter;
-                  setFilter(FilterNew);
-                }}
-                size="small"
-                select
-                variant="outlined"
-              >
-                {GenderValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
+        Chức vụ
+        {
+          <Autocomplete
+            filterSelectedOptions
+            multiple
+            limitTags={1}
+            defaultValue={[]}
+            options={ListPosition}
+            getOptionLabel={(option) =>
+              `${option.PositionName}-${option.Code}`
             }
-          </FormControl>
-        </Grid>
-
+            getOptionSelected={(option, value) => option.ID === value.ID}
+            renderInput={(params) => (
+              <TextField {...params} size="small" variant="outlined" />
+            )}
+            onChange={(event, item) => {
+              if (0 < item.length) {
+                return setFilter({
+                  ...Filter,
+                  ...{ PositionID: { $in: item.map((i) => i.ID) } },
+                });
+              }
+              const { PositionID, ...FilterNew } = Filter;
+              setFilter(FilterNew);
+            }}
+          />
+        }
+      </Grid>
         <Grid item xs={3}>
           <FormControl fullWidth>
             Giới tính

@@ -45,7 +45,7 @@ const ToolBar = (props) => {
   const goDetail = () => {
     history.push(`/nhan-su/chi-tiet-nhan-vien/${RowSelected.profiles[0].ProfileID}`);
   };
-  console.log(RowSelected.profiles)
+ // console.log(RowSelected.profiles)
   return (
 
       <Toolbar variant="dense" disableGutters className={classes.root} >
