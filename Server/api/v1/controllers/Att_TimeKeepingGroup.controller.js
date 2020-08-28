@@ -153,7 +153,7 @@ module.exports.synthesis = async (req, res) => {
       {
         $lookup: {
           from: "att_timekeepingdays",
-          localField: "ProfileID",
+          localField: "ID",
           foreignField: "ProfileID",
           as: "TimeKeepingDay",
         },

@@ -81,13 +81,8 @@ module.exports.get = async (req, res) => {
 };
 module.exports.Retired = async (req, res) => {
   const today = new Date();
-<<<<<<< HEAD
-  today.setFullYear(today.getFullYear()-55)
-  console.log(today)
-=======
   today.setFullYear(today.getFullYear() - 40);
   console.log(today);
->>>>>>> 9bcd6882d5e5298c0d15d14c7747ddd1ddfd70c8
   try {
     const result = await Hre_ProfileModel.find({
       DateOfBirth: { $lte: today },
