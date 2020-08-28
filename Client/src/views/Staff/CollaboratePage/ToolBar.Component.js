@@ -10,7 +10,6 @@ import NoteAddIcon from "@material-ui/icons/NoteAdd";
 import FindInPageIcon from "@material-ui/icons/FindInPage";
 import SearchIcon from "@material-ui/icons/Search";
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
-import ProfileAPI from "../../../callAPI/Profile.api";
 import { DeleteHreCollaboratesApi } from "../../../callAPI/Hre_Collaborates.api";
 import { CForm } from "@coreui/react";
 import {  CSVLink } from "react-csv";

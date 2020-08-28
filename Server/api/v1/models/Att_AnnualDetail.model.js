@@ -40,7 +40,7 @@ const Att_AnnualDetailSchema = new Schema({
 
 const Att_AnnualDetailModel = mongoose.model(
   "Att_AnnualDetail",
-  Att_AnnualDetailSchema
+  Att_AnnualDetailSchema,
 );
 
 module.exports = Att_AnnualDetailModel;

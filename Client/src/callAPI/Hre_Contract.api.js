@@ -6,7 +6,7 @@ const GetContractApi = (body=null) =>
 }
 const Notyet_ContractApi = (body) =>
 {
-  return callAPI(`/hre-contract/not-yet-contract?page=${body}`,"GET",null)
+  return callAPI(`/hre-contract/not-yet-contract`,"GET",body)
 }
 const  ListContractApi = () =>
 {

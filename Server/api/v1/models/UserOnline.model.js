@@ -8,7 +8,7 @@ const userOnlineSchema = new Schema(
     ip: { type: String, required: true, trim: true },
     refreshToken: { type: String, required: true, trim: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 userOnlineSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 });

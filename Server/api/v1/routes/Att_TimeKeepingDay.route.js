@@ -5,23 +5,17 @@ const TimeKeepingDayController = require("../controllers/Att_TimeKeepingDay.cont
 const TimeKeepingDayRoute = express.Router();
 
 TimeKeepingDayRoute.route("/")
-.get(TimeKeepingDayController.get)
-.post(TimeKeepingDayController.create)
+  .get(TimeKeepingDayController.get)
+  .post(TimeKeepingDayController.create);
 
-TimeKeepingDayRoute.route("/import")
-.post(TimeKeepingDayController.import)
+TimeKeepingDayRoute.route("/import").post(TimeKeepingDayController.import);
 
-TimeKeepingDayRoute.route("/calculate")
-.post(TimeKeepingDayController.calculate)
+TimeKeepingDayRoute.route("/calculate").post(
+  TimeKeepingDayController.calculate,
+);
 
 TimeKeepingDayRoute.route("/:ID")
-.put(TimeKeepingDayController.update)
-.delete(TimeKeepingDayController.delete)
-
-
-
-
-
-
+  .put(TimeKeepingDayController.update)
+  .delete(TimeKeepingDayController.delete);
 
 module.exports = TimeKeepingDayRoute;

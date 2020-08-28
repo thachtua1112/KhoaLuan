@@ -78,7 +78,7 @@ const Hre_ProfileSchema = new Schema({
   IDCardCodeAtt: { type: Schema.Types.String },
   StatusItg: { type: Schema.Types.String },
   */
- // ProfileID: { type: Schema.Types.String },
+  // ProfileID: { type: Schema.Types.String },
   ID: { type: Schema.Types.String },
   ProfileName: { type: Schema.Types.String },
   NameFamily: { type: Schema.Types.String },
@@ -164,11 +164,8 @@ Hre_ProfileSchema.virtual("ContractType", {
   foreignField: "ID",
 });
 
-
-
 Hre_ProfileSchema.set("toObject", { virtuals: true });
 Hre_ProfileSchema.set("toJSON", { virtuals: true });
-
 
 const Hre_ProfileModel = mongoose.model("Hre_Profile", Hre_ProfileSchema);
 

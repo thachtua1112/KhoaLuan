@@ -28,7 +28,7 @@ const ProfileQualificationChild= (props)=>{
   const [edit,setEdit]= useState(false)
   const [name,setName]= useState("")
   const [place,setPlace]= useState("")
-
+//console.log("IDQualification",IDQualification)
   const [Qualification,setQualification]= useState([])
  useEffect(()=>{
   GetIdProfileQualificationApi(`${IDQualification}`).then(res=>{
@@ -79,7 +79,7 @@ const On_Create = ()=>{
         FieldOfTraining:name,
         TrainingPlace:place,
         ProfileID:IDQualification,
-        DateCreate:new Date().toLocaleString('en-GB')
+        DateCreate:new Date()//.toLocaleString('en-GB')
        }))
   }
 }

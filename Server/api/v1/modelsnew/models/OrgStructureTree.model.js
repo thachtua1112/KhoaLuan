@@ -8,7 +8,7 @@ const OrgStructureTree = new Schema({
 
 const OrgStructureTreeModel = mongoose.model(
   "OrgStructureTree",
-  OrgStructureTree
+  OrgStructureTree,
 );
 
 module.exports = OrgStructureTreeModel;

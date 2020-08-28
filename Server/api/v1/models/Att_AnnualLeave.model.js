@@ -36,7 +36,7 @@ const Att_AnnualLeaveSchema = new Schema({
 
 const Att_AnnualLeaveModel = mongoose.model(
   "Att_AnnualLeave",
-  Att_AnnualLeaveSchema
+  Att_AnnualLeaveSchema,
 );
 
 module.exports = Att_AnnualLeaveModel;

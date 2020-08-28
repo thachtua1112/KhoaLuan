@@ -4,18 +4,14 @@ const TimeKeepingGroupController = require("../controllers/Att_TimeKeepingGroup.
 
 const TimeKeepingGroupRoute = express.Router();
 
-
-TimeKeepingGroupRoute.route("/")
-.get(TimeKeepingGroupController.get);
-
+TimeKeepingGroupRoute.route("/").get(TimeKeepingGroupController.get);
 
 TimeKeepingGroupRoute.route("/:ID")
-.put(TimeKeepingGroupController.update)
-.delete(TimeKeepingGroupController.delete)
+  .put(TimeKeepingGroupController.update)
+  .delete(TimeKeepingGroupController.delete);
 
-
-TimeKeepingGroupRoute.route("/synthesis")
-.post(TimeKeepingGroupController.synthesis);
+TimeKeepingGroupRoute.route("/synthesis").post(
+  TimeKeepingGroupController.synthesis,
+);
 
 module.exports = TimeKeepingGroupRoute;
-

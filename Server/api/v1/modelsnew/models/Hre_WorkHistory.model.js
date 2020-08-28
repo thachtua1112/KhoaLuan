@@ -41,9 +41,7 @@ const Hre_WorkHistorySchema = new Schema({
 
 const Hre_WorkHistoryModel = mongoose.model(
   "Hre_WorkHistory",
-  Hre_WorkHistorySchema
+  Hre_WorkHistorySchema,
 );
 
 module.exports = Hre_WorkHistoryModel;
-
-

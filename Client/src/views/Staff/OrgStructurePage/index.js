@@ -1,30 +1,36 @@
 import React, { useEffect, useState } from "react";
 
-import OrgStructureAPI from "../../../callAPI/Cat_OrgStructure.api";
-
 import { exportToPDF } from "../utils/exportToPDF";
-
-import { CDataTable, CSidebarNav } from "@coreui/react";
-import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
-
-import Tooltip from "@material-ui/core/Tooltip";
 
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
 
+import { CDataTable, CSidebarNav } from "@coreui/react";
+
 import { CSVLink } from "react-csv";
+
+import {
+  IconButton,
+  Menu,
+  MenuItem,
+  Paper,
+  Grid,
+  Tooltip,
+} from "@material-ui/core";
+
+import { makeStyles } from "@material-ui/core/styles";
 
 import TheSidebar from "./TheSidebar";
 
-import { makeStyles } from "@material-ui/core/styles";
-import { IconButton, Menu, MenuItem } from "@material-ui/core";
+import Table from "../../../share/component/Table.component";
+
+import OrgStructureAPI from "../../../callAPI/Cat_OrgStructure.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-      // "& table": {
-      //   "table-layout": "fixed",
-      // },
+    // "& table": {
+    //   "table-layout": "fixed",
+    // },
     //height: "100vh",
   },
   paper: {
@@ -52,6 +58,10 @@ const useStyles = makeStyles((theme) => ({
 const OrgStructurePage = () => {
   const classes = useStyles();
 
+  const [Loading, setLoading] = useState(false);
+  const [CurrentPage, setCurrentPage] = useState(1);
+  const [PerPage, setPerPage] = useState(10);
+
   const [ListProfile, setListProfile] = useState([]);
 
   const [OrgStructureSelected, setOrgStructureSelected] = useState(null);
@@ -65,12 +75,7 @@ const OrgStructurePage = () => {
   };
 
   const exportPDF = () => {
-    exportToPDF(
-      "Danh sach nhan vien",
-      fields,
-      ListProfile,
-      "DSNhanVien"
-    );
+    exportToPDF("Danh sach nhan vien", fields, ListProfile, "DSNhanVien");
     handleCloseExport();
   };
 
@@ -91,8 +96,10 @@ const OrgStructurePage = () => {
   useEffect(() => {
     if (!OrgStructureSelected) return;
     const fetchAPI = async () => {
+      setLoading(true);
       const res = await OrgStructureAPI.getListProfile(OrgStructureSelected);
       setListProfile(res.data);
+      setLoading(false);
     };
     fetchAPI();
   }, [OrgStructureSelected]);
@@ -140,20 +147,56 @@ const OrgStructurePage = () => {
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <CSidebarNav>
-              <CDataTable
+              <Table
+                items={ListProfile}
+                fields={fields}
+                currentPage={CurrentPage}
+                onPageChange={(i) => setCurrentPage(i)}
+                isLoading={Loading}
+                scopedSlots={{
+                  Position: (item) => {
+                    return (
+                      <td>
+                        {!item.Position ? "" : item.Position.PositionName}
+                      </td>
+                    );
+                  },
+                  OrgStructure: (item) => {
+                    return (
+                      <td>
+                        {!item.OrgStructure
+                          ? ""
+                          : `${item.OrgStructure.Code}-${item.OrgStructure.OrgStructureName}`}
+                      </td>
+                    );
+                  },
+                }}
+                perPage={PerPage}
+              />
+              {/* <CDataTable
                 fields={fields}
                 items={ListProfile}
                 pagination={ListProfile.length > 15 ? true : false}
                 itemsPerPage={15}
                 scopedSlots={{
-                  "Position":(item)=>{
-                    return <td>{!item.Position?"":(item.Position.PositionName)}</td>
-                  },  
-                "OrgStructure":(item)=>{
-                  return <td>{!item.OrgStructure?"":`${item.OrgStructure.Code}-${item.OrgStructure.OrgStructureName}`}</td>
-                },  
+                  Position: (item) => {
+                    return (
+                      <td>
+                        {!item.Position ? "" : item.Position.PositionName}
+                      </td>
+                    );
+                  },
+                  OrgStructure: (item) => {
+                    return (
+                      <td>
+                        {!item.OrgStructure
+                          ? ""
+                          : `${item.OrgStructure.Code}-${item.OrgStructure.OrgStructureName}`}
+                      </td>
+                    );
+                  },
                 }}
-              />
+              /> */}
             </CSidebarNav>
           </Paper>
         </Grid>
@@ -164,7 +207,7 @@ const OrgStructurePage = () => {
 
 export default OrgStructurePage;
 
-const fields=[
+const fields = [
   { _style: { width: "150px" }, key: "CodeEmp", label: "Mã nhân viên" },
   { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
   {

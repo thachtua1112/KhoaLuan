@@ -26,7 +26,7 @@ module.exports.getStructureTree = async (req, res) => {
 
     const listOrgStructure = await OrgStructureModel.find(
       {},
-      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1, Code: 1 }
+      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1, Code: 1 },
     );
 
     const TreeCreate = drawStructureTree(listOrgStructure, OrgStructureID);
@@ -112,14 +112,14 @@ module.exports.getListProfile = async (req, res) => {
           path: "Position",
           select: { PositionName: 1 },
           justOne: true,
-        });
-
+        })
+        .limit(30);
       return res.json(ListProfile);
     }
 
     const listOrgStructure = await OrgStructureModel.find(
       {},
-      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1, Code: 1 }
+      { _id: 0, ID: 1, OrgStructureName: 1, ParentID: 1, Code: 1 },
     );
 
     Tree = drawStructureTree(listOrgStructure, OrgStructureID);
@@ -157,7 +157,7 @@ module.exports.getOrgStructure = async (req, res) => {
   try {
     const { OrgStructureID } = req.params;
     const result = await OrgStructureModel.find(
-      !OrgStructureID ? {} : { ID: OrgStructureID }
+      !OrgStructureID ? {} : { ID: OrgStructureID },
     );
 
     return res.status(200).json(result);
@@ -203,7 +203,7 @@ module.exports.delete = async (req, res) => {
 
     const result = await OrgStructureModel.findOneAndUpdate(
       { ID: ID },
-      { IsDelete: true }
+      { IsDelete: true },
     );
     return res.status(200).json(result);
   } catch (err) {

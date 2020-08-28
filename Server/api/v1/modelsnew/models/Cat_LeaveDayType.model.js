@@ -23,9 +23,7 @@ const Cat_LeaveDayTypeSchema = new Schema({
 
 const Cat_LeaveDayTypeModel = mongoose.model(
   "Cat_LeaveDayType",
-  Cat_LeaveDayTypeSchema
+  Cat_LeaveDayTypeSchema,
 );
 
 module.exports = Cat_LeaveDayTypeModel;
-
-

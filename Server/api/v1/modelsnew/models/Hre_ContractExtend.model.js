@@ -30,7 +30,8 @@ const Hre_ContractExtendSchema = new Schema({
   CompanyID: { type: Schema.Types.String },
   Status: { type: Schema.Types.String },
 });
-const Hre_ContractExtendModel = mongoose.model("Hre_ContractExtend", Hre_ContractExtendSchema
+const Hre_ContractExtendModel = mongoose.model(
+  "Hre_ContractExtend",
+  Hre_ContractExtendSchema,
 );
 module.exports = Hre_ContractExtendModel;
-

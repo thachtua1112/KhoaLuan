@@ -15,9 +15,7 @@ const Hre_ProfileQualificationSchema = new Schema({
 
 const Hre_ProfileQualificationModel = mongoose.model(
   "Hre_ProfileQualification",
-  Hre_ProfileQualificationSchema
+  Hre_ProfileQualificationSchema,
 );
 
 module.exports = Hre_ProfileQualificationModel;
-
-

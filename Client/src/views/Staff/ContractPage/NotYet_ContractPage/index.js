@@ -1,170 +1,116 @@
-import React, { useState, useEffect } from 'react'
-import { Redirect,useHistory} from "react-router-dom";
-import {
-  CCard,
-  CCardBody,
-  CCol,
-  CDataTable,
-  CPagination
-} from '@coreui/react'
-import { green } from '@material-ui/core/colors';
-import Button from '@material-ui/core/Button';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import { makeStyles,createMuiTheme,ThemeProvider  } from '@material-ui/core/styles';
-import {LinearProgress} from "@material-ui/core";
-import TextField from '@material-ui/core/TextField';
+import React, { useState } from "react";
+
+import { Grid, Paper, CircularProgress } from "@material-ui/core";
+
+import Search from "./Search.Component";
+import ToolBar from "./ToolBar.Component";
+import NewProfile from "./NewProifile.Component"
+
+import { makeStyles } from "@material-ui/core/styles";
+import Content from "./Content.Component";
+
+//import { defaultProfileFields } from "../../utils/fieldsProfile";
+import CIcon from "@coreui/icons-react";
+import { cilBan } from "@coreui/icons";
 import { Notyet_ContractApi } from '../../../../callAPI/Hre_Contract.api';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    '& .MuiTextField-root': {
-      margin: theme.spacing(1),
-      width: 400,
-    },
+    flexGrow: 1,
+    paddingLeft: theme.spacing(1)
   },
-  button: {
-    margin: theme.spacing(1)
-  }
+  search: {},
+  toolbar: {},
+  content: {},
 }));
-const theme = createMuiTheme({
-  palette: {
-    primary: green,
-  },
-});
+
+
+const noItemView=()=>{
+  return (
+    <div className="text-center my-5">
+    <h2>
+      { "Không có dữ liệu" }
+      <CIcon
+        width="30"
+        name="cilBan"
+        content={cilBan}
+        className="text-danger mb-2"
+      />
+    </h2>
+  </div>)
+}
+
+const Loading=()=>{
+  return (
+    <div className="text-center my-5">
+    <h2>
+      { "Đang tải dữ liệu" }
+      <CircularProgress />
+    </h2>
+  </div>)
+}
+
 const fields = [
-  { key: 'CodeEmp', _style: { width: '10%'},label: "Mã nhân viên" },
-  { key: 'ProfileName', _style: { width: '25%'},label: "Họ & tên" },
-  { key: 'Gender', _style: { width: '10%'},label: "Giới tính" },
-  { key: 'DateHire', _style: { width: '25%'},label: "Ngày vào làm" },
-  { key: 'PAddress', _style: { width: '40%'},label: "Địa chỉ" },
- /* {
-    key: 'show_details',
-    label: '',
-    _style: { width: '1%' },
-    sorter: false,
-    filter: false
-  }*/
-]
-const getBadge = Gender => {
-  switch (Gender) {
-    case 'E_FEMALE': return 'Nữ'
-    default: return 'Nam'
-  }
-}
+  // { key: 'ContractNo',_style: { width: '300px'}, label: "Số hợp đồng" },
+   { key: 'CodeEmp',_style: { width: '300px'}, label: "Mã nhân viên"  },
+   { key: 'ProfileName',_style: { width: '300px'},label: "Họ & tên" },
+   { key: 'Gender',_style: { width: '150px'},label: "Giới tính"  },
+   { key: 'DateHire',_style: { width: '300px'},label: "Ngày tuyển vào"  },
+   { key: 'PAddress',_style: { width: '300px'},label: "Địa chỉ"  },
+ ]
 
-const NotYet_ContractPage = () => {
+const NotYet_ContractPage = (props) => {
   const classes = useStyles();
-  const [name,setName]=useState("");
-  const [code,setCode]=useState("");
-  const [staff,setStaff]=useState([]);
-  const [load,setLoad]=useState(false);
 
-  const [isRedirec,setIsRedirec]=useState(false);
-  const [page,setPage] = useState(0)
-  const history = useHistory()
-  useEffect(()=>{
-    Notyet_ContractApi(page*10).then(res=>{
-      if(res.data && res.data)
-      {
-        setStaff(res.data)
-        setLoad(true)
-      }
-    })
-  },[page])
+  const [Filter, setFilter] = useState({});
+  const [RowSelected, setRowSelected] = useState({});
+  const [ListProfile, setListProfile] = useState([]);
+  const [noItem, setnoItem] = useState(noItemView)
 
-  const up_Name = (e) =>{
-    setName(e.target.value);
-  }
-  const up_CodeEmp = (e) =>{
-    setCode(e.target.value);
-  }
-  let filter = staff.filter(
-    (contact)=>{
-      return contact.ProfileName.toLowerCase().indexOf(name.trim().toLowerCase()) !== -1;
+  const [showNewProfile, setshowNewProfile] = useState(false)
+
+  const onSearch = async () => {
+    try {
+      setnoItem(Loading)
+      setListProfile([])
+      setRowSelected({})
+      const res = await Notyet_ContractApi(Filter);//
+      setListProfile(res.data);
+      setnoItem(noItemView)
+    } catch (error) {
+      console.log("DanhSachNhanVien ProfileAPI ERR", error);
     }
+  };
+
+  return (
+    <Grid className={classes.root}>
+    <Grid item><NewProfile setshowNewProfile={setshowNewProfile} showNewProfile={showNewProfile}/></Grid>
+      <Grid item>
+        <Paper variant="outlined" className={classes.search}>
+
+          <Search Filter={Filter} setFilter={setFilter} />
+        </Paper>
+      </Grid>
+      <Grid item>
+        <Paper variant="outlined" className={classes.toolbar}>
+          <ToolBar setshowNewProfile={setshowNewProfile} onSearch={onSearch} RowSelected={RowSelected}
+          header={fields} data={ListProfile}
+          />
+        </Paper>
+      </Grid>
+      <Grid item>
+        <Paper variant="outlined" className={classes.content}>
+          <Content
+            data={ListProfile}
+            fields={fields}
+            RowSelected={RowSelected}
+            setRowSelected={setRowSelected}
+            noItem={noItem}
+          />
+        </Paper>
+      </Grid>
+    </Grid>
   );
+};
 
-let filter2 = filter.filter(
-(contact)=>{
-  return contact.CodeEmp.toLowerCase().indexOf(code.trim().toLowerCase()) !== -1;
-}
-);
-  return  isRedirec?<Redirect to='/nhan-su/hop-dong/tao-moi-hop-dong' />:(
-    <CCol>
-          <CCard>
-            <CCardBody> <b>DANH SÁCH NHÂN VIÊN CHƯA CÓ HỢP ĐỒNG</b>
-            <form className={classes.root} noValidate autoComplete="off">
-                <TextField
-                  label="Tên nhân viên"
-                  id="outlined-size-small"
-                  variant="outlined"
-                  size="small"
-                  onChange={up_Name} type="search"
-                />
-                <TextField
-                  label="Mã nhân viên"
-                  id="outlined-size-normal"
-                  variant="outlined"
-                  size="small"
-                  onChange={up_CodeEmp} type="search"
-                />
-
-                <ThemeProvider theme={theme}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  onClick={()=>setIsRedirec(true)}
-                  startIcon={<CloudUploadIcon />}
-                >
-                  Tạo mới
-                </Button>
-              </ThemeProvider>
-            </form>
-{ load===false?<LinearProgress />:(
-            <CDataTable
-              items={filter2}
-              fields={fields}
-              hover
-              size='sm'
-              striped
-              bordered
-              itemsPerPage={10}
-              underTableSlot={
-                <CPagination
-                activePage={page}
-                pages={100}
-                onActivePageChange={(i) =>{setPage(i);console.log(page)}}
-                />}
-              pagination={false}
-              // pagination={{
-              //   align: 'end',
-              //   pages:20,
-              //   limit:5,
-              //   activePage:2
-              // }}
-            //  onRowClick={(item) => history.push(`/nhan-su/hop-dong/tao-moi-hop-dong/${item.CodeEmp}`)}
-              clickableRows
-              scopedSlots = {{
-                'Gender':
-                  (item)=>(
-                    <td>
-                      {getBadge(item.Gender)}
-                    </td>
-                  ),
-                  "DateHire":
-                  (item)=>( <td>
-                    {
-                      new Date(item.DateHire).toLocaleString('en-GB')
-                    }
-                  </td>)
-              }
-            }
-            />
-)}
-            </CCardBody>
-          </CCard>
-        </CCol>
-  )
-}
-export default NotYet_ContractPage
+export default NotYet_ContractPage;

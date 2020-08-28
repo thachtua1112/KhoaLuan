@@ -10,7 +10,6 @@ OrgUnitRoute.get("/:ID", OrgUnitController.getByID);
 
 OrgUnitRoute.get("/", OrgUnitController.getWithFilter);
 
-
 OrgUnitRoute.post("/", OrgUnitController.create);
 
 OrgUnitRoute.put("/:ID", OrgUnitController.update);

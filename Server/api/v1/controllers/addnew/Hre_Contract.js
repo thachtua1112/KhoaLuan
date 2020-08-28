@@ -14,13 +14,22 @@ module.exports.getAll = async (req, res) => {
 module.exports.NotYet_HreContract= async function(req,res){
     try{
         const {page} = req.query
-        console.log(page)
+        const filter =req.query
         const contract = await Hre_ContractModel.distinct("ProfileID");
-        const result = await Hre_ProfileModel.find({ID:
-            { $nin:  contract }
-        }).limit(10).skip(parseInt(page))
-        return res.json(result
-        )
+        //const result = await Hre_ProfileModel.find({ID:{ $nin:  contract }})//.limit(10).skip(parseInt(page))
+        const result = await Hre_ProfileModel.aggregate([
+          {
+            $match:filter
+          },
+          {
+            $match:{ 
+              //DateQuit:"null",
+              ID:{ $nin:  contract },
+              StatusSyn:"E_HIRE"
+            }
+          }
+        ]).limit(200)
+        return res.json(result)
     }
     catch(err)
     {
