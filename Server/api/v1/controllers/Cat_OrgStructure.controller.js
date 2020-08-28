@@ -112,8 +112,8 @@ module.exports.getListProfile = async (req, res) => {
           path: "Position",
           select: { PositionName: 1 },
           justOne: true,
-        });
-
+        })
+        .limit(30);
       return res.json(ListProfile);
     }
 
