@@ -1,6 +1,6 @@
 module.exports = ({
-  name,
-  gender,
+  ProfileName,
+  Gender,
   DateOfBirth,
   PAStreet,
   IDNo,
@@ -51,7 +51,7 @@ module.exports = ({
       <p><em>Số CMND/ Hộ chiếu: </em>025199248&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>cấp ng&agrave;y: </em>29/09/2009<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; tại: </em>TP. HCM</p>
       <p><em>Địa chỉ cư tr&uacute;: </em>168/47B V&otilde; Th&agrave;nh Trang, Phường 11, T&acirc;n B&igrave;nh, TP. HCM</p>
       <p><strong>V&agrave;,</strong></p>
-      <p><strong>B&Ecirc;N B: &Ocirc;ng/b&agrave;: ${name}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>Giới t&iacute;nh</em>: ${gender}</p>
+      <p><strong>B&Ecirc;N B: &Ocirc;ng/b&agrave;: ${ProfileName}</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>Giới t&iacute;nh</em>: ${Gender}</p>
       <p><em>Ng&agrave;y th&aacute;ng năm sinh</em>: ${DateOfBirth}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
       <p><em>Địa chỉ cư tr&uacute;</em>: ${PAStreet}</p>
       <p><em>Số CMND/Hộ chiếu</em>: ${IDNo}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>cấp ng&agrave;y</em>: ${IDDateOfIssue}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <em>tại</em>: ${IDPlaceOfIssue}</p>

@@ -78,6 +78,8 @@ module.exports.HistoryById= async function(req,res){
  
   module.exports.HreContract= async function(req,res){
     try {
+      const filter=req.query
+      console.log(filter)
       const contract = await Hre_ContractModel.aggregate([
         {
            $sort: { 
@@ -104,8 +106,24 @@ module.exports.HistoryById= async function(req,res){
           }
         },
         {
+          $addFields:{
+            ProfileName:{ "$arrayElemAt": [ "$profiles.ProfileName", 0 ] },
+            CodeEmp:{ "$arrayElemAt": [ "$profiles.CodeEmp", 0 ] },
+            OrgStructureID:{ "$arrayElemAt": [ "$profiles.OrgStructureID", 0 ] } ,
+            Gender:{ "$arrayElemAt": [ "$profiles.Gender", 0 ] } ,
+            IDNo:{ "$arrayElemAt": [ "$profiles.IDNo", 0 ] } ,
+            StatusSyn:{ "$arrayElemAt": [ "$profiles.StatusSyn", 0 ] } ,
+            PositionID:{ "$arrayElemAt": [ "$profiles.PositionID", 0 ] } ,
+            DateHire:{ "$arrayElemAt": [ "$profiles.DateHire", 0 ] } 
+          }
+        },
+        {
+          $match:filter,
+        },
+        {
           $match:{
-            DateEnd:{$gt: new Date()}
+            DateEnd:{$gt: new Date()},
+            //StatusSyn:"E_HIRE"
           }
         }
        ])
@@ -165,6 +183,7 @@ module.exports.Expire_Contract= async function(req,res){
     {
       $match:{
         DateEnd:{$lte: new Date()},
+        StatusSyn:"E_HIRE"
       }
     }
    ])

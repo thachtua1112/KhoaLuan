@@ -123,7 +123,7 @@ module.exports.update = async (req, res) => {
     const data = req.body;
     //console.log("data",data)
     const result = await Hre_CollaborateModel.findOneAndUpdate(
-      { ProfileID: ID },
+      { _id: ID },
       data,
       {
         new: true,
