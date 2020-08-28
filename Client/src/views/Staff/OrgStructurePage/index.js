@@ -4,7 +4,7 @@ import { exportToPDF } from "../utils/exportToPDF";
 
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
 
-import { CDataTable, CSidebarNav } from "@coreui/react";
+import {  CSidebarNav } from "@coreui/react";
 
 import { CSVLink } from "react-csv";
 

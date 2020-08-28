@@ -8,9 +8,9 @@ const Notyet_ContractApi = (body) =>
 {
   return callAPI(`/hre-contract/not-yet-contract`,"GET",body)
 }
-const  ListContractApi = () =>
+const  ListContractApi = (body) =>
 {
-  return callAPI("/hre-contract/contract","GET",null)
+  return callAPI("/hre-contract/contract","GET",body)
 }
 const  Expire_ContractApi = (body) =>
 {

@@ -29,7 +29,7 @@ import {useHistory} from 'react-router-dom'
 const useStyles = makeStyles({
   root: {
     width: '100%',
-    height: "100vh"
+    height: "50vh"
   },
   container: {
     maxHeight: 440,
@@ -44,8 +44,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
-export default function UpdateCollaboratePage({match}) {
-  const paramater = match.params.ProfileID;
+export default function UpdateCollaboratePage(props) {
+  //const paramater = match.params.ProfileID;
+  const {RowSelected}=props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [NamePosition, setNamePosition] = useState("")
@@ -71,7 +72,7 @@ export default function UpdateCollaboratePage({match}) {
   const upload = ()=>{
     setOpen(false);
     EndDay.setMonth(EndDay.getMonth()+Time)
-    UpdaHreCollaboratesApi(paramater,qs.stringify({
+    UpdaHreCollaboratesApi(RowSelected._id,qs.stringify({
           DateCreate:new Date(),
           DateSignature:new Date (),//.toLocaleString('en-GB'),
           DateStart: StartDay,
@@ -119,7 +120,7 @@ export default function UpdateCollaboratePage({match}) {
               Chức vụ
               <PositionName NamePosition ={setNamePosition}/>
               </TableCell>
-              <TableCell>
+              <TableCell colSpan='2'>
               <FormControl fullWidth>
               Thời gian công tác (tháng)
               {
@@ -142,7 +143,7 @@ export default function UpdateCollaboratePage({match}) {
               }
             </FormControl>
             </TableCell>
-            <TableCell>
+            <TableCell colSpan='2'>
             Ngày đi công tác
             <CInput  onChange={Up_StartDay} type="date" data-date-format="MMMM DD YYYY"></CInput>
             </TableCell>
@@ -157,7 +158,7 @@ export default function UpdateCollaboratePage({match}) {
         </TableBody>
         </Table>
       </TableContainer>
-      <Button  onClick={handleClickOpen} variant="contained" color="primary"> Thêm</Button>
+      <Button  onClick={handleClickOpen} variant="contained" color="primary"> Lưu</Button>
 
     <Dialog
         open={open}

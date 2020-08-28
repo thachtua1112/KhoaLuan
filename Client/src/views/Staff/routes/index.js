@@ -146,11 +146,6 @@ const staffRoute = [
     name:"Bổ nhiệm nhân viên đi công tác",
     component:NewCollaboratePage
   },
-  {
-    path:"/nhan-su/qua-trinh-cong-tac/cap-nhat-ho-so/:ProfileID",
-    name:"Cập nhật hồ sơ công tác",
-    component:UpdateCollaboratePage
-  },
 
   {
     path: "/nhan-su/hop-dong/ds-hop-dong-het-han",

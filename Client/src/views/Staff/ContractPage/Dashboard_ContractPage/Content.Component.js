@@ -33,8 +33,7 @@ const Content = (props) => {
 
   const {data,fields,RowSelected,setRowSelected,noItem}=props
   const dataRender= data.map((item,index)=>{
-
-    if(item._id===RowSelected._id)
+     if(item._id===RowSelected._id)
         return {...item,_classes:"selected"}
      return item
   })
@@ -51,7 +50,7 @@ const Content = (props) => {
     return setRowSelected(row)
   }
   }
-
+//console.log("dataRender",dataRender)
   return (
 
     <div className={classes.root}>
@@ -72,25 +71,25 @@ const Content = (props) => {
           'Gender':
             (item)=>(
               <td>
-                {getBadge(item.profiles[0].Gender)}
+                {getBadge(item.profiles.length===0?"":item.profiles[0].Gender)}
               </td>
             ),
             "DateHire":
             (item)=>( <td>
               {
-                new Date(item.DateHire).toLocaleString('en-GB')
+                new Date(item.profiles.length===0?"":item.profiles[0].DateHire).toLocaleString('en-GB')
               }
             </td>),
             "ProfileName":
             (item)=>(
               <td>
-                {item.profiles[0].ProfileName}
+                {item.profiles.length===0?"":item.profiles[0].ProfileName}
               </td>
             ),
             "CodeEmp":
             (item)=>(
               <td>
-                {item.profiles[0].CodeEmp}
+                {item.profiles.length===0?"":item.profiles[0].CodeEmp}
               </td>
             )
         }

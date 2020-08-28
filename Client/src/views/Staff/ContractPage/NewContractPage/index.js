@@ -104,7 +104,7 @@ export default function NewContractPage() {
       while(i!==0)
       {
         CreateContractApi(qs.stringify({
-          ProfileID1:IdProfile[i-1].ProfileID,
+          ProfileID:IdProfile[i-1].ID,
           ContractNo:ContractNo,
           ContractTypeID:IdContractType,
           DateSigned:new Date (DateSignature),//.toLocaleString('en-GB'),

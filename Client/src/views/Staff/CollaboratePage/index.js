@@ -12,6 +12,7 @@ import CIcon from "@coreui/icons-react";
 import { cilBan } from "@coreui/icons";
 import { HreCollaboratesApi } from "../../../callAPI/Hre_Collaborates.api";
 import StatusUptoDate from "./UpdateStatus";
+import UpdateCollaborateDialog from "./UpdateCollaborate";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,6 +61,7 @@ const CollaboratePage = (props) => {
   const [noItem, setnoItem] = useState(noItemView)
 
   const [showNewProfile, setshowNewProfile] = useState(false)
+  const [showUpdate, setShowUpdate] = useState(false)
 
   const onSearch = async () => {
     try {
@@ -76,7 +78,9 @@ const CollaboratePage = (props) => {
 
   return (
     <Grid className={classes.root}>
-    <Grid item><StatusUptoDate setshowNewProfile={setshowNewProfile} showNewProfile={showNewProfile}/></Grid>
+    <Grid item><StatusUptoDate setshowNewProfile={setshowNewProfile} showNewProfile={showNewProfile}/>
+    <UpdateCollaborateDialog setShowUpdate={setShowUpdate} showUpdate={showUpdate} RowSelected={RowSelected}/>
+    </Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.search}>
 
@@ -85,7 +89,10 @@ const CollaboratePage = (props) => {
       </Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.toolbar}>
-          <ToolBar setshowNewProfile={setshowNewProfile} onSearch={onSearch} RowSelected={RowSelected} Export={ListProfile} HeaderExport={CongTac}/>
+          <ToolBar setshowNewProfile={setshowNewProfile} onSearch={onSearch}
+              setShowUpdate={setShowUpdate}
+              RowSelected={RowSelected} Export={ListProfile} HeaderExport={CongTac}
+          />
         </Paper>
       </Grid>
       <Grid item>
