@@ -65,7 +65,6 @@ class BaseController {
         .select(fields)
         .skip((page - 1) * perPage)
         .limit(perPage);
-
       if (0 === data.length) {
         return res.status(httpStatus.RESET_CONTENT).json({
           method: "GET",
