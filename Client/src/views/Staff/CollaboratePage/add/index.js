@@ -29,7 +29,7 @@ import { CreateHreCollaboratesApi } from '../../../../callAPI/Hre_Collaborates.a
 const useStyles = makeStyles({
   root: {
     width: '100%',
-    height: "100vh"
+    height: "50vh"
   },
   container: {
     maxHeight: 440,

@@ -1,7 +1,7 @@
 import React from "react"
 import { CModal, CModalHeader, CModalBody, CModalFooter } from "@coreui/react"
 import { Grid,makeStyles, Button} from "@material-ui/core"
-import UpdateCollaboratePage from "./update";
+import NewCollaboratePage from "./add";
 
 
 
@@ -20,29 +20,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const UpdateCollaborateDialog=(props)=>{
-  const {showUpdate, setShowUpdate,RowSelected} =props
+const AddCollaborateDialog=(props)=>{
+  const {showAdd, setShowAdd} =props
   const classes = useStyles();
 return <CModal
 size="lg"
-show={showUpdate}
-onClose={()=>setShowUpdate(false)}
+show={showAdd}
+onClose={()=>setShowAdd(false)}
 //onClosed={()=>setshowNewProfile(false)}
 closeOnBackdrop={false}
 >
-<CModalHeader closeButton><b>Chỉnh sửa thông tin công tác</b></CModalHeader>
+<CModalHeader closeButton> <b>Điều động nhân viên công tác</b></CModalHeader>
 <CModalBody>
 <Grid className={classes.root} container spacing={1}>
 <Grid className={classes.paper} container spacing={2}>
-  <UpdateCollaboratePage RowSelected={RowSelected}/>
+  <NewCollaboratePage />
 </Grid>
 </Grid>
 </CModalBody>
 <CModalFooter>
-  <Button onClick={()=>{setShowUpdate(false)}} variant="contained" color="primary" >Thoát</Button>
+  <Button onClick={()=>{setShowAdd(false)}} variant="contained" color="primary" >Thoát</Button>
 </CModalFooter>
 </CModal>
 }
 
-export default UpdateCollaborateDialog
+export default AddCollaborateDialog
 

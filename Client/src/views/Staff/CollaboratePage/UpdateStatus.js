@@ -60,7 +60,7 @@ onClose={()=>setshowNewProfile(false)}
 //onClosed={()=>setshowNewProfile(false)}
 closeOnBackdrop={false}
 >
-<CModalHeader closeButton>Xét thưởng/ kỉ luật cho nhân viên</CModalHeader>
+<CModalHeader closeButton><b>Xét thưởng/ kỉ luật cho nhân viên</b></CModalHeader>
 <CModalBody>
 <Grid className={classes.root} container spacing={1}>
 <Grid className={classes.paper} container spacing={2}>

@@ -13,6 +13,7 @@ import { cilBan } from "@coreui/icons";
 import { HreCollaboratesApi } from "../../../callAPI/Hre_Collaborates.api";
 import StatusUptoDate from "./UpdateStatus";
 import UpdateCollaborateDialog from "./UpdateCollaborate";
+import AddCollaborateDialog from "./AddCollaborate";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,7 +63,7 @@ const CollaboratePage = (props) => {
 
   const [showNewProfile, setshowNewProfile] = useState(false)
   const [showUpdate, setShowUpdate] = useState(false)
-
+  const [showAdd, setShowAdd]= useState(false)
   const onSearch = async () => {
     try {
       setnoItem(Loading)
@@ -80,6 +81,7 @@ const CollaboratePage = (props) => {
     <Grid className={classes.root}>
     <Grid item><StatusUptoDate setshowNewProfile={setshowNewProfile} showNewProfile={showNewProfile}/>
     <UpdateCollaborateDialog setShowUpdate={setShowUpdate} showUpdate={showUpdate} RowSelected={RowSelected}/>
+    <AddCollaborateDialog showAdd= {showAdd} setShowAdd={setShowAdd} />
     </Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.search}>
@@ -91,6 +93,7 @@ const CollaboratePage = (props) => {
         <Paper variant="outlined" className={classes.toolbar}>
           <ToolBar setshowNewProfile={setshowNewProfile} onSearch={onSearch}
               setShowUpdate={setShowUpdate}
+              setShowAdd={setShowAdd}
               RowSelected={RowSelected} Export={ListProfile} HeaderExport={CongTac}
           />
         </Paper>

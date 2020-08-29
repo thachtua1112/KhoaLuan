@@ -143,7 +143,7 @@ const staffRoute = [
   },
   {
     path:"/nhan-su/qua-trinh-cong-tac/dieu-dong-nhan-vien",
-    name:"Bổ nhiệm nhân viên đi công tác",
+    name:"Điều động nhân viên đi công tác",
     component:NewCollaboratePage
   },
 

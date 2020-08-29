@@ -43,7 +43,7 @@ const ToolBar = (props) => {
 
   const {  onSearch ,RowSelected ,
     setshowNewProfile,Export,HeaderExport,
-    setShowUpdate
+    setShowUpdate,setShowAdd
   } = props;
 
   const goDetail = () => {
@@ -51,14 +51,7 @@ const ToolBar = (props) => {
       history.push(`/nhan-su/chi-tiet-nhan-vien/${RowSelected.ProfileID}`);
 
   };
-  const goUpdate = () => {
-   // ProfileAPI.getProfiles({CodeEmp:RowSelected.CodeEmp}).then(res=>{
-      history.push(`/nhan-su/qua-trinh-cong-tac/cap-nhat-ho-so/${RowSelected.ProfileID}`)//res.data[0].ProfileID}`);
-    //})
-  };
-  const goToNewAdd = () => {
-       history.push(`/nhan-su/qua-trinh-cong-tac/dieu-dong-nhan-vien`);
-   };
+
   const goDelete = () => {
     console.log("id",RowSelected.ProfileID)
    DeleteHreCollaboratesApi(RowSelected.ProfileID).then(res=>{
@@ -99,8 +92,8 @@ const ToolBar = (props) => {
       </Tooltip>
     </IconButton>
 
-    <IconButton onClick={goToNewAdd} >
-    <Tooltip title="Thêm hồ sơ">
+    <IconButton onClick={()=>{setShowAdd(true)}} >
+    <Tooltip title="Thêm hồ sơ điều động công tác">
       <NoteAddIcon />
       </Tooltip>
     </IconButton>

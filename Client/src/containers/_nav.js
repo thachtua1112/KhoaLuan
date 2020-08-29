@@ -88,7 +88,7 @@ export default [
         name: "Danh sách hợp đồng",
         to: "/nhan-su/hop-dong/ds-hop-dong",
       },
-   
+
       {
         _tag: "CSidebarNavItem",
         name: "Ds nhân viên chưa có hợp đồng",
@@ -114,9 +114,15 @@ export default [
     _children: [
       {
         _tag: "CSidebarNavItem",
+        name: "Điều động nhân viên",
+        to: "/nhan-su/qua-trinh-cong-tac/dieu-dong-nhan-vien",
+      },
+      {
+        _tag: "CSidebarNavItem",
         name: "Qtr điều động & bổ nhiệm",
         to: "/nhan-su/qua-trinh-cong-tac/dieu-dong-bo-nhiem",
       },
+
     ],
   },
   {
