@@ -20,15 +20,16 @@ OrgStructureTreeRoute.route("/")
 //   .patch()
 //   .delete(OrgStructureTreeController.delete);
 
-OrgStructureTreeRoute.route("/:RootID/profiles").get(
-  OrgStructureTreeController.getProfiles,
-);
-
 OrgStructureTreeRoute.route("/:RootID")
   .get(OrgStructureTreeController.getByRootID)
   .post()
   .put(OrgStructureTreeController.updateByRootID)
   .patch()
   .delete(OrgStructureTreeController.deleteByRootID);
+
+OrgStructureTreeRoute.route("/:RootID/profiles").get(
+  OrgStructureTreeController.getListOrgStructureID,
+  OrgStructureTreeController.getProfiles,
+);
 
 module.exports = OrgStructureTreeRoute;

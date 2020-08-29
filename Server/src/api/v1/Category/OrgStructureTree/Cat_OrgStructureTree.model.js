@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const OrgStructureTree = new Schema(
   {
-    isRoot: { type: Schema.Types.Boolean },
-    rootID: { type: Schema.Types.String },
+    isRoot: { type: Schema.Types.Number },
+    rootID: { type: Schema.Types.String, unique: true },
     listID: { type: Schema.Types.Array },
     StructureTree: Object,
   },
