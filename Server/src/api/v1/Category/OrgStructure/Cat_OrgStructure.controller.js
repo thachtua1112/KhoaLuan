@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const Cat_OrgStructureModel = require("./Cat_OrgStructure.model");
-
+//const Cat_OrgStructureModel = require("./Cat_OrgStructure.model");//Model Current Folder
+const Cat_OrgStructureModel = require("../../../../../api/v1/models/Cat_OrgStructure.model"); //Model Outside
 const BaseController = require("../../utils/BaseController");
 
 class Cat_OrgStructureController extends BaseController {
@@ -19,7 +19,7 @@ class Cat_OrgStructureController extends BaseController {
       res.json({
         method: "GET",
         path: req.originalUrl,
-        message: "GET PROFILE BY Code",
+        message: "GET ORGSTRUCTURE BY CODE",
         status: "SUCCESS",
         data,
       });
@@ -28,7 +28,7 @@ class Cat_OrgStructureController extends BaseController {
     }
   };
 
-  updateByCode = async (req, res, next) => {
+  updateByCoode = async (req, res, next) => {
     try {
       const { Code } = res.params;
       const data = req.body;
@@ -38,7 +38,7 @@ class Cat_OrgStructureController extends BaseController {
       res.json({
         method: "PUT",
         path: req.originalUrl,
-        message: "UPDATE PROFILE BY Code",
+        message: "UPDATE ORGSTRUCTURE BY CODE",
         status: "SUCCESS",
         data: result,
       });
@@ -54,7 +54,7 @@ class Cat_OrgStructureController extends BaseController {
       res.json({
         method: "DELETE",
         path: req.originalUrl,
-        message: "DELETE PROFILE BY Code",
+        message: "DELETE ORGSTRUCTURE BY CODE",
         status: "SUCCESS",
         data: result,
       });

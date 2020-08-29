@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
-const Hre_ProfileModel = require("./Hre_Profile.model");
-
+//const Hre_ProfileModel = require("./Hre_Profile.model"); //Model Current Folder
+const Hre_ProfileModel = require("../../../../../api/v1/models/Hre_Profile.model"); //Model Outside Folder
 const BaseController = require("../../utils/BaseController");
 
 class Hre_ProfileController extends BaseController {

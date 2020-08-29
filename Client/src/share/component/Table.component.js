@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100%",
     backgroundColor: "#fff",
     borderRadius: "4px",
-    height: "80vh",
+    //height: "80vh",
   },
   table: {
     borderRadius: "4px",
