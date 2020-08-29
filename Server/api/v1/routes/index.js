@@ -51,7 +51,7 @@ routeAPI.use("/salarys", SalaryRoute);
 const pdf = require("html-pdf");
 const pdfTemplate = require("../ExportFile/documents/Contract");
 
-routeAPI.post("/api/v1/create-pdf", (req, res) => {
+routeAPI.post("/create-pdf", (req, res) => {
   pdf.create(pdfTemplate(req.body), {}).toFile("result.pdf", (err) => {
     if (err) {
       res.send(Promise.reject());
@@ -62,7 +62,7 @@ routeAPI.post("/api/v1/create-pdf", (req, res) => {
 
 routeAPI.use(routeExport);
 
-routeAPI.get("/api/v1/fetch-pdf", (req, res) => {
+routeAPI.get("/fetch-pdf", (req, res) => {
   res.sendFile(`${__dirname}../../../result.pdf`);
 });
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////

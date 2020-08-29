@@ -74,23 +74,21 @@ app.use("/api/v1/user", loginRouter);
 app.use("/api/v1/user", verifyToken, RouterUser);
 app.use("/api/v1", apiRouteV1);
 
-
-const pdf = require('html-pdf');
-const pdfTemplate = require('../../api/v1/ExportFile/documents/Contract');
+const pdf = require("html-pdf");
+const pdfTemplate = require("../../api/v1/ExportFile/documents/Contract");
 
 app.get("/api/v1/fetch-pdf", (req, res) => {
   res.sendFile(`${__dirname}/result.pdf`);
 });
-app.post('/api/v1/create-pdf', (req, res) => {
-    pdf.create(pdfTemplate(req.body), {}).toFile('result.pdf', (err) => {
-        if(err) {
-            res.send(Promise.reject());
-        }
-        res.send(Promise.resolve());
-    });
+app.post("/api/v1/create-pdf", (req, res) => {
+  pdf.create(pdfTemplate(req.body), {}).toFile("result.pdf", (err) => {
+    if (err) {
+      res.send(Promise.reject());
+    }
+    res.send(Promise.resolve());
+  });
 });
 
-  
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
