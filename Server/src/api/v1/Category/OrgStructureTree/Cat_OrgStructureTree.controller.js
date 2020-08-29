@@ -68,10 +68,12 @@ class Cat_OrgStructureTreeController extends BaseController {
         const newOrgStructureTree = {
           rootID: Root.ID,
           listID: listOrgStructureID,
+          listOrgStructure: listOrgStructureTree,
           isRoot: Root.IsRoot,
           StructureTree: Tree,
         };
-        return await this.Model.create(newOrgStructureTree);
+        this.Model.create(newOrgStructureTree);
+        return;
       }
 
       req.listOrgStructureID = OrgStructureTree.listID;
@@ -85,9 +87,11 @@ class Cat_OrgStructureTreeController extends BaseController {
     try {
       const listOrgStructureID = req.listOrgStructureID;
 
-      const filters = qs.parse(req.query.filters || {}, { allowDots: true });
-      const sort = qs.parse(req.query.sort || { _id: -1 }, { allowDots: true });
-      const fields = qs.parse(req.query.fields || { BlaBla: 0 }, {
+      const {
+        filters = {},
+        sort = { _id: -1 },
+        fields = { BlaBla: 0 },
+      } = qs.parse(req.query, {
         allowDots: true,
       });
 
@@ -169,8 +173,7 @@ class Cat_OrgStructureTreeController extends BaseController {
   getByRootID = async (req, res, next) => {
     try {
       const { RootID } = req.params;
-      console.log(RootID);
-      const data = await Hre_ProfileModel.findOne({ RootID: RootID });
+      const data = await this.Model.findOne({ rootID: RootID });
       res.json({
         method: "GET",
         path: req.originalUrl,

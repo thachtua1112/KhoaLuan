@@ -23,9 +23,11 @@ class BaseController {
 
   get = async (req, res, next) => {
     try {
-      const filters = qs.parse(req.query.filters || {}, { allowDots: true });
-      const sort = qs.parse(req.query.sort || { _id: -1 }, { allowDots: true });
-      const fields = qs.parse(req.query.fields || { BlaBla: 0 }, {
+      const {
+        filters = {},
+        sort = { _id: -1 },
+        fields = { BlaBla: 0 },
+      } = qs.parse(req.query, {
         allowDots: true,
       });
 

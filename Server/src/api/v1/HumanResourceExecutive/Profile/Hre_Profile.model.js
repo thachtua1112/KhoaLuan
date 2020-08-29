@@ -55,4 +55,4 @@ const Hre_ProfileSchema = new Schema(
   { timestamps: true },
 );
 
-//module.exports = mongoose.model("Hre_ProfileT", Hre_ProfileSchema);
+module.exports = mongoose.model("Hre_Profile_T", Hre_ProfileSchema);
