@@ -12,15 +12,17 @@ const { logs, FrontEndUrl } = require("./vars");
 
 const ErrorMiddleware = require("../api/v1/middlewares/Error.middleware");
 
-// const AuthenticationMiddleware = require("../api/v1/middlewares/Authentication.middleware");
+///////////////////////////////////////////TRUONG
+const AuthenticationMiddleware = require("../api/v1/middlewares/Authentication.middleware");
 
-// const AuthorizationMiddleware = require("../api/v1/middlewares/Authorization.middleware");
+const AuthorizationMiddleware = require("../api/v1/middlewares/Authorization.middleware");
 
-// const AuthenticationRoute = require("../api/v1/Authentication/Authentication.route");
+const AuthenticationRoute = require("../api/v1/Authentication/Authentication.route");
 
-// const AuthorizationRoute = require("../api/v1/Authorization/Authorization.route");
+const AuthorizationRoute = require("../api/v1/Authorization/Authorization.route");
 
-// const RoutesV1 = require("../api/v1/routes");
+const RoutesV1 = require("../api/v1/routes");
+/////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -79,18 +81,18 @@ app.use("/api/v1", apiRouteV1);
 /**
  *  ROUTE TRUONG
  */
-//app.use("/authentication", AuthenticationRoute);
-//app.use("/authorization", AuthorizationRoute);
-// app.use(
-//   "/hrm/api/v1",
-//   AuthenticationMiddleware.verifyToken,
-//   AuthenticationMiddleware.refreshToken,
-//   AuthorizationMiddleware.middleware((req) => [
-//     req.decoder.username,
-//     req.decoder.role,
-//   ]),
-//   RoutesV1,
-// );
+app.use("/authentication", AuthenticationRoute);
+app.use("/authorization", AuthorizationRoute);
+app.use(
+  "/hrm/api/v1",
+  //AuthenticationMiddleware.verifyToken,
+  //AuthenticationMiddleware.refreshToken,
+  // AuthorizationMiddleware.middleware((req) => [
+  //   req.decoder.username,
+  //   req.decoder.role,
+  // ]),
+  RoutesV1,
+);
 //******************************************************************************************************
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

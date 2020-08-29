@@ -14,4 +14,4 @@ const userOnlineSchema = new Schema(
 
 userOnlineSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 });
 
-module.exports = mongoose.model("UserOnlineT", userOnlineSchema);
+module.exports = mongoose.model("UserOnline_T", userOnlineSchema);

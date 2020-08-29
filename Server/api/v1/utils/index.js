@@ -1,7 +1,7 @@
 module.exports.drawStructureTree = (
   listOrg,
   rootID = "2D51E4D9-0E27-451F-83D8-04DA7D6B9797",
-  Tree = {}
+  Tree = {},
 ) => {
   Tree.data = {};
   Tree.children = [];
