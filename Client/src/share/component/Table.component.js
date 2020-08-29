@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
   table: {
     borderRadius: "4px",
-    "$ thead": {
+    "& thead": {
       color: "white",
       backgroundColor: "#425677",
     },

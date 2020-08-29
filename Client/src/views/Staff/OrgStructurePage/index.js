@@ -4,7 +4,7 @@ import { exportToPDF } from "../utils/exportToPDF";
 
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
 
-import {  CSidebarNav } from "@coreui/react";
+import { CSidebarNav } from "@coreui/react";
 
 import { CSVLink } from "react-csv";
 
@@ -23,7 +23,7 @@ import TheSidebar from "./TheSidebar";
 
 import Table from "../../../share/component/Table.component";
 
-import OrgStructureAPI from "../../../callAPI/Cat_OrgStructure.api";
+import OrgStructureTreeAPI from "../../../api/cat_org_structure_tree.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,7 +60,10 @@ const OrgStructurePage = () => {
 
   const [Loading, setLoading] = useState(false);
   const [CurrentPage, setCurrentPage] = useState(1);
-  const [PerPage, setPerPage] = useState(10);
+  const [
+    PerPage,
+    //, setPerPage
+  ] = useState(20);
 
   const [ListProfile, setListProfile] = useState([]);
 
@@ -83,25 +86,55 @@ const OrgStructurePage = () => {
     setAnchorEl(null);
   };
 
+  const fetchAPI = async () => {
+    try {
+      const result = await OrgStructureTreeAPI.getByRootID();
+      const Tree = result.data.StructureTree;
+      setStructureTree(Tree);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const onSearch = async () => {
+    try {
+      setLoading(true);
+      const result = await OrgStructureTreeAPI.getProfiles(
+        OrgStructureSelected,
+        {
+          filters: {
+            StatusSyn: "E_HIRE",
+          },
+          fields: {
+            CodeEmp: 1,
+            ID: 1,
+            ProfileName: 1,
+            OrgStructureID: 1,
+            OrgStructureName: 1,
+            PositionID: 1,
+            PositionName: 1,
+          },
+        }
+      );
+      if (result.data) {
+        setListProfile(result.data);
+        setLoading(false);
+        return;
+      }
+      setListProfile([]);
+      setLoading(false);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   useEffect(() => {
-    OrgStructureAPI.getStructureTree()
-      .then((resStructureTree) => {
-        setStructureTree(resStructureTree.data);
-      })
-      .catch((err) => {
-        throw err;
-      });
+    fetchAPI();
   }, []);
 
   useEffect(() => {
     if (!OrgStructureSelected) return;
-    const fetchAPI = async () => {
-      setLoading(true);
-      const res = await OrgStructureAPI.getListProfile(OrgStructureSelected);
-      setListProfile(res.data);
-      setLoading(false);
-    };
-    fetchAPI();
+    onSearch();
   }, [OrgStructureSelected]);
 
   return (

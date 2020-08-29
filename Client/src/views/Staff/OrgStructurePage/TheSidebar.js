@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { Paper, FormControlLabel, Switch } from "@material-ui/core";
 
@@ -9,25 +9,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 
 import OrgStructureTree from "./OrgStructureTree";
 
-const getListOrg = (Tree, listOrg = []) => {
-  if (null === Tree) return listOrg;
-  if (!Tree.children) {
-    listOrg.push({
-      ID: Tree.data.ID,
-      Code: Tree.data.Code,
-      OrgStructureName: Tree.data.OrgStructureName,
-    });
-    return listOrg;
-  }
-  listOrg.push({
-    Code: Tree.data.Code,
-    OrgStructureName: Tree.data.OrgStructureName,
-  });
-  Tree.children.forEach((item) => {
-    getListOrg(item, listOrg);
-  });
-  return listOrg;
-};
+import OrgStructureAPI from "../../../api/cat_org_structure.api";
 
 const TheSidebar = (props) => {
   const {
@@ -36,7 +18,19 @@ const TheSidebar = (props) => {
     OrgStructureSelected,
   } = props;
 
-  const ListOrg = getListOrg(StructureTree);
+  const [ListStructure, setListStructure] = useState([]);
+
+  const fetchAPI = async () => {
+    const result = await OrgStructureAPI.get({
+      all: 1,
+      fields: { Code: 1, ID: 1, OrgStructureName: 1 },
+    });
+    setListStructure(result.data);
+  };
+
+  useEffect(() => {
+    fetchAPI();
+  }, []);
 
   return (
     <Paper
@@ -60,9 +54,9 @@ const TheSidebar = (props) => {
           filterSelectedOptions
           //ClearOnEscape
           autoHighlight
-          options={ListOrg}
+          options={ListStructure}
           getOptionLabel={(option) =>
-            `${option.Code}-${option.OrgStructureName}`
+            `${option.OrgStructureName}-${option.Code}`
           }
           //getOptionDisabled={(option) => option.....}
           getOptionSelected={(option, value) => option.ID === value.ID}
