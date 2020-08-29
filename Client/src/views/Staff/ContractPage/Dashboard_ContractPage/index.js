@@ -76,7 +76,7 @@ const ContractPage = (props) => {
       setnoItem(Loading)
       setListProfile([])
       setRowSelected({})
-      const res = await ListContractApi();//Filter
+      const res = await ListContractApi(Filter);//
       setListProfile(res.data);
       setnoItem(noItemView)
     } catch (error) {
@@ -95,7 +95,8 @@ const ContractPage = (props) => {
       </Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.toolbar}>
-          <ToolBar setshowNewProfile={setshowNewProfile} onSearch={onSearch} RowSelected={RowSelected} />
+          <ToolBar setshowNewProfile={setshowNewProfile} onSearch={onSearch} RowSelected={RowSelected}
+          data={ListProfile} header={fields}/>
         </Paper>
       </Grid>
       <Grid item>

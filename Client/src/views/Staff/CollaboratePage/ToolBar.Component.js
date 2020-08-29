@@ -41,7 +41,10 @@ const ToolBar = (props) => {
 
   const history = useHistory();
 
-  const {  onSearch ,RowSelected ,setshowNewProfile,Export,HeaderExport } = props;
+  const {  onSearch ,RowSelected ,
+    setshowNewProfile,Export,HeaderExport,
+    setShowUpdate
+  } = props;
 
   const goDetail = () => {
 
@@ -102,7 +105,7 @@ const ToolBar = (props) => {
       </Tooltip>
     </IconButton>
 
-    <IconButton  onClick={goUpdate} disabled={RowSelected.Status==='Chuẩn bị công tác'?false:true}>
+    <IconButton  onClick={()=>setShowUpdate(true)} disabled={RowSelected.Status==='Chuẩn bị công tác'?false:true}>
       <Tooltip title="Thay đổi hồ sơ">
         <UpdateIcon />
       </Tooltip>
