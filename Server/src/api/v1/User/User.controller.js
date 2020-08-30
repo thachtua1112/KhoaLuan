@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 
+const bcrypt = require("bcrypt");
+const httpStatus = require("http-status");
+
 const { PasswordSecretKey } = require("../../../config/vars");
 
 const UserModel = require("./User.model");
@@ -18,7 +21,11 @@ class UserController extends BaseController {
   create = async (req, res, next) => {
     try {
       const { username, password } = req.body;
-      const hashedPassword = await bcrypt.hash(password, PasswordSecretKey);
+
+      const hashedPassword = await bcrypt.hash(
+        password,
+        parseInt(PasswordSecretKey),
+      );
       const userData = { username, password: hashedPassword };
       const user = await UserModel.create(userData);
       res
@@ -36,7 +43,7 @@ class UserController extends BaseController {
       if (data.password) {
         var hashedPassword = await bcrypt.hash(
           data.password,
-          PasswordSecretKey,
+          parseInt(PasswordSecretKey),
         );
       }
 
