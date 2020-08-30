@@ -1,7 +1,9 @@
 const express = require("express");
 
 const ClassCat_OrgStructureTreeController = require("./Cat_OrgStructureTree.controller");
+const ClassHre_ProfileController = require("../../HumanResourceExecutive/Profile/Hre_Profile.controller");
 
+const ProfileController = new ClassHre_ProfileController();
 const OrgStructureTreeController = new ClassCat_OrgStructureTreeController();
 
 const OrgStructureTreeRoute = express.Router();
@@ -29,7 +31,7 @@ OrgStructureTreeRoute.route("/:RootID")
 
 OrgStructureTreeRoute.route("/:RootID/profiles").get(
   OrgStructureTreeController.getListOrgStructureID,
-  OrgStructureTreeController.getProfiles,
+  ProfileController.get,
 );
 
 module.exports = OrgStructureTreeRoute;

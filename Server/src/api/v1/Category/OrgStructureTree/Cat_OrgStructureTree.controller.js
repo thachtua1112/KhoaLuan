@@ -41,7 +41,6 @@ class Cat_OrgStructureTreeController extends BaseController {
         );
 
         if (!Root) {
-          req.listOrgStructureID = [];
           return res.status(httpStatus.RESET_CONTENT).json({
             method: "GET",
             path: req.originalUrl,
@@ -61,7 +60,19 @@ class Cat_OrgStructureTreeController extends BaseController {
           (OrgStructure) => OrgStructure.ID,
         );
 
-        req.listOrgStructureID = listOrgStructureID;
+        req.query.filters = {
+          OrgStructureID: { $in: listOrgStructureID },
+          StatusSyn: "E_HIRE",
+        };
+        req.query.fields = {
+          CodeEmp: 1,
+          ID: 1,
+          ProfileName: 1,
+          OrgStructureID: 1,
+          OrgStructureName: 1,
+          PositionID: 1,
+          PositionName: 1,
+        };
 
         next();
 
@@ -76,95 +87,22 @@ class Cat_OrgStructureTreeController extends BaseController {
         return;
       }
 
-      req.listOrgStructureID = OrgStructureTree.listID;
+      req.query.filters = {
+        OrgStructureID: { $in: OrgStructureTree.listID },
+        StatusSyn: "E_HIRE",
+      };
+
+      req.query.fields = {
+        CodeEmp: 1,
+        ID: 1,
+        ProfileName: 1,
+        OrgStructureID: 1,
+        OrgStructureName: 1,
+        PositionID: 1,
+        PositionName: 1,
+      };
+
       next();
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  getProfiles = async (req, res, next) => {
-    try {
-      const listOrgStructureID = req.listOrgStructureID;
-
-      const {
-        filters = {},
-        sort = { _id: -1 },
-        fields = { BlaBla: 0 },
-      } = qs.parse(req.query, {
-        allowDots: true,
-      });
-
-      const isAll = parseInt(req.query.all || 0, { allowDots: true });
-
-      const page = parseInt(req.query.page || 1);
-      const perPage = parseInt(req.query.limit || 25);
-
-      if (isAll) {
-        const data = await Hre_ProfileModel.find({
-          ...filters,
-          OrgStructureID: { $in: listOrgStructureID },
-        })
-          .sort(sort)
-          .select(fields);
-
-        if (0 >= data.length) {
-          return res.status(httpStatus.RESET_CONTENT).json({
-            method: "GET",
-            path: req.originalUrl,
-          });
-        }
-
-        const totalDocuments = data.length;
-        const totalPages = Math.ceil(totalDocuments / perPage);
-
-        return res.status(httpStatus.OK).json({
-          method: "GET",
-          path: req.originalUrl,
-          meta: {
-            page,
-            perPage,
-            totalDocuments,
-            totalPages,
-          },
-          data,
-        });
-      }
-
-      const data = await Hre_ProfileModel.find({
-        ...filters,
-        OrgStructureID: { $in: listOrgStructureID },
-      })
-        .sort(sort)
-        .select(fields)
-        .skip((page - 1) * perPage)
-        .limit(perPage);
-      if (0 === data.length) {
-        return res.status(httpStatus.RESET_CONTENT).json({
-          method: "GET",
-          path: req.originalUrl,
-        });
-      }
-
-      const totalDocuments = await Hre_ProfileModel.find({
-        ...filters,
-        OrgStructureID: { $in: listOrgStructureID },
-      })
-        .sort(sort)
-        .countDocuments();
-      const totalPages = Math.ceil(totalDocuments / perPage);
-
-      res.status(httpStatus.OK).json({
-        method: "GET",
-        path: req.originalUrl,
-        meta: {
-          page,
-          perPage,
-          totalDocuments,
-          totalPages,
-        },
-        data,
-      });
     } catch (error) {
       next(error);
     }
