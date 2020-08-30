@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Paper, FormControlLabel, Switch } from "@material-ui/core";
+import { Paper, makeStyles } from "@material-ui/core";
 
 import { CSidebarNav } from "@coreui/react";
 
@@ -11,7 +11,19 @@ import OrgStructureTree from "./OrgStructureTree";
 
 import OrgStructureAPI from "../../../api/cat_org_structure.api";
 
+const useStyles = makeStyles({
+  root: {
+    height: "98vh",
+    fontWeight: 500,
+  },
+  search: {
+    marginTop: "10px",
+  },
+});
+
 const TheSidebar = (props) => {
+  const classes = useStyles();
+
   const {
     StructureTree,
     setOrgStructureSelected,
@@ -33,38 +45,29 @@ const TheSidebar = (props) => {
   }, []);
 
   return (
-    <Paper
-      // elevation={0}
-      style={{ height: "98vh" }}
-    >
+    <Paper variant="outlined" className={classes.root}>
       <CSidebarNav>
-        <FormControlLabel
-          control={
-            <Switch
-              checked={true}
-              // onChange={toggleChecked}
-            />
-          }
-          labelPlacement="end"
-          label="Hiển thị phòng ban ẩn"
-        />
         <Autocomplete
+          className={classes.search}
           elevation={0}
           disableClearable
           filterSelectedOptions
-          //ClearOnEscape
           autoHighlight
           options={ListStructure}
           getOptionLabel={(option) =>
-            `${option.OrgStructureName}-${option.Code}`
+            `${option.OrgStructureName} - ${option.Code}`
           }
-          //getOptionDisabled={(option) => option.....}
-          getOptionSelected={(option, value) => option.ID === value.ID}
+          getOptionSelected={(option, value) => {
+            return option.ID === value.ID;
+          }}
           onChange={(event, item) => {
             setOrgStructureSelected(item.ID);
           }}
           fullWidth
           size="small"
+          renderOption={(option) => {
+            return `${option.OrgStructureName} - ${option.Code}`;
+          }}
           renderInput={(params) => (
             <TextField
               {...params}

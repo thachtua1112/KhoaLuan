@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import { exportToPDF } from "../utils/exportToPDF";
-
-import SaveAltIcon from "@material-ui/icons/SaveAlt";
+import { Link } from "react-router-dom";
 
 import { CSidebarNav } from "@coreui/react";
 
-import { CSVLink } from "react-csv";
+// import { CSVLink } from "react-csv";
+// import { exportToPDF } from "../utils/exportToPDF";
+// import SaveAltIcon from "@material-ui/icons/SaveAlt";
 
 import {
-  IconButton,
-  Menu,
-  MenuItem,
+  //IconButton,
+  //Menu,
+  //MenuItem,
   Paper,
   Grid,
   Tooltip,
@@ -35,35 +35,24 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(1),
-    //textAlign: "center",
-    height: "88vh",
+    height: "100vh",
     color: theme.palette.text.secondary,
   },
 
   sidebar: {
     padding: theme.spacing(1),
-    //textAlign: "center",
     height: "100vh",
-    color: theme.palette.text.secondary,
-  },
-
-  tool: {
-    padding: theme.spacing(1),
-    //textAlign: "center",
-    height: "12vh",
     color: theme.palette.text.secondary,
   },
 }));
 
-const OrgStructurePage = () => {
+const OrgStructurePage = (props) => {
   const classes = useStyles();
 
   const [Loading, setLoading] = useState(false);
   const [CurrentPage, setCurrentPage] = useState(1);
-  const [
-    PerPage,
-    //, setPerPage
-  ] = useState(20);
+  const [PerPage, setPerPage] = useState(1);
+  const [Total, setTotal] = useState(0);
 
   const [ListProfile, setListProfile] = useState([]);
 
@@ -71,20 +60,20 @@ const OrgStructurePage = () => {
 
   const [StructureTree, setStructureTree] = useState(null);
 
-  const [anchorEl, setAnchorEl] = useState(null);
+  // const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClickExport = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleClickExport = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  const exportPDF = () => {
-    exportToPDF("Danh sach nhan vien", fields, ListProfile, "DSNhanVien");
-    handleCloseExport();
-  };
+  // const exportPDF = () => {
+  //   exportToPDF("Danh sach nhan vien", fields, ListProfile, "DSNhanVien");
+  //   handleCloseExport();
+  // };
 
-  const handleCloseExport = () => {
-    setAnchorEl(null);
-  };
+  // const handleCloseExport = () => {
+  //   setAnchorEl(null);
+  // };
 
   const fetchAPI = async () => {
     try {
@@ -96,46 +85,55 @@ const OrgStructurePage = () => {
     }
   };
 
-  const onSearch = async () => {
-    try {
-      setLoading(true);
-      const result = await OrgStructureTreeAPI.getProfiles(
-        OrgStructureSelected,
-        {
-          filters: {
-            StatusSyn: "E_HIRE",
-          },
-          fields: {
-            CodeEmp: 1,
-            ID: 1,
-            ProfileName: 1,
-            OrgStructureID: 1,
-            OrgStructureName: 1,
-            PositionID: 1,
-            PositionName: 1,
-          },
-        }
-      );
-      if (result.data) {
-        setListProfile(result.data);
-        setLoading(false);
-        return;
-      }
-      setListProfile([]);
-      setLoading(false);
-    } catch (error) {
-      throw error;
-    }
-  };
-
   useEffect(() => {
     fetchAPI();
   }, []);
 
   useEffect(() => {
-    if (!OrgStructureSelected) return;
+    const onSearch = async () => {
+      try {
+        if (!OrgStructureSelected) return;
+        setLoading(true);
+        const result = await OrgStructureTreeAPI.getProfiles(
+          OrgStructureSelected,
+          {
+            filters: {
+              StatusSyn: "E_HIRE",
+            },
+            fields: {
+              CodeEmp: 1,
+              ID: 1,
+              ProfileName: 1,
+              OrgStructureID: 1,
+              OrgStructureName: 1,
+              PositionID: 1,
+              PositionName: 1,
+            },
+            page: CurrentPage,
+          }
+        );
+        if (result.data) {
+          const { data, meta } = result;
+          const { totalDocuments, totalPages } = meta;
+          setListProfile(data);
+          setPerPage(totalPages);
+          setTotal(totalDocuments);
+          setLoading(false);
+          return;
+        }
+        setListProfile([]);
+        setLoading(false);
+      } catch (error) {
+        throw error;
+      }
+    };
     onSearch();
-  }, [OrgStructureSelected]);
+  }, [OrgStructureSelected, CurrentPage]);
+
+  const onSelectOrgStructure = (OrgStructureID) => {
+    setOrgStructureSelected(OrgStructureID);
+    setCurrentPage(1);
+  };
 
   return (
     <Grid container className={classes.root} spacing={0}>
@@ -143,40 +141,41 @@ const OrgStructurePage = () => {
         <Paper className={classes.sidebar}>
           <TheSidebar
             StructureTree={StructureTree}
-            setOrgStructureSelected={setOrgStructureSelected}
+            setOrgStructureSelected={onSelectOrgStructure}
             OrgStructureSelected={OrgStructureSelected}
           />
         </Paper>
       </Grid>
 
       <Grid item xs={8} lg={9}>
-        <Grid item xs={12}>
-          <Paper className={classes.tool}>
-            <Tooltip title="Export">
-              <IconButton onClick={handleClickExport}>
-                <SaveAltIcon />
-              </IconButton>
-            </Tooltip>
-
-            <Menu
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleCloseExport}
-            >
-              <MenuItem>
-                <CSVLink
-                  data={ListProfile}
-                  headers={fields}
-                  filename={"DSNhanVien.csv"}
-                >
-                  Export as CSV
-                </CSVLink>
-              </MenuItem>
-              <MenuItem onClick={exportPDF}>Export as PDF</MenuItem>
-            </Menu>
-          </Paper>
-        </Grid>
+        {
+          // <Grid item xs={12}>
+          //   <Paper className={classes.tool}>
+          //     <Tooltip title="Export">
+          //       <IconButton onClick={handleClickExport}>
+          //         <SaveAltIcon />
+          //       </IconButton>
+          //     </Tooltip>
+          //     <Menu
+          //       anchorEl={anchorEl}
+          //       keepMounted
+          //       open={Boolean(anchorEl)}
+          //       onClose={handleCloseExport}
+          //     >
+          //       <MenuItem>
+          //         <CSVLink
+          //           data={ListProfile}
+          //           headers={fields}
+          //           filename={"DSNhanVien.csv"}
+          //         >
+          //           Export as CSV
+          //       </CSVLink>
+          //       </MenuItem>
+          //       <MenuItem onClick={exportPDF}>Export as PDF</MenuItem>
+          //     </Menu>
+          //   </Paper>
+          // </Grid>
+        }
         <Grid item xs={12}>
           <Paper className={classes.paper}>
             <CSidebarNav>
@@ -184,52 +183,35 @@ const OrgStructurePage = () => {
                 items={ListProfile}
                 fields={fields}
                 currentPage={CurrentPage}
-                onPageChange={(i) => setCurrentPage(i)}
+                onPageChange={(i) => {
+                  setCurrentPage(i);
+                }}
                 isLoading={Loading}
                 scopedSlots={{
-                  Position: (item) => {
+                  ProfileName: (item) => {
                     return (
                       <td>
-                        {!item.Position ? "" : item.Position.PositionName}
-                      </td>
-                    );
-                  },
-                  OrgStructure: (item) => {
-                    return (
-                      <td>
-                        {!item.OrgStructure
-                          ? ""
-                          : `${item.OrgStructure.Code}-${item.OrgStructure.OrgStructureName}`}
+                        {!item.ProfileName ? (
+                          ""
+                        ) : (
+                          <Tooltip title="Xem chi tiết">
+                            <Link
+                              to={{
+                                pathname: `/nhan-su/chi-tiet-nhan-vien/${item.ID}`,
+                                state: { from: props.location },
+                              }}
+                            >
+                              {item.ProfileName}
+                            </Link>
+                          </Tooltip>
+                        )}
                       </td>
                     );
                   },
                 }}
                 perPage={PerPage}
+                totalDocuments={Total}
               />
-              {/* <CDataTable
-                fields={fields}
-                items={ListProfile}
-                pagination={ListProfile.length > 15 ? true : false}
-                itemsPerPage={15}
-                scopedSlots={{
-                  Position: (item) => {
-                    return (
-                      <td>
-                        {!item.Position ? "" : item.Position.PositionName}
-                      </td>
-                    );
-                  },
-                  OrgStructure: (item) => {
-                    return (
-                      <td>
-                        {!item.OrgStructure
-                          ? ""
-                          : `${item.OrgStructure.Code}-${item.OrgStructure.OrgStructureName}`}
-                      </td>
-                    );
-                  },
-                }}
-              /> */}
             </CSidebarNav>
           </Paper>
         </Grid>
@@ -241,8 +223,8 @@ const OrgStructurePage = () => {
 export default OrgStructurePage;
 
 const fields = [
-  { _style: { width: "150px" }, key: "CodeEmp", label: "Mã nhân viên" },
-  { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
+  { _style: { width: "120px" }, key: "CodeEmp", label: "Mã nhân viên" },
+  { _style: { width: "230px" }, key: "ProfileName", label: "Tên nhân viên" },
   {
     _style: { width: "300px" },
     key: "OrgStructure",

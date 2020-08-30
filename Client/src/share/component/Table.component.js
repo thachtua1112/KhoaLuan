@@ -25,7 +25,14 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "4px",
     "& thead": {
       color: "white",
-      backgroundColor: "#425677",
+      backgroundColor: "#4e658c",
+    },
+    "& tbody": {
+      color: "#333f54",
+      fontWeight: 600,
+    },
+    "& tbody>tr.selected": {
+      backgroundColor: "#b5e2ff",
     },
   },
 }));
@@ -39,6 +46,7 @@ const Table = (props) => {
     limitPage = 5,
     perPage = 1,
     onPageChange,
+    totalDocuments,
   } = props;
   return (
     <div className={classes.root}>
@@ -49,11 +57,20 @@ const Table = (props) => {
           items={isLoading ? [] : items}
           pagination={false}
           border
+          striped
+          hover
           size="sm"
           noItemsViewSlot={isLoading ? <Loading /> : <NoItem />}
           underTableSlot={
             items.length <= 0 ? null : (
-              <div className={"mt-2"}>
+              <div className={"mt-2 mb-2 ml-2"}>
+                {items.length <= 0 ? null : (
+                  <div className={"mt-2 mb-2 ml-2"}>
+                    <b>{`${(currentPage - 1) * 25} đến ${
+                      (currentPage - 1) * 25 + items.length
+                    } trên ${totalDocuments}`}</b>
+                  </div>
+                )}
                 <CPagination
                   activePage={currentPage}
                   pages={perPage}

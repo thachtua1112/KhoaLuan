@@ -37,7 +37,7 @@ const useTreeItemStyles = makeStyles((theme) => ({
   expanded: {},
   selected: {},
   label: {
-    fontWeight: "inherit",
+    fontWeight: 600,
     color: "inherit",
   },
   labelRoot: {
@@ -67,6 +67,9 @@ const StyledTreeItem = (props) => {
 
   return (
     <TreeItem
+      onLabelClick={(event) => {
+        event.preventDefault();
+      }}
       label={
         <div className={classes.labelRoot}>
           <LabelIcon color="inherit" className={classes.labelIcon} />
