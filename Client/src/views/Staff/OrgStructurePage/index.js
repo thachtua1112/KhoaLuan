@@ -26,21 +26,21 @@ import Table from "../../../share/component/Table.component";
 import OrgStructureTreeAPI from "../../../api/cat_org_structure_tree.api";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    // "& table": {
-    //   "table-layout": "fixed",
-    // },
-    //height: "100vh",
-  },
-  paper: {
-    padding: theme.spacing(1),
-    height: "100vh",
-    color: theme.palette.text.secondary,
-  },
+  // root: {
+  //   flexGrow: 1,
+  //   "& table": {
+  //     "table-layout": "fixed",
+  //   },
+  //   height: "100vh",
+  // },
+  // paper: {
+  //   padding: theme.spacing(1),
+  //   height: "100vh",
+  //   color: theme.palette.text.secondary,
+  // },
 
   sidebar: {
-    padding: theme.spacing(1),
+    padding: "4px",
     height: "100vh",
     color: theme.palette.text.secondary,
   },
@@ -178,41 +178,39 @@ const OrgStructurePage = (props) => {
         }
         <Grid item xs={12}>
           <Paper className={classes.paper}>
-            <CSidebarNav>
-              <Table
-                items={ListProfile}
-                fields={fields}
-                currentPage={CurrentPage}
-                onPageChange={(i) => {
-                  setCurrentPage(i);
-                }}
-                isLoading={Loading}
-                scopedSlots={{
-                  ProfileName: (item) => {
-                    return (
-                      <td>
-                        {!item.ProfileName ? (
-                          ""
-                        ) : (
-                          <Tooltip title="Xem chi tiết">
-                            <Link
-                              to={{
-                                pathname: `/nhan-su/chi-tiet-nhan-vien/${item.ID}`,
-                                state: { from: props.location },
-                              }}
-                            >
-                              {item.ProfileName}
-                            </Link>
-                          </Tooltip>
-                        )}
-                      </td>
-                    );
-                  },
-                }}
-                perPage={PerPage}
-                totalDocuments={Total}
-              />
-            </CSidebarNav>
+            <Table
+              items={ListProfile}
+              fields={fields}
+              currentPage={CurrentPage}
+              onPageChange={(i) => {
+                setCurrentPage(i);
+              }}
+              isLoading={Loading}
+              scopedSlots={{
+                ProfileName: (item) => {
+                  return (
+                    <td>
+                      {!item.ProfileName ? (
+                        ""
+                      ) : (
+                        <Tooltip title="Xem chi tiết">
+                          <Link
+                            to={{
+                              pathname: `/nhan-su/chi-tiet-nhan-vien/${item.ID}`,
+                              state: { from: props.location },
+                            }}
+                          >
+                            {item.ProfileName}
+                          </Link>
+                        </Tooltip>
+                      )}
+                    </td>
+                  );
+                },
+              }}
+              perPage={PerPage}
+              totalDocuments={Total}
+            />
           </Paper>
         </Grid>
       </Grid>
@@ -227,9 +225,9 @@ const fields = [
   { _style: { width: "230px" }, key: "ProfileName", label: "Tên nhân viên" },
   {
     _style: { width: "300px" },
-    key: "OrgStructure",
+    key: "OrgStructureName",
 
     label: "Phòng ban",
   },
-  { _style: { width: "150px" }, key: "Position", label: "Chức vụ" },
+  { _style: { width: "150px" }, key: "PositionName", label: "Chức vụ" },
 ];

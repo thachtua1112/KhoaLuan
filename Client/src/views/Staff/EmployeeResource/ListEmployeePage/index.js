@@ -5,11 +5,8 @@ import { Grid, Paper, CircularProgress } from "@material-ui/core";
 import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
 
-
 import { makeStyles } from "@material-ui/core/styles";
 import Content from "./Content.Component";
-
-import { defaultProfileFields } from "../../utils/fieldsProfile";
 
 import ProfileAPI from "../../../../callAPI/Profile.api";
 import CIcon from "@coreui/icons-react";
@@ -24,33 +21,32 @@ const useStyles = makeStyles((theme) => ({
   content: {},
 }));
 
-
-const noItemView=()=>{
+const noItemView = () => {
   return (
     <div className="text-center my-5">
-    <h2>
-      { "Không có dữ liệu" }
-      <CIcon
-        width="30"
-        name="cilBan"
-        content={cilBan}
-        className="text-danger mb-2"
-      />
-    </h2>
-  </div>)
-}
+      <h2>
+        {"Không có dữ liệu"}
+        <CIcon
+          width="30"
+          name="cilBan"
+          content={cilBan}
+          className="text-danger mb-2"
+        />
+      </h2>
+    </div>
+  );
+};
 
-const Loading=()=>{
+const Loading = () => {
   return (
     <div className="text-center my-5">
-    <h2>
-      { "Đang tải dữ liệu" }
-      <CircularProgress />
-    </h2>
-  </div>)
-}
-
-
+      <h2>
+        {"Đang tải dữ liệu"}
+        <CircularProgress />
+      </h2>
+    </div>
+  );
+};
 
 const ListEmployeePage = (props) => {
   const classes = useStyles();
@@ -58,16 +54,16 @@ const ListEmployeePage = (props) => {
   const [Filter, setFilter] = useState({});
   const [RowSelected, setRowSelected] = useState({});
   const [ListProfile, setListProfile] = useState([]);
-  const [noItem, setnoItem] = useState(noItemView)
+  const [noItem, setnoItem] = useState(noItemView);
 
   const onSearch = async () => {
     try {
-      setnoItem(Loading)
-      setListProfile([])
-      setRowSelected({})
+      setnoItem(Loading);
+      setListProfile([]);
+      setRowSelected({});
       const res = await ProfileAPI.getProfiles(Filter);
       setListProfile(res.data);
-      setnoItem(noItemView)
+      setnoItem(noItemView);
     } catch (error) {
       console.log("DanhSachNhanVien ProfileAPI ERR", error);
     }
@@ -75,18 +71,14 @@ const ListEmployeePage = (props) => {
 
   return (
     <Grid className={classes.root}>
-   
-  
       <Grid item>
         <Paper variant="outlined" className={classes.search}>
-
           <Search Filter={Filter} setFilter={setFilter} />
         </Paper>
       </Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.toolbar}>
-          <ToolBar 
-          onSearch={onSearch} RowSelected={RowSelected} />
+          <ToolBar onSearch={onSearch} RowSelected={RowSelected} />
         </Paper>
       </Grid>
       <Grid item>
@@ -105,3 +97,18 @@ const ListEmployeePage = (props) => {
 };
 
 export default ListEmployeePage;
+
+const defaultProfileFields = [
+  { _style: { width: "150px" }, key: "CodeEmp", label: "Mã nhân viên" },
+  { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
+  { _style: { width: "150px" }, key: "DateHire", label: "Ngày vào làm" },
+  { _style: { width: "100px" }, key: "Gender", label: "Giới tính" },
+  {
+    _style: { width: "300px" },
+    key: "OrgStructureName",
+
+    label: "Phòng ban",
+  },
+  { _style: { width: "150px" }, key: "PositionName", label: "Chức vụ" },
+  { _style: { width: "100px" }, key: "StatusSyn", label: "Trạng thái" },
+];
