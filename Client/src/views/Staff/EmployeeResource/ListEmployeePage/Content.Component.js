@@ -14,6 +14,7 @@ const Content = (props) => {
     PerPage,
     totalDocuments,
     fetchData,
+    scopedSlots,
   } = props;
 
   const dataRender = data.map((item, index) => {
@@ -43,6 +44,7 @@ const Content = (props) => {
       perPage={PerPage}
       totalDocuments={totalDocuments}
       onRowClick={onSelectRow}
+      scopedSlots={scopedSlots}
     />
   );
 };

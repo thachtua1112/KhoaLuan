@@ -11,6 +11,8 @@ import Content from "./Content.Component";
 import ProfileAPI from "../../../../api/hre_profile.api";
 import { Link } from "react-router-dom";
 
+import { getGender, getDate, getStatusSyn } from "./table.utils";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -125,6 +127,15 @@ const ListEmployeePage = (props) => {
                   </td>
                 );
               },
+              DateHire: (item) => {
+                return <td>{getDate(item.DateHire)}</td>;
+              },
+              Gender: (item) => {
+                return <td>{getGender(item.Gender)}</td>;
+              },
+              StatusSyn: (item) => {
+                return <td> {getStatusSyn(item.StatusSyn)}</td>;
+              },
             }}
           />
         </Paper>
@@ -136,9 +147,9 @@ const ListEmployeePage = (props) => {
 export default ListEmployeePage;
 
 const defaultProfileFields = [
-  { _style: { width: "150px" }, key: "CodeEmp", label: "Mã nhân viên" },
-  { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
-  { _style: { width: "150px" }, key: "DateHire", label: "Ngày vào làm" },
+  { _style: { width: "120px" }, key: "CodeEmp", label: "Mã nhân viên" },
+  { _style: { width: "230px" }, key: "ProfileName", label: "Tên nhân viên" },
+  { _style: { width: "120px" }, key: "DateHire", label: "Ngày vào làm" },
   { _style: { width: "100px" }, key: "Gender", label: "Giới tính" },
   {
     _style: { width: "300px" },
@@ -147,5 +158,5 @@ const defaultProfileFields = [
     label: "Phòng ban",
   },
   { _style: { width: "150px" }, key: "PositionName", label: "Chức vụ" },
-  { _style: { width: "100px" }, key: "StatusSyn", label: "Trạng thái" },
+  { _style: { width: "150px" }, key: "StatusSyn", label: "Trạng thái" },
 ];
