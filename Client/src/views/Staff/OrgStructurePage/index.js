@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 
-import { CSidebarNav } from "@coreui/react";
-
 // import { CSVLink } from "react-csv";
 // import { exportToPDF } from "../utils/exportToPDF";
 // import SaveAltIcon from "@material-ui/icons/SaveAlt";
@@ -186,6 +184,8 @@ const OrgStructurePage = (props) => {
                 setCurrentPage(i);
               }}
               isLoading={Loading}
+              perPage={PerPage}
+              totalDocuments={Total}
               scopedSlots={{
                 ProfileName: (item) => {
                   return (
@@ -208,8 +208,6 @@ const OrgStructurePage = (props) => {
                   );
                 },
               }}
-              perPage={PerPage}
-              totalDocuments={Total}
             />
           </Paper>
         </Grid>

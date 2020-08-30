@@ -32,7 +32,7 @@ const TheSidebar = (props) => {
     OrgStructureSelected,
   } = props;
 
-  const [ListStructure, setListStructure] = useState([]);
+  const [ListOrgStructure, setListOrgStructure] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const fetchAPI = async () => {
@@ -40,7 +40,7 @@ const TheSidebar = (props) => {
       all: 1,
       fields: { Code: 1, ID: 1, OrgStructureName: 1 },
     });
-    setListStructure(result.data);
+    setListOrgStructure(result.data);
   };
 
   useEffect(() => {
@@ -63,7 +63,7 @@ const TheSidebar = (props) => {
           disableClearable
           filterSelectedOptions
           autoHighlight
-          options={ListStructure}
+          options={ListOrgStructure}
           getOptionLabel={(option) =>
             `${option.OrgStructureName} - ${option.Code}`
           }

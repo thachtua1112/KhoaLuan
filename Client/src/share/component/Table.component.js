@@ -69,7 +69,7 @@ const Table = (props) => {
               <div className={"mt-2 ml-2"}>
                 {items.length <= 0 ? null : (
                   <div className={"mt-2 mb-1 ml-2"}>
-                    <b>{`${(currentPage - 1) * 25} đến ${
+                    <b>{`${(currentPage - 1) * 25 + 1} đến ${
                       (currentPage - 1) * 25 + items.length
                     } trên ${totalDocuments}`}</b>
                   </div>

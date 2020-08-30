@@ -16,8 +16,8 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
-import OrgStructureAPI from "../../../../callAPI/Cat_OrgStructure.api";
-import {GetPositionsApi} from "../../../../callAPI/Positions.api";
+import OrgStructureAPI from "../../../../api/cat_org_structure.api";
+import { GetPositionsApi } from "../../../../callAPI/Positions.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,10 +42,13 @@ const Search = (props) => {
 
   useEffect(() => {
     const fetchAPI = async () => {
-      const org = await OrgStructureAPI.getListOrgStructure();
-      const position=await GetPositionsApi();
-      setListPosition(position.data)
-      setListOrgStructure(org.data);
+      const resultOrg = await OrgStructureAPI.get({
+        all: 1,
+        fields: { Code: 1, ID: 1, OrgStructureName: 1 },
+      });
+      setListOrgStructure(resultOrg.data);
+      const position = await GetPositionsApi();
+      setListPosition(position.data);
     };
     fetchAPI();
   }, []);
@@ -77,13 +80,10 @@ const Search = (props) => {
           <TextField
             value={!Filter.ProfileName ? "" : Filter.ProfileName}
             onChange={(event) => {
-              if ("" !== event.target.value.trim())
-                return setFilter({
-                  ...Filter,
-                  ...{ ProfileName: event.target.value.trim() },
-                });
-              const { ProfileName, ...FilterNew } = Filter;
-              setFilter(FilterNew);
+              setFilter({
+                ...Filter,
+                ...{ ProfileName: event.target.value },
+              });
             }}
             placeholder="Vui lòng nhập"
             variant="outlined"
@@ -138,7 +138,6 @@ const Search = (props) => {
             }
           </FormControl>
         </Grid>
-       
       </Grid>
       <Grid className={classes.paper} container spacing={2}>
         <Grid item xs={3}>
@@ -176,34 +175,32 @@ const Search = (props) => {
             Chức vụ
             {
               <Autocomplete
-              filterSelectedOptions
-              multiple
-              limitTags={1}
-              defaultValue={[]}
-              options={ListPosition}
-              getOptionLabel={(option) =>
-                `${option.PositionName}-${option.Code}`
-              }
-              getOptionSelected={(option, value) => option.ID === value.ID}
-              renderInput={(params) => (
-                <TextField {...params} size="small" variant="outlined" />
-              )}
-              onChange={(event, item) => {
-                if (0 < item.length) {
-                  return setFilter({
-                    ...Filter,
-                    ...{ PositionID: { $in: item.map((i) => i.ID) } },
-                  });
+                filterSelectedOptions
+                multiple
+                limitTags={1}
+                defaultValue={[]}
+                options={ListPosition}
+                getOptionLabel={(option) =>
+                  `${option.PositionName}-${option.Code}`
                 }
-                const { PositionID, ...FilterNew } = Filter;
-                setFilter(FilterNew);
-              }}
-            />
+                getOptionSelected={(option, value) => option.ID === value.ID}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" variant="outlined" />
+                )}
+                onChange={(event, item) => {
+                  if (0 < item.length) {
+                    return setFilter({
+                      ...Filter,
+                      ...{ PositionID: { $in: item.map((i) => i.ID) } },
+                    });
+                  }
+                  const { PositionID, ...FilterNew } = Filter;
+                  setFilter(FilterNew);
+                }}
+              />
             }
           </FormControl>
         </Grid>
-
-       
 
         <Grid item xs={3}>
           <FormControl fullWidth>
@@ -240,7 +237,7 @@ const Search = (props) => {
             <Grid item xs={5}>
               <FormControl fullWidth>
                 Ngày vào làm
-                <div style={{ paddingTop: "8px" }}>
+                <div>
                   <KeyboardDatePicker
                     inputVariant="outlined"
                     clearable
@@ -355,5 +352,3 @@ const StatusSynValue = [
     label: "Nghỉ việc",
   },
 ];
-
-
