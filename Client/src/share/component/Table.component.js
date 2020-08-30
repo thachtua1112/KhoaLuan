@@ -57,13 +57,15 @@ const Table = (props) => {
         <CDataTable
           {...props}
           addTableClasses={classes.table}
-          items={isLoading ? [] : items}
+          items={items}
           pagination={false}
           border
           striped
           hover
+          loading={isLoading}
+          loadingSlot={<Loading />}
           size="sm"
-          noItemsViewSlot={isLoading ? <Loading /> : <NoItem />}
+          noItemsViewSlot={<NoItem />}
           underTableSlot={
             items.length <= 0 ? null : (
               <div className={"mt-2 ml-2"}>

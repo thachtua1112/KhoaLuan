@@ -33,12 +33,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 const Search = (props) => {
   const classes = useStyles();
   const { Filter, setFilter } = props;
 
   const [ListOrgStructure, setListOrgStructure] = useState([]);
   const [ListPosition, setListPosition] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -146,6 +149,13 @@ const Search = (props) => {
             <Autocomplete
               filterSelectedOptions
               multiple
+              loading={loading}
+              onInputChange={async (event, value) => {
+                if (!value) return;
+                setLoading(true);
+                await sleep(500);
+                setLoading(false);
+              }}
               limitTags={1}
               defaultValue={[]}
               options={ListOrgStructure}
