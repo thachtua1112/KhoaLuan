@@ -1,48 +1,56 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const Att_DayKeepingSchema = new Schema({
-  CodeAttendance: { type: Schema.Types.String, required: true },
-  ProfileID: { type: Schema.Types.String, required: true },
-  //OrgStructureID: { type: Schema.Types.String},
-  DateKeeping: { type: Schema.Types.Date, required: true },
-  TimeIn: { type: Schema.Types.Date, required: true },
-  TimeOut: { type: Schema.Types.Date, required: true },
-  TimeKeepingType: { type: Schema.Types.String },
-  Description: { type: Schema.Types.String },
-  Total: {
-    type: Schema.Types.Number,
-    default: function () {
-      if (!this.TimeOut || !this.TimeIn) return 0;
-      return this.TimeOut - this.TimeIn;
+const Att_DayKeepingSchema = new Schema(
+  {
+    CodeAttendance: { type: Schema.Types.String, required: true },
+    ProfileID: { type: Schema.Types.String, required: true },
+    //OrgStructureID: { type: Schema.Types.String},
+    DateKeeping: { type: Schema.Types.Date, required: true },
+    TimeIn: { type: Schema.Types.Date, required: true },
+    TimeOut: { type: Schema.Types.Date, required: true },
+    TimeKeepingType: { type: Schema.Types.String },
+    Description: { type: Schema.Types.String },
+    Total: {
+      type: Schema.Types.Number,
+      default: function () {
+        if (!this.TimeOut || !this.TimeIn) return 0;
+        return this.TimeOut - this.TimeIn;
+      },
     },
-  },
-  IsLock: { type: Schema.Types.Boolean },
-  Status: {
-    type: Schema.Types.String,
-    // default: function () {
-    //   if (0 !== this.Total) return "DA_TINH_CONG";
-    //   return "CHUA_TINH_CONG";
+    IsLock: { type: Schema.Types.Boolean },
+    Status: {
+      type: Schema.Types.String,
+      // default: function () {
+      //   if (0 !== this.Total) return "DA_TINH_CONG";
+      //   return "CHUA_TINH_CONG";
+      // },
+      default: "CHUA_TINH_CONG",
+    },
+    // TotalHours: {
+    //   type: Schema.Types.Number,
+    //   default: function () {
+    //     if (this.Total)
+    //       return Math.round((this.Total / (1000 * 60 * 60)) * 10) / 10;
+    //     return;
+    //   },
     // },
-    default: "CHUA_TINH_CONG",
+    // TotalDay: {
+    //   type: Schema.Types.Number,
+    //   default: function () {
+    //     if (this.TotalHours)
+    //       return Math.round((this.TotalHours / 24) * 100) / 100;
+    //     return;
+    //   },
+    // },
   },
-  // TotalHours: {
-  //   type: Schema.Types.Number,
-  //   default: function () {
-  //     if (this.Total)
-  //       return Math.round((this.Total / (1000 * 60 * 60)) * 10) / 10;
-  //     return;
-  //   },
-  // },
-  // TotalDay: {
-  //   type: Schema.Types.Number,
-  //   default: function () {
-  //     if (this.TotalHours)
-  //       return Math.round((this.TotalHours / 24) * 100) / 100;
-  //     return;
-  //   },
-  // },
-});
+  { timestamps: true },
+);
+
+Att_DayKeepingSchema.index(
+  { ProfileID: 1, CodeAttendance: 1, DateKeeping: 1 },
+  { unique: true },
+);
 
 Att_DayKeepingSchema.pre("findOneAndUpdate", async function (next) {
   next();

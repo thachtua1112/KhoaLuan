@@ -1,23 +1,25 @@
 const express = require("express");
 
-const ClassAtt_TimeKeepingDayController = require("./Att_DayKeeping.controller");
+const ClassAtt_DayKeepingController = require("./Att_DayKeeping.controller");
 
-const TimeKeepingDayController = new ClassAtt_TimeKeepingDayController();
+const DayKeepingController = new ClassAtt_DayKeepingController();
 
-const TimeKeepingDayRoute = express.Router();
+const DayKeepingRoute = express.Router();
 
-TimeKeepingDayRoute.route("/")
-  .get(TimeKeepingDayController.get)
-  .post(TimeKeepingDayController.create)
+DayKeepingRoute.route("/")
+  .get(DayKeepingController.get)
+  .post(DayKeepingController.create)
   .put()
   .patch()
   .delete();
 
-TimeKeepingDayRoute.route("/:ID")
-  .get(TimeKeepingDayController.getByID)
-  .post()
-  .put(TimeKeepingDayController.update)
-  .patch()
-  .delete(TimeKeepingDayController.delete);
+DayKeepingRoute.route("/synthesis").get(DayKeepingController.synthesis);
 
-module.exports = TimeKeepingDayRoute;
+DayKeepingRoute.route("/:ID")
+  .get(DayKeepingController.getByID)
+  .post()
+  .put(DayKeepingController.update)
+  .patch()
+  .delete(DayKeepingController.delete);
+
+module.exports = DayKeepingRoute;
