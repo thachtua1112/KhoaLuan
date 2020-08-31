@@ -30,7 +30,7 @@ class Cat_OrgStructureController extends BaseController {
 
   updateByCoode = async (req, res, next) => {
     try {
-      const { Code } = res.params;
+      const { Code } = req.params;
       const data = req.body;
       const result = await this.Model.findOneAndUpdate({ Code: Code }, data, {
         new: true,
@@ -49,7 +49,7 @@ class Cat_OrgStructureController extends BaseController {
 
   deleteByCode = async (req, res, next) => {
     try {
-      const { Code } = res.params;
+      const { Code } = req.params;
       const result = await this.Model.findOneAndRemove({ Code: Code });
       res.json({
         method: "DELETE",

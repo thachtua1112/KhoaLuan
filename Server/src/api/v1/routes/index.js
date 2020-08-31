@@ -10,6 +10,8 @@ const OrgStructureRoute = require("../Category/OrgStructure/Cat_OrgStructure.rou
 const OrgStructureTreeRoute = require("../Category/OrgStructureTree/Cat_OrgStructureTree.route");
 const PositionRoute = require("../Category/Position/Cat_Position.route");
 
+const DayKeepingRoute = require("../Attendance/DayKeeping/Att_DayKeeping.route");
+
 const RouterV1 = express.Router();
 
 /**
@@ -31,5 +33,11 @@ RouterV1.use("/stop-workings", StopWorkingRoute);
 RouterV1.use("/org-structures", OrgStructureRoute);
 RouterV1.use("/org-structures-tree", OrgStructureTreeRoute);
 RouterV1.use("/positions", PositionRoute);
+
+/**
+ * Att
+ */
+
+RouterV1.use("/day-keepings", DayKeepingRoute);
 
 module.exports = RouterV1;

@@ -1,26 +1,18 @@
+const mongoose = require("mongoose");
 const qs = require("qs");
-
 const httpStatus = require("http-status");
 
-class BaseController {
-  constructor(Model) {
-    this.Model = Model;
-  }
+const Att_TimeKeepingDayModel = require("./Att_DayKeeping.model");
+const BaseController = require("../../utils/BaseController");
 
-  create = async (req, res, next) => {
-    try {
-      const data = req.body;
-      const result = await this.Model.create(data);
-      res.status(httpStatus.CREATED).json({
-        method: "POST",
-        path: req.originalUrl,
-        data: result,
-      });
-    } catch (error) {
-      next(error);
+class Att_TimeKeepingDayController extends BaseController {
+  constructor(Model = {}) {
+    if (Model.schema instanceof mongoose.Schema) {
+      super(Model);
+      return this;
     }
-  };
-
+    super(Att_TimeKeepingDayModel);
+  }
   get = async (req, res, next) => {
     try {
       const {
@@ -30,6 +22,16 @@ class BaseController {
       } = qs.parse(req.query, {
         allowDots: true,
       });
+
+      // const DateStop = filters.DateStop;
+      // if (DateStop) {
+      //   if (DateStop.$gte) {
+      //     filters.DateStop.$gte = new Date(DateStop.$gte);
+      //   }
+      //   if (DateStop.$lte) {
+      //     filters.DateStop.$lte = new Date(DateStop.$lte);
+      //   }
+      // }
 
       const isAll = parseInt(req.query.all || 0, { allowDots: true });
 
@@ -94,59 +96,6 @@ class BaseController {
       next(error);
     }
   };
-
-  getByID = async (req, res, next) => {
-    try {
-      const { ID } = req.params;
-      const data = await this.Model.findById(ID);
-
-      if (!data) {
-        return res.status(httpStatus.RESET_CONTENT).json({
-          method: "GET",
-          path: req.originalUrl,
-        });
-      }
-
-      res.status(httpStatus.OK).json({
-        method: "GET",
-        path: req.originalUrl,
-        data,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  update = async (req, res, next) => {
-    try {
-      const { ID } = req.params;
-      const data = req.body;
-      const result = await this.Model.findByIdAndUpdate(ID, data, {
-        new: true,
-      });
-      res.json({
-        method: "PUT",
-        path: req.originalUrl,
-        data: result,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  delete = async (req, res, next) => {
-    try {
-      const { ID } = req.params;
-      const result = await this.Model.findByIdAndRemove(ID);
-      res.json({
-        method: "DELETE",
-        path: req.originalUrl,
-        data: result,
-      });
-    } catch (error) {
-      next(error);
-    }
-  };
 }
 
-module.exports = BaseController;
+module.exports = Att_TimeKeepingDayController;

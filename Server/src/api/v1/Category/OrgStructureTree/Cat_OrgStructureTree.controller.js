@@ -126,7 +126,7 @@ class Cat_OrgStructureTreeController extends BaseController {
 
   updateByRootID = async (req, res, next) => {
     try {
-      const { RootID } = res.params;
+      const { RootID } = req.params;
       const data = req.body;
       const result = await Hre_ProfileModel.findOneAndUpdate(
         { RootID: RootID },
@@ -149,7 +149,7 @@ class Cat_OrgStructureTreeController extends BaseController {
 
   deleteByRootID = async (req, res, next) => {
     try {
-      const { RootID } = res.params;
+      const { RootID } = req.params;
       const result = await Hre_ProfileModel.findOneAndRemove({
         RootID: RootID,
       });

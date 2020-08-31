@@ -31,7 +31,7 @@ class RoleController extends BaseController {
 
   updateByRole = async (req, res, next) => {
     try {
-      const { role } = res.params;
+      const { role } = req.params;
       const data = req.body;
       const result = await this.Model.findOneAndUpdate({ role: role }, data, {
         new: true,
@@ -50,7 +50,7 @@ class RoleController extends BaseController {
 
   deleteByRole = async (req, res, next) => {
     try {
-      const { role } = res.params;
+      const { role } = req.params;
       const result = await this.Model.findOneAndRemove({ role: role });
       res.json({
         method: "DELETE",

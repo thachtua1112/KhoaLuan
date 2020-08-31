@@ -16,7 +16,8 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
-import OrgStructureAPI from "../../../../callAPI/Cat_OrgStructure.api";
+//import OrgStructureAPI from "../../../../callAPI/Cat_OrgStructure.api";
+import OrgStructureAPI from "../../../../api/cat_org_structure.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,8 +41,11 @@ const Search = (props) => {
 
   useEffect(() => {
     const fetchAPI = async () => {
-      const org = await OrgStructureAPI.getListOrgStructure();
-      setListOrgStructure(org.data);
+      const resultOrg = await OrgStructureAPI.get({
+        all: 1,
+        fields: { Code: 1, ID: 1, OrgStructureName: 1 },
+      });
+      setListOrgStructure(resultOrg.data);
     };
     fetchAPI();
   }, []);
@@ -150,9 +154,9 @@ const Search = (props) => {
                   value={
                     !Filter.DateStop
                       ? null
-                      : !Filter.DateStop["$gt"]
+                      : !Filter.DateStop["$gte"]
                       ? null
-                      : Filter.DateStop["$gt"]
+                      : Filter.DateStop["$gte"]
                   }
                   maxDate={
                     !Filter.DateStop
@@ -165,13 +169,13 @@ const Search = (props) => {
                     if (null !== date)
                       return setFilter({
                         ...Filter,
-                        ...{ DateStop: { ...Filter.DateStop, $gt: date } },
+                        ...{ DateStop: { ...Filter.DateStop, $gte: date } },
                       });
                     if (!Filter.DateStop) {
                       const { DateStop, ...FilterNew } = Filter;
                       return setFilter(FilterNew);
                     }
-                    const { $gt, ...DateStopNew } = Filter.DateStop;
+                    const { $gte, ...DateStopNew } = Filter.DateStop;
                     setFilter({ ...Filter, DateStop: DateStopNew });
                   }}
                 />
@@ -184,9 +188,9 @@ const Search = (props) => {
                   minDate={
                     !Filter.DateStop
                       ? 0
-                      : !Filter.DateStop["$gt"]
+                      : !Filter.DateStop["$gte"]
                       ? 0
-                      : Filter.DateStop["$gt"]
+                      : Filter.DateStop["$gte"]
                   }
                   label="Đến ngày"
                   format="dd/MM/yyyy"
@@ -221,14 +225,14 @@ const Search = (props) => {
             Trạng thái
             {
               <TextField
-                value={!Filter.StatusSyn ? "" : Filter.StatusSyn}
+                value={!Filter.Status ? "" : Filter.Status}
                 onChange={(event) => {
                   if ("" !== event.target.value.trim())
                     return setFilter({
                       ...Filter,
-                      ...{ StatusSyn: event.target.value.trim() },
+                      ...{ Status: event.target.value.trim() },
                     });
-                  const { StatusSyn, ...FilterNew } = Filter;
+                  const { Status, ...FilterNew } = Filter;
                   setFilter(FilterNew);
                 }}
                 variant="outlined"
@@ -258,14 +262,14 @@ const StatusValue = [
   },
   {
     value: "E_CANCEL",
-    label: "DA_HUY",
+    label: "Đã hủy",
   },
   {
-    value: "E_HIRE",
-    label: "DA_DUYET",
+    value: "E_APPROVED",
+    label: "Đã duyệt",
   },
   {
-    value: "E_STOP",
-    label: "CHUA_DUYET",
+    value: "E_WAITING",
+    label: "Chờ duyệt",
   },
 ];

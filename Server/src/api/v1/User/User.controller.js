@@ -78,7 +78,7 @@ class UserController extends BaseController {
 
   updateByUserName = async (req, res, next) => {
     try {
-      const { username } = res.params;
+      const { username } = req.params;
       const data = req.body;
       const result = await this.Model.findOneAndUpdate(
         { username: username },
@@ -101,7 +101,7 @@ class UserController extends BaseController {
 
   deleteByUserName = async (req, res, next) => {
     try {
-      const { username } = res.params;
+      const { username } = req.params;
       const result = await this.Model.findOneAndRemove({ username: username });
       res.json({
         method: "DELETE",

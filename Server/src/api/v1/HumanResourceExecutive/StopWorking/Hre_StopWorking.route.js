@@ -2,22 +2,22 @@ const express = require("express");
 
 const ClassHre_StopWorkingController = require("./Hre_StopWorking.controller");
 
-const ContractController = new ClassHre_StopWorkingController();
+const StopWorkingController = new ClassHre_StopWorkingController();
 
 const StopWorkingRoute = express.Router();
 
 StopWorkingRoute.route("/")
-  .get(ContractController.get)
-  .post(ContractController.create)
+  .get(StopWorkingController.get)
+  .post(StopWorkingController.create)
   .put()
   .patch()
   .delete();
 
 StopWorkingRoute.route("/:ID")
-  .get(ContractController.getByID)
+  .get(StopWorkingController.getByID)
   .post()
-  .put(ContractController.update)
+  .put(StopWorkingController.update)
   .patch()
-  .delete(ContractController.delete);
+  .delete(StopWorkingController.delete);
 
 module.exports = StopWorkingRoute;

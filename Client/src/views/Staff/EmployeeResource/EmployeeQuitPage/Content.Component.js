@@ -14,7 +14,6 @@ const Content = (props) => {
     PerPage,
     totalDocuments,
     fetchData,
-    scopedSlots,
   } = props;
 
   const dataRender = data.map((item, index) => {
@@ -23,7 +22,7 @@ const Content = (props) => {
   });
 
   const onSelectRow = (row) => {
-    if (RowSelected && row.CodeEmp === RowSelected.CodeEmp) {
+    if (RowSelected && row._id === RowSelected._id) {
       return setRowSelected({});
     }
     setRowSelected(row);
@@ -44,8 +43,28 @@ const Content = (props) => {
       perPage={PerPage}
       totalDocuments={totalDocuments}
       onRowClick={onSelectRow}
-      scopedSlots={scopedSlots}
     />
   );
 };
 export default Content;
+
+/**
+ * AD new profile
+ */
+//   const input = ["listProfileNew"];
+
+//   const process = {
+//     1: `check BlackList'=> {
+//     userBlackList
+//     userPass = listProfileNew - userBlacklist
+//     }
+//     `,
+//     2: "ADD userPass TO DATABASE",
+//     3: "result data(userPass + BlackList)",
+//   };
+
+//   const dataResult = {
+//     userPass: [],
+//     userBlackList: [],
+//   };
+// };

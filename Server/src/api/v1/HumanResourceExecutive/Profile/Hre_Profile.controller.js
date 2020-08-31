@@ -30,7 +30,7 @@ class Hre_ProfileController extends BaseController {
 
   updateByCodeEmp = async (req, res, next) => {
     try {
-      const { CodeEmp } = res.params;
+      const { CodeEmp } = req.params;
       const data = req.body;
       const result = await this.Model.findOneAndUpdate(
         { CodeEmp: CodeEmp },
@@ -51,7 +51,7 @@ class Hre_ProfileController extends BaseController {
 
   deleteByCodeEmp = async (req, res, next) => {
     try {
-      const { CodeEmp } = res.params;
+      const { CodeEmp } = req.params;
       const result = await this.Model.findOneAndRemove({ CodeEmp: CodeEmp });
       res.json({
         method: "DELETE",
