@@ -4,6 +4,7 @@ const Hre_ProfilesModel = require("../models/Hre_Profile.model")
 module.exports.Get = async (req, res) => {
   try {
     const filter = req.query;
+    const flag = req.newProfile;
     const result = await newStaffModel.find(filter);
     return res.json(result);
   } catch (err) {
@@ -24,16 +25,43 @@ module.exports.CreatByFilesCSV = async (req, res) => {
   }
 };
 
-module.exports.ApproveToProfiles = async (req, res) => {
+module.exports.ApproveToProfiles = async (req, res,next) => {
   try{
-    const StopWorking1 = await Hre_StopWorkingModel.find({IsBlackList:1})
     const StopWorking = await Hre_StopWorkingModel.distinct("ProfileID",{LastStatusSyn:"E_STOP",IsBlackList:1 })
-    const HreProfile =  await Hre_ProfilesModel.distinct("IDNo",{ID:{$nin:StopWorking}})
-    console.log(StopWorking)
-    return res.json(StopWorking1)
+    const HreProfileIDNo =  await Hre_ProfilesModel.distinct("IDNo",{ID:{$in:StopWorking}})
+    const HreProfileName =  await Hre_ProfilesModel.distinct("ProfileName",{ID:{$in:StopWorking}})
+    await newStaffModel.updateMany({IDNo:{$in:HreProfileIDNo},ProfileName:{$in:HreProfileName}},{IsBlackList:1})
+   // const result = await newStaffModel.find({IDNo:{$in:HreProfileIDNo},ProfileName:{$in:HreProfileName}})
+
+   // req.newProfile=result;
+    next();
+  //  console.log(StopWorking)
+    //return res.json(result)
   }
   catch(err)
   {
+    console.log(err)
     return res.sendStatus(403)
   }
 }
+module.exports.delete = async (req, res) => {
+  try {
+    const { ID } = req.params;
+    const result = await newStaffModel.findOneAndDelete(
+      { _id: ID },
+      { IsDelete: true },
+    );
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.sendStatus(403);
+  }
+};
+module.exports.deleteAll = async (req, res) => {
+  try {
+    //const { ID } = req.params;
+    const result = await newStaffModel.remove( { } );
+    return res.status(200).json(result);
+  } catch (err) {
+    return res.sendStatus(403);
+  }
+};

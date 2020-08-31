@@ -1,9 +1,15 @@
 const express = require("express");
-const { Get, CreatByFilesCSV, ApproveToProfiles } = require("../controllers/NewStaff.controller");
+const NewStaffController = require("../controllers/NewStaff.controller");
 const NewStaffRoute = express.Router();
 
-NewStaffRoute.get("/", Get);
-NewStaffRoute.get("/black-lists", ApproveToProfiles);
-NewStaffRoute.post("/create-files", CreatByFilesCSV);
+NewStaffRoute.route("/")
+    .get(NewStaffController.ApproveToProfiles, NewStaffController.Get)
+    .patch(NewStaffController.deleteAll)
+
+NewStaffRoute.route("/:ID")
+    .patch(NewStaffController.delete);
+
+//NewStaffRoute.get("/black-lists", );
+NewStaffRoute.post("/create-files", NewStaffController.CreatByFilesCSV);
 
 module.exports = NewStaffRoute;
