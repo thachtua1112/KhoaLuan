@@ -18,7 +18,6 @@ export default function GetStaff(props) {
 
   const [Staff, setStaff]=useState([])
   useEffect(()=>{
-
     SelectStaffCollaborateApi().then(res=>{
       if(res.data)
       {
@@ -26,6 +25,7 @@ export default function GetStaff(props) {
       }
     })
   },[])
+  console.log("Staff",Staff)
   const [name,setName]=useState([])
   const [code,setCode]=useState([])
   const{

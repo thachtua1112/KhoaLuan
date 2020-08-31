@@ -7,7 +7,7 @@ const Hre_CollaborateRoute = express.Router();
 Hre_CollaborateRoute.get(
   "/",
   Hre_CollaborateController.UpdateStatus,
-  Hre_CollaborateController.get,
+  Hre_CollaborateController.get
 );
 Hre_CollaborateRoute.get(
   "/select-staff",

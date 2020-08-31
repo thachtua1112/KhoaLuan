@@ -3,6 +3,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import { Toolbar, Tooltip, IconButton,makeStyles, Chip, Typography } from "@material-ui/core";
+import Button from '@material-ui/core/Button';
 
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
@@ -30,7 +31,10 @@ const useStyles = makeStyles((theme) => ({
     },
     setting:{
         marginLeft:theme.spacing(5)
-    }
+    },
+    button: {
+      margin: theme.spacing(0)
+    },
   }));
 
 
@@ -70,11 +74,13 @@ const ToolBar = (props) => {
     <div>
 
 
-    <IconButton onClick={()=>setshowNewProfile(true)}>
-    <Tooltip title="Gia hạn">
-      <NoteAddIcon />
-      </Tooltip>
-    </IconButton>
+    <Button onClick={()=>setshowNewProfile(true)}
+    color="primary"
+    >
+      <Tooltip title="Gia hạn">
+        <NoteAddIcon />
+        </Tooltip>Gia hạn
+    </Button>
 
      <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}   onClick={goDetail}>
       <Tooltip   title="Xem chi tiết hồ sơ">

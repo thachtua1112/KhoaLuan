@@ -30,7 +30,7 @@ onClose={()=>setShowUpdate(false)}
 //onClosed={()=>setshowNewProfile(false)}
 closeOnBackdrop={false}
 >
-<CModalHeader closeButton><b>Chỉnh sửa thông tin công tác</b></CModalHeader>
+<CModalHeader closeButton><b>Chỉnh sửa thông tin công tác {RowSelected.ProfileName}</b></CModalHeader>
 <CModalBody>
 <Grid className={classes.root} container spacing={1}>
 <Grid className={classes.paper} container spacing={2}>

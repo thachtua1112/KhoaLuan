@@ -65,13 +65,20 @@ export default function Company(props) {
     }
     );
   return (
+
     <TableRow hover>
     <TableCell>
       Công ty/ Nhà máy
       <Autocomplete
       //id="combo-box-demo"
+      filterSelectedOptions
+      limitTags={1}
+      defaultValue={[]}
       options={Unit}
-      getOptionLabel={(option) => option.E_UNIT}
+     // getOptionLabel={(option) => option.E_UNIT}
+      getOptionLabel={(option) =>
+        `${option.E_UNIT}-${option.E_UNIT_CODE}`
+      }
       renderInput={(params) => <TextField {...params} size="small" variant="outlined" />}
       onChange={(event, item) => {up_CongTy(item==null?"":item.E_UNIT_CODE);
       NhaMay(item==null?"":item.E_UNIT);

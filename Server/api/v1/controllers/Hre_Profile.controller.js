@@ -61,7 +61,7 @@ module.exports.get = async (req, res) => {
           OrgStructure: 0,
         },
       },
-    ]).limit(32);
+    ]).limit(30)
 
     // const result = await Hre_ProfileModel.find(filter)
     //   .populate({

@@ -20,12 +20,13 @@ export default [
     to: "/nhan-su/to-chuc-phong-ban",
     icon: "cil-drop",
   },
+  /*
   {
     _tag: "CSidebarNavItem",
     name: "Nhân viên đang làm việc",
     to: "/nhan-su/nhan-vien-dang-lam-viec",
     icon: "cil-pencil",
-  },
+  },*/
   {
     _tag: "CSidebarNavDropdown",
     name: "Tiếp nhận nhân viên mới",

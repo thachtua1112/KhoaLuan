@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useHistory } from "react-router-dom";
-import { Toolbar, Tooltip, IconButton,makeStyles, Chip, Typography } from "@material-ui/core";
+import { Toolbar, Tooltip, IconButton,makeStyles, Chip, Typography,Button } from "@material-ui/core";
 import UpdateIcon from '@material-ui/icons/Update';
 import CreateIcon from "@material-ui/icons/Create";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
@@ -10,10 +10,11 @@ import NoteAddIcon from "@material-ui/icons/NoteAdd";
 import FindInPageIcon from "@material-ui/icons/FindInPage";
 import SearchIcon from "@material-ui/icons/Search";
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
-import { DeleteHreCollaboratesApi } from "../../../callAPI/Hre_Collaborates.api";
+import PlaylistAddCheckOutlinedIcon from '@material-ui/icons/PlaylistAddCheckOutlined';
+import { DeleteHreCollaboratesApi, UpdaHreCollaboratesApi } from "../../../callAPI/Hre_Collaborates.api";
 import { CForm } from "@coreui/react";
 import {  CSVLink } from "react-csv";
-
+import qs from 'qs'
 const useStyles = makeStyles((theme) => ({
     root: {
       paddingLeft: "4px",
@@ -38,7 +39,6 @@ const useStyles = makeStyles((theme) => ({
 const ToolBar = (props) => {
 
   const classes = useStyles();
-
   const history = useHistory();
 
   const {  onSearch ,RowSelected ,
@@ -47,14 +47,11 @@ const ToolBar = (props) => {
   } = props;
 
   const goDetail = () => {
-
       history.push(`/nhan-su/chi-tiet-nhan-vien/${RowSelected.ProfileID}`);
-
   };
 
   const goDelete = () => {
-    console.log("id",RowSelected.ProfileID)
-   DeleteHreCollaboratesApi(RowSelected.ProfileID).then(res=>{
+   DeleteHreCollaboratesApi(RowSelected._id).then(res=>{
      if(res.data)
      {
        return alert("Xóa thành công!!!")
@@ -63,6 +60,12 @@ const ToolBar = (props) => {
    })
   };
 
+  const GoAccept = ()=>{
+    UpdaHreCollaboratesApi(RowSelected._id,qs.stringify({Accept:"Đã duyệt"}))
+  }
+  const GoUnAccept = ()=>{
+    UpdaHreCollaboratesApi(RowSelected._id,qs.stringify({Accept:"Chưa duyệt"}))
+  }
 
   return (
     <CForm onSubmit={onSearch}>
@@ -85,8 +88,27 @@ const ToolBar = (props) => {
      <div className={classes.right}>
 
     <div>
+    {RowSelected.Accept==='Chưa duyệt'?(
+      <Button onClick={GoAccept} type='submit' disabled={RowSelected.Accept==='Chưa duyệt'?false:true}
+      color="primary"
+      >
+        <Tooltip title="Duyệt">
+          <PlaylistAddCheckOutlinedIcon />
+          </Tooltip>Duyệt
+      </Button>):
+      (
+        <Button onClick={GoUnAccept} type='submit' disabled={RowSelected.Accept!=='Chưa duyệt'?false:true}
+        color="primary"
+        >
+        <Tooltip title="Hủy duyệt">
+          <PlaylistAddCheckOutlinedIcon />
+          </Tooltip>Hủy duyệt
+      </Button>
+      )
+    }
 
-    <IconButton onClick={()=>setshowNewProfile(true)} disabled={RowSelected.Status==='Chuẩn bị công tác'?true:false}>
+
+    <IconButton  onClick={()=>setshowNewProfile(true)} disabled={RowSelected.Status==='Chuẩn bị công tác'?true:false}>
     <Tooltip title="Xét thưởng/ kỉ luật">
       <CreateIcon />
       </Tooltip>
@@ -98,18 +120,18 @@ const ToolBar = (props) => {
       </Tooltip>
     </IconButton>
 
-    <IconButton  onClick={()=>setShowUpdate(true)} disabled={RowSelected.Status==='Chuẩn bị công tác'?false:true}>
+    <IconButton onClick={()=>setShowUpdate(true)} disabled={RowSelected.Status==='Chuẩn bị công tác'?false:true}>
       <Tooltip title="Thay đổi hồ sơ">
         <UpdateIcon />
       </Tooltip>
     </IconButton>
 
-     <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}   onClick={goDetail}>
+     <IconButton  disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}   onClick={goDetail}>
       <Tooltip   title="Xem chi tiết nhân viên">
        <FindInPageIcon />
        </Tooltip>
      </IconButton>
-       <IconButton type='submit' onClick={goDelete} disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
+       <IconButton type='reset' onClick={goDelete} disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
        <Tooltip title="Xóa hồ sơ">
          <DeleteOutlineIcon />
          </Tooltip>

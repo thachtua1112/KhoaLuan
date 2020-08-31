@@ -78,10 +78,10 @@ export default function NewCollaboratePage() {
       while(i!==0)
       {
         CreateHreCollaboratesApi(qs.stringify({
-          ProfileID:IdProfile[i-1].profiles.ProfileID,
+          ProfileID:IdProfile[i-1].profiles.ID,
           CodeEmp:IdProfile[i-1].profiles.CodeEmp,
           ProfileName:IdProfile[i-1].profiles.ProfileName,
-          Status:"Chuẩn bị công tác",
+         // Status:"Chuẩn bị công tác",
           DateCreate:new Date(),
           DateSignature:new Date (DateSignature),//.toLocaleString('en-GB'),
           DateStart: StartDay,
@@ -154,7 +154,7 @@ export default function NewCollaboratePage() {
             </TableCell>
             <TableCell>
             Ngày đi công tác
-            <CInput  onChange={Up_StartDay} type="date" data-date-format="MMMM DD YYYY"></CInput>
+            <CInput onChange={Up_StartDay} type="date" data-date-format="MMMM DD YYYY"></CInput>
             </TableCell>
 
           </TableRow>

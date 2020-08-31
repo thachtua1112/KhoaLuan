@@ -134,7 +134,7 @@ const OrgStructurePage = (props) => {
     setOrgStructureSelected(OrgStructureID);
     setCurrentPage(1);
   };
-
+//console.log("ListProfile",ListProfile)
   return (
     <Grid container className={classes.root} spacing={0}>
       <Grid item xs={4} lg={3}>

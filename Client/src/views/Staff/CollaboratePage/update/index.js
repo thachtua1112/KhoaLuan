@@ -47,6 +47,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function UpdateCollaboratePage(props) {
   //const paramater = match.params.ProfileID;
   const {RowSelected}=props;
+  const [data, setdata]=useState({})
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [NamePosition, setNamePosition] = useState("")
@@ -64,7 +65,7 @@ export default function UpdateCollaboratePage(props) {
   const [To,setTo]=useState("")
   const [MaTo,setMaTo]=useState("")
   const history = useHistory();
-
+console.log("data",data)
   const Up_StartDay = (e)=>{
     SetStartDay(new Date(e.target.value))//.toLocaleString('en-GB'))
     SetEndDay(new Date(e.target.value))
@@ -73,6 +74,7 @@ export default function UpdateCollaboratePage(props) {
     setOpen(false);
     EndDay.setMonth(EndDay.getMonth()+Time)
     UpdaHreCollaboratesApi(RowSelected._id,qs.stringify({
+          Accept:"Chưa duyệt",
           DateCreate:new Date(),
           DateSignature:new Date (),//.toLocaleString('en-GB'),
           DateStart: StartDay,
@@ -123,7 +125,7 @@ export default function UpdateCollaboratePage(props) {
               <TableCell colSpan='2'>
               <FormControl fullWidth>
               Thời gian công tác (tháng)
-              {
+              { //onChange={Up_StartDay}
                 <TextField
                   select
                   value={Time==null?"":Time}
@@ -145,7 +147,16 @@ export default function UpdateCollaboratePage(props) {
             </TableCell>
             <TableCell colSpan='2'>
             Ngày đi công tác
-            <CInput  onChange={Up_StartDay} type="date" data-date-format="MMMM DD YYYY"></CInput>
+            <CInput  onChange={(event) => {Up_StartDay(event);
+              if ("" !== event.target.value)
+                return setdata({
+                  ...data,
+                  ...{ DateStart: event.target.value },
+                  ...{ DateEnd: event.target.value },
+                });
+              const { CodeEmp, ...dataNew } = data;
+              setdata(dataNew);
+            }} type="date" data-date-format="MMMM DD YYYY"></CInput>
             </TableCell>
 
           </TableRow>

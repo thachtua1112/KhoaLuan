@@ -16,7 +16,8 @@ module.exports.SelectStaffCollaborate1 = async function (req, res) {
     const Collaborate = await Hre_CollaborateModel.find({
       Status: { $in: ["Chuẩn bị công tác", "Đang công tác"] },
     }).distinct("ProfileID");
-    const result = await Hre_ProfileModel.find({ ID: { $nin: Collaborate } });
+    console.log(Collaborate)
+    const result = await Hre_ProfileModel.find({ ID: { $nin: Collaborate } }).limit(20);
     return res.json(result);
   } catch (err) {
     return res.sendStatus(403);
@@ -24,13 +25,13 @@ module.exports.SelectStaffCollaborate1 = async function (req, res) {
 };
 module.exports.SelectStaffCollaborate = async function (req, res) {
   try {
-    const Collaborate = await Hre_CollaborateModel.find({
-      Status: { $in: ["Chuẩn bị công tác", "Đang công tác"] },
-    }).distinct("ProfileID");
+    const Collaborate = await Hre_CollaborateModel.distinct("ProfileID",
+    {Status: { $in: ["Chuẩn bị công tác", "Đang công tác"] }})
+    console.log(Collaborate)
     const contract = await Hre_ContractModel.aggregate([
       {
         $sort: {
-          ProfileID1: 1,
+          ProfileID: 1,
           DateEnd: 1,
           DateSigned: 1,
           DateStart: 1,
@@ -78,15 +79,26 @@ module.exports.UpdateStatus = async (req, res, next) => {
     await Hre_CollaborateModel.updateMany(
       {
         Status: { $in: ["Chuẩn bị công tác"] },
+        Accept:{ $in: ["Đã duyệt"] },
         DateStart: { $lte: new Date() },
       },
       { Status: "Đang công tác" },
     );
+ 
+    await Hre_CollaborateModel.deleteMany(
+      {
+        Status: { $in: ["Chuẩn bị công tác"] },
+        Accept:{ $in: ["Chưa duyệt"] },
+        DateStart: { $lte: new Date() },
+      }
+    );
+
     next();
   } catch (err) {
     res.sendStatus(403);
   }
 };
+
 module.exports.Bonus_Discipline = async (req, res) => {
   try {
     const result = await Hre_CollaborateModel.find({
@@ -121,6 +133,7 @@ module.exports.update = async (req, res) => {
   try {
     const { ID } = req.params;
     const data = req.body;
+    console.log("data",data,"ID",ID)
     //console.log("data",data)
     const result = await Hre_CollaborateModel.findOneAndUpdate(
       { _id: ID },
@@ -151,7 +164,7 @@ module.exports.delete = async (req, res) => {
   try {
     const { ID } = req.params;
     const result = await Hre_CollaborateModel.findOneAndDelete(
-      { ProfileID: ID },
+      { _id: ID },
       { IsDelete: true },
     );
     return res.status(200).json(result);

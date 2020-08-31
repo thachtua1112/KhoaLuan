@@ -146,7 +146,32 @@ const Search = (props) => {
           }
         </Grid>
 
-
+        <Grid item xs={3}>
+        Tình trạng
+        <TextField
+          select
+          value={!Filter.Accept ? "" : Filter.Accept}
+          onChange={(event) => {
+            if ("" !== event.target.value.trim())
+              return setFilter({
+                ...Filter,
+                ...{ Accept: event.target.value.trim() },
+              });
+            const { Accept, ...FilterNew } = Filter;
+            setFilter(FilterNew);
+          }}
+         // placeholder="Vui lòng nhập"
+          variant="outlined"
+          size="small"
+          fullWidth
+        >
+        {AcceptValue.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+        </TextField>
+      </Grid>
       {
         //<Grid className={classes.paper} container spacing={2}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -258,5 +283,20 @@ const StatusValue = [
   {
     value: "Chuẩn bị công tác",
     label: "Chuẩn bị công tác",
+  }
+];
+
+const AcceptValue = [
+  {
+    value: "",
+    label: "None",
+  },
+  {
+    value: "Đã duyệt",
+    label: "Đã duyệt",
+  },
+  {
+    value: "Chưa duyệt",
+    label: "Chưa duyệt",
   }
 ];

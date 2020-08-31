@@ -1,18 +1,22 @@
 const mongoose = require("mongoose");
+const { static } = require("express");
 const Schema = mongoose.Schema;
 
 const Hre_CollaborateSchema = new Schema({
   ProfileID: { type: Schema.Types.String },
   CodeEmp: { type: Schema.Types.String },
   ProfileName: { type: Schema.Types.String },
-  Status: { type: Schema.Types.String },
+  Status: { type: Schema.Types.String,
+    default: "Chuẩn bị công tác",},
   Reason: { type: Schema.Types.String },
+  Accept:{ type: Schema.Types.String,
+    default: "Chưa duyệt" },
   DateCreate: { type: Schema.Types.Date },
   DateUpdate: { type: Schema.Types.Date },
   DateSignature: { type: Schema.Types.Date },
-  DateEnd: { type: Schema.Types.Date },
-  DateStart: { type: Schema.Types.Date },
+  DateStart: { type: Schema.Types.Date,},
   Time: { type: Schema.Types.Number },
+  DateEnd: { type: Schema.Types.Date},
   PositionName: { type: Schema.Types.String },
   E_UNIT: { type: Schema.Types.String }, //công ty
   E_UNIT_CODE: { type: Schema.Types.String },
