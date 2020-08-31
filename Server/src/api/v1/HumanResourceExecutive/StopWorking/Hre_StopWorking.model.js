@@ -12,12 +12,11 @@ const Hre_StopWorkingSchema = new Schema(
     UserCreate: { type: Schema.Types.String },
     UserUpdate: { type: Schema.Types.String },
     UserApprove: { type: Schema.Types.String },
-
     //DateQuitSubmit: { type: Schema.Types.Date },
     DateQuitApprove: { type: Schema.Types.Date },
     PositionID: { type: Schema.Types.String },
     OrgStructureID: { type: Schema.Types.String },
-    IsBlackList: { type: Schema.Types.String }, 
+    IsBlackList: { type: Schema.Types.Number }, 
     ResignReason: { type: Schema.Types.String },//Lý do danh sách đen
     ReasonStopWorking: { type: Schema.Types.String },//lý do nghỉ việc
 
