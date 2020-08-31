@@ -7,7 +7,7 @@ const OrgUnitRoute = require("./Cat_OrgUnit.route");
 const OrgStructureRoute = require("./Cat_OrgStructure.route");
 const ContractTypeRoute = require("./Cat_ContractType.route");
 const WorkHistoryRoute = require("./Hre_WorkHistory.route");
-const StopWorkingRoute = require("./Hre_StopWorking.route");
+
 const HreContractRoute = require("./Hre_Contract.route");
 
 const HreContractExtend = require("./Hre_ContractExtend.route");
@@ -31,7 +31,7 @@ routeAPI.use("/hre-collaborates", Hre_CollaborateRoute);
 routeAPI.use("/org-structures", OrgStructureRoute);
 routeAPI.use("/org-units", OrgUnitRoute);
 routeAPI.use("/work-histories", WorkHistoryRoute);
-routeAPI.use("/stop-workings", StopWorkingRoute);
+
 routeAPI.use("/contract-types", ContractTypeRoute);
 routeAPI.use("/hre-contract", HreContractRoute);
 routeAPI.use("/hre-contract-extend", HreContractExtend);
