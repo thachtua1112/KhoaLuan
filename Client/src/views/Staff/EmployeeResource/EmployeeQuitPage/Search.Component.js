@@ -1,4 +1,4 @@
-import React, {  useEffect ,useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import { Autocomplete } from "@material-ui/lab";
 
@@ -15,7 +15,6 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-
 
 import OrgStructureAPI from "../../../../callAPI/Cat_OrgStructure.api";
 
@@ -38,7 +37,6 @@ const Search = (props) => {
   const { Filter, setFilter } = props;
 
   const [ListOrgStructure, setListOrgStructure] = useState([]);
-
 
   useEffect(() => {
     const fetchAPI = async () => {
@@ -75,13 +73,10 @@ const Search = (props) => {
           <TextField
             value={!Filter.ProfileName ? "" : Filter.ProfileName}
             onChange={(event) => {
-              if ("" !== event.target.value.trim())
-                return setFilter({
-                  ...Filter,
-                  ...{ ProfileName: event.target.value.trim() },
-                });
-              const { ProfileName, ...FilterNew } = Filter;
-              setFilter(FilterNew);
+              setFilter({
+                ...Filter,
+                ...{ ProfileName: event.target.value },
+              });
             }}
             placeholder="Vui lòng nhập"
             variant="outlined"
@@ -139,87 +134,87 @@ const Search = (props) => {
         </Grid>
       </Grid>
       <Grid className={classes.paper} container spacing={2}>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid item xs={5}>
-              <FormControl fullWidth>
-                Ngày nghỉ việc
-                <div>
-                  <KeyboardDatePicker
-                    inputVariant="outlined"
-                    clearable
-                    label="Từ ngày"
-                    size="small"
-                    fullWidth={false}
-                    className={classes.date}
-                    format="dd/MM/yyyy"
-                    value={
-                      !Filter.DateStop
-                        ? null
-                        : !Filter.DateStop["$gt"]
-                        ? null
-                        : Filter.DateStop["$gt"]
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <Grid item xs={5}>
+            <FormControl fullWidth>
+              Ngày nghỉ việc
+              <div>
+                <KeyboardDatePicker
+                  inputVariant="outlined"
+                  clearable
+                  label="Từ ngày"
+                  size="small"
+                  fullWidth={false}
+                  className={classes.date}
+                  format="dd/MM/yyyy"
+                  value={
+                    !Filter.DateStop
+                      ? null
+                      : !Filter.DateStop["$gt"]
+                      ? null
+                      : Filter.DateStop["$gt"]
+                  }
+                  maxDate={
+                    !Filter.DateStop
+                      ? new Date("01/01/2100")
+                      : !Filter.DateStop["$lte"]
+                      ? new Date()
+                      : Filter.DateStop["$lte"]
+                  }
+                  onChange={(date) => {
+                    if (null !== date)
+                      return setFilter({
+                        ...Filter,
+                        ...{ DateStop: { ...Filter.DateStop, $gt: date } },
+                      });
+                    if (!Filter.DateStop) {
+                      const { DateStop, ...FilterNew } = Filter;
+                      return setFilter(FilterNew);
                     }
-                    maxDate={
-                      !Filter.DateStop
-                        ? new Date("01/01/2100")
-                        : !Filter.DateStop["$lte"]
-                        ? new Date()
-                        : Filter.DateStop["$lte"]
+                    const { $gt, ...DateStopNew } = Filter.DateStop;
+                    setFilter({ ...Filter, DateStop: DateStopNew });
+                  }}
+                />
+                <KeyboardDatePicker
+                  inputVariant="outlined"
+                  clearable
+                  size="small"
+                  fullWidth={false}
+                  className={classes.date}
+                  minDate={
+                    !Filter.DateStop
+                      ? 0
+                      : !Filter.DateStop["$gt"]
+                      ? 0
+                      : Filter.DateStop["$gt"]
+                  }
+                  label="Đến ngày"
+                  format="dd/MM/yyyy"
+                  value={
+                    !Filter.DateStop
+                      ? null
+                      : !Filter.DateStop["$lte"]
+                      ? null
+                      : Filter.DateStop["$lte"]
+                  }
+                  onChange={(date) => {
+                    if (null !== date)
+                      return setFilter({
+                        ...Filter,
+                        ...{ DateStop: { ...Filter.DateStop, $lte: date } },
+                      });
+                    if (!Filter.DateStop) {
+                      const { DateStop, ...FilterNew } = Filter;
+                      return setFilter(FilterNew);
                     }
-                    onChange={(date) => {
-                      if (null !== date)
-                        return setFilter({
-                          ...Filter,
-                          ...{ DateStop: { ...Filter.DateStop, $gt: date } },
-                        });
-                      if (!Filter.DateStop) {
-                        const { DateStop, ...FilterNew } = Filter;
-                        return setFilter(FilterNew);
-                      }
-                      const { $gt, ...DateStopNew } = Filter.DateStop;
-                      setFilter({ ...Filter, DateStop: DateStopNew });
-                    }}
-                  />
-                  <KeyboardDatePicker
-                    inputVariant="outlined"
-                    clearable
-                    size="small"
-                    fullWidth={false}
-                    className={classes.date}
-                    minDate={
-                      !Filter.DateStop
-                        ? 0
-                        : !Filter.DateStop["$gt"]
-                        ? 0
-                        : Filter.DateStop["$gt"]
-                    }
-                    label="Đến ngày"
-                    format="dd/MM/yyyy"
-                    value={
-                      !Filter.DateStop
-                        ? null
-                        : !Filter.DateStop["$lte"]
-                        ? null
-                        : Filter.DateStop["$lte"]
-                    }
-                    onChange={(date) => {
-                      if (null !== date)
-                        return setFilter({
-                          ...Filter,
-                          ...{ DateStop: { ...Filter.DateStop, $lte: date } },
-                        });
-                      if (!Filter.DateStop) {
-                        const { DateStop, ...FilterNew } = Filter;
-                        return setFilter(FilterNew);
-                      }
-                      const { $lte, ...DateStopNew } = Filter.DateStop;
-                      setFilter({ ...Filter, DateStop: DateStopNew });
-                    }}
-                  />
-                </div>
-              </FormControl>
-            </Grid>
-          </MuiPickersUtilsProvider>
+                    const { $lte, ...DateStopNew } = Filter.DateStop;
+                    setFilter({ ...Filter, DateStop: DateStopNew });
+                  }}
+                />
+              </div>
+            </FormControl>
+          </Grid>
+        </MuiPickersUtilsProvider>
 
         <Grid item xs={3}>
           <FormControl fullWidth>
@@ -249,10 +244,7 @@ const Search = (props) => {
             }
           </FormControl>
         </Grid>
-      
       </Grid>
-  
-     
     </Grid>
   );
 };
@@ -277,5 +269,3 @@ const StatusValue = [
     label: "CHUA_DUYET",
   },
 ];
-
-

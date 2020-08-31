@@ -19,10 +19,13 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: "100%",
     backgroundColor: "#fff",
     borderRadius: "4px",
-    //height: "80vh",
+    height: "99vh",
   },
   table: {
     borderRadius: "4px",
+    "& table": {
+      "table-layout": "fixed",
+    },
     "& thead": {
       color: "white",
       backgroundColor: "#4e658c",
@@ -54,19 +57,21 @@ const Table = (props) => {
         <CDataTable
           {...props}
           addTableClasses={classes.table}
-          items={isLoading ? [] : items}
+          items={items}
           pagination={false}
           border
           striped
           hover
+          loading={isLoading}
+          loadingSlot={<Loading />}
           size="sm"
-          noItemsViewSlot={isLoading ? <Loading /> : <NoItem />}
+          noItemsViewSlot={<NoItem />}
           underTableSlot={
             items.length <= 0 ? null : (
-              <div className={"mt-2 mb-2 ml-2"}>
+              <div className={"mt-2 ml-2"}>
                 {items.length <= 0 ? null : (
-                  <div className={"mt-2 mb-2 ml-2"}>
-                    <b>{`${(currentPage - 1) * 25} đến ${
+                  <div className={"mt-2 mb-1 ml-2"}>
+                    <b>{`${(currentPage - 1) * 25 + 1} đến ${
                       (currentPage - 1) * 25 + items.length
                     } trên ${totalDocuments}`}</b>
                   </div>

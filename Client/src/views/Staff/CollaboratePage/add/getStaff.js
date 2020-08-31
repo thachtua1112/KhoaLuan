@@ -25,7 +25,7 @@ export default function GetStaff(props) {
       }
     })
   },[])
-  console.log("Staff",Staff)
+ // console.log("Staff",Staff)
   const [name,setName]=useState([])
   const [code,setCode]=useState([])
   const{

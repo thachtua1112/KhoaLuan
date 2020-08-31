@@ -11,15 +11,17 @@ import OrgStructureTree from "./OrgStructureTree";
 
 import OrgStructureAPI from "../../../api/cat_org_structure.api";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
-    height: "98vh",
+    height: "99vh",
     fontWeight: 500,
   },
   search: {
-    marginTop: "10px",
+    marginTop: theme.spacing(1),
   },
-});
+}));
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const TheSidebar = (props) => {
   const classes = useStyles();
@@ -30,14 +32,15 @@ const TheSidebar = (props) => {
     OrgStructureSelected,
   } = props;
 
-  const [ListStructure, setListStructure] = useState([]);
+  const [ListOrgStructure, setListOrgStructure] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const fetchAPI = async () => {
     const result = await OrgStructureAPI.get({
       all: 1,
       fields: { Code: 1, ID: 1, OrgStructureName: 1 },
     });
-    setListStructure(result.data);
+    setListOrgStructure(result.data);
   };
 
   useEffect(() => {
@@ -49,11 +52,18 @@ const TheSidebar = (props) => {
       <CSidebarNav>
         <Autocomplete
           className={classes.search}
+          loading={loading}
+          onInputChange={async (event, value) => {
+            if (!value) return;
+            setLoading(true);
+            await sleep(500);
+            setLoading(false);
+          }}
           elevation={0}
           disableClearable
           filterSelectedOptions
           autoHighlight
-          options={ListStructure}
+          options={ListOrgStructure}
           getOptionLabel={(option) =>
             `${option.OrgStructureName} - ${option.Code}`
           }
