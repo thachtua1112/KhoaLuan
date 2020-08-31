@@ -1,16 +1,14 @@
 import React from "react";
+import { Toolbar, Tooltip, IconButton,makeStyles, Chip, Typography,Button } from "@material-ui/core";
 
-import { useHistory } from "react-router-dom";
-
-import { Toolbar, Tooltip, IconButton,makeStyles, Chip, Typography } from "@material-ui/core";
-
-import CreateIcon from "@material-ui/icons/Create";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import SettingsIcon from "@material-ui/icons/Settings";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
-import FindInPageIcon from "@material-ui/icons/FindInPage";
 import SearchIcon from "@material-ui/icons/Search";
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
+import PlaylistAddCheckOutlinedIcon from '@material-ui/icons/PlaylistAddCheckOutlined';
+import {  DeleteNewStaffApi,DeleteAllNewStaffApi } from "../../../../callAPI/NewStaff.api";
+import { CForm } from "@coreui/react";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -37,14 +35,31 @@ const useStyles = makeStyles((theme) => ({
 const ToolBar = (props) => {
 
     const classes = useStyles();
-
-  const history = useHistory();
-
-  const {  onSearch ,RowSelected ,setshowNewProfile } = props;
-
-  const goDetail = () => {
-    history.push(`/nhan-su/chi-tiet-nhan-vien/${RowSelected.ProfileID}`);
-  };
+  const {  onSearch ,RowSelected ,setshowNewProfile
+  } = props;
+//console.log("ListProfile toll",ListProfile)
+  const DeleteNewStaff = async (value) => {
+    try{
+      let i = value.length
+      while(i>0)
+      {
+        console.log("value[i-1]._id",value[i-1]._id)
+        await DeleteNewStaffApi(value[i-1]._id);
+        i--;
+      }
+      alert ("Xóa thành công")
+    }
+    catch (error) {
+      console.log("Xóa nhân viên mới lỗi", error);
+    }
+  }
+  const DeleteAllNewStaff = async () => {
+   const res= await DeleteAllNewStaffApi()
+   if(res)
+   {
+     alert ("xóa thành công")
+   }
+  }
 
   return (
 
@@ -59,15 +74,35 @@ const ToolBar = (props) => {
             color="primary"
             />
             <Typography variant="h6" component="h2">
-            Nhân viên : {RowSelected?RowSelected.ProfileName:null}
+            Nhân viên : {/*RowSelected?RowSelected.ProfileName:null*/  RowSelected.length>0?`${RowSelected.length} dòng đã chọn`:null}
+
             </Typography>
 
     </div>
 
 
-     <div className={classes.right}>
+     <CForm onSubmit={onSearch} className={classes.right}>
 
     <div>
+    {RowSelected.length!==0?(
+      <Button disabled={RowSelected.length===0?true:false}
+      color="primary"
+      >
+      <Tooltip title="Duyệt">
+        <PlaylistAddCheckOutlinedIcon />
+        </Tooltip>Duyệt
+    </Button>):
+    (
+      <Button onClick={ DeleteAllNewStaff} type='submit'
+      color="primary"
+      >
+      <Tooltip
+      title="Duyệt tất cả">
+        <PlaylistAddCheckOutlinedIcon />
+        </Tooltip>Duyệt tất cả
+    </Button>
+    )
+    }
 
 
     <IconButton onClick={()=>setshowNewProfile(true)}>
@@ -76,24 +111,14 @@ const ToolBar = (props) => {
       </Tooltip>
     </IconButton>
 
-     <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}   onClick={goDetail}>
-      <Tooltip   title="Xem chi tiết hồ sơ">
-       <FindInPageIcon />
-       </Tooltip>
-     </IconButton>
 
-     <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
-     <Tooltip title="Cập nhật thông tin">
-       <CreateIcon />
-       </Tooltip>
-     </IconButton>
-
-
-       <IconButton disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
-       <Tooltip title="Xóa hồ sơ">
-         <DeleteOutlineIcon />
-         </Tooltip>
-       </IconButton>
+    <IconButton onClick={()=>{DeleteNewStaff(RowSelected)}}//disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}
+    disabled={RowSelected.length===0?true:false}
+    >
+    <Tooltip title="Xóa hồ sơ">
+      <DeleteOutlineIcon />
+      </Tooltip>
+    </IconButton>
 
      </div>
      <div
@@ -113,7 +138,7 @@ const ToolBar = (props) => {
         </IconButton>
 
       </div>
-      </div>
+      </CForm>
 
       </Toolbar>
 

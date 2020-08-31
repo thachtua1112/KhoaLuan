@@ -12,7 +12,7 @@ import Content from "./Content.Component";
 import { defaultProfileFields } from "../../utils/fieldsProfile";
 import CIcon from "@coreui/icons-react";
 import { cilBan } from "@coreui/icons";
-import { GetNewStaffApi } from "../../../../callAPI/NewStaff.api";
+import { GetNewStaffApi, DeleteNewStaffApi } from "../../../../callAPI/NewStaff.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,17 +55,17 @@ const ListNewEmployeePage = (props) => {
   const classes = useStyles();
 
   const [Filter, setFilter] = useState({});
-  const [RowSelected, setRowSelected] = useState({});
+  const [RowSelected, setRowSelected] = useState([]);
   const [ListProfile, setListProfile] = useState([]);
   const [noItem, setnoItem] = useState(noItemView);
-
   const [showNewProfile, setshowNewProfile] = useState(false);
 
   const onSearch = async () => {
     try {
       setnoItem(Loading);
       setListProfile([]);
-      setRowSelected({});
+      //setRowSelected({});
+      setRowSelected([]);
       const res = await GetNewStaffApi(Filter);
       setListProfile(res.data);
       setnoItem(noItemView);
@@ -73,6 +73,22 @@ const ListNewEmployeePage = (props) => {
       console.log("DanhSachNhanVien ProfileAPI ERR", error);
     }
   };
+//console.log("ListProfile",ListProfile)
+  // const DeleteNewStaff = async (value=ListProfile) => {
+  //   try{
+  //     let i = value.length
+  //     while(i>0)
+  //     {
+  //       console.log("value[i-1]._id",value[i-1]._id)
+  //       await DeleteNewStaffApi(value[i-1]._id);
+  //       i--;
+  //     }
+  //     alert ("Xóa thành công")
+  //   }
+  //   catch (error) {
+  //     console.log("Xóa nhân viên mới lỗi", error);
+  //   }
+  // }
 
   return (
     <Grid className={classes.root}>
@@ -93,6 +109,7 @@ const ListNewEmployeePage = (props) => {
             setshowNewProfile={setshowNewProfile}
             onSearch={onSearch}
             RowSelected={RowSelected}
+            ListProfile={ListProfile.length>0?ListProfile:RowSelected}
           />
         </Paper>
       </Grid>

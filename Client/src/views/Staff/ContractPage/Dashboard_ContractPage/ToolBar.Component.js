@@ -25,7 +25,7 @@ import * as config from '../../../../callAPI/config'
 import qs from 'qs'
 import { saveAs } from 'file-saver';
 import axios from 'axios'
-import { exportContractToPDF } from "../../utils/exportToPDF";
+//import { exportContractToPDF } from "../../utils/exportToPDF";
 
 const useStyles = makeStyles((theme) => ({
     root: {

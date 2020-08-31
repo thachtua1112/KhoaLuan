@@ -1,9 +1,14 @@
 import callAPI from "./callAPI";
 
-const GetNewStaffApi = (body) =>{
+export const GetNewStaffApi = (body) =>{
   return callAPI(`/new-staff`, "GET", body);
 }
-const CreateNewStaffApi = (body) => {
+export const DeleteAllNewStaffApi = () =>{
+  return callAPI(`/new-staff`, "PATCH", null);
+}
+export const CreateNewStaffApi = (body) => {
   return callAPI('/new-staff/create-files', "POST", body);
 };
-export { CreateNewStaffApi,GetNewStaffApi };
+export const DeleteNewStaffApi = (body) =>{
+  return callAPI(`/new-staff/${body}`, "PATCH", null);
+}

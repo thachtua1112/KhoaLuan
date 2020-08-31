@@ -18,7 +18,7 @@ import ExtendContractPage from "../ContractPage/Expire_ContractPage/extendContra
 import ListNewEmployeePage from "../ReceiveNewStaff/ListNewEmployeePage";
 import CollaboratePage from "../CollaboratePage";
 import NewCollaboratePage from "../CollaboratePage/add";
-import UpdateCollaboratePage from "../CollaboratePage/update";
+//import UpdateCollaboratePage from "../CollaboratePage/update";
 
 /*
 const NewContractPage = React.lazy(() =>

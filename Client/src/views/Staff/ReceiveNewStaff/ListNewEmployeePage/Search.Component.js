@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-
-import { Autocomplete } from "@material-ui/lab";
+import React from "react";
 
 import {
   MenuItem,
@@ -16,7 +14,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
-import OrgStructureAPI from "../../../../callAPI/Cat_OrgStructure.api";
+//import OrgStructureAPI from "../../../../callAPI/Cat_OrgStructure.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,15 +34,15 @@ const Search = (props) => {
   const classes = useStyles();
   const { Filter, setFilter } = props;
 
-  const [ListOrgStructure, setListOrgStructure] = useState([]);
+  // const [ListOrgStructure, setListOrgStructure] = useState([]);
 
-  useEffect(() => {
-    const fetchAPI = async () => {
-      const res = await OrgStructureAPI.getListOrgStructure();
-      setListOrgStructure(res.data);
-    };
-    fetchAPI();
-  }, []);
+  // useEffect(() => {
+  //   const fetchAPI = async () => {
+  //     const res = await OrgStructureAPI.getListOrgStructure();
+  //     setListOrgStructure(res.data);
+  //   };
+  //   fetchAPI();
+  // }, []);
 
   return (
     <Grid className={classes.root} container spacing={1}>
@@ -76,7 +74,7 @@ const Search = (props) => {
               if ("" !== event.target.value.trim())
                 return setFilter({
                   ...Filter,
-                  ...{ ProfileName: event.target.value.trim() },
+                  ...{ ProfileName: event.target.value },
                 });
               const { ProfileName, ...FilterNew } = Filter;
               setFilter(FilterNew);
@@ -107,55 +105,33 @@ const Search = (props) => {
           />
         </Grid>
         <Grid item xs={3}>
-          Thẻ căn cước CD
+        <FormControl fullWidth>
+          Danh sách đen
           <TextField
-            value={!Filter.IDNo2 ? "" : Filter.IDNo2}
-            onChange={(event) => {
-              if ("" !== event.target.value.trim())
-                return setFilter({
-                  ...Filter,
-                  ...{ IDNo2: event.target.value.trim() },
-                });
-              const { IDNo2, ...FilterNew } = Filter;
-              setFilter(FilterNew);
-            }}
-            placeholder="Vui lòng nhập"
-            variant="outlined"
-            size="small"
-            fullWidth
-          />
+          select
+          value={!Filter.IsBlackList ? "" : Filter.IsBlackList}
+          onChange={(event) => {
+            if ("" !== event.target.value.trim())
+              return setFilter({
+                ...Filter,
+                ...{ IsBlackList: event.target.value },
+              });
+            const { IsBlackList, ...FilterNew } = Filter;
+            setFilter(FilterNew);
+          }}
+          size="small"
+          variant="outlined"
+        >
+          {BlackLisst.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+        </FormControl>
         </Grid>
       </Grid>
       <Grid className={classes.paper} container spacing={2}>
-        <Grid item xs={3}>
-          Phòng ban
-          {
-            <Autocomplete
-              filterSelectedOptions
-              multiple
-              limitTags={1}
-              defaultValue={[]}
-              options={ListOrgStructure}
-              getOptionLabel={(option) =>
-                `${option.OrgStructureName}-${option.Code}`
-              }
-              getOptionSelected={(option, value) => option.ID === value.ID}
-              renderInput={(params) => (
-                <TextField {...params} size="small" variant="outlined" />
-              )}
-              onChange={(event, item) => {
-                if (0 < item.length) {
-                  return setFilter({
-                    ...Filter,
-                    ...{ OrgStructureID: { $in: item.map((i) => i.ID) } },
-                  });
-                }
-                const { OrgStructureID, ...FilterNew } = Filter;
-                setFilter(FilterNew);
-              }}
-            />
-          }
-        </Grid>
 
         <Grid item xs={3}>
           <FormControl fullWidth>
@@ -214,38 +190,7 @@ const Search = (props) => {
             }
           </FormControl>
         </Grid>
-
-        <Grid item xs={3}>
-          <FormControl fullWidth>
-            Trạng thái
-            {
-              <TextField
-                value={!Filter.StatusSyn ? "" : Filter.StatusSyn}
-                onChange={(event) => {
-                  if ("" !== event.target.value.trim())
-                    return setFilter({
-                      ...Filter,
-                      ...{ StatusSyn: event.target.value.trim() },
-                    });
-                  const { StatusSyn, ...FilterNew } = Filter;
-                  setFilter(FilterNew);
-                }}
-                variant="outlined"
-                size="small"
-                select
-              >
-                {StatusSynValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-            }
-          </FormControl>
-        </Grid>
-      </Grid>
       {
-        <Grid className={classes.paper} container spacing={2}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid item xs={5}>
               <FormControl fullWidth>
@@ -328,8 +273,9 @@ const Search = (props) => {
               </FormControl>
             </Grid>
           </MuiPickersUtilsProvider>
-        </Grid>
-      }
+
+
+      }</Grid>
     </Grid>
   );
 };
@@ -351,18 +297,18 @@ const GenderValue = [
   },
 ];
 
-const StatusSynValue = [
+const BlackLisst = [
   {
     value: "",
     label: "None",
   },
   {
-    value: "E_HIRE",
-    label: "Đang làm việc",
+    value: "0",
+    label: "Bình thường",
   },
   {
-    value: "E_STOP",
-    label: "Nghỉ việc",
+    value: "1",
+    label: "Có trong danh sách đen",
   },
 ];
 

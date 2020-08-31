@@ -71,9 +71,6 @@ export default function Company(props) {
       Công ty/ Nhà máy
       <Autocomplete
       //id="combo-box-demo"
-      filterSelectedOptions
-      limitTags={1}
-      defaultValue={[]}
       options={Unit}
      // getOptionLabel={(option) => option.E_UNIT}
       getOptionLabel={(option) =>

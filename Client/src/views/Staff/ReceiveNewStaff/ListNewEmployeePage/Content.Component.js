@@ -22,29 +22,50 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "4px",
   }
 }));
-
+const getIsBlackList = IsBlackList => {
+  switch (IsBlackList) {
+    case 1: return 'Nằm trong danh sách đen (Chú ý)';
+    default: return ''
+  }
+}
 const Content = (props) => {
 
   const {data,fields,RowSelected,setRowSelected,noItem}=props
 
-  const dataRender= data.map((item,index)=>{
-   
-    if(item._id===RowSelected._id)
-        return {...item,_classes:"selected"}
-     return item
-  })
+  // const dataRender= data.map((item,index)=>{
 
+  //   if(item._id===RowSelected._id)
+  //       return {...item,_classes:"selected"}
+  //    return item
+  // })
+  const dataRender=data.map((item,index)=>{
+    for (let index = 0; index < RowSelected.length; index++) {
+      const element = RowSelected[index];
+      if(item._id===element._id)
+        return {...item,_classes:"selected"}
+    }
+    return item
+  })
   const classes = useStyles();
 
+  // const onSelectRow=(row)=>{
+  //   if(RowSelected&&row._id===RowSelected._id){
+  //     return setRowSelected({})
+  //   }
+  //   setRowSelected(row)
+  // }
   const onSelectRow=(row)=>{
-    if(RowSelected&&row.CodeEmp===RowSelected.CodeEmp){
-      return setRowSelected({})
-    }  
-    setRowSelected(row)
+    for (let index = 0; index < RowSelected.length; index++) {
+      const element = RowSelected[index];
+      if(element._id===row._id)
+      {
+        return setRowSelected([...RowSelected.slice(0,index),...RowSelected.slice(index+1,RowSelected.length)])
+      }
+    }
+    setRowSelected([row,...RowSelected])
   }
-
   return (
-    
+
     <div className={classes.root}>
     <div className={classes.jss1}>
       <CDataTable
@@ -59,10 +80,17 @@ const Content = (props) => {
         size="sm"
         onRowClick={onSelectRow}
         noItemsViewSlot={noItem}
+        scopedSlots = {{
+            'IsBlackList':
+              (item)=>(
+                <td>
+                  {getIsBlackList(item.IsBlackList)}
+                </td>)
+          }}
       />
       </div>
     </div>
-  
+
   );
 };
 export default Content;
