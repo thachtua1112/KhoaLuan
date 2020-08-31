@@ -1,22 +1,22 @@
 import axiosClient from "./axiosClient.api";
 
 const get = (params) => {
-  const url = "/stop-workings";
+  const url = "/salarys";
   return axiosClient.get(url, { params });
 };
 
 const create = (data) => {
-  const url = "/stop-workings";
+  const url = "/salarys";
   return axiosClient.post(url, data);
 };
 
 const update = (ID, data) => {
-  const url = `stop-workings/${ID}`;
+  const url = `salarys/${ID}`;
   return axiosClient.put(url, data);
 };
 
 const remove = (ID) => {
-  const url = `stop-workings/${ID}`;
+  const url = `salarys/${ID}`;
   return axiosClient.delete(url);
 };
 

@@ -1,8 +1,15 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Grid, Paper, Dialog, DialogTitle, DialogActions, Button } from "@material-ui/core";
+import {
+  Grid,
+  Paper,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  Button,
+} from "@material-ui/core";
 
 import { CSidebarNav } from "@coreui/react";
 
@@ -11,8 +18,7 @@ import ToolBar from "./ToolBar.Component";
 import Content from "./Content.Component";
 import Detail from "./Detail.Component";
 
-
-import TimeKeepingGroupAPI from "../../../callAPI/Att_TimeKeepingGroup.api"
+import TimeKeepingGroupAPI from "../../../api/att_time_keeping_group.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,78 +36,133 @@ const useStyles = makeStyles((theme) => ({
 const TimeKeepingGroupPage = () => {
   const classes = useStyles();
 
-
-
-  const [Filter, setFilter] = useState({})
+  const [Filter, setFilter] = useState({});
   const [ListDataTimeKeeping, setListDataTimeKeeping] = useState([]);
   const [RowsSelected, setRowsSelected] = useState(null);
   const [ShowDetail, setShowDetail] = useState(false);
   const [ConfimDelete, setConfimDelete] = useState(false);
 
-  const onSearch= async()=>{
-    const filter ={...Filter,...(!Filter.KiCong?null:{KiCong:`${("0" +(Filter.KiCong.getMonth()+1)).slice(-2)}/${Filter.KiCong.getFullYear()}`})}
-    const res= await TimeKeepingGroupAPI.getDataTimeKeepingGroup(filter)
-    setListDataTimeKeeping(res.data.data)
-  }
+  const [Loading, setLoading] = useState(false);
+  const [CurrentPage, setCurrentPage] = useState(1);
+  const [PerPage, setPerPage] = useState(1);
+  const [Total, setTotal] = useState(0);
 
-  const onSave= async(id,data)=>{
-    const res=await TimeKeepingGroupAPI.update(id,data)
-    setRowsSelected(res.data.data)
-    const index=ListDataTimeKeeping.findIndex(item=>item._id===res.data.data._id)
-    setListDataTimeKeeping([...ListDataTimeKeeping.slice(0,index),res.data.data,...ListDataTimeKeeping.slice(index+1,ListDataTimeKeeping.length)])
-  }
+  const onSearch = async () => {
+    setCurrentPage(1);
+    fetchData();
+  };
 
-  const onDelete= async()=>{
-    await TimeKeepingGroupAPI.deleteX(RowsSelected._id)
-    const index=ListDataTimeKeeping.findIndex(item=>item._id===RowsSelected._id)
-    setListDataTimeKeeping([...ListDataTimeKeeping.slice(0,index),...ListDataTimeKeeping.slice(index+1,ListDataTimeKeeping.length)])
-    setRowsSelected(null)
-    setConfimDelete(false)
-  }
+  const onSave = async (id, data) => {
+    const res = await TimeKeepingGroupAPI.update(id, data);
+    setRowsSelected(res.data.data);
+    const index = ListDataTimeKeeping.findIndex(
+      (item) => item._id === res.data.data._id
+    );
+    setListDataTimeKeeping([
+      ...ListDataTimeKeeping.slice(0, index),
+      res.data.data,
+      ...ListDataTimeKeeping.slice(index + 1, ListDataTimeKeeping.length),
+    ]);
+  };
 
+  const onDelete = async () => {
+    await TimeKeepingGroupAPI.deleteX(RowsSelected._id);
+    const index = ListDataTimeKeeping.findIndex(
+      (item) => item._id === RowsSelected._id
+    );
+    setListDataTimeKeeping([
+      ...ListDataTimeKeeping.slice(0, index),
+      ...ListDataTimeKeeping.slice(index + 1, ListDataTimeKeeping.length),
+    ]);
+    setRowsSelected(null);
+    setConfimDelete(false);
+  };
 
+  const fetchData = async (page = 1) => {
+    try {
+      const filters = { ...Filter };
+      if (filters.ProfileName || filters.ProfileName === "") {
+        filters.ProfileName = filters.ProfileName.trim();
+        if (filters.ProfileName === "") {
+          delete filters.ProfileName;
+        }
+      }
+
+      setLoading(true);
+      const result = await TimeKeepingGroupAPI.get({
+        filters: filters,
+        page: page,
+      });
+      if (result.data) {
+        const { data, meta } = result;
+        const { totalDocuments, totalPages } = meta;
+        setListDataTimeKeeping(data);
+        setPerPage(totalPages);
+        setTotal(totalDocuments);
+        setLoading(false);
+        return;
+      }
+      setListDataTimeKeeping([]);
+      setLoading(false);
+    } catch (error) {
+      console.log("DanhSachNhanVien ProfileAPI ERR", error);
+    }
+  };
 
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
-        {!ShowDetail?null:<Detail onSave={onSave} document={RowsSelected} show={setShowDetail}/>}
+        {!ShowDetail ? null : (
+          <Detail
+            onSave={onSave}
+            document={RowsSelected}
+            show={setShowDetail}
+          />
+        )}
         <Paper className={classes.search}>
-          {
-            <Search
-            Filter={Filter}
-            setFilter={setFilter}
-            />
-          }
+          {<Search Filter={Filter} setFilter={setFilter} />}
         </Paper>
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar setConfimDelete={setConfimDelete} show={setShowDetail} onSearch={onSearch}  RowsSelected={RowsSelected} />
+          <ToolBar
+            setConfimDelete={setConfimDelete}
+            show={setShowDetail}
+            onSearch={onSearch}
+            RowsSelected={RowsSelected}
+          />
         </Paper>
       </Grid>
 
       <Grid item xs={12}>
         <Paper className={classes.content}>
           <CSidebarNav>
-            <Content RowsSelected={RowsSelected} setRowsSelected={setRowsSelected} fields={fields} data={ListDataTimeKeeping} />
+            <Content
+              fields={fields}
+              RowsSelected={RowsSelected}
+              setRowsSelected={setRowsSelected}
+              data={ListDataTimeKeeping}
+              CurrentPage={CurrentPage}
+              setCurrentPage={setCurrentPage}
+              fetchData={fetchData}
+              Loading={Loading}
+              PerPage={PerPage}
+              totalDocuments={Total}
+            />
           </CSidebarNav>
         </Paper>
       </Grid>
       <Dialog
-      open={ConfimDelete}
-      disableBackdropClick={true}
-      disableEscapeKeyDown={true}
-    >
-      <DialogTitle >XAC NHAN XOA</DialogTitle>
-       <DialogActions>
-          <Button 
-          onClick={()=>setConfimDelete(false)}
-           color="primary">
+        open={ConfimDelete}
+        disableBackdropClick={true}
+        disableEscapeKeyDown={true}
+      >
+        <DialogTitle>XAC NHAN XOA</DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setConfimDelete(false)} color="primary">
             Khong
           </Button>
-          <Button
-           onClick={onDelete} 
-           color="primary" autoFocus>
+          <Button onClick={onDelete} color="primary" autoFocus>
             Co
           </Button>
         </DialogActions>
@@ -123,13 +184,21 @@ const fields = [
     key: "OrgStructureName",
     label: "Phòng ban",
   },
-  { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Ngày công thực tế" },
+  {
+    _style: { width: "150px" },
+    key: "TotalKeepingReality",
+    label: "Ngày công thực tế",
+  },
   {
     _style: { width: "150px" },
     key: "SabbaticalLeave",
     label: "Nghỉ có phép",
   },
-  { _style: { width: "150px" }, key: "UnSabbaticalLeave", label: "Nghỉ không phép" },
+  {
+    _style: { width: "150px" },
+    key: "UnSabbaticalLeave",
+    label: "Nghỉ không phép",
+  },
   { _style: { width: "150px" }, key: "SumKeeping", label: "Tổng hợp công" },
   { _style: { width: "250px" }, key: "Description", label: "Ghi chú" },
   {

@@ -1,70 +1,57 @@
 import React from "react";
 
-import { CDataTable } from "@coreui/react";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    display: "grid",
-    padding: "4px",
-    borderRadius: "4px",
-    backgroundColor: "#e8eaf5",
-  },
-  jss1:{
-    overflow: "auto",
-    maxWidth:"100%",
-    backgroundColor: "#fff",
-    borderRadius: "4px",
-    height:"80vh"
-  },
-  table:{
-    borderRadius: "4px",
-  }
-}));
+import Table from "../../../share/component/Table.component";
 
 const Content = (props) => {
-  const { fields, data ,RowsSelected,setRowsSelected,noItem} = props;
-  const classes = useStyles();
+  const {
+    CurrentPage,
+    fields,
+    data,
+    RowsSelected,
+    setRowsSelected,
+    Loading,
+    setCurrentPage,
+    PerPage,
+    totalDocuments,
+    fetchData,
+  } = props;
 
-  const dataRender=data.map((item,index)=>{
+  const onPageChange = (page) => {
+    fetchData(page);
+    setCurrentPage(page);
+  };
+
+  const dataRender = data.map((item, index) => {
     for (let index = 0; index < RowsSelected.length; index++) {
       const element = RowsSelected[index];
-      if(item._id===element._id)
-        return {...item,_classes:"selected"} 
+      if (item._id === element._id) return { ...item, _classes: "selected" };
     }
-    return item
-  })
+    return item;
+  });
 
-
-  const handleSelectRow=(row)=>{
+  const handleSelectRow = (row) => {
     for (let index = 0; index < RowsSelected.length; index++) {
       const element = RowsSelected[index];
-      if(element._id===row._id)
-      return setRowsSelected([...RowsSelected.slice(0,index),...RowsSelected.slice(index+1,RowsSelected.length)])
+      if (element._id === row._id)
+        return setRowsSelected([
+          ...RowsSelected.slice(0, index),
+          ...RowsSelected.slice(index + 1, RowsSelected.length),
+        ]);
     }
-    setRowsSelected([row,...RowsSelected])
-  }
+    setRowsSelected([row, ...RowsSelected]);
+  };
 
   return (
-    
-    <div className={classes.root}>
-    <div className={classes.jss1}>
-      <CDataTable
-      addTableClasses={classes.table}
+    <Table
+      currentPage={CurrentPage}
+      onPageChange={(i) => onPageChange(i)}
+      isLoading={Loading}
+      perPage={PerPage}
+      totalDocuments={totalDocuments}
       fields={fields}
       items={dataRender}
-      pagination={data.length > 20 ? true : false}
-      itemsPerPage={20}
-      border
-      hover
-      striped
-      size="sm"
-      noItemsViewSlot={noItem}
       onRowClick={handleSelectRow}
-      />
-      </div>
-    </div>
+    />
   );
 };
 export default Content;

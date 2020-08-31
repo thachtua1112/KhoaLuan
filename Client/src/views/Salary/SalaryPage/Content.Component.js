@@ -1,55 +1,56 @@
 import React from "react";
 
-import { CDataTable } from "@coreui/react";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    "& table": {
-      "table-layout": "fixed",
-    },
-  },
-}));
+import Table from "../../../share/component/Table.component";
 
 const Content = (props) => {
-  const { fields, data,RowsSelected ,setRowsSelected} = props;
-  var dataRender=data;
-  if(RowsSelected){
-  dataRender=data.map((item,index)=>{
-      if(item._id===RowsSelected._id){
-        return {...item,_classes:"selected"} 
-    }
-    return item
-  })
-}
-
-  const handleSelectRow=(row)=>{
-    if(!RowsSelected){
-      return setRowsSelected(row)
-    }  
-    if(RowsSelected._id!==row._id){
-      return setRowsSelected(row)
-    }
-    return setRowsSelected(null)
+  const {
+    fields,
+    data,
+    RowsSelected,
+    setRowsSelected,
+    CurrentPage,
+    Loading,
+    setCurrentPage,
+    PerPage,
+    totalDocuments,
+    fetchData,
+  } = props;
+  var dataRender = data;
+  if (RowsSelected) {
+    dataRender = data.map((item, index) => {
+      if (item._id === RowsSelected._id) {
+        return { ...item, _classes: "selected" };
+      }
+      return item;
+    });
   }
 
-  const classes = useStyles();
+  const handleSelectRow = (row) => {
+    if (!RowsSelected) {
+      return setRowsSelected(row);
+    }
+    if (RowsSelected._id !== row._id) {
+      return setRowsSelected(row);
+    }
+    return setRowsSelected(null);
+  };
+
+  const onPageChange = (page) => {
+    fetchData(page);
+    setCurrentPage(page);
+  };
+
   return (
-    <div className={classes.root}>
-      <CDataTable
-      addTableClasses={classes.table}
+    <Table
+      currentPage={CurrentPage}
+      onPageChange={(i) => onPageChange(i)}
+      isLoading={Loading}
+      perPage={PerPage}
+      totalDocuments={totalDocuments}
       fields={fields}
       items={dataRender}
-      pagination={data.length > 20 ? true : false}
-      itemsPerPage={20}
-      border
-      hover
-      striped
-      size="sm"
       onRowClick={handleSelectRow}
-      />
-    </div>
+    />
   );
 };
 export default Content;

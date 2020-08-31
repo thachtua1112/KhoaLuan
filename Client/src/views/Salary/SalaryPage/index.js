@@ -1,8 +1,15 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
-import { Grid, Paper, Dialog, DialogTitle, DialogActions, Button } from "@material-ui/core";
+import {
+  Grid,
+  Paper,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  Button,
+} from "@material-ui/core";
 
 import { CSidebarNav } from "@coreui/react";
 
@@ -11,8 +18,7 @@ import ToolBar from "./ToolBar.Component";
 import Content from "./Content.Component";
 import Detail from "./Detail.Component";
 
-
-import SalaryAPI from "../../../callAPI/Att_Salary.api"
+import SalaryAPI from "../../../api/att_salary.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,79 +36,134 @@ const useStyles = makeStyles((theme) => ({
 const SalaryPage = () => {
   const classes = useStyles();
 
-
-
-  const [Filter, setFilter] = useState({})
+  const [Filter, setFilter] = useState({});
   const [ListDataTimeKeeping, setListDataTimeKeeping] = useState([]);
   const [RowsSelected, setRowsSelected] = useState(null);
   const [ShowDetail, setShowDetail] = useState(false);
   const [ConfimDelete, setConfimDelete] = useState(false);
 
-  const onSearch= async()=>{
-    const filter ={...Filter,...(!Filter.KiCong?null:{KiCong:`${("0" +(Filter.KiCong.getMonth()+1)).slice(-2)}/${Filter.KiCong.getFullYear()}`})}
-    const res= await SalaryAPI.get(filter)
-    setListDataTimeKeeping(res.data.data)
-  }
+  const [Loading, setLoading] = useState(false);
+  const [CurrentPage, setCurrentPage] = useState(1);
+  const [PerPage, setPerPage] = useState(1);
+  const [Total, setTotal] = useState(0);
 
-  const onSave= async(id,data)=>{
-    const res=await SalaryAPI.update(id,data)
-    console.log(res.data.data)
-    setRowsSelected(res.data.data)
-    const index=ListDataTimeKeeping.findIndex(item=>item._id===res.data.data._id)
-    setListDataTimeKeeping([...ListDataTimeKeeping.slice(0,index),res.data.data,...ListDataTimeKeeping.slice(index+1,ListDataTimeKeeping.length)])
-  }
+  const onSearch = async () => {
+    setCurrentPage(1);
+    fetchData();
+  };
 
-  const onDelete= async()=>{
-    await SalaryAPI.deleteX(RowsSelected._id)
-    const index=ListDataTimeKeeping.findIndex(item=>item._id===RowsSelected._id)
-    setListDataTimeKeeping([...ListDataTimeKeeping.slice(0,index),...ListDataTimeKeeping.slice(index+1,ListDataTimeKeeping.length)])
-    setRowsSelected(null)
-    setConfimDelete(false)
-  }
+  const onSave = async (id, data) => {
+    const res = await SalaryAPI.update(id, data);
+    console.log(res.data.data);
+    setRowsSelected(res.data.data);
+    const index = ListDataTimeKeeping.findIndex(
+      (item) => item._id === res.data.data._id
+    );
+    setListDataTimeKeeping([
+      ...ListDataTimeKeeping.slice(0, index),
+      res.data.data,
+      ...ListDataTimeKeeping.slice(index + 1, ListDataTimeKeeping.length),
+    ]);
+  };
 
+  const onDelete = async () => {
+    await SalaryAPI.deleteX(RowsSelected._id);
+    const index = ListDataTimeKeeping.findIndex(
+      (item) => item._id === RowsSelected._id
+    );
+    setListDataTimeKeeping([
+      ...ListDataTimeKeeping.slice(0, index),
+      ...ListDataTimeKeeping.slice(index + 1, ListDataTimeKeeping.length),
+    ]);
+    setRowsSelected(null);
+    setConfimDelete(false);
+  };
 
+  const fetchData = async (page = 1) => {
+    try {
+      const filters = { ...Filter };
+      if (filters.ProfileName || filters.ProfileName === "") {
+        filters.ProfileName = filters.ProfileName.trim();
+        if (filters.ProfileName === "") {
+          delete filters.ProfileName;
+        }
+      }
+
+      setLoading(true);
+      const result = await SalaryAPI.get({
+        filters: filters,
+        page: page,
+      });
+      if (result.data) {
+        const { data, meta } = result;
+        const { totalDocuments, totalPages } = meta;
+        setListDataTimeKeeping(data);
+        setPerPage(totalPages);
+        setTotal(totalDocuments);
+        setLoading(false);
+        return;
+      }
+      setListDataTimeKeeping([]);
+      setLoading(false);
+    } catch (error) {
+      console.log("DanhSachNhanVien ProfileAPI ERR", error);
+    }
+  };
 
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
-        {!ShowDetail?null:<Detail onSave={onSave} document={RowsSelected} show={setShowDetail}/>}
+        {!ShowDetail ? null : (
+          <Detail
+            onSave={onSave}
+            document={RowsSelected}
+            show={setShowDetail}
+          />
+        )}
         <Paper className={classes.search}>
-          {
-            <Search
-            Filter={Filter}
-            setFilter={setFilter}
-            />
-          }
+          {<Search Filter={Filter} setFilter={setFilter} />}
         </Paper>
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar setConfimDelete={setConfimDelete} show={setShowDetail} onSearch={onSearch}  RowsSelected={RowsSelected} />
+          <ToolBar
+            setConfimDelete={setConfimDelete}
+            show={setShowDetail}
+            onSearch={onSearch}
+            RowsSelected={RowsSelected}
+          />
         </Paper>
       </Grid>
 
       <Grid item xs={12}>
         <Paper className={classes.content}>
           <CSidebarNav>
-            <Content RowsSelected={RowsSelected} setRowsSelected={setRowsSelected} fields={fields} data={ListDataTimeKeeping} />
+            <Content
+              fields={fields}
+              RowsSelected={RowsSelected}
+              setRowsSelected={setRowsSelected}
+              data={ListDataTimeKeeping}
+              CurrentPage={CurrentPage}
+              setCurrentPage={setCurrentPage}
+              fetchData={fetchData}
+              Loading={Loading}
+              PerPage={PerPage}
+              totalDocuments={Total}
+            />
           </CSidebarNav>
         </Paper>
       </Grid>
       <Dialog
-      open={ConfimDelete}
-      disableBackdropClick={true}
-      disableEscapeKeyDown={true}
-    >
-      <DialogTitle >Xác nhận xóa</DialogTitle>
-       <DialogActions>
-          <Button 
-          onClick={()=>setConfimDelete(false)}
-           color="primary">
-            Không  
+        open={ConfimDelete}
+        disableBackdropClick={true}
+        disableEscapeKeyDown={true}
+      >
+        <DialogTitle>Xác nhận xóa</DialogTitle>
+        <DialogActions>
+          <Button onClick={() => setConfimDelete(false)} color="primary">
+            Không
           </Button>
-          <Button
-           onClick={onDelete} 
-           color="primary" autoFocus>
+          <Button onClick={onDelete} color="primary" autoFocus>
             Có
           </Button>
         </DialogActions>
@@ -124,7 +185,11 @@ const fields = [
     key: "OrgStructureName",
     label: "Phòng ban",
   },
-  { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Số ngày công" },
+  {
+    _style: { width: "150px" },
+    key: "TotalKeepingReality",
+    label: "Số ngày công",
+  },
   //{ _style: { width: "150px" }, key: "StandardDayKeeping ", label: "Ngày công chuẩn" },
   {
     _style: { width: "150px" },

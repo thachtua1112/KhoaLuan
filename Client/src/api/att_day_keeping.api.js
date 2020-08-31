@@ -1,23 +1,28 @@
 import axiosClient from "./axiosClient.api";
 
 const get = (params) => {
-  const url = "/stop-workings";
+  const url = "/day-keepings";
   return axiosClient.get(url, { params });
 };
 
 const create = (data) => {
-  const url = "/stop-workings";
+  const url = "/day-keepings";
   return axiosClient.post(url, data);
 };
 
 const update = (ID, data) => {
-  const url = `stop-workings/${ID}`;
+  const url = `day-keepings/${ID}`;
   return axiosClient.put(url, data);
 };
 
 const remove = (ID) => {
-  const url = `stop-workings/${ID}`;
+  const url = `day-keepings/${ID}`;
   return axiosClient.delete(url);
 };
 
-export default { get, create, update, remove };
+const synthesis = (params) => {
+  const url = "/day-keepings/synthesis";
+  return axiosClient.get(url, { params });
+};
+
+export default { get, create, update, remove, synthesis };

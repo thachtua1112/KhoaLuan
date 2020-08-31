@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -10,7 +10,8 @@ import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
 import Content from "./Content.Component";
 
-import TimeKeepingGroupAPI from "../../../callAPI/Att_TimeKeepingGroup.api"
+import DayKeepingAPI from "../../../api/att_day_keeping.api";
+import TimeKeepingGroupAPI from "../../../api/att_time_keeping_group.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,46 +29,93 @@ const useStyles = makeStyles((theme) => ({
 const CalculateKeepingPage = () => {
   const classes = useStyles();
 
-const initDate=new Date()
-initDate.setDate(0)
-initDate.setHours(0)
+  const initDate = new Date();
+  initDate.setDate(0);
+  initDate.setHours(0);
 
+  const [Filter, setFilter] = useState({ KiCong: initDate });
 
-  const [Filter, setFilter] = useState({KiCong:initDate})
-   
   const [ListDataTimeKeeping, setListDataTimeKeeping] = useState([]);
 
-  const [RowsSelected, setRowsSelected] = useState([]);
+  const [Loading, setLoading] = useState(false);
+  const [CurrentPage, setCurrentPage] = useState(1);
+  const [PerPage, setPerPage] = useState(1);
+  const [Total, setTotal] = useState(0);
 
-  const TongHopCong= async()=>{
-    const strKiCong=`${("0" +(Filter.KiCong.getMonth()+1)).slice(-2)}/${Filter.KiCong.getFullYear()}`
-    const res= await TimeKeepingGroupAPI.calculateTimeKeepingGroup({...Filter,KiCong:strKiCong})
-    setListDataTimeKeeping(res.data.data)
-  }
- 
+  const TongHopCong = async () => {
+    if (!Filter.OrgStructureID) {
+      alert("Chưa chọn phòng ban");
+      return;
+    }
+    const strKiCong = `${("0" + (Filter.KiCong.getMonth() + 1)).slice(
+      -2
+    )}/${Filter.KiCong.getFullYear()}`;
+    await DayKeepingAPI.synthesis({
+      ...Filter,
+      KiCong: strKiCong,
+    });
+
+    setCurrentPage(1);
+    fetchData();
+
+    //setListDataTimeKeeping(res.data);
+  };
+
+  const fetchData = async (page = 1) => {
+    try {
+      const filters = { ...Filter };
+
+      const strKiCong = `${("0" + (Filter.KiCong.getMonth() + 1)).slice(
+        -2
+      )}/${Filter.KiCong.getFullYear()}`;
+
+      setLoading(true);
+      const result = await TimeKeepingGroupAPI.get({
+        filters: { ...filters, KiCong: strKiCong },
+        page: page,
+      });
+      if (result.data) {
+        const { data, meta } = result;
+        const { totalDocuments, totalPages } = meta;
+        setListDataTimeKeeping(data);
+        setPerPage(totalPages);
+        setTotal(totalDocuments);
+        setLoading(false);
+        return;
+      }
+      setListDataTimeKeeping([]);
+      setLoading(false);
+    } catch (error) {
+      console.log("DanhSachNhanVien ProfileAPI ERR", error);
+    }
+  };
 
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
         <Paper className={classes.search}>
-          {
-            <Search
-            Filter={Filter}
-            setFilter={setFilter}
-            />
-          }
+          {<Search Filter={Filter} setFilter={setFilter} />}
         </Paper>
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar TongHopCong={TongHopCong}  RowsSelected={RowsSelected} />
+          <ToolBar TongHopCong={TongHopCong} />
         </Paper>
       </Grid>
 
       <Grid item xs={12}>
         <Paper className={classes.content}>
           <CSidebarNav>
-            <Content RowsSelected={RowsSelected} setRowsSelected={setRowsSelected} fields={fields} data={ListDataTimeKeeping} />
+            <Content
+              fields={fields}
+              data={ListDataTimeKeeping}
+              setCurrentPage={setCurrentPage}
+              fetchData={fetchData}
+              Loading={Loading}
+              PerPage={PerPage}
+              totalDocuments={Total}
+              CurrentPage={CurrentPage}
+            />
           </CSidebarNav>
         </Paper>
       </Grid>
@@ -88,12 +136,20 @@ const fields = [
     key: "OrgStructureName",
     label: "Phòng ban",
   },
-  { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Ngày công thực tế" },
+  {
+    _style: { width: "150px" },
+    key: "TotalKeepingReality",
+    label: "Ngày công thực tế",
+  },
   {
     _style: { width: "140px" },
     key: "SabbaticalLeave",
     label: "Nghỉ có phép",
   },
-  { _style: { width: "140px" }, key: "UnSabbaticalLeave", label: "Nghỉ không phép" },
+  {
+    _style: { width: "140px" },
+    key: "UnSabbaticalLeave",
+    label: "Nghỉ không phép",
+  },
   { _style: { width: "140px" }, key: "SumKeeping", label: "Tổng hợp công" },
 ];

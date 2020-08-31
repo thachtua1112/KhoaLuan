@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -10,7 +10,8 @@ import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
 import Content from "./Content.Component";
 
-import SalaryAPI from "../../../callAPI/Att_Salary.api"
+import SalaryAPI from "../../../api/att_salary.api";
+import TimeKeepingGroupAPI from "../../../api/att_time_keeping_group.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,46 +29,92 @@ const useStyles = makeStyles((theme) => ({
 const PayrollPage = () => {
   const classes = useStyles();
 
-const initDate=new Date()
-initDate.setDate(0)
-initDate.setHours(0)
+  const initDate = new Date();
+  initDate.setDate(0);
+  initDate.setHours(0);
 
+  const [Filter, setFilter] = useState({ KiCong: initDate });
 
-  const [Filter, setFilter] = useState({KiCong:initDate})
-   
   const [ListDataTimeKeeping, setListDataTimeKeeping] = useState([]);
 
-  const [RowsSelected, setRowsSelected] = useState([]);
+  const [Loading, setLoading] = useState(false);
+  const [CurrentPage, setCurrentPage] = useState(1);
+  const [PerPage, setPerPage] = useState(1);
+  const [Total, setTotal] = useState(0);
 
-  const TinhLuong= async()=>{
-    const strKiCong=`${("0" +(Filter.KiCong.getMonth()+1)).slice(-2)}/${Filter.KiCong.getFullYear()}`
-    const res= await SalaryAPI.payroll({...Filter,KiCong:strKiCong})
-    setListDataTimeKeeping(res.data.data)
-  }
- 
+  const TinhLuong = async () => {
+    if (!Filter.OrgStructureID) {
+      alert("Chưa chọn phòng ban");
+      return;
+    }
+
+    const strKiCong = `${("0" + (Filter.KiCong.getMonth() + 1)).slice(
+      -2
+    )}/${Filter.KiCong.getFullYear()}`;
+    await TimeKeepingGroupAPI.payroll({
+      ...Filter,
+      KiCong: strKiCong,
+    });
+
+    setCurrentPage(1);
+    fetchData();
+  };
+
+  const fetchData = async (page = 1) => {
+    try {
+      const filters = { ...Filter };
+
+      const strKiCong = `${("0" + (Filter.KiCong.getMonth() + 1)).slice(
+        -2
+      )}/${Filter.KiCong.getFullYear()}`;
+
+      setLoading(true);
+      const result = await SalaryAPI.get({
+        filters: { ...filters, KiCong: strKiCong },
+        page: page,
+      });
+      if (result.data) {
+        const { data, meta } = result;
+        const { totalDocuments, totalPages } = meta;
+        setListDataTimeKeeping(data);
+        setPerPage(totalPages);
+        setTotal(totalDocuments);
+        setLoading(false);
+        return;
+      }
+      setListDataTimeKeeping([]);
+      setLoading(false);
+    } catch (error) {
+      console.log("DanhSachNhanVien ProfileAPI ERR", error);
+    }
+  };
 
   return (
     <Grid container className={classes.root}>
       <Grid item xs={12}>
         <Paper className={classes.search}>
-          {
-            <Search
-            Filter={Filter}
-            setFilter={setFilter}
-            />
-          }
+          {<Search Filter={Filter} setFilter={setFilter} />}
         </Paper>
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar TinhLuong={TinhLuong}  RowsSelected={RowsSelected} />
+          <ToolBar TinhLuong={TinhLuong} />
         </Paper>
       </Grid>
 
       <Grid item xs={12}>
         <Paper className={classes.content}>
           <CSidebarNav>
-            <Content RowsSelected={RowsSelected} setRowsSelected={setRowsSelected} fields={fields} data={ListDataTimeKeeping} />
+            <Content
+              setCurrentPage={setCurrentPage}
+              fetchData={fetchData}
+              Loading={Loading}
+              PerPage={PerPage}
+              totalDocuments={Total}
+              CurrentPage={CurrentPage}
+              fields={fields}
+              data={ListDataTimeKeeping}
+            />
           </CSidebarNav>
         </Paper>
       </Grid>
@@ -88,7 +135,11 @@ const fields = [
     key: "OrgStructureName",
     label: "Phòng ban",
   },
-  { _style: { width: "150px" }, key: "TotalKeepingReality", label: "Số ngày công" },
+  {
+    _style: { width: "150px" },
+    key: "TotalKeepingReality",
+    label: "Số ngày công",
+  },
   //{ _style: { width: "150px" }, key: "StandardDayKeeping ", label: "Ngày công chuẩn" },
   {
     _style: { width: "150px" },
