@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 const ToolBar = (props) => {
 
     const classes = useStyles();
-  const {  onSearch ,RowSelected ,setshowNewProfile
+  const {  onSearch ,RowSelected ,setshowNewProfile,setShowFile
   } = props;
 //console.log("ListProfile toll",ListProfile)
   const DeleteNewStaff = async (value) => {
@@ -103,14 +103,20 @@ const ToolBar = (props) => {
     </Button>
     )
     }
-
-
     <IconButton onClick={()=>setshowNewProfile(true)}>
     <Tooltip title="Thêm hồ sơ">
       <NoteAddIcon />
       </Tooltip>
     </IconButton>
 
+    <Button onClick={ ()=>setShowFile(true)}
+    color="primary"
+    >
+    <Tooltip
+    title="Thêm nhân viên bằng file">
+      <NoteAddIcon />
+      </Tooltip>Thêm File
+  </Button>
 
     <IconButton onClick={()=>{DeleteNewStaff(RowSelected)}}//disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}
     disabled={RowSelected.length===0?true:false}
