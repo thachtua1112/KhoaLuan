@@ -92,7 +92,6 @@ module.exports.UpdateStatus = async (req, res, next) => {
         DateStart: { $lte: new Date() },
       }
     );
-
     next();
   } catch (err) {
     res.sendStatus(403);

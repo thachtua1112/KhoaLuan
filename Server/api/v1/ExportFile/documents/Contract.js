@@ -7,11 +7,10 @@ module.exports = ({
   IDDateOfIssue,
   IDPlaceOfIssue,
   DateContract,
-  ContractNo,
+  ContractNo,CodeEmp
 }) => {
   const today = new Date();
   return `
-
 <!doctype html>
 <html>
    <head>
@@ -35,8 +34,8 @@ module.exports = ({
       <p>&nbsp;</p>
       <p>&nbsp;</p>
       <h1 style="text-align: center;">HỢP ĐỒNG LAO ĐỘNG</h1>
-      <p style="text-align: center;">Số: 32/2014/PPJ-HCNS</p>
-      <p style="text-align: center;">MSNV: 41288</p>
+      <p style="text-align: center;">Số: ${ContractNo}</p>
+      <p style="text-align: center;">MSNV: {CodeEmp}</p>
       <p style="text-align: center;">&nbsp;</p>
       <p style="text-align: center;"><em>Căn cứ Bộ luật D&acirc;n sự số 91/2015/QH13 của Quốc hội Nước cộng h&ograve;a X&atilde; hội chủ nghĩa Việt Nam ng&agrave;y 14/11/2015. C&oacute; hiệu lực thi h&agrave;nh kể từ ng&agrave;y 01/01/2017</em></p>
       <p style="text-align: center;"><em>Căn cứ Bộ lu&acirc;t Lao động số 10/2012/QH13, ng&agrave;y 18/06/2012 của Nước Cộng h&ograve;a X&atilde; hội Chủ nghĩa Việt Nam</em></p>
