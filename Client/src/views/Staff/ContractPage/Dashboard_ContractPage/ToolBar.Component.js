@@ -65,25 +65,28 @@ const ToolBar = (props) => {
   setAnchorEl(event.currentTarget);
   };
   const Infor = {
-      name:RowSelected.profiles?RowSelected.profiles[0].ProfileName:"",
-      gender:RowSelected.profiles?RowSelected.profiles[0].Gender:"",
-      DateOfBirth:RowSelected.profiles?RowSelected.profiles[0].DateOfBirth:"",
-      PAStreet:RowSelected.profiles?RowSelected.profiles[0].PAStreet:"",
-      IDNo:RowSelected.profiles?RowSelected.profiles[0].IDNo:"",
-      //ContractNo:ContractNo,
-      IDDateOfIssue:RowSelected.profiles?RowSelected.profiles[0].IDDateOfIssue:"",
-      IDPlaceOfIssue:RowSelected.profiles?RowSelected.profiles[0].IDPlaceOfIssue:"",
-      DateContract:RowSelected.profiles?RowSelected.profiles[0].DateContract:""
+    ProfileName:RowSelected.profiles?RowSelected.profiles[0].ProfileName:"",
+    Gender:RowSelected.profiles?RowSelected.profiles[0].Gender:"",
+    DateOfBirth:RowSelected.profiles?RowSelected.profiles[0].DateOfBirth:"",
+    PAStreet:RowSelected.profiles?RowSelected.profiles[0].PAddress:"",
+    IDNo:RowSelected.profiles?RowSelected.profiles[0].IDNo:"",
+    ContractNo:'2019/PPJ/HCNS',
+    IDDateOfIssue:RowSelected.profiles?RowSelected.profiles[0].IDDateOfIssue:"",
+    IDPlaceOfIssue:RowSelected.profiles?RowSelected.profiles[0].IDPlaceOfIssue:"",
+    DateContract:RowSelected.DateSigned,
+    CodeEmp:RowSelected.profiles?RowSelected.profiles[0].CodeEmp:"",
   }
   const handleCloseExport = () => {
     setAnchorEl(null);
-    console.log("Infor",Infor)
      //xuất file
      CreateApi(qs.stringify(Infor))
      .then(()=> axios.get(`${config.REACT_URL_API}/fetch-pdf`, { responseType: 'blob' }))
      .then((res)=>{
+       console.log("1")
        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });
-       saveAs(pdfBlob, `HopDong${RowSelected.profiles[0].ProfileName}.pdf`);
+       console.log("2")
+
+       saveAs(pdfBlob, `HopDong${RowSelected.profiles?RowSelected.profiles[0].ProfileName:""}.pdf`);
      })
   };
 
@@ -109,8 +112,6 @@ const ToolBar = (props) => {
      <div className={classes.right}>
 
     <div>
-
-
     <IconButton onClick={()=>setshowNewProfile(true)}>
     <Tooltip title="Thêm hợp đồng">
       <NoteAddIcon />
