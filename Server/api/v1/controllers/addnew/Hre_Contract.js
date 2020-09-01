@@ -1,5 +1,10 @@
 const Hre_ContractModel = require("../../models/Hre_Contract.model");
 const Hre_ProfileModel = require("../../models/Hre_Profile.model")
+
+const qs = require("qs");
+
+const httpStatus = require("http-status");
+
 module.exports.getAll = async (req, res) => {
   try{
     const result = await Hre_ContractModel.find();
@@ -78,7 +83,15 @@ module.exports.HistoryById= async function(req,res){
  
   module.exports.HreContract= async function(req,res){
     try {
-      const filter=req.query
+      const page = parseInt(req.query.page || 1);
+      const perPage = parseInt(req.query.limit || 25);
+
+      //const filter=req.query
+      const {
+        filter = {},
+      } = qs.parse(req.query, {
+        allowDots: true,
+      });
       console.log(filter)
       const contract = await Hre_ContractModel.aggregate([
         {
@@ -118,17 +131,32 @@ module.exports.HistoryById= async function(req,res){
           }
         },
         {
-          $match:filter,
-        },
-        {
           $match:{
             DateEnd:{$gt: new Date()},
-            //StatusSyn:"E_HIRE"
+           // StatusSyn:"E_HIRE"
           }
+        },
+        {
+          $match:filter,
         }
-       ])
+       ]).skip((page - 1) * perPage)
+       .limit(perPage);
+
+      const totalDocuments = contract.length;
+      const totalPages = Math.ceil(totalDocuments / perPage);
+
        // await contract.limit(10)
-        return res.json(contract)
+        return res.json({
+          method: "GET",
+          path: req.originalUrl,
+          meta: {
+            page,
+            perPage,
+            totalDocuments,
+            totalPages,
+          },
+          data:contract
+          })
       }
       catch(err)
       {
