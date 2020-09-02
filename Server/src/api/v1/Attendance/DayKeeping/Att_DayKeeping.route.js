@@ -13,7 +13,7 @@ DayKeepingRoute.route("/")
   .patch()
   .delete();
 
-DayKeepingRoute.route("/synthesis").get(DayKeepingController.synthesis);
+DayKeepingRoute.route("/synthesis").post(DayKeepingController.synthesis);
 
 DayKeepingRoute.route("/:ID")
   .get(DayKeepingController.getByID)

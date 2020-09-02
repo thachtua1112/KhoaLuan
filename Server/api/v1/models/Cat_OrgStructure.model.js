@@ -79,6 +79,8 @@ const Cat_OrgStructureSchema = new Schema({
   WorkPlaceID: { type: Schema.Types.String },
 });
 
+Cat_OrgStructureSchema.index({ ID: 1 });
+
 const Cat_OrgStructureModel = mongoose.model(
   "Cat_OrgStructure",
   Cat_OrgStructureSchema,

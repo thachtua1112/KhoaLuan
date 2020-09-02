@@ -11,7 +11,7 @@ import Content from "./Content.Component";
 import ProfileAPI from "../../../../api/hre_profile.api";
 import { Link } from "react-router-dom";
 
-import { getGender, getDate, getStatusSyn } from "./table.utils";
+import { getGender, getDate, getStatusSyn } from "../../utils/table.utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -157,6 +157,6 @@ const defaultProfileFields = [
 
     label: "Phòng ban",
   },
-  { _style: { width: "150px" }, key: "PositionName", label: "Chức vụ" },
+  { _style: { width: "200px" }, key: "PositionName", label: "Chức vụ" },
   { _style: { width: "150px" }, key: "StatusSyn", label: "Trạng thái" },
 ];

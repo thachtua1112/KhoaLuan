@@ -101,81 +101,69 @@ class Att_TimeKeepingDayController extends BaseController {
     }
   };
 
+  calculate = async (req, res, next) => {
+    try {
+      /**
+       * TINH NGAY CONG
+       */
+      const result = await this.Model.updateMany({}, [
+        {
+          $set: {
+            Status: "DA_TINH_CONG",
+            Total: { $subtract: ["$TimeOut", "$TimeIn"] },
+          },
+        },
+      ]);
+      res.json({
+        method: "GET",
+        path: req.originalUrl,
+        message: "TINH_CONG",
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+
   synthesis = async (req, res, next) => {
     try {
-      const { KiCong, OrgStructureID } = req.query;
+      const { KiCong, OrgStructureID } = req.body;
 
       const [Month, Year] = KiCong.split("/");
 
       const TimeFrom = new Date(`${Month}/01/${Year}`);
       const TimeTo = new Date(TimeFrom);
       TimeTo.setMonth(TimeTo.getMonth() + 1);
-
       const GioCong1Ngay = 9;
 
-      const result = await Hre_ProfileModel.aggregate([
+      const data = await this.Model.aggregate([
         {
           $match: {
+            Status: "DA_TINH_CONG",
             OrgStructureID: OrgStructureID,
+            DateKeeping: {
+              $gte: TimeFrom,
+              $lt: TimeTo,
+            },
+          },
+        },
+        {
+          $group: {
+            _id: {
+              ProfileID: "$ProfileID",
+              OrgStructureID: "$OrgStructureID",
+              CodeEmp: "$CodeEmp",
+              CodeAttendance: "$CodeAttendance",
+            },
+            SumKeeping: { $sum: "$Total" },
           },
         },
         {
           $project: {
             _id: 0,
-            ID: 1,
-          },
-        },
-        {
-          $lookup: {
-            from: "att_daykeepings",
-            localField: "ID",
-            foreignField: "ProfileID",
-            as: "TimeKeepingDay",
-          },
-        },
-        {
-          $addFields: {
-            NumberDayKeeping: { $size: "$TimeKeepingDay" },
-          },
-        },
-        {
-          $match: {
-            NumberDayKeeping: { $gt: 0 },
-          },
-        },
-        {
-          $addFields: {
-            TimeKeeping: {
-              $filter: {
-                input: "$TimeKeepingDay",
-                as: "item",
-                cond: {
-                  $and: [
-                    { $gte: ["$$item.DateKeeping", TimeFrom] },
-                    { $lt: ["$$item.DateKeeping", TimeTo] },
-                    //{ $eq: ["$$item.Status", "DA_TINH_CONG"] },
-                  ],
-                },
-              },
-            },
-          },
-        },
-        {
-          $addFields: {
-            KiCong: KiCong,
-            SumKeeping: {
-              $reduce: {
-                input: "$TimeKeeping",
-                initialValue: 0,
-                in: { $add: ["$$value", "$$this.Total"] },
-              },
-            },
-          },
-        },
-        {
-          $project: {
-            KiCong: 1,
-            ProfileID: "$ID",
+            ProfileID: "$_id.ProfileID",
+            OrgStructureID: "$_id.OrgStructureID",
+            CodeAttendance: "$_id.CodeAttendance",
+            CodeEmp: "$_id.CodeEmp",
             SumKeeping: 1,
           },
         },
@@ -189,6 +177,7 @@ class Att_TimeKeepingDayController extends BaseController {
         },
         {
           $addFields: {
+            KiCong: KiCong,
             Year: TimeFrom.getFullYear(),
             Month: TimeFrom.getMonth() + 1,
             UnSabbaticalLeave: {
@@ -245,55 +234,11 @@ class Att_TimeKeepingDayController extends BaseController {
         },
       ]);
 
-      const data = await Att_TimeKeepingGroupModel.aggregate([
-        {
-          $lookup: {
-            from: "hre_profiles",
-            localField: "ProfileID",
-            foreignField: "ID",
-            as: "Profile",
-          },
-        },
-        {
-          $addFields: {
-            ProfileName: { $arrayElemAt: ["$Profile.ProfileName", 0] },
-            OrgStructureID: { $arrayElemAt: ["$Profile.OrgStructureID", 0] },
-            CodeEmp: { $arrayElemAt: ["$Profile.CodeEmp", 0] },
-          },
-        },
-        {
-          $project: {
-            Profile: 0,
-          },
-        },
-        {
-          $lookup: {
-            from: "cat_orgstructures",
-            localField: "OrgStructureID",
-            foreignField: "ID",
-            as: "OrgStructure",
-          },
-        },
-        {
-          $addFields: {
-            OrgStructureName: {
-              $arrayElemAt: ["$OrgStructure.OrgStructureName", 0],
-            },
-          },
-        },
-        {
-          $project: {
-            OrgStructure: 0,
-          },
-        },
-        {
-          $match: { OrgStructureID: OrgStructureID, KiCong: KiCong },
-        },
-      ]);
-
       res.json({
-        message: "TONG HOP CONG",
-        data: data,
+        method: "POST",
+        path: req.originalUrl,
+        status: "SUCCESSS",
+        message: "TONG_HOP_CONG",
       });
     } catch (error) {
       console.log("ATT_DAYKEEPING_CONTROLLER", error);

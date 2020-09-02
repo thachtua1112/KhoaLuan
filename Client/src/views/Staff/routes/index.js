@@ -11,8 +11,6 @@ import ExpireContractPage from "../ContractPage/Expire_ContractPage";
 
 import ContractExtendPage from "../ContractPage/ContractExtendPage";
 
-
-
 import ReceiveNewStaffPage from "../ReceiveNewStaff/ReceiveNewEmployee";
 import ExtendContractPage from "../ContractPage/Expire_ContractPage/extendContract.child";
 import ListNewEmployeePage from "../ReceiveNewStaff/ListNewEmployeePage";
@@ -69,12 +67,12 @@ const staffRoute = [
     component: EmployeeQuitPage,
     exact: true,
   },
-  {
-    path: "/nhan-su/du-lieu-nhan-vien/nhan-vien-huu",
-    name: "Nhân viên đến tuổi nghỉ hưu",
-    component: ListEmployeePage,
-    exact: true,
-  },
+  // {
+  //   path: "/nhan-su/du-lieu-nhan-vien/nhan-vien-huu",
+  //   name: "Nhân viên đến tuổi nghỉ hưu",
+  //   component: ListEmployeePage,
+  //   exact: true,
+  // },
 
   {
     path: "/nhan-su/chi-tiet-nhan-vien/:ID",
@@ -107,7 +105,7 @@ const staffRoute = [
   {
     path: "/nhan-su/hop-dong/gia-han-hop-dong",
     name: "Gia hạn hợp đồng",
-    component: ExtendContractPage
+    component: ExtendContractPage,
   },
   {
     path: "/nhan-su/hop-dong/phu-luc-hop-dong",
@@ -115,36 +113,36 @@ const staffRoute = [
     component: ContractExtendPage,
   },
   {
-    path:"/nhan-su/tiep-nhan-nhan-vien-moi",
-    name:"Tiếp nhận nhân viên mới",
+    path: "/nhan-su/tiep-nhan-nhan-vien-moi",
+    name: "Tiếp nhận nhân viên mới",
     exact: true,
-    component:ListNewEmployeePage
+    component: ListNewEmployeePage,
   },
   {
-    path:"/nhan-su/tiep-nhan-nhan-vien-moi/danh-sach-nhan-vien-moi",
-    name:"Danh sách nhân viên mới",
-    component:ListNewEmployeePage
+    path: "/nhan-su/tiep-nhan-nhan-vien-moi/danh-sach-nhan-vien-moi",
+    name: "Danh sách nhân viên mới",
+    component: ListNewEmployeePage,
   },
   {
-    path:"/nhan-su/tiep-nhan-nhan-vien-moi/them-nhan-vien-moi",
-    name:"Thêm danh sách nhân viên",
-    component:ReceiveNewStaffPage
+    path: "/nhan-su/tiep-nhan-nhan-vien-moi/them-nhan-vien-moi",
+    name: "Thêm danh sách nhân viên",
+    component: ReceiveNewStaffPage,
   },
   {
-    path:"/nhan-su/qua-trinh-cong-tac",
+    path: "/nhan-su/qua-trinh-cong-tac",
     exact: true,
-    name:"Quá trình công tác",
-    component:CollaboratePage
+    name: "Quá trình công tác",
+    component: CollaboratePage,
   },
   {
-    path:"/nhan-su/qua-trinh-cong-tac/dieu-dong-bo-nhiem",
-    name:"Quá trình điều động, bổ nhiệm",
-    component:CollaboratePage
+    path: "/nhan-su/qua-trinh-cong-tac/dieu-dong-bo-nhiem",
+    name: "Quá trình điều động, bổ nhiệm",
+    component: CollaboratePage,
   },
   {
-    path:"/nhan-su/qua-trinh-cong-tac/dieu-dong-nhan-vien",
-    name:"Điều động nhân viên đi công tác",
-    component:NewCollaboratePage
+    path: "/nhan-su/qua-trinh-cong-tac/dieu-dong-nhan-vien",
+    name: "Điều động nhân viên đi công tác",
+    component: NewCollaboratePage,
   },
 
   {

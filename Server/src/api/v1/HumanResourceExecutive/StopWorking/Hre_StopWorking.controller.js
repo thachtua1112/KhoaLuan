@@ -23,6 +23,10 @@ class Hre_StopWorkingController extends BaseController {
         allowDots: true,
       });
 
+      for (const property in fields) {
+        fields[property] = parseInt(fields[property]);
+      }
+
       const DateStop = filters.DateStop;
       if (DateStop) {
         if (DateStop.$gte) {
@@ -64,11 +68,54 @@ class Hre_StopWorkingController extends BaseController {
         });
       }
 
-      const data = await this.Model.find(filters)
-        .sort(sort)
-        .select(fields)
-        .skip((page - 1) * perPage)
-        .limit(perPage);
+      const data = await this.Model.aggregate([
+        {
+          $match: filters,
+        },
+        {
+          $sort: sort,
+        },
+        {
+          $project: fields,
+        },
+        {
+          $skip: (page - 1) * perPage,
+        },
+        {
+          $limit: perPage,
+        },
+        {
+          $lookup: {
+            from: "hre_profiles",
+            localField: "ProfileID",
+            foreignField: "ID",
+            as: "Profile",
+          },
+        },
+        {
+          $lookup: {
+            from: "cat_orgstructures",
+            localField: "OrgStructureID",
+            foreignField: "ID",
+            as: "OrgStructure",
+          },
+        },
+        {
+          $addFields: {
+            OrgStructureName: {
+              $arrayElemAt: ["$OrgStructure.OrgStructureName", 0],
+            },
+            ProfileName: { $arrayElemAt: ["$Profile.ProfileName", 0] },
+            CodeEmp: { $arrayElemAt: ["$Profile.CodeEmp", 0] },
+          },
+        },
+        {
+          $project: {
+            Profile: 0,
+            OrgStructure: 0,
+          },
+        },
+      ]);
       if (0 === data.length) {
         return res.status(httpStatus.RESET_CONTENT).json({
           method: "GET",

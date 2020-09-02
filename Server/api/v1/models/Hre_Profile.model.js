@@ -130,6 +130,9 @@ const Hre_ProfileSchema = new Schema({
   ProbationTime: { type: Schema.Types.Number },
   ProbationTimeUnit: { type: Schema.Types.String },
 });
+
+Hre_ProfileSchema.index({ ID: 1 });
+
 Hre_ProfileSchema.virtual("contract", {
   ref: "Hre_Contract",
   localField: "ID",

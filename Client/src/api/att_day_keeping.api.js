@@ -22,7 +22,7 @@ const remove = (ID) => {
 
 const synthesis = (params) => {
   const url = "/day-keepings/synthesis";
-  return axiosClient.get(url, { params });
+  return axiosClient.post(url, params);
 };
 
 export default { get, create, update, remove, synthesis };

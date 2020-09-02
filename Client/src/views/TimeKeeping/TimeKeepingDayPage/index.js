@@ -18,6 +18,8 @@ import ToolBar from "./ToolBar.Component";
 import Content from "./Content.Component";
 import NewAndDetail from "./NewAndDetail.Component";
 
+import { getDay } from "../../Staff/utils/table.utils";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -146,6 +148,11 @@ const TimeKeepingDayPage = () => {
             Loading={Loading}
             PerPage={PerPage}
             totalDocuments={Total}
+            scopedSlots={{
+              TotalDay: (item) => {
+                return <td>{getDay(item.TotalDay)}</td>;
+              },
+            }}
           />
         </Paper>
       </Grid>

@@ -61,16 +61,16 @@ export default [
         name: "Nhân viên nghỉ việc",
         to: "/nhan-su/du-lieu-nhan-vien/nhan-vien-nghi-viec",
       },
-      {
-        _tag: "CSidebarNavItem",
-        name: "Nhân viên đến tuổi nghỉ hưu",
-        to: "/nhan-su/du-lieu-nhan-vien/nhan-vien-huu",
-      },
-      {
-        _tag: "CSidebarNavItem",
-        name: "Danh sách trình độ chuyên môn",
-        to: "/nhan-su/du-lieu-nhan-vien/nhan-vien-nghi-viec",
-      },
+      // {
+      //   _tag: "CSidebarNavItem",
+      //   name: "Nhân viên đến tuổi nghỉ hưu",
+      //   to: "/nhan-su/du-lieu-nhan-vien/nhan-vien-huu",
+      // },
+      // {
+      //   _tag: "CSidebarNavItem",
+      //   name: "Danh sách trình độ chuyên môn",
+      //   to: "/nhan-su/du-lieu-nhan-vien/nhan-vien-nghi-viec",
+      // },
     ],
   },
   {
@@ -103,7 +103,7 @@ export default [
       {
         _tag: "CSidebarNavItem",
         name: "Phụ lục hợp đồng",
-        to: "/nhan-su/hop-dong/phu-luc-hop-dong"
+        to: "/nhan-su/hop-dong/phu-luc-hop-dong",
       },
     ],
   },
@@ -123,7 +123,6 @@ export default [
         name: "Qtr điều động & bổ nhiệm",
         to: "/nhan-su/qua-trinh-cong-tac/dieu-dong-bo-nhiem",
       },
-
     ],
   },
   {
@@ -171,17 +170,18 @@ export default [
     icon: "cil-pencil",
     _children: [
       {
-      _tag: "CSidebarNavItem",
-      icon: "cil-puzzle",
-      name: "Dữ liệu lương",
-      to: "/luong/du-lieu-luong",
-    },
-    {
-      _tag: "CSidebarNavItem",
-      icon: "cil-puzzle",
-      name: "Tính lương",
-      to: "/luong/tinh-luong",
-    },]
+        _tag: "CSidebarNavItem",
+        icon: "cil-puzzle",
+        name: "Dữ liệu lương",
+        to: "/luong/du-lieu-luong",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        icon: "cil-puzzle",
+        name: "Tính lương",
+        to: "/luong/tinh-luong",
+      },
+    ],
   },
   {
     _tag: "CSidebarNavDropdown",
@@ -190,17 +190,18 @@ export default [
     icon: "cil-pencil",
     _children: [
       {
-      _tag: "CSidebarNavItem",
-      icon: "cil-puzzle",
-      name: "Dữ liệu thuế",
-      to: "/thue/du-lieu-thue",
-    },
-    {
-      _tag: "CSidebarNavItem",
-      icon: "cil-puzzle",
-      name: "Tính thuế",
-      to: "/thue/tinh-thue",
-    },]
+        _tag: "CSidebarNavItem",
+        icon: "cil-puzzle",
+        name: "Dữ liệu thuế",
+        to: "/thue/du-lieu-thue",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        icon: "cil-puzzle",
+        name: "Tính thuế",
+        to: "/thue/tinh-thue",
+      },
+    ],
   },
   {
     _tag: "CSidebarNavDropdown",
@@ -209,17 +210,18 @@ export default [
     icon: "cil-pencil",
     _children: [
       {
-      _tag: "CSidebarNavItem",
-      icon: "cil-puzzle",
-      name: "Dữ liệu bảo hiểm",
-      to: "/bao-hiem/du-lieu-bao-hiem",
-    },
-    {
-      _tag: "CSidebarNavItem",
-      icon: "cil-puzzle",
-      name: "Tính bảo hiểm",
-      to: "/bao-hiem/tinh-bao-hiem",
-    },]
+        _tag: "CSidebarNavItem",
+        icon: "cil-puzzle",
+        name: "Dữ liệu bảo hiểm",
+        to: "/bao-hiem/du-lieu-bao-hiem",
+      },
+      {
+        _tag: "CSidebarNavItem",
+        icon: "cil-puzzle",
+        name: "Tính bảo hiểm",
+        to: "/bao-hiem/tinh-bao-hiem",
+      },
+    ],
   },
   {
     _tag: "CSidebarNavTitle",

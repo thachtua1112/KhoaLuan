@@ -19,6 +19,8 @@ import NewAndDetail from "./NewAndDetail.Component";
 
 import StopWorkingAPI from "../../../../api/hre_stop_working.api";
 
+import { getDate } from "../../utils/table.utils";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -150,6 +152,17 @@ const EmployeeQuitPage = (props) => {
             fetchData={fetchData}
             PerPage={PerPage}
             totalDocuments={Total}
+            scopedSlots={{
+              DateStop: (item) => {
+                return <td>{getDate(item.DateStop)}</td>;
+              },
+              createdAt: (item) => {
+                return <td>{getDate(item.createdAt)}</td>;
+              },
+              DateQuitApprove: (item) => {
+                return <td>{getDate(item.DateQuitApprove)}</td>;
+              },
+            }}
           />
         </Paper>
       </Grid>

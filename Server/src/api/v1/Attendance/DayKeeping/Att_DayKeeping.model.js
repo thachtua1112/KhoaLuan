@@ -3,13 +3,14 @@ const Schema = mongoose.Schema;
 
 const Att_DayKeepingSchema = new Schema(
   {
-    CodeAttendance: { type: Schema.Types.String, required: true },
-    ProfileID: { type: Schema.Types.String, required: true },
-    //OrgStructureID: { type: Schema.Types.String},
-    DateKeeping: { type: Schema.Types.Date, required: true },
-    TimeIn: { type: Schema.Types.Date, required: true },
-    TimeOut: { type: Schema.Types.Date, required: true },
-    TimeKeepingType: { type: Schema.Types.String },
+    CodeAttendance: { type: Schema.Types.String, required: true, index: true },
+    ProfileID: { type: Schema.Types.String, required: true, index: true },
+    CodeEmp: { type: Schema.Types.String, required: true, index: true },
+    OrgStructureID: { type: Schema.Types.String, index: true },
+    DateKeeping: { type: Schema.Types.Date, required: true, index: true },
+    TimeIn: { type: Schema.Types.Date, required: true, index: true },
+    TimeOut: { type: Schema.Types.Date, required: true, index: true },
+    TimeKeepingType: { type: Schema.Types.String, index: true },
     Description: { type: Schema.Types.String },
     Total: {
       type: Schema.Types.Number,
@@ -47,10 +48,9 @@ const Att_DayKeepingSchema = new Schema(
   { timestamps: true },
 );
 
-Att_DayKeepingSchema.index(
-  { ProfileID: 1, CodeAttendance: 1, DateKeeping: 1 },
-  { unique: true },
-);
+Att_DayKeepingSchema.index({ ProfileID: 1, OrgStructureID: 1, DateKeeping: 1 });
+
+Att_DayKeepingSchema.index({ ProfileID: 1, DateKeeping: 1 }, { unique: true });
 
 Att_DayKeepingSchema.pre("findOneAndUpdate", async function (next) {
   next();
@@ -82,6 +82,8 @@ Att_DayKeepingSchema.virtual("Profile", {
 Att_DayKeepingSchema.set("toObject", { virtuals: true });
 Att_DayKeepingSchema.set("toJSON", { virtuals: true });
 
+Att_DayKeepingSchema.index({ DateKeeping: 1 });
+Att_DayKeepingSchema.index({ OrgStructureID: 1 });
 Att_DayKeepingSchema.index({ ProfileID: 1, DateKeeping: 1 }, { unique: true });
 
 const Att_DayKeepingModel = mongoose.model(

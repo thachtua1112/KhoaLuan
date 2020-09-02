@@ -132,7 +132,7 @@ const OrgStructurePage = (props) => {
     setOrgStructureSelected(OrgStructureID);
     setCurrentPage(1);
   };
-//console.log("ListProfile",ListProfile)
+  //console.log("ListProfile",ListProfile)
   return (
     <Grid container className={classes.root} spacing={0}>
       <Grid item xs={4} lg={3}>
@@ -227,5 +227,5 @@ const fields = [
 
     label: "Phòng ban",
   },
-  { _style: { width: "150px" }, key: "PositionName", label: "Chức vụ" },
+  { _style: { width: "200px" }, key: "PositionName", label: "Chức vụ" },
 ];

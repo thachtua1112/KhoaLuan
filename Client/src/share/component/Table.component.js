@@ -49,8 +49,20 @@ const Table = (props) => {
     limitPage = 5,
     perPage = 1,
     onPageChange,
+    scopedSlots,
     totalDocuments,
+    fields,
   } = props;
+
+  const BaseScopedSlots = {};
+
+  for (let index = 0; index < fields.length; index++) {
+    const element = fields[index].key;
+    BaseScopedSlots[element] = (item) => {
+      return <td>{!item[element] ? "" : item[element]}</td>;
+    };
+  }
+
   return (
     <div className={classes.root}>
       <div className={classes.jss1}>
@@ -62,6 +74,7 @@ const Table = (props) => {
           border
           striped
           hover
+          scopedSlots={{ ...BaseScopedSlots, ...scopedSlots }}
           loading={isLoading}
           loadingSlot={<Loading />}
           size="sm"

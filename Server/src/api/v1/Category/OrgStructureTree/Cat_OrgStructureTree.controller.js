@@ -89,7 +89,7 @@ class Cat_OrgStructureTreeController extends BaseController {
 
       req.query.filters = {
         OrgStructureID: { $in: OrgStructureTree.listID },
-        StatusSyn: "E_HIRE",
+        // StatusSyn: "E_HIRE",
       };
 
       req.query.fields = {

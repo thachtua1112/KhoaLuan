@@ -13,6 +13,7 @@ const Content = (props) => {
     setCurrentPage,
     PerPage,
     totalDocuments,
+    scopedSlots,
     fetchData,
   } = props;
 
@@ -42,6 +43,7 @@ const Content = (props) => {
       isLoading={Loading}
       perPage={PerPage}
       totalDocuments={totalDocuments}
+      scopedSlots={scopedSlots}
       onRowClick={onSelectRow}
     />
   );

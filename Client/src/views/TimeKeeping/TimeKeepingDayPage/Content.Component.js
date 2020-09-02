@@ -14,6 +14,7 @@ const Content = (props) => {
     PerPage,
     totalDocuments,
     fetchData,
+    scopedSlots,
   } = props;
 
   const onPageChange = (page) => {
@@ -50,6 +51,7 @@ const Content = (props) => {
       totalDocuments={totalDocuments}
       fields={fields}
       items={dataRender}
+      scopedSlots={scopedSlots}
       onRowClick={handleSelectRow}
     />
   );

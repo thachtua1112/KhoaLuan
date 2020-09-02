@@ -56,4 +56,8 @@ const getStatusSyn = (status) => {
   }
 };
 
-export { getGender, getDate, getTime, getDateTime, getStatusSyn };
+const getDay = (day) => {
+  return Math.ceil((parseInt(day) / 9) * 60 * 60 * 1000 * 100) / 100;
+};
+
+export { getDay, getGender, getDate, getTime, getDateTime, getStatusSyn };
