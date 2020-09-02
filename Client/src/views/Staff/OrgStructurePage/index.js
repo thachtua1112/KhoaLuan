@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
-
-// import { CSVLink } from "react-csv";
-// import { exportToPDF } from "../utils/exportToPDF";
-// import SaveAltIcon from "@material-ui/icons/SaveAlt";
+import { CSVLink } from "react-csv";
+import { exportToPDF } from "../utils/exportToPDF";
+import SaveAltIcon from "@material-ui/icons/SaveAlt";
 
 import {
-  //IconButton,
-  //Menu,
-  //MenuItem,
+  IconButton,
+  Menu,
+  MenuItem,
   Paper,
   Grid,
   Tooltip,
@@ -58,20 +57,20 @@ const OrgStructurePage = (props) => {
 
   const [StructureTree, setStructureTree] = useState(null);
 
-  // const [anchorEl, setAnchorEl] = useState(null);
+   const [anchorEl, setAnchorEl] = useState(null);
 
-  // const handleClickExport = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
+   const handleClickExport = (event) => {
+     setAnchorEl(event.currentTarget);
+   };
 
-  // const exportPDF = () => {
-  //   exportToPDF("Danh sach nhan vien", fields, ListProfile, "DSNhanVien");
-  //   handleCloseExport();
-  // };
+   const exportPDF = () => {
+     exportToPDF("Danh sach nhan vien", fields, ListProfile, "DSNhanVien");
+     handleCloseExport();
+   };
 
-  // const handleCloseExport = () => {
-  //   setAnchorEl(null);
-  // };
+   const handleCloseExport = () => {
+     setAnchorEl(null);
+   };
 
   const fetchAPI = async () => {
     try {
@@ -147,35 +146,60 @@ const OrgStructurePage = (props) => {
 
       <Grid item xs={8} lg={9}>
         {
-          // <Grid item xs={12}>
-          //   <Paper className={classes.tool}>
-          //     <Tooltip title="Export">
-          //       <IconButton onClick={handleClickExport}>
-          //         <SaveAltIcon />
-          //       </IconButton>
-          //     </Tooltip>
-          //     <Menu
-          //       anchorEl={anchorEl}
-          //       keepMounted
-          //       open={Boolean(anchorEl)}
-          //       onClose={handleCloseExport}
-          //     >
-          //       <MenuItem>
-          //         <CSVLink
-          //           data={ListProfile}
-          //           headers={fields}
-          //           filename={"DSNhanVien.csv"}
-          //         >
-          //           Export as CSV
-          //       </CSVLink>
-          //       </MenuItem>
-          //       <MenuItem onClick={exportPDF}>Export as PDF</MenuItem>
-          //     </Menu>
-          //   </Paper>
-          // </Grid>
+          <Grid item xs={12}>
+            <Paper className={classes.tool}>
+              <Tooltip title="Export">
+                <IconButton onClick={handleClickExport}>
+                  <SaveAltIcon />
+                </IconButton>
+              </Tooltip>
+              <Menu
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleCloseExport}
+              >
+                <MenuItem>
+                  <CSVLink
+                    data={ListProfile}
+                    headers={fields}
+                    filename={"DSNhanVien.csv"}
+                  >
+                    Export as CSV
+                </CSVLink>
+                </MenuItem>
+                <MenuItem onClick={exportPDF}>Export as PDF</MenuItem>
+              </Menu>
+            </Paper>
+          </Grid>
         }
         <Grid item xs={12}>
           <Paper className={classes.paper}>
+       { //   <IconButton onClick={handleClickExport}>
+        //   <Tooltip title="Export">
+        //     <SaveAltIcon />
+        //     </Tooltip>
+        //   </IconButton>
+        //   <Menu
+        //   id="fade-menu"
+        //   anchorEl={anchorEl}
+        //   keepMounted
+        //   open={ Boolean(anchorEl)}
+        //   onClose={handleCloseExport}
+        //  // TransitionComponent={Fade}
+        // >
+        //   <MenuItem onClick={handleCloseExport}>
+        //     <CSVLink
+        //       data={ListProfile}
+        //       headers={fields}
+        //       filename={"DsHopdong.csv"}
+        //     >
+        //     CSV
+        //     </CSVLink>
+        //   </MenuItem>
+        //   <MenuItem onClick={handleCloseExport}>PDF</MenuItem>
+        // </Menu>
+      }
             <Table
               items={ListProfile}
               fields={fields}

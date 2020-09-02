@@ -52,7 +52,7 @@ const Loading=()=>{
 
 const fields = [
   // { key: 'ContractNo',_style: { width: '300px'}, label: "Số hợp đồng" },
-  { key: 'CodeEmp', _style: { width: '100px'}, label:"Mã nhân viên" },
+  { key: 'CodeEmp', _style: { width: '150px'}, label:"Mã nhân viên" },
   { key: 'ProfileName', _style: { width: '300px'},  label:"Họ và tên" },
   { key: 'Gender', _style: { width: '300px'}, label:"Giới tính" },
   { key: 'DateHire', _style: { width: '300px'}, label:"Ngày tuyển" },
@@ -76,9 +76,12 @@ const ContractPage = (props) => {
       setnoItem(Loading)
       setListProfile([])
       setRowSelected({})
-      const res = await ListContractApi(Filter);//
-      setListProfile(res.data);
-      setnoItem(noItemView)
+      const res = await ListContractApi({filter:Filter});//
+      if(res.data)
+      {
+        setListProfile(res.data.data);
+        setnoItem(noItemView)
+      }
     } catch (error) {
       console.log("DanhSachNhanVien ProfileAPI ERR", error);
     }

@@ -24,11 +24,15 @@ const OrgStructureChild= (props)=>{
   if(OrgStructureID)
   {
     getOrgUnitByIdApi(OrgStructureID).then(res=>{
-      setOrgStructure([res.data])
+      if(res.data)
+      {
+        setOrgStructure([res.data])
+      }
+
   })
   }
  },[OrgStructureID])
-console.log("render",OrgStructureID)
+console.log("render",OrgStructure)
   return(
     <Paper>
     <TableContainer>
@@ -37,7 +41,7 @@ console.log("render",OrgStructureID)
       <TableRow><StyledTableCell colSpan={8}> <b>Vị trí làm việc</b></StyledTableCell></TableRow>
       </TableHead>
       {
-      OrgStructure.map((index)=> {return (
+        OrgStructure.length===0?"":OrgStructure.map((index)=> {return (
       <TableBody key={index.ID}>
         <TableRow hover>
           <TableCell align="right"><b>Bộ phận trực thuộc</b></TableCell>
