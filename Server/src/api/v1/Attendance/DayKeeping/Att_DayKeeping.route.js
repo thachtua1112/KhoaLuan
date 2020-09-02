@@ -14,6 +14,7 @@ DayKeepingRoute.route("/")
   .delete();
 
 DayKeepingRoute.route("/synthesis").post(DayKeepingController.synthesis);
+DayKeepingRoute.route("/calculate").post(DayKeepingController.calculate);
 
 DayKeepingRoute.route("/:ID")
   .get(DayKeepingController.getByID)

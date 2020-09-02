@@ -1,4 +1,4 @@
-import React, {  useEffect ,useState} from "react";
+import React, { useEffect, useState } from "react";
 
 import { Autocomplete } from "@material-ui/lab";
 
@@ -16,8 +16,7 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
-
-import OrgStructureAPI from "../../../callAPI/Cat_OrgStructure.api";
+import OrgStructureAPI from "../../../api/cat_org_structure.api";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,11 +38,13 @@ const Search = (props) => {
 
   const [ListOrgStructure, setListOrgStructure] = useState([]);
 
-
   useEffect(() => {
     const fetchAPI = async () => {
-      const org = await OrgStructureAPI.getListOrgStructure();
-      setListOrgStructure(org.data);
+      const resultOrg = await OrgStructureAPI.get({
+        all: 1,
+        fields: { Code: 1, ID: 1, OrgStructureName: 1 },
+      });
+      setListOrgStructure(resultOrg.data);
     };
     fetchAPI();
   }, []);
@@ -139,101 +140,101 @@ const Search = (props) => {
         </Grid>
       </Grid>
       <Grid className={classes.paper} container spacing={2}>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid item xs={5}>
-              <FormControl fullWidth>
-                Ngày nghỉ
-                <div>
-                  <KeyboardDatePicker
-                    inputVariant="outlined"
-                    clearable
-                    label="Từ ngày"
-                    size="small"
-                    fullWidth={false}
-                    className={classes.date}
-                    format="dd/MM/yyyy"
-                    value={
-                      !Filter.DateLeave
-                        ? null
-                        : !Filter.DateLeave["$gt"]
-                        ? null
-                        : Filter.DateLeave["$gt"]
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <Grid item xs={5}>
+            <FormControl fullWidth>
+              Ngày nghỉ
+              <div>
+                <KeyboardDatePicker
+                  inputVariant="outlined"
+                  clearable
+                  label="Từ ngày"
+                  size="small"
+                  fullWidth={false}
+                  className={classes.date}
+                  format="dd/MM/yyyy"
+                  value={
+                    !Filter.DateLeave
+                      ? null
+                      : !Filter.DateLeave["$gte"]
+                      ? null
+                      : Filter.DateLeave["$gte"]
+                  }
+                  maxDate={
+                    !Filter.DateLeave
+                      ? new Date("01/01/2100")
+                      : !Filter.DateLeave["$lte"]
+                      ? new Date()
+                      : Filter.DateLeave["$lte"]
+                  }
+                  onChange={(date) => {
+                    if (null !== date)
+                      return setFilter({
+                        ...Filter,
+                        ...{ DateLeave: { ...Filter.DateLeave, $gte: date } },
+                      });
+                    if (!Filter.DateLeave) {
+                      const { DateLeave, ...FilterNew } = Filter;
+                      return setFilter(FilterNew);
                     }
-                    maxDate={
-                      !Filter.DateLeave
-                        ? new Date("01/01/2100")
-                        : !Filter.DateLeave["$lte"]
-                        ? new Date()
-                        : Filter.DateLeave["$lte"]
+                    const { $gte, ...DateLeaveNew } = Filter.DateLeave;
+                    setFilter({ ...Filter, DateLeave: DateLeaveNew });
+                  }}
+                />
+                <KeyboardDatePicker
+                  inputVariant="outlined"
+                  clearable
+                  size="small"
+                  fullWidth={false}
+                  className={classes.date}
+                  minDate={
+                    !Filter.DateLeave
+                      ? 0
+                      : !Filter.DateLeave["$gte"]
+                      ? 0
+                      : Filter.DateLeave["$gte"]
+                  }
+                  label="Đến ngày"
+                  format="dd/MM/yyyy"
+                  value={
+                    !Filter.DateLeave
+                      ? null
+                      : !Filter.DateLeave["$lte"]
+                      ? null
+                      : Filter.DateLeave["$lte"]
+                  }
+                  onChange={(date) => {
+                    if (null !== date)
+                      return setFilter({
+                        ...Filter,
+                        ...{ DateLeave: { ...Filter.DateLeave, $lte: date } },
+                      });
+                    if (!Filter.DateLeave) {
+                      const { DateLeave, ...FilterNew } = Filter;
+                      return setFilter(FilterNew);
                     }
-                    onChange={(date) => {
-                      if (null !== date)
-                        return setFilter({
-                          ...Filter,
-                          ...{ DateLeave: { ...Filter.DateLeave, $gt: date } },
-                        });
-                      if (!Filter.DateLeave) {
-                        const { DateLeave, ...FilterNew } = Filter;
-                        return setFilter(FilterNew);
-                      }
-                      const { $gt, ...DateLeaveNew } = Filter.DateLeave;
-                      setFilter({ ...Filter, DateLeave: DateLeaveNew });
-                    }}
-                  />
-                  <KeyboardDatePicker
-                    inputVariant="outlined"
-                    clearable
-                    size="small"
-                    fullWidth={false}
-                    className={classes.date}
-                    minDate={
-                      !Filter.DateLeave
-                        ? 0
-                        : !Filter.DateLeave["$gt"]
-                        ? 0
-                        : Filter.DateLeave["$gt"]
-                    }
-                    label="Đến ngày"
-                    format="dd/MM/yyyy"
-                    value={
-                      !Filter.DateLeave
-                        ? null
-                        : !Filter.DateLeave["$lte"]
-                        ? null
-                        : Filter.DateLeave["$lte"]
-                    }
-                    onChange={(date) => {
-                      if (null !== date)
-                        return setFilter({
-                          ...Filter,
-                          ...{ DateLeave: { ...Filter.DateLeave, $lte: date } },
-                        });
-                      if (!Filter.DateLeave) {
-                        const { DateLeave, ...FilterNew } = Filter;
-                        return setFilter(FilterNew);
-                      }
-                      const { $lte, ...DateLeaveNew } = Filter.DateLeave;
-                      setFilter({ ...Filter, DateLeave: DateLeaveNew });
-                    }}
-                  />
-                </div>
-              </FormControl>
-            </Grid>
-          </MuiPickersUtilsProvider>
+                    const { $lte, ...DateLeaveNew } = Filter.DateLeave;
+                    setFilter({ ...Filter, DateLeave: DateLeaveNew });
+                  }}
+                />
+              </div>
+            </FormControl>
+          </Grid>
+        </MuiPickersUtilsProvider>
 
         <Grid item xs={3}>
           <FormControl fullWidth>
             Trạng thái
             {
               <TextField
-                value={!Filter.StatusSyn ? "" : Filter.StatusSyn}
+                value={!Filter.Status ? "" : Filter.Status}
                 onChange={(event) => {
                   if ("" !== event.target.value.trim())
                     return setFilter({
                       ...Filter,
-                      ...{ StatusSyn: event.target.value.trim() },
+                      ...{ Status: event.target.value.trim() },
                     });
-                  const { StatusSyn, ...FilterNew } = Filter;
+                  const { Status, ...FilterNew } = Filter;
                   setFilter(FilterNew);
                 }}
                 variant="outlined"
@@ -249,10 +250,7 @@ const Search = (props) => {
             }
           </FormControl>
         </Grid>
-      
       </Grid>
-  
-     
     </Grid>
   );
 };
@@ -266,16 +264,14 @@ const StatusValue = [
   },
   {
     value: "E_CANCEL",
-    label: "DA_HUY",
+    label: "Hủy",
   },
   {
-    value: "E_HIRE",
-    label: "DA_DUYET",
+    value: "DA_DUYET",
+    label: "Đã duyệt",
   },
   {
-    value: "E_STOP",
-    label: "CHUA_DUYET",
+    value: "CHUA_DUYET",
+    label: "Chưa duyệt",
   },
 ];
-
-

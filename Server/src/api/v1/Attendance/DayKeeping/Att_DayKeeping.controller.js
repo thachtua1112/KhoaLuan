@@ -156,7 +156,7 @@ class Att_TimeKeepingDayController extends BaseController {
       /**
        * TINH NGAY CONG
        */
-      const result = await this.Model.updateMany({}, [
+      const result = await this.Model.updateMany({ Status: "CHUA_TINH_CONG" }, [
         {
           $set: {
             Status: "DA_TINH_CONG",
