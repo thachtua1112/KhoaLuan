@@ -72,7 +72,12 @@ app.use(cors(corsOptionCredentials));
 
 app.use("/api/v1/user", loginRouter);
 app.use("/api/v1/user", verifyToken, RouterUser);
-app.use("/api/v1", apiRouteV1);
+app.use(
+  "/api/v1",
+  AuthenticationMiddleware.verifyToken,
+  AuthenticationMiddleware.refreshToken,
+  apiRouteV1,
+);
 
 // Vào trong apiRouterV1 sửa nếu bị lỗi phần export
 // const pdf = require("html-pdf");
@@ -101,8 +106,8 @@ app.use("/authentication", AuthenticationRoute);
 app.use("/authorization", AuthorizationRoute);
 app.use(
   "/hrm/api/v1",
-  //AuthenticationMiddleware.verifyToken,
-  //AuthenticationMiddleware.refreshToken,
+  AuthenticationMiddleware.verifyToken,
+  AuthenticationMiddleware.refreshToken,
   // AuthorizationMiddleware.middleware((req) => [
   //   req.decoder.username,
   //   req.decoder.role,

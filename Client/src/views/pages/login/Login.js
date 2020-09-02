@@ -33,7 +33,7 @@ const Login = (props) => {
   const [name, setname] = useState("");
   const [pass, setPass] = useState("");
 
-  const [err, setErr] = useState("");
+  const [err, setErr] = useState("tk:truong8864 mk: thienthan1");
 
   const up_Name = (e) => {
     setname(e.target.value);
@@ -54,8 +54,8 @@ const Login = (props) => {
     event.preventDefault();
     try {
       const res = await AuthenticationAPI.login({
-        username: "truong8864",
-        password: "thienthan1",
+        username: name, //"truong8864",
+        password: pass, // "thienthan1",
       });
       console.log(res);
       if (res.message && "LOGIN_THANH_CONG" === res.message) {
