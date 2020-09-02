@@ -181,7 +181,7 @@ const fields = [
   { _style: { width: "120px" }, key: "CodeEmp", label: "Mã nhân viên" },
   { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
   {
-    _style: { width: "250px" },
+    _style: { width: "300px" },
     key: "OrgStructureName",
     label: "Phòng ban",
   },

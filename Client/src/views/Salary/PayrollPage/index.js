@@ -51,6 +51,7 @@ const PayrollPage = () => {
     const strKiCong = `${("0" + (Filter.KiCong.getMonth() + 1)).slice(
       -2
     )}/${Filter.KiCong.getFullYear()}`;
+    setLoading(true);
     await TimeKeepingGroupAPI.payroll({
       ...Filter,
       KiCong: strKiCong,

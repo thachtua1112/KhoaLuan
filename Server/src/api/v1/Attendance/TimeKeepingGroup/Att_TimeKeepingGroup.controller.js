@@ -116,7 +116,9 @@ class Att_TimeKeepingGroupController extends BaseController {
         },
         {
           $addFields: {
-            OrgStructureID: { $arrayElemAt: ["$Profile.OrgStructureID", 0] },
+            OrgStructureID: {
+              $arrayElemAt: ["$Profile.OrgStructureID", 0],
+            },
           },
         },
         {
@@ -203,44 +205,15 @@ class Att_TimeKeepingGroupController extends BaseController {
   payroll = async (req, res, next) => {
     try {
       const { KiCong, ...filter } = req.query;
-      const result = await Hre_ProfileModel.aggregate([
+
+      const GioCong1Ngay = 9 * 60 * 60 * 1000;
+
+      const result = await Att_TimeKeepingGroupModel.aggregate([
         {
-          $match: filter,
-        },
-        {
-          $lookup: {
-            from: "att_timekeepinggroups",
-            localField: "ProfileID",
-            foreignField: "ProfileID",
-            as: "TimeKeepingGroup",
+          $match: {
+            ...filter,
+            KiCong: KiCong,
           },
-        },
-        {
-          $addFields: {
-            KiCong: { $arrayElemAt: ["$TimeKeepingGroup.KiCong", 0] },
-            TotalKeepingReality: {
-              $divide: [
-                { $arrayElemAt: ["$TimeKeepingGroup.TotalKeepingReality", 0] },
-                1000 * 60 * 60 * 9,
-              ],
-            },
-          },
-        },
-        {
-          $project: {
-            ProfileID: 1,
-            KiCong: 1,
-            TotalKeepingReality: {
-              $cond: {
-                if: { $lt: ["$TotalKeepingReality", 33] },
-                then: "$TotalKeepingReality",
-                else: 33,
-              },
-            },
-          },
-        },
-        {
-          $match: { KiCong: KiCong },
         },
         {
           $lookup: {
@@ -276,12 +249,16 @@ class Att_TimeKeepingGroupController extends BaseController {
             },
           },
         },
+
         {
           $project: {
             _id: 0,
             ProfileID: 1,
             KiCong: 1,
             SalaryContract: "$ContractNew.Salary",
+            CodeEmp: 1,
+            CodeAttendance: 1,
+            OrgStructureID: 1,
             Salary: {
               $multiply: [
                 {
@@ -289,11 +266,18 @@ class Att_TimeKeepingGroupController extends BaseController {
                     $divide: [
                       {
                         $cond: {
-                          if: { $lte: ["$TotalKeepingReality", 26] },
+                          if: {
+                            $lte: ["$TotalKeepingReality", 26 * GioCong1Ngay],
+                          },
                           then: {
                             $multiply: [
                               "$ContractNew.Salary",
-                              { $divide: ["$TotalKeepingReality", 26] },
+                              {
+                                $divide: [
+                                  "$TotalKeepingReality",
+                                  26 * GioCong1Ngay,
+                                ],
+                              },
                             ],
                           },
                           else: {
@@ -304,7 +288,10 @@ class Att_TimeKeepingGroupController extends BaseController {
                                   {
                                     $multiply: [
                                       {
-                                        $subtract: ["$TotalKeepingReality", 26],
+                                        $subtract: [
+                                          "$TotalKeepingReality",
+                                          26 * GioCong1Ngay,
+                                        ],
                                       },
                                       1.5,
                                     ],
@@ -327,7 +314,6 @@ class Att_TimeKeepingGroupController extends BaseController {
             TotalKeepingReality: 1,
           },
         },
-
         {
           $merge: {
             into: "att_salaries",

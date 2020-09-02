@@ -68,11 +68,61 @@ class Att_TimeKeepingDayController extends BaseController {
         });
       }
 
-      const data = await this.Model.find(filters)
-        .sort(sort)
-        .select(fields)
-        .skip((page - 1) * perPage)
-        .limit(perPage);
+      const data = await this.Model.aggregate([
+        {
+          $match: filters,
+        },
+
+        {
+          $sort: sort,
+        },
+        {
+          $project: fields,
+        },
+        {
+          $skip: (page - 1) * perPage,
+        },
+        {
+          $limit: perPage,
+        },
+        {
+          $lookup: {
+            from: "hre_profiles",
+            localField: "ProfileID",
+            foreignField: "ID",
+            as: "Profile",
+          },
+        },
+        {
+          $addFields: {
+            OrgStructureID: { $arrayElemAt: ["$Profile.OrgStructureID", 0] },
+          },
+        },
+        {
+          $lookup: {
+            from: "cat_orgstructures",
+            localField: "OrgStructureID",
+            foreignField: "ID",
+            as: "OrgStructure",
+          },
+        },
+        {
+          $addFields: {
+            CodeEmp: { $arrayElemAt: ["$Profile.CodeEmp", 0] },
+            ProfileName: { $arrayElemAt: ["$Profile.ProfileName", 0] },
+            OrgStructureName: {
+              $arrayElemAt: ["$OrgStructure.OrgStructureName", 0],
+            },
+          },
+        },
+        {
+          $project: {
+            OrgStructure: 0,
+            Profile: 0,
+          },
+        },
+      ]);
+
       if (0 === data.length) {
         return res.status(httpStatus.RESET_CONTENT).json({
           method: "GET",

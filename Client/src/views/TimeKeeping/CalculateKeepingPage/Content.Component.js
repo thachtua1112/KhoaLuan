@@ -12,6 +12,7 @@ const Content = (props) => {
     PerPage,
     totalDocuments,
     fetchData,
+    scopedSlots,
   } = props;
 
   const onPageChange = (page) => {
@@ -28,6 +29,7 @@ const Content = (props) => {
       isLoading={Loading}
       perPage={PerPage}
       totalDocuments={totalDocuments}
+      scopedSlots={scopedSlots}
     />
   );
 };

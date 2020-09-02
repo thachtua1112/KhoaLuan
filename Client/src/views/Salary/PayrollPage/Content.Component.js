@@ -1,6 +1,7 @@
 import React from "react";
 
 import Table from "../../../share/component/Table.component";
+import { getDays } from "../../Staff/utils/table.utils";
 
 const Content = (props) => {
   const {
@@ -28,6 +29,17 @@ const Content = (props) => {
       isLoading={Loading}
       perPage={PerPage}
       totalDocuments={totalDocuments}
+      scopedSlots={{
+        TotalKeepingReality: (item) => {
+          return <td>{`${getDays(item.TotalKeepingReality)} ngày `}</td>;
+        },
+        SalaryContract: (item) => {
+          return <td>{`${item.SalaryContract} VNĐ `}</td>;
+        },
+        Salary: (item) => {
+          return <td>{`${item.Salary} VNĐ `}</td>;
+        },
+      }}
     />
   );
 };

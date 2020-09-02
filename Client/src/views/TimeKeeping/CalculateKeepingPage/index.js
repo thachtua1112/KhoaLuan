@@ -13,6 +13,8 @@ import Content from "./Content.Component";
 import DayKeepingAPI from "../../../api/att_day_keeping.api";
 import TimeKeepingGroupAPI from "../../../api/att_time_keeping_group.api";
 
+import { getDays } from "../../Staff/utils/table.utils";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -50,6 +52,7 @@ const CalculateKeepingPage = () => {
     const strKiCong = `${("0" + (Filter.KiCong.getMonth() + 1)).slice(
       -2
     )}/${Filter.KiCong.getFullYear()}`;
+    setLoading(true);
     await DayKeepingAPI.synthesis({
       ...Filter,
       KiCong: strKiCong,
@@ -57,8 +60,6 @@ const CalculateKeepingPage = () => {
 
     setCurrentPage(1);
     fetchData();
-
-    //setListDataTimeKeeping(res.data);
   };
 
   const fetchData = async (page = 1) => {
@@ -75,6 +76,7 @@ const CalculateKeepingPage = () => {
         page: page,
       });
       if (result.data) {
+        console.log(result.data);
         const { data, meta } = result;
         const { totalDocuments, totalPages } = meta;
         setListDataTimeKeeping(data);
@@ -115,6 +117,22 @@ const CalculateKeepingPage = () => {
               PerPage={PerPage}
               totalDocuments={Total}
               CurrentPage={CurrentPage}
+              scopedSlots={{
+                TotalKeepingReality: (item) => {
+                  return (
+                    <td>{`${getDays(item.TotalKeepingReality)} ngày `}</td>
+                  );
+                },
+                SabbaticalLeave: (item) => {
+                  return <td>{`${getDays(item.SabbaticalLeave)} ngày`}</td>;
+                },
+                UnSabbaticalLeave: (item) => {
+                  return <td>{`${getDays(item.UnSabbaticalLeave)} ngày`}</td>;
+                },
+                SumKeeping: (item) => {
+                  return <td>{`${getDays(item.SumKeeping)} ngày`}</td>;
+                },
+              }}
             />
           </CSidebarNav>
         </Paper>
@@ -126,9 +144,9 @@ const CalculateKeepingPage = () => {
 export default CalculateKeepingPage;
 
 const fields = [
-  { _style: { width: "100px" }, key: "KiCong", label: "Kì công" },
-  // { _style: { width: "80px" }, key: "Year", label: "Năm" },
-  // { _style: { width: "80px" }, key: "Month", label: "Tháng" },
+  { _style: { width: "80px" }, key: "KiCong", label: "Kì công" },
+  // { _style: { width: "150px" }, key: "Year", label: "Năm" },
+  // { _style: { width: "150px" }, key: "Month", label: "Tháng" },
   { _style: { width: "120px" }, key: "CodeEmp", label: "Mã nhân viên" },
   { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
   {
@@ -142,14 +160,20 @@ const fields = [
     label: "Ngày công thực tế",
   },
   {
-    _style: { width: "140px" },
+    _style: { width: "150px" },
     key: "SabbaticalLeave",
     label: "Nghỉ có phép",
   },
   {
-    _style: { width: "140px" },
+    _style: { width: "150px" },
     key: "UnSabbaticalLeave",
     label: "Nghỉ không phép",
   },
-  { _style: { width: "140px" }, key: "SumKeeping", label: "Tổng hợp công" },
+  { _style: { width: "150px" }, key: "SumKeeping", label: "Tổng hợp công" },
+  { _style: { width: "250px" }, key: "Description", label: "Ghi chú" },
+  {
+    _style: { width: "150px" },
+    key: "Status",
+    label: "Trạng thái",
+  },
 ];

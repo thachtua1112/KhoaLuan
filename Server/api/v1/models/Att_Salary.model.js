@@ -4,14 +4,16 @@ const Schema = mongoose.Schema;
 const SalarySchema = new Schema(
   {
     KiCong: { type: Schema.Types.String },
-    EmpCode: { type: Schema.Types.String },
+    CodeEmp: { type: Schema.Types.String },
     ProfileID: { type: Schema.Types.String },
+    CodeAttendance: { type: Schema.Types.String },
+    OrgStructureID: { type: Schema.Types.String },
     SalaryContract: { type: Schema.Types.Number },
     TotalKeepingReality: { type: Schema.Types.Number },
     Salary: { type: Schema.Types.Number },
     Description: { type: Schema.Types.String },
     Status: { type: Schema.Types.String },
-    IsLock: { type: Schema.Types.Boolean },
+    //IsLock: { type: Schema.Types.Boolean },
   },
   { timestamps: true },
 );

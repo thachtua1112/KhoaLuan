@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import OrgStructureAPI from "../../../callAPI/Cat_OrgStructure.api";
+import OrgStructureAPI from "../../../api/cat_org_structure.api";
 
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -34,33 +34,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getListOrg = (Tree, listOrg = []) => {
-  if (null === Tree) return listOrg;
-  if (!Tree.children) {
-    listOrg.push({
-      ID: Tree.data.ID,
-      Code: Tree.data.Code,
-      OrgStructureName: Tree.data.OrgStructureName,
-    });
-    return listOrg;
-  }
-  Tree.children.forEach((item) => {
-    getListOrg(item, listOrg);
-  });
-  return listOrg;
-};
-
 const Search = (props) => {
   const [OrgStructure, setOrgStructure] = useState([]);
 
   useEffect(() => {
     const fetchAPI = async () => {
-      const result = await OrgStructureAPI.getStructureTree();
-      const listOrg = getListOrg(result.data);
-      setOrgStructure(listOrg);
+      const resultOrg = await OrgStructureAPI.get({
+        all: 1,
+        fields: { Code: 1, ID: 1, OrgStructureName: 1 },
+      });
+      setOrgStructure(resultOrg.data);
     };
     fetchAPI();
   }, []);
+
   const classes = useStyles();
 
   const { Filter, setFilter } = props;
