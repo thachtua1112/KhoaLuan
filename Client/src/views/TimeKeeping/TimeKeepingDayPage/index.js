@@ -18,7 +18,12 @@ import ToolBar from "./ToolBar.Component";
 import Content from "./Content.Component";
 import NewAndDetail from "./NewAndDetail.Component";
 
-import { getDay } from "../../Staff/utils/table.utils";
+import {
+  getDate,
+  getTime,
+  getDays,
+  getHours,
+} from "../../Staff/utils/table.utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -149,8 +154,20 @@ const TimeKeepingDayPage = () => {
             PerPage={PerPage}
             totalDocuments={Total}
             scopedSlots={{
+              DateKeeping: (item) => {
+                return <td>{`${getDate(item.DateKeeping)}`}</td>;
+              },
+              TimeIn: (item) => {
+                return <td>{`${getTime(item.TimeIn)}`}</td>;
+              },
+              TimeOut: (item) => {
+                return <td>{`${getTime(item.TimeOut)}`}</td>;
+              },
               TotalDay: (item) => {
-                return <td>{getDay(item.TotalDay)}</td>;
+                return <td>{`${getDays(item.Total)} ngày`}</td>;
+              },
+              TotalHours: (item) => {
+                return <td>{`${getHours(item.Total)} giờ`}</td>;
               },
             }}
           />

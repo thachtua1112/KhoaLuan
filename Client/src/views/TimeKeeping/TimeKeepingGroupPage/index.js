@@ -20,6 +20,8 @@ import Detail from "./Detail.Component";
 
 import TimeKeepingGroupAPI from "../../../api/att_time_keeping_group.api";
 
+import { getDays } from "../../Staff/utils/table.utils";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -148,6 +150,22 @@ const TimeKeepingGroupPage = () => {
               Loading={Loading}
               PerPage={PerPage}
               totalDocuments={Total}
+              scopedSlots={{
+                TotalKeepingReality: (item) => {
+                  return (
+                    <td>{`${getDays(item.TotalKeepingReality)} ngày `}</td>
+                  );
+                },
+                SabbaticalLeave: (item) => {
+                  return <td>{`${getDays(item.SabbaticalLeave)} ngày`}</td>;
+                },
+                UnSabbaticalLeave: (item) => {
+                  return <td>{`${getDays(item.UnSabbaticalLeave)} ngày`}</td>;
+                },
+                SumKeeping: (item) => {
+                  return <td>{`${getDays(item.SumKeeping)} ngày`}</td>;
+                },
+              }}
             />
           </CSidebarNav>
         </Paper>
@@ -202,8 +220,8 @@ const fields = [
   { _style: { width: "150px" }, key: "SumKeeping", label: "Tổng hợp công" },
   { _style: { width: "250px" }, key: "Description", label: "Ghi chú" },
   {
-    _style: { width: "250px" },
+    _style: { width: "150px" },
     key: "Status",
-    label: "Status",
+    label: "Trạng thái",
   },
 ];

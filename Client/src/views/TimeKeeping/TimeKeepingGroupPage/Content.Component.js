@@ -14,6 +14,7 @@ const Content = (props) => {
     PerPage,
     totalDocuments,
     fetchData,
+    scopedSlots,
   } = props;
   var dataRender = data;
   if (RowsSelected) {
@@ -50,6 +51,7 @@ const Content = (props) => {
       fields={fields}
       items={dataRender}
       onRowClick={handleSelectRow}
+      scopedSlots={scopedSlots}
     />
   );
 };
