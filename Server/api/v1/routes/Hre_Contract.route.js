@@ -1,6 +1,9 @@
 const express = require("express");
 const HreContractRoute = express.Router();
 const HreContractController = require("../controllers/addnew/Hre_Contract");
+const Hre_ContractController = require("../../../src/api/v1/HumanResourceExecutive/Contract/Hre_Contract.controller")
+const ContractController = new Hre_ContractController();
+
 
 HreContractRoute.get("/", HreContractController.getAll);
 
@@ -10,6 +13,8 @@ HreContractRoute.get(
 );
 
 HreContractRoute.get("/contract", HreContractController.HreContract);
+//HreContractRoute.get("/contract", ContractController.get);
+
 HreContractRoute.get("/history/:ID", HreContractController.HistoryById);
 
 //HreContractRoute.get("/position/:id/profiles", ProfileController.getWithPosition);

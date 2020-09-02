@@ -1,6 +1,5 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-
 const exportToPDF = (title, fields = [], data = [], fileName) => {
   const doc = new jsPDF();
   const header = fields.map((item) => item.label);
@@ -23,6 +22,4 @@ const exportToPDF = (title, fields = [], data = [], fileName) => {
   });
   doc.save(`${fileName}.pdf`);
 };
-
-
 export { exportToPDF };

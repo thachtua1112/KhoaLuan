@@ -4,10 +4,9 @@ import {
   CCardBody,
   CDataTable,CSidebarNav, CInput
 } from '@coreui/react'
-import { green } from '@material-ui/core/colors';
 import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import { makeStyles,createMuiTheme,ThemeProvider  } from '@material-ui/core/styles';
+import { makeStyles  } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -48,12 +47,6 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const theme = createMuiTheme({
-  palette: {
-    primary: green,
-  },
-});
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -76,7 +69,6 @@ const ReceiveNewStaffPage = () => {
     }
   }
   const getBadge = Gender => {
-    console.log(Gender)
     switch (Gender) {
       case 'E_FEMALE': return 'Nữ';
       default: return 'Nam'
@@ -102,30 +94,24 @@ const ReceiveNewStaffPage = () => {
   return  (
           <CCard >
             <CCardBody className={classes.paper} > <b>TIẾP NHẬN DANH SÁCH NHÂN VIÊN </b>
-            <form className={classes.root} noValidate autoComplete="off">
-
-                <ThemeProvider theme={theme}>
-                <Button
-                  variant="contained"
-                  className={classes.button}
-                  onClick={handleClickOpen}
-                  startIcon={<CloudUploadIcon />}
-                >
-                  Duyệt
-                </Button>
-              </ThemeProvider>
-              <CInput className={classes.button} type='file' accept='.csv' onChange={up_files}></CInput>
-              <CSVLink
-              headers={ProfileFields}
-              data={[]}
-              filename={"new-Staff-List.csv"}
-              className="btn btn-primary"
-              target="_blank"
+                <CInput className={classes.button} type='file' accept='.csv' onChange={up_files}></CInput>
+                <CSVLink
+                headers={ProfileFields}
+                data={[]}
+                filename={"new-Staff-List.csv"}
+                className="btn btn-primary"
+                target="_blank"
+              >
+              Tải file mẫu
+              </CSVLink>
+              <Button
+              variant="contained"
+              className={classes.button}
+              onClick={handleClickOpen}
+              startIcon={<CloudUploadIcon />}
             >
-            Tải file mẫu
-            </CSVLink>
-            </form>
-
+              Duyệt
+            </Button>
           <CSidebarNav>
           {loadFiles===null?"Chọn danh sách cần tiếp nhận":(
             <CDataTable
@@ -136,7 +122,7 @@ const ReceiveNewStaffPage = () => {
               size='sm'
               striped
               bordered
-              itemsPerPage={15}
+              itemsPerPage={10}
               pagination
               clickableRows
               scopedSlots = {{
@@ -150,6 +136,7 @@ const ReceiveNewStaffPage = () => {
             />
             )}
           </CSidebarNav>
+
             </CCardBody>
             <Dialog
             open={open}

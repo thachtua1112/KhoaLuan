@@ -12,8 +12,8 @@ import Content from "./Content.Component";
 import { defaultProfileFields } from "../../utils/fieldsProfile";
 import CIcon from "@coreui/icons-react";
 import { cilBan } from "@coreui/icons";
-import { GetNewStaffApi, DeleteNewStaffApi } from "../../../../callAPI/NewStaff.api";
-
+import { GetNewStaffApi } from "../../../../callAPI/NewStaff.api";
+import ReceiNewProfilesDialog from './ReceiNewProfiles'
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -59,7 +59,7 @@ const ListNewEmployeePage = (props) => {
   const [ListProfile, setListProfile] = useState([]);
   const [noItem, setnoItem] = useState(noItemView);
   const [showNewProfile, setshowNewProfile] = useState(false);
-
+  const [ShowFile, setShowFile]= useState(false);
   const onSearch = async () => {
     try {
       setnoItem(Loading);
@@ -97,6 +97,7 @@ const ListNewEmployeePage = (props) => {
           setshowNewProfile={setshowNewProfile}
           showNewProfile={showNewProfile}
         />
+        <ReceiNewProfilesDialog ShowFile ={ShowFile} setShowFile={setShowFile}/>
       </Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.search}>
@@ -107,6 +108,7 @@ const ListNewEmployeePage = (props) => {
         <Paper variant="outlined" className={classes.toolbar}>
           <ToolBar
             setshowNewProfile={setshowNewProfile}
+            setShowFile={setShowFile}
             onSearch={onSearch}
             RowSelected={RowSelected}
             ListProfile={ListProfile.length>0?ListProfile:RowSelected}

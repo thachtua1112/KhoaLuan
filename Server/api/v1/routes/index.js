@@ -1,7 +1,5 @@
 const express = require("express");
 
-
-
 const ProfileRoute = require("./Hre_Profile.route");
 const Hre_CollaborateRoute = require("./Hre_Collaborate.route");
 const PositionRoute = require("./Cat_Position.route");
@@ -22,7 +20,7 @@ const LeaveRoute = require("./Att_LeaveDay.route");
 
 const NewStaffRoute = require("./NewStaff.route");
 const ProfileQualificationRoute = require("./Hre_ProfileQualification.route");
-const routeExport = require("./routeExport");
+const routeExport1 = require("../../../exportFile");
 
 const routeAPI = express.Router();
 routeAPI.use("/positions", PositionRoute);
@@ -47,26 +45,29 @@ routeAPI.use("/leave-days", LeaveRoute);
 routeAPI.use("/timekeeping-groups", TimeKeepingGroupRoute);
 
 routeAPI.use("/salarys", SalaryRoute);
-
+routeAPI.use("/",routeExport1)
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const pdf = require("html-pdf");
-const pdfTemplate = require("../ExportFile/documents/Contract");
+// const pdf = require("html-pdf");
+// const pdfTemplate = require("../ExportFile/documents/Contract");
 
-routeAPI.post("/create-pdf", (req, res) => {
-  pdf.create(pdfTemplate(req.body), {}).toFile("result.pdf", (err) => {
-    if (err) {
-      res.send(Promise.reject());
-    }
-    res.send(Promise.resolve());
-  });
-});
+// routeAPI.post("/create-pdf", (req, res) => {
+//   pdf.create(pdfTemplate(req.body), {}).toFile("result1.pdf", (err) => {
+//     if (err) {
+//       res.send(Promise.reject());
+//     }
+//     res.send(Promise.resolve());
+//   });
+// });
+// routeAPI.get("/fetch-pdf", (req, res) => {
+//   console.log("abc")
+//   res.sendFile(`${__dirname}result1.pdf`);
+//   console.log("123")
 
-routeAPI.use(routeExport);
+// });
+//routeAPI.use(routeExport);
 
-routeAPI.get("/fetch-pdf", (req, res) => {
-  res.sendFile(`${__dirname}../../../result.pdf`);
-});
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 module.exports = routeAPI;
