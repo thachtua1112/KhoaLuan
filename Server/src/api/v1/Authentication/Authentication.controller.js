@@ -30,11 +30,11 @@ class AuthenticationController {
         ipUser: req.connection.remoteAddress,
       };
 
-      const accessToken = jwt.sign(payload, AccessTokenSecretKey, {
+      const accessToken = await jwt.sign(payload, AccessTokenSecretKey, {
         expiresIn: AccessTokenExpirationMinutes * 60 * 1000,
       });
 
-      const refreshToken = jwt.sign(payload, RefreshTokenSecretKey, {
+      const refreshToken = await jwt.sign(payload, RefreshTokenSecretKey, {
         expiresIn: RefreshTokenExpirationMinutes * 60 * 1000,
       });
 

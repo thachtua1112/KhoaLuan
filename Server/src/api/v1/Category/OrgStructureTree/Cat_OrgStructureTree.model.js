@@ -3,11 +3,9 @@ const Schema = mongoose.Schema;
 
 const OrgStructureTree = new Schema(
   {
-    isRoot: { type: Schema.Types.Number },
-    rootID: { type: Schema.Types.String, unique: true },
-    listID: { type: Schema.Types.Array },
-    listOrgStructure: { type: Schema.Types.Array },
-    StructureTree: Object,
+    isRoot: { type: Schema.Types.Number, index: true },
+    rootID: { type: Schema.Types.String, index: true, unique: true },
+    StructureTree: { type: Schema.Types.Mixed },
   },
   { timestamps: true },
 );
