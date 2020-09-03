@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PrivateRoute = ({
+  path,
   component: Component,
   IsLogged,
   setIsLogged,
@@ -49,6 +50,8 @@ const PrivateRoute = ({
     };
     fetchAPI();
   }, [setIsLogged]);
+
+  console.log("PATH", path);
 
   return (
     <Route

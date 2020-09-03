@@ -36,9 +36,9 @@ const OrgStructureTree = (props) => {
       <LinearProgress />
     ) : (
       <StyledTreeItem
-        key={nodes.data.ID}
-        nodeId={nodes.data.ID}
-        labelText={`${nodes.data.Code}-${nodes.data.OrgStructureName}`}
+        key={nodes.ID}
+        nodeId={nodes.ID}
+        labelText={`${nodes.Code}-${nodes.OrgStructureName}`}
         labelIcon={nodes.children ? PeopleAltIcon : PersonOutlineIcon}
         color="#a250f5"
         bgColor="#f3e8fd"
