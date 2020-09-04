@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import {
   Button,
@@ -16,6 +16,8 @@ import AccountTreeIcon from "@material-ui/icons/AccountTree";
 
 import StyledTreeItem from "./StyledTreeItem";
 
+import CategoryContext from "../../../containers/CategoryContext";
+
 const useStyles = makeStyles({
   title: {
     fontWeight: 600,
@@ -25,11 +27,9 @@ const useStyles = makeStyles({
 
 const OrgStructureTree = (props) => {
   const classes = useStyles();
-  const {
-    StructureTree,
-    setOrgStructureSelected,
-    OrgStructureSelected,
-  } = props;
+  const { setOrgStructureSelected, OrgStructureSelected } = props;
+
+  const Category = useContext(CategoryContext);
 
   const renderTree = (nodes) =>
     !nodes ? (
@@ -55,9 +55,12 @@ const OrgStructureTree = (props) => {
       defaultCollapseIcon={<ArrowDropDownIcon />}
       defaultExpandIcon={<ArrowRightIcon />}
       defaultExpanded={["2D51E4D9-0E27-451F-83D8-04DA7D6B9797"]}
-      selected={[!OrgStructureSelected ? null : OrgStructureSelected]}
+      selected={[!OrgStructureSelected ? null : OrgStructureSelected.ID]}
       onNodeSelect={(event, item) => {
-        setOrgStructureSelected(item);
+        const OrgStructureSelect = Category.ListOrgStructure.find(
+          (Org) => Org.ID === item
+        );
+        setOrgStructureSelected(OrgStructureSelect);
       }}
     >
       <Button
@@ -69,7 +72,7 @@ const OrgStructureTree = (props) => {
         <Typography className={classes.title}>Sơ đồ tổ chức</Typography>
       </Button>
 
-      {renderTree(StructureTree)}
+      {renderTree(Category.OrgStructureTree)}
     </TreeView>
   );
 };

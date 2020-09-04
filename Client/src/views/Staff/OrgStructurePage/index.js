@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
 
+// import {
+//   Readable,
+//   Writable,
+//   Transform,
+//   Duplex,
+//   pipeline,
+//   finished,
+// } from "readable-stream";
+
 import { Link } from "react-router-dom";
 
 // import { CSVLink } from "react-csv";
@@ -56,8 +65,6 @@ const OrgStructurePage = (props) => {
 
   const [OrgStructureSelected, setOrgStructureSelected] = useState(null);
 
-  const [StructureTree, setStructureTree] = useState(null);
-
   // const [anchorEl, setAnchorEl] = useState(null);
 
   // const handleClickExport = (event) => {
@@ -73,27 +80,13 @@ const OrgStructurePage = (props) => {
   //   setAnchorEl(null);
   // };
 
-  const fetchAPI = async () => {
-    try {
-      const result = await OrgStructureTreeAPI.getByRootID();
-      const Tree = result.data.StructureTree;
-      setStructureTree(Tree);
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  useEffect(() => {
-    fetchAPI();
-  }, []);
-
   useEffect(() => {
     const onSearch = async () => {
       try {
         if (!OrgStructureSelected) return;
         setLoading(true);
         const result = await OrgStructureTreeAPI.getProfiles(
-          OrgStructureSelected,
+          OrgStructureSelected.ID,
           {
             filters: {
               StatusSyn: "E_HIRE",
@@ -138,7 +131,6 @@ const OrgStructurePage = (props) => {
       <Grid item xs={4} lg={3}>
         <Paper className={classes.sidebar}>
           <TheSidebar
-            StructureTree={StructureTree}
             setOrgStructureSelected={onSelectOrgStructure}
             OrgStructureSelected={OrgStructureSelected}
           />

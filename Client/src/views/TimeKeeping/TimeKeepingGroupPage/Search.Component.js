@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 
-import OrgStructureAPI from "../../../api/cat_org_structure.api";
-
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-import { FormControl } from "@material-ui/core";
+import { FormControl, Grid, TextField, Typography } from "@material-ui/core";
 
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
@@ -13,7 +9,10 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+
+import AutocompleteCover from "../../../share/component/AutoCompleteCover.Component";
+
+import CategoryContext from "../../../containers/CategoryContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,22 +34,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Search = (props) => {
-  const [OrgStructure, setOrgStructure] = useState([]);
-
-  useEffect(() => {
-    const fetchAPI = async () => {
-      const resultOrg = await OrgStructureAPI.get({
-        all: 1,
-        fields: { Code: 1, ID: 1, OrgStructureName: 1 },
-      });
-      setOrgStructure(resultOrg.data);
-    };
-    fetchAPI();
-  }, []);
-
   const classes = useStyles();
 
   const { Filter, setFilter } = props;
+  const Category = useContext(CategoryContext);
 
   return (
     <Grid className={classes.root} container spacing={1}>
@@ -95,8 +82,8 @@ const Search = (props) => {
         <Grid item xs={3}>
           Phòng ban
           {
-            <Autocomplete
-              options={OrgStructure}
+            <AutocompleteCover
+              options={Category.ListOrgStructure}
               onChange={(event, item) => {
                 if (item)
                   return setFilter({
@@ -109,6 +96,11 @@ const Search = (props) => {
               getOptionLabel={(option) =>
                 `${option.OrgStructureName}-${option.Code}`
               }
+              renderOption={(option) => (
+                <Typography
+                  noWrap
+                >{`${option.Code} - ${option.OrgStructureName}`}</Typography>
+              )}
               renderInput={(params) => (
                 <TextField {...params} size="small" variant="outlined" />
               )}
