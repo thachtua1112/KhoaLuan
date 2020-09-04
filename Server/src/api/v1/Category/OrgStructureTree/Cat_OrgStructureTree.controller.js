@@ -7,7 +7,7 @@ const Cat_OrgStructureModel = require("../../../../../api/v1/models/Cat_OrgStruc
 const Hre_ProfileModel = require("../../../../../api/v1/models/Hre_Profile.model"); //Model Outside
 const BaseController = require("../../utils/BaseController");
 
-const { getTreeDraw } = require("./utils");
+const { getTreeDraw, getID, drawTree } = require("./utils");
 
 class Cat_OrgStructureTreeController extends BaseController {
   constructor(Model = {}) {
@@ -21,12 +21,15 @@ class Cat_OrgStructureTreeController extends BaseController {
   getListOrgStructureID = async (req, res, next) => {
     try {
       const { RootID } = req.params;
+      if ("2D51E4D9-0E27-451F-83D8-04DA7D6B9797" === RootID) {
+        return next();
+      }
 
       const OrgStructureTree = await this.Model.findOne(
         {
           rootID: RootID,
         },
-        { _id: 0, listID: 1 },
+        { _id: 0, StructureTree: 1 },
       );
 
       if (!OrgStructureTree) {
@@ -49,20 +52,18 @@ class Cat_OrgStructureTreeController extends BaseController {
           });
         }
 
-        const listOrgStructure = await Cat_OrgStructureModel.find();
-
-        const [Tree, listOrgStructureTree] = getTreeDraw(
-          Root,
-          listOrgStructure,
+        const listOrgStructure = await Cat_OrgStructureModel.find(
+          {},
+          { ID: 1, Code: 1, OrgStructureName: 1, ParentID: 1 },
         );
 
-        const listOrgStructureID = listOrgStructureTree.map(
-          (OrgStructure) => OrgStructure.ID,
-        );
+        const Tree = {};
+
+        const [...listOrgStructureID] = drawTree(Root, listOrgStructure, Tree);
 
         req.query.filters = {
           OrgStructureID: { $in: listOrgStructureID },
-          StatusSyn: "E_HIRE",
+          //StatusSyn: "E_HIRE",
         };
         req.query.fields = {
           CodeEmp: 1,
@@ -78,17 +79,17 @@ class Cat_OrgStructureTreeController extends BaseController {
 
         const newOrgStructureTree = {
           rootID: Root.ID,
-          listID: listOrgStructureID,
-          listOrgStructure: listOrgStructureTree,
           isRoot: Root.IsRoot,
           StructureTree: Tree,
         };
-        this.Model.create(newOrgStructureTree);
+        await this.Model.create(newOrgStructureTree);
         return;
       }
 
+      const [...listID] = getID(OrgStructureTree.StructureTree);
+
       req.query.filters = {
-        OrgStructureID: { $in: OrgStructureTree.listID },
+        OrgStructureID: { $in: listID },
         // StatusSyn: "E_HIRE",
       };
 
@@ -104,6 +105,7 @@ class Cat_OrgStructureTreeController extends BaseController {
 
       next();
     } catch (error) {
+      console.log(error);
       next(error);
     }
   };
@@ -111,8 +113,15 @@ class Cat_OrgStructureTreeController extends BaseController {
   getByRootID = async (req, res, next) => {
     try {
       const { RootID } = req.params;
-      const data = await this.Model.findOne({ rootID: RootID });
-      res.json({
+      const data = await this.Model.findOne(
+        { rootID: RootID },
+        {
+          StructureTree: 1,
+          RootID: 1,
+        },
+      );
+
+      return res.json({
         method: "GET",
         path: req.originalUrl,
         message: "GET ORGSTRUCTURE TREE BY ROOT ID",

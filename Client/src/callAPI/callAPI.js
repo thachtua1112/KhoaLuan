@@ -9,6 +9,7 @@ export default function callAPI(endpoint, method = "GET", body) {
       url: `${config.REACT_URL_API}${endpoint}`,
       params: method === "GET" ? body : {},
       data: method !== "GET" ? body : {},
+      withCredentials: true,
       paramsSerializer: function (params) {
         return qs.stringify(params, { arrayFormat: "brackets" });
       },

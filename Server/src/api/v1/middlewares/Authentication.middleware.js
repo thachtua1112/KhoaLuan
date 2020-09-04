@@ -36,7 +36,7 @@ module.exports.refreshToken = async (req, res, next) => {
       if (req.connection.remoteAddress === decoder.ipUser) {
         const payload = req.decoder;
 
-        const accessToken = jwt.sign(payload, AccessTokenSecretKey, {
+        const accessToken = await jwt.sign(payload, AccessTokenSecretKey, {
           expiresIn: AccessTokenExpirationMinutes * 60 * 1000,
         });
 

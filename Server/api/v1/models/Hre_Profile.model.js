@@ -132,6 +132,9 @@ const Hre_ProfileSchema = new Schema({
 });
 
 Hre_ProfileSchema.index({ ID: 1 });
+Hre_ProfileSchema.index({ OrgStructureID: 1, StatusSyn: 1 });
+Hre_ProfileSchema.index({ PositionID: 1 });
+Hre_ProfileSchema.index({ StatusSyn: 1 });
 
 Hre_ProfileSchema.virtual("contract", {
   ref: "Hre_Contract",
