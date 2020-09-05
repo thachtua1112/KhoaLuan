@@ -26,7 +26,7 @@ const synthesis = (params) => {
 };
 
 const uploadData = (data) => {
-  const url = "/day-keepings/upload";
+  //const url = "/day-keepings/upload";
   console.log(data);
   //return axiosClient.post(url, params);
 };

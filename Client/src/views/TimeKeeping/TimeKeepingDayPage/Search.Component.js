@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -19,6 +19,7 @@ import {
 import AutocompleteCover from "../../../share/component/AutoCompleteCover.Component";
 
 import CategoryContext from "../../../containers/CategoryContext";
+import ProfileAPI from "../../../callAPI/Profile.api"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +41,8 @@ const Search = (props) => {
   const classes = useStyles();
 
   const { Filter, setFilter } = props;
+  const [Err, setErr] = useState({})
+  const [Profile, setProfile] = useState({})
 
   const Category = useContext(CategoryContext);
 
@@ -50,6 +53,20 @@ const Search = (props) => {
           Mã nhân viên
           <TextField
             value={!Filter.CodeEmp ? "" : Filter.CodeEmp}
+            error={!Err.CodeEmp?false:true}
+            onBlur={ async()=>{
+              if(!Filter.CodeEmp)
+              {
+                return setErr({...Err,CodeEmp:"Chưa nhập mã nhân viên"})
+              }
+              const data = await ProfileAPI.getProfilesbyCodeEmp(Filter.CodeEmp)
+              if(1!==data.data.length){
+                return setErr({...Err,CodeEmp:"Mã nhân viên không chính xác"})
+              }
+              setErr({...Err,CodeEmp:null})
+              setProfile({...Profile,ProfileName:data.data[0].ProfileName})
+          }}
+
             onChange={(event) => {
               if ("" !== event.target.value.trim())
                 return setFilter({
@@ -68,16 +85,17 @@ const Search = (props) => {
         <Grid item xs={3}>
           Tên nhân viên
           <TextField
-            value={!Filter.ProfileName ? "" : Filter.ProfileName}
-            onChange={(event) => {
-              if ("" !== event.target.value.trim())
-                return setFilter({
-                  ...Filter,
-                  ...{ ProfileName: event.target.value.trim() },
-                });
-              const { ProfileName, ...FilterNew } = Filter;
-              setFilter(FilterNew);
-            }}
+            value={!Profile.ProfileName ? "" : Profile.ProfileName}
+            disabled
+            // onChange={(event) => {
+            //   if ("" !== event.target.value.trim())
+            //     return setFilter({
+            //       ...Filter,
+            //       ...{ ProfileName: event.target.value.trim() },
+            //     });
+            //   const { ProfileName, ...FilterNew } = Filter;
+            //   setFilter(FilterNew);
+            // }}
             variant="outlined"
             size="small"
             fullWidth

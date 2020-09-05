@@ -27,6 +27,7 @@ const TheHeader = (props) => {
 
   const signOut = async (e) => {
     await AuthenticationAPI.logout();
+    localStorage.removeItem("username")
     setIsLogged(false);
   };
   const dispatch = useDispatch();
