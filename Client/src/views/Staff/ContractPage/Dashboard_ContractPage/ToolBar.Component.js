@@ -80,7 +80,9 @@ const ToolBar = (props) => {
     setAnchorEl(null);
      //xuất file
      CreateApi(qs.stringify(Infor))
-     .then(()=> axios.get(`${config.REACT_URL_API}/fetch-pdf`, { responseType: 'blob' }))
+     .then(()=> axios({url:`${config.REACT_URL_API}/fetch-pdf`,
+     method:"GET", responseType: 'blob',
+    withCredentials:true }))
      .then((res)=>{
        console.log("1")
        const pdfBlob = new Blob([res.data], { type: 'application/pdf' });

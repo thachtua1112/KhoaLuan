@@ -53,7 +53,6 @@ const Search = (props) => {
       }
     })
   }, []);
-console.log("ListPosition",ListPosition)
   return (
     <Grid className={classes.root} container spacing={1}>
       <Grid className={classes.paper} container spacing={2}>
