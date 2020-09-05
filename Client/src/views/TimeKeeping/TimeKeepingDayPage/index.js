@@ -102,9 +102,9 @@ const TimeKeepingDayPage = () => {
     reload();
   };
   const onCalculateTimeKeeping = async () => {
-    const listCalculate = RowsSelected.filter((item) => {
-      return "DA_TINH_CONG" !== item.Status;
-    });
+    // const listCalculate = RowsSelected.filter((item) => {
+    //   return "DA_TINH_CONG" !== item.Status;
+    // });
     // await DayKeepingAPI.calculateTimeKeeping({
     //   listCalculate: listCalculate.map((item) => item._id),
     // });
