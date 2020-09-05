@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import {
   MenuItem,
@@ -6,6 +6,7 @@ import {
   Grid,
   TextField,
   makeStyles,
+  Typography,
 } from "@material-ui/core";
 
 import DateFnsUtils from "@date-io/date-fns";
@@ -14,7 +15,9 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
-//import OrgStructureAPI from "../../../../callAPI/Cat_OrgStructure.api";
+import CategoryContext from "../../../../containers/CategoryContext";
+
+import AutocompleteCover from "../../../../share/component/AutoCompleteCover.Component";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,15 +37,7 @@ const Search = (props) => {
   const classes = useStyles();
   const { Filter, setFilter } = props;
 
-  // const [ListOrgStructure, setListOrgStructure] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchAPI = async () => {
-  //     const res = await OrgStructureAPI.getListOrgStructure();
-  //     setListOrgStructure(res.data);
-  //   };
-  //   fetchAPI();
-  // }, []);
+  const Category = useContext(CategoryContext);
 
   return (
     <Grid className={classes.root} container spacing={1}>
@@ -105,59 +100,64 @@ const Search = (props) => {
           />
         </Grid>
         <Grid item xs={3}>
-        <FormControl fullWidth>
-          Danh sách đen
-          <TextField
-          select
-          value={!Filter.IsBlackList ? "" : Filter.IsBlackList}
-          onChange={(event) => {
-            if ("" !== event.target.value.trim())
-              return setFilter({
-                ...Filter,
-                ...{ IsBlackList: event.target.value },
-              });
-            const { IsBlackList, ...FilterNew } = Filter;
-            setFilter(FilterNew);
-          }}
-          size="small"
-          variant="outlined"
-        >
-          {BlackLisst.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-        </FormControl>
+          <FormControl fullWidth>
+            Danh sách đen
+            <TextField
+              select
+              value={!Filter.IsBlackList ? "" : Filter.IsBlackList}
+              onChange={(event) => {
+                if ("" !== event.target.value.trim())
+                  return setFilter({
+                    ...Filter,
+                    ...{ IsBlackList: event.target.value },
+                  });
+                const { IsBlackList, ...FilterNew } = Filter;
+                setFilter(FilterNew);
+              }}
+              size="small"
+              variant="outlined"
+            >
+              {BlackLisst.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </FormControl>
         </Grid>
       </Grid>
       <Grid className={classes.paper} container spacing={2}>
-
         <Grid item xs={3}>
           <FormControl fullWidth>
             Chức vụ
             {
-              <TextField
-                value={!Filter.PositionID ? "" : Filter.PositionID}
-                onChange={(event) => {
-                  if ("" !== event.target.value.trim())
+              <AutocompleteCover
+                filterSelectedOptions
+                multiple
+                limitTags={1}
+                defaultValue={[]}
+                options={Category.ListPosition}
+                getOptionLabel={(option) =>
+                  `${option.PositionName}-${option.Code}`
+                }
+                getOptionSelected={(option, value) => option.ID === value.ID}
+                renderOption={(option) => (
+                  <Typography>{`${option.Code} - ${option.PositionName}`}</Typography>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" variant="outlined" />
+                )}
+                onChange={(event, item) => {
+                  if (0 < item.length) {
                     return setFilter({
                       ...Filter,
-                      ...{ PositionID: event.target.value.trim() },
+                      ...{ PositionID: { $in: item.map((i) => i.ID) } },
                     });
+                  }
                   const { PositionID, ...FilterNew } = Filter;
                   setFilter(FilterNew);
                 }}
-                size="small"
-                select
-                variant="outlined"
-              >
-                {GenderValue.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
+              />
             }
           </FormControl>
         </Grid>
@@ -190,12 +190,12 @@ const Search = (props) => {
             }
           </FormControl>
         </Grid>
-      {
+        {
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid item xs={5}>
               <FormControl fullWidth>
-                Ngày vào làm
-                <div style={{ paddingTop: "8px" }}>
+                Ngày nhận hồ sơ
+                <div>
                   <KeyboardDatePicker
                     inputVariant="outlined"
                     clearable
@@ -207,9 +207,9 @@ const Search = (props) => {
                     value={
                       !Filter.DateHire
                         ? null
-                        : !Filter.DateHire["$gt"]
+                        : !Filter.DateHire["$gte"]
                         ? null
-                        : Filter.DateHire["$gt"]
+                        : Filter.DateHire["$gte"]
                     }
                     maxDate={
                       !Filter.DateHire
@@ -222,13 +222,13 @@ const Search = (props) => {
                       if (null !== date)
                         return setFilter({
                           ...Filter,
-                          ...{ DateHire: { ...Filter.DateHire, $gt: date } },
+                          ...{ DateHire: { ...Filter.DateHire, $gte: date } },
                         });
                       if (!Filter.DateHire) {
                         const { DateHire, ...FilterNew } = Filter;
                         return setFilter(FilterNew);
                       }
-                      const { $gt, ...DateHireNew } = Filter.DateHire;
+                      const { $gte, ...DateHireNew } = Filter.DateHire;
                       setFilter({ ...Filter, DateHire: DateHireNew });
                     }}
                   />
@@ -241,9 +241,9 @@ const Search = (props) => {
                     minDate={
                       !Filter.DateHire
                         ? 0
-                        : !Filter.DateHire["$gt"]
+                        : !Filter.DateHire["$gte"]
                         ? 0
-                        : Filter.DateHire["$gt"]
+                        : Filter.DateHire["$gte"]
                     }
                     maxDate={new Date()}
                     label="Đến ngày"
@@ -273,9 +273,8 @@ const Search = (props) => {
               </FormControl>
             </Grid>
           </MuiPickersUtilsProvider>
-
-
-      }</Grid>
+        }
+      </Grid>
     </Grid>
   );
 };
@@ -311,5 +310,3 @@ const BlackLisst = [
     label: "Có trong danh sách đen",
   },
 ];
-
-

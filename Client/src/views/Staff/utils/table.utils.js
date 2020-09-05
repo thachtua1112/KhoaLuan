@@ -64,6 +64,15 @@ const getHours = (day) => {
   return Math.ceil((parseInt(day) / (60 * 60 * 1000)) * 10) / 10;
 };
 
+const getStatusSynNew = (status) => {
+  switch (status) {
+    case "E_HIRE":
+      return "Chưa duyệt";
+    default:
+      return "Đã duyệt";
+  }
+};
+
 export {
   getDays,
   getGender,
@@ -72,4 +81,5 @@ export {
   getDateTime,
   getStatusSyn,
   getHours,
+  getStatusSynNew,
 };

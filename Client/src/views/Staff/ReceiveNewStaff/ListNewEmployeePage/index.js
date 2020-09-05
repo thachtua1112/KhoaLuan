@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Grid, Paper, CircularProgress } from "@material-ui/core";
+import { Grid, Paper } from "@material-ui/core";
 
 import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
@@ -9,11 +9,11 @@ import NewProfile from "./NewProifile.Component";
 import { makeStyles } from "@material-ui/core/styles";
 import Content from "./Content.Component";
 
-import { defaultProfileFields } from "../../utils/fieldsProfile";
-import CIcon from "@coreui/icons-react";
-import { cilBan } from "@coreui/icons";
 import { GetNewStaffApi } from "../../../../callAPI/NewStaff.api";
-import ReceiNewProfilesDialog from './ReceiNewProfiles'
+import ReceiNewProfilesDialog from "./ReceiNewProfiles";
+
+import { getGender, getDate, getStatusSynNew } from "../../utils/table.utils";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -24,71 +24,68 @@ const useStyles = makeStyles((theme) => ({
   content: {},
 }));
 
-const noItemView = () => {
-  return (
-    <div className="text-center my-5">
-      <h2>
-        {"Không có dữ liệu"}
-        <CIcon
-          width="30"
-          name="cilBan"
-          content={cilBan}
-          className="text-danger mb-2"
-        />
-      </h2>
-    </div>
-  );
-};
-
-const Loading = () => {
-  return (
-    <div className="text-center my-5">
-      <h2>
-        {"Đang tải dữ liệu"}
-        <CircularProgress />
-      </h2>
-    </div>
-  );
-};
-
 const ListNewEmployeePage = (props) => {
   const classes = useStyles();
 
   const [Filter, setFilter] = useState({});
   const [RowSelected, setRowSelected] = useState([]);
   const [ListProfile, setListProfile] = useState([]);
-  const [noItem, setnoItem] = useState(noItemView);
+
   const [showNewProfile, setshowNewProfile] = useState(false);
-  const [ShowFile, setShowFile]= useState(false);
-  const onSearch = async () => {
+  const [ShowFile, setShowFile] = useState(false);
+
+  const [Loading, setLoading] = useState(false);
+  const [CurrentPage, setCurrentPage] = useState(1);
+  const [PerPage, setPerPage] = useState(1);
+  const [Total, setTotal] = useState(0);
+
+  const onSearch = () => {
+    setCurrentPage(1);
+    fetchData();
+  };
+
+  const fetchData = async (page = 1) => {
     try {
-      setnoItem(Loading);
+      const filters = { ...Filter };
+      if (filters.ProfileName || filters.ProfileName === "") {
+        filters.ProfileName = filters.ProfileName.trim();
+        if (filters.ProfileName === "") {
+          delete filters.ProfileName;
+        }
+      }
+
+      setLoading(true);
+      const result = await GetNewStaffApi({
+        filters: filters,
+        // fields: {
+        //   ID: 1,
+        //   CodeEmp: 1,
+        //   ProfileName: 1,
+        //   DateHire: 1,
+        //   Gender: 1,
+        //   OrgStructureID: 1,
+        //   OrgStructureName: 1,
+        //   PositionID: 1,
+        //   PositionName: 1,
+        //   StatusSyn: 1,
+        // },
+        page: page,
+      });
+      if (result.data.data) {
+        const { data, meta } = result.data;
+        const { totalDocuments, totalPages } = meta;
+        setListProfile(data);
+        setPerPage(totalPages);
+        setTotal(totalDocuments);
+        setLoading(false);
+        return;
+      }
       setListProfile([]);
-      //setRowSelected({});
-      setRowSelected([]);
-      const res = await GetNewStaffApi(Filter);
-      setListProfile(res.data);
-      setnoItem(noItemView);
+      setLoading(false);
     } catch (error) {
       console.log("DanhSachNhanVien ProfileAPI ERR", error);
     }
   };
-//console.log("ListProfile",ListProfile)
-  // const DeleteNewStaff = async (value=ListProfile) => {
-  //   try{
-  //     let i = value.length
-  //     while(i>0)
-  //     {
-  //       console.log("value[i-1]._id",value[i-1]._id)
-  //       await DeleteNewStaffApi(value[i-1]._id);
-  //       i--;
-  //     }
-  //     alert ("Xóa thành công")
-  //   }
-  //   catch (error) {
-  //     console.log("Xóa nhân viên mới lỗi", error);
-  //   }
-  // }
 
   return (
     <Grid className={classes.root}>
@@ -97,7 +94,7 @@ const ListNewEmployeePage = (props) => {
           setshowNewProfile={setshowNewProfile}
           showNewProfile={showNewProfile}
         />
-        <ReceiNewProfilesDialog ShowFile ={ShowFile} setShowFile={setShowFile}/>
+        <ReceiNewProfilesDialog ShowFile={ShowFile} setShowFile={setShowFile} />
       </Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.search}>
@@ -111,7 +108,7 @@ const ListNewEmployeePage = (props) => {
             setShowFile={setShowFile}
             onSearch={onSearch}
             RowSelected={RowSelected}
-            ListProfile={ListProfile.length>0?ListProfile:RowSelected}
+            ListProfile={ListProfile.length > 0 ? ListProfile : RowSelected}
           />
         </Paper>
       </Grid>
@@ -122,7 +119,23 @@ const ListNewEmployeePage = (props) => {
             fields={defaultProfileFields}
             RowSelected={RowSelected}
             setRowSelected={setRowSelected}
-            noItem={noItem}
+            CurrentPage={CurrentPage}
+            setCurrentPage={setCurrentPage}
+            fetchData={fetchData}
+            Loading={Loading}
+            PerPage={PerPage}
+            totalDocuments={Total}
+            scopedSlots={{
+              DateHire: (item) => {
+                return <td>{getDate(item.DateHire)}</td>;
+              },
+              Gender: (item) => {
+                return <td>{getGender(item.Gender)}</td>;
+              },
+              StatusSyn: (item) => {
+                return <td> {getStatusSynNew(item.StatusSyn)}</td>;
+              },
+            }}
           />
         </Paper>
       </Grid>
@@ -131,3 +144,14 @@ const ListNewEmployeePage = (props) => {
 };
 
 export default ListNewEmployeePage;
+
+const defaultProfileFields = [
+  //{ _style: { width: "150px" }, key: "CodeEmp", label: "Mã nhân viên" },
+  { _style: { width: "200px" }, key: "ProfileName", label: "Tên nhân viên" },
+  { _style: { width: "150px" }, key: "DateHire", label: "Ngày nhận hồ sơ" },
+  { _style: { width: "100px" }, key: "Gender", label: "Giới tính" },
+  { _style: { width: "200px" }, key: "MarriageStatus", label: "Hôn nhân" },
+  { _style: { width: "150px" }, key: "PositionName", label: "Chức vụ" },
+  { _style: { width: "150px" }, key: "StatusSyn", label: "Trạng thái" },
+  { _style: { width: "150px" }, key: "IsBlackList", label: "Danh sách đen" },
+];

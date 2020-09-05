@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-
-import { Autocomplete } from "@material-ui/lab";
+import React, { useContext } from "react";
 
 import {
   MenuItem,
@@ -8,6 +6,7 @@ import {
   Grid,
   TextField,
   makeStyles,
+  Typography,
 } from "@material-ui/core";
 
 import DateFnsUtils from "@date-io/date-fns";
@@ -16,8 +15,9 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
-import OrgStructureAPI from "../../../../callAPI/Cat_OrgStructure.api";
-import { GetPositionsApi } from "../../../../callAPI/Positions.api";
+import CategoryContext from "../../../../containers/CategoryContext";
+
+import AutocompleteCover from "../../../../share/component/AutoCompleteCover.Component";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,22 +37,8 @@ const Search = (props) => {
   const classes = useStyles();
   const { Filter, setFilter } = props;
 
-  const [ListOrgStructure, setListOrgStructure] = useState([]);
-  const [ListPosition, setListPosition] = useState([]);
+  const Category = useContext(CategoryContext);
 
-  useEffect(() => {
-    const fetchAPI = async () => {
-      const res = await OrgStructureAPI.getListOrgStructure();
-      setListOrgStructure(res.data);
-    };
-    fetchAPI();
-    GetPositionsApi().then(res=>{
-      if(res.data)
-      {
-        setListPosition(res.data)
-      }
-    })
-  }, []);
   return (
     <Grid className={classes.root} container spacing={1}>
       <Grid className={classes.paper} container spacing={2}>
@@ -113,27 +99,29 @@ const Search = (props) => {
             fullWidth
           />
         </Grid>
-
       </Grid>
       <Grid className={classes.paper} container spacing={2}>
         <Grid item xs={3}>
           Phòng ban
           {
-            <Autocomplete
+            <AutocompleteCover
               filterSelectedOptions
               multiple
               limitTags={1}
               defaultValue={[]}
-              options={ListOrgStructure}
+              options={Category.ListOrgStructure}
               getOptionLabel={(option) =>
                 `${option.OrgStructureName}-${option.Code}`
               }
+              renderOption={(option) => (
+                <Typography>{`${option.Code} - ${option.OrgStructureName}`}</Typography>
+              )}
               getOptionSelected={(option, value) => option.ID === value.ID}
               renderInput={(params) => (
                 <TextField {...params} size="small" variant="outlined" />
               )}
               onChange={(event, item) => {
-                if (0 < item.length) {
+                if (0 < item.lengteh) {
                   return setFilter({
                     ...Filter,
                     ...{ OrgStructureID: { $in: item.map((i) => i.ID) } },
@@ -145,35 +133,41 @@ const Search = (props) => {
             />
           }
         </Grid>
+
         <Grid item xs={3}>
-        Chức vụ
-        {
-          <Autocomplete
-            filterSelectedOptions
-            multiple
-            limitTags={1}
-            defaultValue={[]}
-            options={ListPosition}
-            getOptionLabel={(option) =>
-              `${option.PositionName}-${option.Code}`
+          <FormControl fullWidth>
+            Chức vụ
+            {
+              <AutocompleteCover
+                filterSelectedOptions
+                multiple
+                limitTags={1}
+                defaultValue={[]}
+                options={Category.ListPosition}
+                getOptionLabel={(option) =>
+                  `${option.PositionName}-${option.Code}`
+                }
+                getOptionSelected={(option, value) => option.ID === value.ID}
+                renderOption={(option) => (
+                  <Typography>{`${option.Code} - ${option.PositionName}`}</Typography>
+                )}
+                renderInput={(params) => (
+                  <TextField {...params} size="small" variant="outlined" />
+                )}
+                onChange={(event, item) => {
+                  if (0 < item.lengteh) {
+                    return setFilter({
+                      ...Filter,
+                      ...{ PositionID: { $in: item.map((i) => i.ID) } },
+                    });
+                  }
+                  const { PositionID, ...FilterNew } = Filter;
+                  setFilter(FilterNew);
+                }}
+              />
             }
-            getOptionSelected={(option, value) => option.ID === value.ID}
-            renderInput={(params) => (
-              <TextField {...params} size="small" variant="outlined" />
-            )}
-            onChange={(event, item) => {
-              if (0 < item.length) {
-                return setFilter({
-                  ...Filter,
-                  ...{ PositionID: { $in: item.map((i) => i.ID) } },
-                });
-              }
-              const { PositionID, ...FilterNew } = Filter;
-              setFilter(FilterNew);
-            }}
-          />
-        }
-      </Grid>
+          </FormControl>
+        </Grid>
         <Grid item xs={3}>
           <FormControl fullWidth>
             Giới tính
@@ -238,7 +232,7 @@ const Search = (props) => {
             <Grid item xs={5}>
               <FormControl fullWidth>
                 Ngày vào làm
-                <div style={{ paddingTop: "8px" }}>
+                <div>
                   <KeyboardDatePicker
                     inputVariant="outlined"
                     clearable
@@ -250,9 +244,9 @@ const Search = (props) => {
                     value={
                       !Filter.DateHire
                         ? null
-                        : !Filter.DateHire["$gt"]
+                        : !Filter.DateHire["$gte"]
                         ? null
-                        : Filter.DateHire["$gt"]
+                        : Filter.DateHire["$gte"]
                     }
                     maxDate={
                       !Filter.DateHire
@@ -265,13 +259,13 @@ const Search = (props) => {
                       if (null !== date)
                         return setFilter({
                           ...Filter,
-                          ...{ DateHire: { ...Filter.DateHire, $gt: date } },
+                          ...{ DateHire: { ...Filter.DateHire, $gte: date } },
                         });
                       if (!Filter.DateHire) {
                         const { DateHire, ...FilterNew } = Filter;
                         return setFilter(FilterNew);
                       }
-                      const { $gt, ...DateHireNew } = Filter.DateHire;
+                      const { $gte, ...DateHireNew } = Filter.DateHire;
                       setFilter({ ...Filter, DateHire: DateHireNew });
                     }}
                   />
@@ -284,9 +278,9 @@ const Search = (props) => {
                     minDate={
                       !Filter.DateHire
                         ? 0
-                        : !Filter.DateHire["$gt"]
+                        : !Filter.DateHire["$gte"]
                         ? 0
-                        : Filter.DateHire["$gt"]
+                        : Filter.DateHire["$gte"]
                     }
                     maxDate={new Date()}
                     label="Đến ngày"
@@ -353,5 +347,3 @@ const StatusSynValue = [
     label: "Nghỉ việc",
   },
 ];
-
-
