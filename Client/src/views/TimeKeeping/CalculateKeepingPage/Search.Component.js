@@ -24,13 +24,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(1),
     //textAlign: "center",
   },
-  date1: {
-    width: theme.spacing(26),
-    marginRight: theme.spacing(2),
-  },
-  date2: {
-    width: theme.spacing(26),
-  },
 }));
 
 const Search = (props) => {
@@ -101,9 +94,7 @@ const Search = (props) => {
                 `${option.OrgStructureName}-${option.Code}`
               }
               renderOption={(option) => (
-                <Typography
-                  noWrap
-                >{`${option.Code} - ${option.OrgStructureName}`}</Typography>
+                <Typography>{`${option.Code} - ${option.OrgStructureName}`}</Typography>
               )}
               renderInput={(params) => (
                 <TextField {...params} size="small" variant="outlined" />
@@ -122,7 +113,6 @@ const Search = (props) => {
                   // clearable
                   size="small"
                   fullWidth={false}
-                  className={classes.date1}
                   emptyLabel="Kì công"
                   views={["year", "month"]}
                   maxDate={MaxMonth}

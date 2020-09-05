@@ -61,9 +61,7 @@ const TheSidebar = (props) => {
           fullWidth
           size="small"
           renderOption={(option) => (
-            <Typography
-              noWrap
-            >{`${option.Code} - ${option.OrgStructureName}`}</Typography>
+            <Typography>{`${option.Code} - ${option.OrgStructureName}`}</Typography>
           )}
           renderInput={(params) => (
             <TextField
