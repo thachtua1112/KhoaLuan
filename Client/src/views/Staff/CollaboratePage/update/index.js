@@ -50,48 +50,50 @@ export default function UpdateCollaboratePage(props) {
   const [data, setdata]=useState({})
   const classes = useStyles();
   const [open, setOpen] = useState(false);
-  const [NamePosition, setNamePosition] = useState("")
-  const [StartDay, SetStartDay] = useState(new Date());
-  const [EndDay, SetEndDay] = useState(new Date());
-  const [Time, setTime] = useState(null)
-  const [NhaMay,setNhaMay]= useState("")
-  const [MaNhaMay,setMaNhaMay]= useState("")
-  const [ChiNhanh, setChiNhanh]=useState("")
-  const [MaChiNhanh, setMaChiNhanh]=useState("")
-  const [PhongBan,setPhongBan]=useState("");
-  const [MaPhongBan,setMaPhongBan]=useState("")
-  const [BoPhan,setBoPhan]=useState("")
-  const [MaBoPhan,setMaBoPhan]=useState("")
-  const [To,setTo]=useState("")
-  const [MaTo,setMaTo]=useState("")
+  // const [NamePosition, setNamePosition] = useState("")
+  // const [StartDay, SetStartDay] = useState(new Date());
+  // const [EndDay, SetEndDay] = useState(new Date());
+   const [Time, setTime] = useState(null)
+  // const [NhaMay,setNhaMay]= useState("")
+  // const [MaNhaMay,setMaNhaMay]= useState("")
+  // const [ChiNhanh, setChiNhanh]=useState("")
+  // const [MaChiNhanh, setMaChiNhanh]=useState("")
+  // const [PhongBan,setPhongBan]=useState("");
+  // const [MaPhongBan,setMaPhongBan]=useState("")
+  // const [BoPhan,setBoPhan]=useState("")
+  // const [MaBoPhan,setMaBoPhan]=useState("")
+  // const [To,setTo]=useState("")
+  // const [MaTo,setMaTo]=useState("")
   const history = useHistory();
-console.log("data",data)
-  const Up_StartDay = (e)=>{
-    SetStartDay(new Date(e.target.value))//.toLocaleString('en-GB'))
-    SetEndDay(new Date(e.target.value))
-  }
+
+  // const Up_StartDay = (e)=>{
+  //   SetStartDay(new Date(e.target.value))//.toLocaleString('en-GB'))
+  //   SetEndDay(new Date(e.target.value))
+  // }
   const upload = ()=>{
     setOpen(false);
-    EndDay.setMonth(EndDay.getMonth()+Time)
-    UpdaHreCollaboratesApi(RowSelected._id,qs.stringify({
-          Accept:"Chưa duyệt",
-          DateCreate:new Date(),
-          DateSignature:new Date (),//.toLocaleString('en-GB'),
-          DateStart: StartDay,
-          DateEnd:new Date(EndDay),//.toLocaleString('en-GB'),
-          Time:Time,
-          PositionName:NamePosition,
-          E_UNIT:NhaMay,//công ty
-          E_UNIT_CODE: MaNhaMay,
-          E_DIVISION: ChiNhanh,// chi nhánh
-          E_DIVISION_CODE: MaChiNhanh,
-          E_DEPARTMENT: PhongBan,// phòng ban
-          E_DEPARTMENT_CODE: MaPhongBan,
-          E_TEAM:BoPhan,//bộ phận
-          E_TEAM_CODE:MaBoPhan,
-          E_SECTION: To,//Tổ công tác
-          E_SECTION_CODE:MaTo
-        })).then(res=>{
+   // EndDay.setMonth(EndDay.getMonth()+Time)
+    UpdaHreCollaboratesApi(RowSelected._id,qs.stringify(data
+      // {
+      //     Accept:"Chưa duyệt",
+      //     DateCreate:new Date(),
+      //     DateSignature:new Date (),//.toLocaleString('en-GB'),
+      //     DateStart: StartDay,
+      //     DateEnd:new Date(EndDay),//.toLocaleString('en-GB'),
+      //     Time:Time,
+      //     PositionName:NamePosition,
+      //     E_UNIT:NhaMay,//công ty
+      //     E_UNIT_CODE: MaNhaMay,
+      //     E_DIVISION: ChiNhanh,// chi nhánh
+      //     E_DIVISION_CODE: MaChiNhanh,
+      //     E_DEPARTMENT: PhongBan,// phòng ban
+      //     E_DEPARTMENT_CODE: MaPhongBan,
+      //     E_TEAM:BoPhan,//bộ phận
+      //     E_TEAM_CODE:MaBoPhan,
+      //     E_SECTION: To,//Tổ công tác
+      //     E_SECTION_CODE:MaTo
+      //   }
+        )).then(res=>{
           if(res.data)
           {
             alert("Cập nhật thành công")
@@ -120,7 +122,8 @@ console.log("data",data)
           <TableRow hover role="checkbox" tabIndex={-1} >
             <TableCell>
               Chức vụ
-              <PositionName NamePosition ={setNamePosition}/>
+              <PositionName  setdata={setdata} data={data} //NamePosition ={setNamePosition}
+              />
               </TableCell>
               <TableCell colSpan='2'>
               <FormControl fullWidth>
@@ -129,8 +132,16 @@ console.log("data",data)
                 <TextField
                   select
                   value={Time==null?"":Time}
-                  onChange={(e)=>{
-                    setTime(e.target.value)
+                  onChange={(event)=>{
+                    setTime(event.target.value);
+
+                    if ("" !== event.target.value)
+                  return setdata({
+                    ...data,
+                    ...{ Time: event.target.value },
+                  });
+                  const { Time, ...dataNew } = data;
+                  setdata(dataNew);
                   }
                   }
                   size="small"
@@ -147,24 +158,25 @@ console.log("data",data)
             </TableCell>
             <TableCell colSpan='2'>
             Ngày đi công tác
-            <CInput  onChange={(event) => {Up_StartDay(event);
+            <CInput  onChange={(event) => {//Up_StartDay(event);
               if ("" !== event.target.value)
                 return setdata({
                   ...data,
-                  ...{ DateStart: event.target.value },
-                  ...{ DateEnd: event.target.value },
+                  ...{ DateStart: new Date (event.target.value )},
+                  ...{ DateEnd: (new Date(event.target.value)).setMonth() },
                 });
-              const { CodeEmp, ...dataNew } = data;
+              const { DateStart,DateEnd, ...dataNew } = data;
               setdata(dataNew);
             }} type="date" data-date-format="MMMM DD YYYY"></CInput>
             </TableCell>
 
           </TableRow>
-          <Company NhaMay={setNhaMay} MaNhaMay={setMaNhaMay}
-          ChiNhanh={setChiNhanh} MaChiNhanh={setMaChiNhanh}
-          PhongBan={setPhongBan} MaPhongBan={setMaPhongBan}
-          BoPhan={setBoPhan} MaBoPhan={setMaBoPhan}
-          To={setTo} MaTo={setMaTo}
+           <Company //NhaMay={setNhaMay} MaNhaMay={setMaNhaMay}
+          // ChiNhanh={setChiNhanh} MaChiNhanh={setMaChiNhanh}
+          // PhongBan={setPhongBan} MaPhongBan={setMaPhongBan}
+          // BoPhan={setBoPhan} MaBoPhan={setMaBoPhan}
+          // To={setTo} MaTo={setMaTo}
+          setdata={setdata} data={data}
           />
         </TableBody>
         </Table>

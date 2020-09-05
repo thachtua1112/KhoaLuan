@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 
-import OrgStructureAPI from "../../../callAPI/Cat_OrgStructure.api";
-
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-import { FormControl } from "@material-ui/core";
+import { FormControl, Grid, TextField, Typography } from "@material-ui/core";
 
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
@@ -13,7 +9,10 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+
+import AutocompleteCover from "../../../share/component/AutoCompleteCover.Component";
+
+import CategoryContext from "../../../containers/CategoryContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,41 +33,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const getListOrg = (Tree, listOrg = []) => {
-  if (null === Tree) return listOrg;
-  if (!Tree.children) {
-    listOrg.push({
-      ID: Tree.data.ID,
-      Code: Tree.data.Code,
-      OrgStructureName: Tree.data.OrgStructureName,
-    });
-    return listOrg;
-  }
-  Tree.children.forEach((item) => {
-    getListOrg(item, listOrg);
-  });
-  return listOrg;
-};
-
 const Search = (props) => {
-  const [OrgStructure, setOrgStructure] = useState([]);
-
-  useEffect(() => {
-    const fetchAPI = async () => {
-      const result = await OrgStructureAPI.getStructureTree();
-      const listOrg = getListOrg(result.data);
-      setOrgStructure(listOrg);
-    };
-    fetchAPI();
-  }, []);
   const classes = useStyles();
 
   const { Filter, setFilter } = props;
 
+  const Category = useContext(CategoryContext);
+
   return (
     <Grid className={classes.root} container spacing={1}>
       <Grid className={classes.paper} container spacing={2}>
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           Mã nhân viên
           <TextField
             value={!Filter.CodeEmp ? "" : Filter.CodeEmp}
@@ -105,11 +80,11 @@ const Search = (props) => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           Phòng ban
           {
-            <Autocomplete
-              options={OrgStructure}
+            <AutocompleteCover
+              options={Category.ListOrgStructure}
               onChange={(event, item) => {
                 if (item)
                   return setFilter({
@@ -122,6 +97,11 @@ const Search = (props) => {
               getOptionLabel={(option) =>
                 `${option.OrgStructureName}-${option.Code}`
               }
+              renderOption={(option) => (
+                <Typography
+                  noWrap
+                >{`${option.Code} - ${option.OrgStructureName}`}</Typography>
+              )}
               renderInput={(params) => (
                 <TextField {...params} size="small" variant="outlined" />
               )}
@@ -129,7 +109,7 @@ const Search = (props) => {
           }
         </Grid>
 
-        <Grid item xs={3}>
+        <Grid item xs={2}>
           <FormControl fullWidth>
             Kì công
             <MuiPickersUtilsProvider utils={DateFnsUtils}>

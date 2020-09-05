@@ -28,7 +28,10 @@ const OrgStructureChild= (props)=>{
       {
         setOrgStructure([res.data])
       }
-
+      else
+      {
+        
+      }
   })
   }
  },[OrgStructureID])

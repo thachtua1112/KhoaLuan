@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 
-import { Paper, makeStyles } from "@material-ui/core";
+import { Paper, makeStyles, TextField, Typography } from "@material-ui/core";
 
 import { CSidebarNav } from "@coreui/react";
 
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
+import AutocompleteCover from "../../../share/component/AutoCompleteCover.Component";
 
 import OrgStructureTree from "./OrgStructureTree";
 
-import OrgStructureAPI from "../../../api/cat_org_structure.api";
+import CategoryContext from "../../../containers/CategoryContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,31 +25,16 @@ const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const TheSidebar = (props) => {
   const classes = useStyles();
 
-  const {
-    StructureTree,
-    setOrgStructureSelected,
-    OrgStructureSelected,
-  } = props;
+  const { setOrgStructureSelected, OrgStructureSelected } = props;
 
-  const [ListOrgStructure, setListOrgStructure] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchAPI = async () => {
-    const result = await OrgStructureAPI.get({
-      all: 1,
-      fields: { Code: 1, ID: 1, OrgStructureName: 1 },
-    });
-    setListOrgStructure(result.data);
-  };
-
-  useEffect(() => {
-    fetchAPI();
-  }, []);
+  const Category = useContext(CategoryContext);
 
   return (
     <Paper variant="outlined" className={classes.root}>
       <CSidebarNav>
-        <Autocomplete
+        <AutocompleteCover
           className={classes.search}
           loading={loading}
           onInputChange={async (event, value) => {
@@ -63,7 +47,8 @@ const TheSidebar = (props) => {
           disableClearable
           filterSelectedOptions
           autoHighlight
-          options={ListOrgStructure}
+          value={OrgStructureSelected}
+          options={Category.ListOrgStructure}
           getOptionLabel={(option) =>
             `${option.OrgStructureName} - ${option.Code}`
           }
@@ -71,13 +56,15 @@ const TheSidebar = (props) => {
             return option.ID === value.ID;
           }}
           onChange={(event, item) => {
-            setOrgStructureSelected(item.ID);
+            setOrgStructureSelected(item);
           }}
           fullWidth
           size="small"
-          renderOption={(option) => {
-            return `${option.OrgStructureName} - ${option.Code}`;
-          }}
+          renderOption={(option) => (
+            <Typography
+              noWrap
+            >{`${option.Code} - ${option.OrgStructureName}`}</Typography>
+          )}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -87,7 +74,6 @@ const TheSidebar = (props) => {
           )}
         />
         <OrgStructureTree
-          StructureTree={StructureTree}
           OrgStructureSelected={OrgStructureSelected}
           setOrgStructureSelected={setOrgStructureSelected}
         />

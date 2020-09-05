@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-
-import { Autocomplete } from "@material-ui/lab";
+import React, { useContext } from "react";
 
 import {
   MenuItem,
@@ -8,6 +6,7 @@ import {
   Grid,
   TextField,
   makeStyles,
+  Typography,
 } from "@material-ui/core";
 
 import DateFnsUtils from "@date-io/date-fns";
@@ -16,8 +15,9 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 
-//import OrgStructureAPI from "../../../../callAPI/Cat_OrgStructure.api";
-import OrgStructureAPI from "../../../../api/cat_org_structure.api";
+import AutocompleteCover from "../../../../share/component/AutoCompleteCover.Component";
+
+import CategoryContext from "../../../../containers/CategoryContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,18 +37,7 @@ const Search = (props) => {
   const classes = useStyles();
   const { Filter, setFilter } = props;
 
-  const [ListOrgStructure, setListOrgStructure] = useState([]);
-
-  useEffect(() => {
-    const fetchAPI = async () => {
-      const resultOrg = await OrgStructureAPI.get({
-        all: 1,
-        fields: { Code: 1, ID: 1, OrgStructureName: 1 },
-      });
-      setListOrgStructure(resultOrg.data);
-    };
-    fetchAPI();
-  }, []);
+  const Category = useContext(CategoryContext);
 
   return (
     <Grid className={classes.root} container spacing={1}>
@@ -110,18 +99,23 @@ const Search = (props) => {
         <Grid item xs={3}>
           Phòng ban
           {
-            <Autocomplete
+            <AutocompleteCover
               filterSelectedOptions
               multiple
               limitTags={1}
               defaultValue={[]}
-              options={ListOrgStructure}
+              options={Category.ListOrgStructure}
               getOptionLabel={(option) =>
                 `${option.OrgStructureName}-${option.Code}`
               }
               getOptionSelected={(option, value) => option.ID === value.ID}
               renderInput={(params) => (
                 <TextField {...params} size="small" variant="outlined" />
+              )}
+              renderOption={(option) => (
+                <Typography
+                  noWrap
+                >{`${option.Code} - ${option.OrgStructureName}`}</Typography>
               )}
               onChange={(event, item) => {
                 if (0 < item.length) {

@@ -51,8 +51,6 @@ const PrivateRoute = ({
     fetchAPI();
   }, [setIsLogged]);
 
-  console.log("PATH", path);
-
   return (
     <Route
       {...rest}

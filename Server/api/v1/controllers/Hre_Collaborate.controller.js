@@ -65,7 +65,7 @@ module.exports.SelectStaffCollaborate = async function (req, res) {
           _id: 0,
         },
       },
-    ]);
+    ]).limit(100);
     // await contract.limit(10)
     return res.json(contract);
   } catch (err) {

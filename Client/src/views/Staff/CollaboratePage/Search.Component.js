@@ -44,7 +44,6 @@ const Search = (props) => {
     };
     fetchAPI();
   }, []);
-
   return (
     <Grid className={classes.root} container spacing={1}>
       <Grid className={classes.paper} container spacing={2}>

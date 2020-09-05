@@ -6,7 +6,8 @@ import { GetPositionsApi } from '../../../../callAPI/Positions.api';
 export default function PositionName(props) {
   const [Position, SetPosition]= useState([])
  const {
-  NamePosition
+  //NamePosition,
+  data, setdata
  }=props
   useEffect(()=>{
     GetPositionsApi().then(res=>{
@@ -21,7 +22,17 @@ export default function PositionName(props) {
       options={Position}
       getOptionLabel={(option) => option.PositionName}
       renderInput={(params) => <TextField {...params} size="small" variant="outlined" />}
-      onChange={(event, item) => NamePosition(item==null?"":item.PositionName)}
+      onChange={(event, item) => {//NamePosition(item==null?"":item.PositionName);
+      if ( item !=null) {
+        return setdata({
+          ...data,
+          ...{ PositionName:  item.PositionName }
+        });
+      }
+      const { PositionName, ...datanew } = data;
+      setdata(datanew);
+    }
+  }
     />
     </div>
   );

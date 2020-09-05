@@ -18,7 +18,7 @@ module.exports.getAll = async (req, res) => {
 
 module.exports.NotYet_HreContract= async function(req,res){
     try{
-        const {page} = req.query
+        //const {page} = req.query
         const filter =req.query
         const contract = await Hre_ContractModel.distinct("ProfileID");
         //const result = await Hre_ProfileModel.find({ID:{ $nin:  contract }})//.limit(10).skip(parseInt(page))
@@ -144,7 +144,6 @@ module.exports.HistoryById= async function(req,res){
 
       const totalDocuments = contract.length;
       const totalPages = Math.ceil(totalDocuments / perPage);
-
        // await contract.limit(10)
         return res.json({
           method: "GET",

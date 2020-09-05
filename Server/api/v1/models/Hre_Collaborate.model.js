@@ -16,7 +16,15 @@ const Hre_CollaborateSchema = new Schema({
   DateSignature: { type: Schema.Types.Date },
   DateStart: { type: Schema.Types.Date,},
   Time: { type: Schema.Types.Number },
-  DateEnd: { type: Schema.Types.Date},
+  DateEnd: { type: Schema.Types.Date,
+    // default: function () {
+    //   if(this.DateStart&&this.Time)
+    //   {
+    //     return this.DateEnd.setMonth(this.DateStart.getMonth()+this.Time)
+    //   }
+    //   return 0;
+    // }
+  },
   PositionName: { type: Schema.Types.String },
   E_UNIT: { type: Schema.Types.String }, //công ty
   E_UNIT_CODE: { type: Schema.Types.String },
@@ -36,3 +44,4 @@ const Hre_CollaborateModel = mongoose.model(
 );
 
 module.exports = Hre_CollaborateModel;
+  

@@ -133,9 +133,6 @@ module.exports.create = async (req,res) =>{
       res.sendStatus(403)
     }
 }
-
-
-
  
   module.exports.payroll = async (req,res) =>{
     try{

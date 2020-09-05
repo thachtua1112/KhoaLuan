@@ -33,11 +33,11 @@ export default [
     to: "/nhan-su/tiep-nhan-nhan-vien-moi",
     icon: "cil-pencil",
     _children: [
-      {
-        _tag: "CSidebarNavItem",
-        name: "Thêm nhân viên mới",
-        to: "/nhan-su/tiep-nhan-nhan-vien-moi/them-nhan-vien-moi",
-      },
+      // {
+      //   _tag: "CSidebarNavItem",
+      //   name: "Thêm nhân viên mới",
+      //   to: "/nhan-su/tiep-nhan-nhan-vien-moi/them-nhan-vien-moi",
+      // },
       {
         _tag: "CSidebarNavItem",
         name: "Danh sách nhân viên mới",

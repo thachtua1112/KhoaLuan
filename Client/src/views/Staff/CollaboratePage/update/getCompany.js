@@ -12,14 +12,15 @@ export default function Company(props) {
   const [DEPARTMENT, setDEPARTMENT]= useState("")
   const [TEAM, setTEAM]= useState("")
   const {
-    NhaMay,
-    MaNhaMay,
-    ChiNhanh,
-    MaChiNhanh,
-    PhongBan,
-    MaPhongBan,
-    BoPhan,MaBoPhan,
-    To,MaTo
+    // NhaMay,
+    // MaNhaMay,
+    // ChiNhanh,
+    // MaChiNhanh,
+    // PhongBan,
+    // MaPhongBan,
+    // BoPhan,MaBoPhan,
+    // To,MaTo,
+    setdata,data
   }=props
 
   const up_CongTy = (e)=>{
@@ -72,10 +73,21 @@ export default function Company(props) {
       //id="combo-box-demo"
       options={Unit}
       getOptionLabel={(option) => option.E_UNIT}
+
       renderInput={(params) => <TextField {...params} size="small" variant="outlined" />}
       onChange={(event, item) => {up_CongTy(item==null?"":item.E_UNIT_CODE);
-      NhaMay(item==null?"":item.E_UNIT);
-      MaNhaMay(item==null?"":item.E_UNIT_CODE)
+     // NhaMay(item==null?"":item.E_UNIT);
+      //MaNhaMay(item==null?"":item.E_UNIT_CODE)
+
+      if ( item !=null) {
+        return setdata({
+          ...data,
+          ...{ E_UNIT:  item.E_UNIT } ,
+          ...{ E_UNIT_CODE:  item.E_UNIT_CODE },
+        });
+      }
+      const { E_UNIT,E_UNIT_CODE, ...datanew } = data;
+      setdata(datanew);
     }
     }
       />
@@ -90,8 +102,19 @@ export default function Company(props) {
       renderInput={(params) => <TextField {...params} size="small"  variant="outlined" />}
       onChange={(event, item) => {
       up_DIVISION(item==null?"":item.E_DIVISION_CODE);
-      MaChiNhanh(item==null?"":item.E_DIVISION_CODE);
-      ChiNhanh(item==null?"":item.E_DIVISION)
+      // MaChiNhanh(item==null?"":item.E_DIVISION_CODE);
+      // ChiNhanh(item==null?"":item.E_DIVISION)
+
+
+      if ( item !=null) {
+        return setdata({
+          ...data,
+          ...{ E_DIVISION:  item.E_DIVISION } ,
+          ...{ E_DIVISION_CODE:  item.E_DIVISION_CODE },
+        });
+      }
+      const { E_DIVISION,E_DIVISION_CODE, ...datanew } = data;
+      setdata(datanew);
     }
       }
     />
@@ -105,8 +128,18 @@ export default function Company(props) {
       getOptionLabel={(option) => option.E_DEPARTMENT}
       renderInput={(params) => <TextField {...params} size="small" variant="outlined" />}
       onChange={(event, item) => {up_DEPARTMENT(item==null?"":item.E_DEPARTMENT_CODE);
-      MaPhongBan(item==null?"":item.E_DEPARTMENT_CODE);
-      PhongBan(item==null?"":item.E_DEPARTMENT)
+      // MaPhongBan(item==null?"":item.E_DEPARTMENT_CODE);
+      // PhongBan(item==null?"":item.E_DEPARTMENT)
+
+      if ( item !=null) {
+        return setdata({
+          ...data,
+          ...{ E_DEPARTMENT:  item.E_DEPARTMENT } ,
+          ...{ E_DEPARTMENT_CODE:  item.E_DEPARTMENT_CODE },
+        });
+      }
+      const { E_DEPARTMENT,E_DEPARTMENT_CODE, ...datanew } = data;
+      setdata(datanew);
     }}
     />
     </TableCell>
@@ -117,8 +150,19 @@ export default function Company(props) {
         getOptionLabel={(option) => option.E_TEAM}
         renderInput={(params) => <TextField {...params} size="small" variant="outlined" />}
         onChange={(event, item) =>{up_TEAM(item==null?"":item.E_TEAM_CODE);
-        MaBoPhan(item==null?"":item.E_TEAM_CODE);
-        BoPhan(item==null?"":item.E_TEAM)
+        // MaBoPhan(item==null?"":item.E_TEAM_CODE);
+        // BoPhan(item==null?"":item.E_TEAM)
+
+
+        if ( item !=null) {
+          return setdata({
+            ...data,
+            ...{ E_TEAM:  item.E_TEAM } ,
+            ...{ E_TEAM_CODE:  item.E_TEAM_CODE },
+          });
+        }
+        const { E_TEAM,E_TEAM_CODE, ...datanew } = data;
+        setdata(datanew);
       }}
         />
     </TableCell>
@@ -130,8 +174,18 @@ export default function Company(props) {
         getOptionLabel={(option) => option.E_SECTION}
         renderInput={(params) => <TextField {...params} size="small" variant="outlined" />}
         onChange={(event, item) =>{
-        MaTo(item==null?"":item.E_SECTION_CODE);
-        To(item==null?"":item.E_SECTION)
+        // MaTo(item==null?"":item.E_SECTION_CODE);
+        // To(item==null?"":item.E_SECTION)
+
+        if ( item !=null) {
+          return setdata({
+            ...data,
+            ...{ E_SECTION:  item.E_SECTION } ,
+            ...{ E_SECTION_CODE:  item.E_SECTION_CODE },
+          });
+        }
+        const { E_SECTION,E_SECTION_CODE, ...datanew } = data;
+        setdata(datanew);
       }}
         />
   </TableCell>

@@ -5,13 +5,18 @@ const Hre_ProfileModel = require("../models/Hre_Profile.model");
 module.exports.create = async (req, res) => {
   try {
     const { CodeEmp, ...data } = req.body;
+   // console.log(CodeEmp)
     const Profile = await Hre_ProfileModel.findOne({ CodeEmp: CodeEmp });
+    console.log(Profile)
+
     const result = await Att_TimeKeepingDayModel.create({
       ...data,
-      ProfileID: Profile.ProfileID,
+      ProfileID: Profile.ID,
       TimeKeepingType: "BANG_TAY",
       Status: "CHUA_TINH_CONG",
     });
+    console.log(result)
+
     const resultData = await Att_TimeKeepingDayModel.aggregate([
       {
         $match: result,
