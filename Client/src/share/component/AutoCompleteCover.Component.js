@@ -45,11 +45,11 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(
   const theme = useTheme();
   const smUp = useMediaQuery(theme.breakpoints.up("sm"), { noSsr: true });
   const itemCount = itemData.length;
-  const itemSize = smUp ? 36 : 48;
+  const itemSize = smUp ? 50 : 65;
 
   const getChildSize = (child) => {
     if (React.isValidElement(child) && child.type === ListSubheader) {
-      return 48;
+      return 65;
     }
 
     return itemSize;
@@ -113,7 +113,6 @@ export default function AutocompleteCover(props) {
     <Autocomplete
       {...props}
       size="small"
-      disableListWrap
       classes={classes}
       ListboxComponent={ListboxComponent}
       // options={}

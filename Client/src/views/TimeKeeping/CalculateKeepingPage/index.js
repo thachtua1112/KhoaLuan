@@ -4,8 +4,6 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import { Grid, Paper } from "@material-ui/core";
 
-import { CSidebarNav } from "@coreui/react";
-
 import Search from "./Search.Component";
 import ToolBar from "./ToolBar.Component";
 import Content from "./Content.Component";
@@ -25,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(0),
     marginTop: "4px",
   },
-  content: { height: "75vh", paddingLeft: theme.spacing(1) },
+  content: {},
 }));
 
 const CalculateKeepingPage = () => {
@@ -107,34 +105,30 @@ const CalculateKeepingPage = () => {
 
       <Grid item xs={12}>
         <Paper className={classes.content}>
-          <CSidebarNav>
-            <Content
-              fields={fields}
-              data={ListDataTimeKeeping}
-              setCurrentPage={setCurrentPage}
-              fetchData={fetchData}
-              Loading={Loading}
-              PerPage={PerPage}
-              totalDocuments={Total}
-              CurrentPage={CurrentPage}
-              scopedSlots={{
-                TotalKeepingReality: (item) => {
-                  return (
-                    <td>{`${getDays(item.TotalKeepingReality)} ngày `}</td>
-                  );
-                },
-                SabbaticalLeave: (item) => {
-                  return <td>{`${getDays(item.SabbaticalLeave)} ngày`}</td>;
-                },
-                UnSabbaticalLeave: (item) => {
-                  return <td>{`${getDays(item.UnSabbaticalLeave)} ngày`}</td>;
-                },
-                SumKeeping: (item) => {
-                  return <td>{`${getDays(item.SumKeeping)} ngày`}</td>;
-                },
-              }}
-            />
-          </CSidebarNav>
+          <Content
+            fields={fields}
+            data={ListDataTimeKeeping}
+            setCurrentPage={setCurrentPage}
+            fetchData={fetchData}
+            Loading={Loading}
+            PerPage={PerPage}
+            totalDocuments={Total}
+            CurrentPage={CurrentPage}
+            scopedSlots={{
+              TotalKeepingReality: (item) => {
+                return <td>{`${getDays(item.TotalKeepingReality)} ngày `}</td>;
+              },
+              SabbaticalLeave: (item) => {
+                return <td>{`${getDays(item.SabbaticalLeave)} ngày`}</td>;
+              },
+              UnSabbaticalLeave: (item) => {
+                return <td>{`${getDays(item.UnSabbaticalLeave)} ngày`}</td>;
+              },
+              SumKeeping: (item) => {
+                return <td>{`${getDays(item.SumKeeping)} ngày`}</td>;
+              },
+            }}
+          />
         </Paper>
       </Grid>
     </Grid>

@@ -101,9 +101,7 @@ const Search = (props) => {
                 `${option.OrgStructureName}-${option.Code}`
               }
               renderOption={(option) => (
-                <Typography
-                  noWrap
-                >{`${option.Code} - ${option.OrgStructureName}`}</Typography>
+                <Typography>{`${option.Code} - ${option.OrgStructureName}`}</Typography>
               )}
               renderInput={(params) => (
                 <TextField {...params} size="small" variant="outlined" />

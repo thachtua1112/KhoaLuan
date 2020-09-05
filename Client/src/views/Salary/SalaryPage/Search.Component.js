@@ -24,13 +24,6 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(1),
     //textAlign: "center",
   },
-  date1: {
-    width: theme.spacing(26),
-    marginRight: theme.spacing(2),
-  },
-  date2: {
-    width: theme.spacing(26),
-  },
 }));
 
 const Search = (props) => {
@@ -43,7 +36,7 @@ const Search = (props) => {
   return (
     <Grid className={classes.root} container spacing={1}>
       <Grid className={classes.paper} container spacing={2}>
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           Mã nhân viên
           <TextField
             value={!Filter.CodeEmp ? "" : Filter.CodeEmp}
@@ -80,7 +73,7 @@ const Search = (props) => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           Phòng ban
           {
             <AutocompleteCover
@@ -98,9 +91,7 @@ const Search = (props) => {
                 `${option.OrgStructureName}-${option.Code}`
               }
               renderOption={(option) => (
-                <Typography
-                  noWrap
-                >{`${option.Code} - ${option.OrgStructureName}`}</Typography>
+                <Typography>{`${option.Code} - ${option.OrgStructureName}`}</Typography>
               )}
               renderInput={(params) => (
                 <TextField {...params} size="small" variant="outlined" />
@@ -109,7 +100,7 @@ const Search = (props) => {
           }
         </Grid>
 
-        <Grid item xs={2}>
+        <Grid item xs={3}>
           <FormControl fullWidth>
             Kì công
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
@@ -119,7 +110,6 @@ const Search = (props) => {
                   clearable
                   size="small"
                   fullWidth={false}
-                  className={classes.date1}
                   emptyLabel="__/____"
                   views={["year", "month"]}
                   format="MM/yyyy"

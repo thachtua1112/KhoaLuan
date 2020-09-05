@@ -83,7 +83,7 @@ const Search = (props) => {
           // </Grid>
         }
 
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           Phòng ban
           {
             <AutocompleteCover
@@ -101,9 +101,7 @@ const Search = (props) => {
                 `${option.OrgStructureName}-${option.Code}`
               }
               renderOption={(option) => (
-                <Typography
-                  noWrap
-                >{`${option.Code} - ${option.OrgStructureName}`}</Typography>
+                <Typography>{`${option.Code} - ${option.OrgStructureName}`}</Typography>
               )}
               renderInput={(params) => (
                 <TextField {...params} size="small" variant="outlined" />
@@ -122,7 +120,6 @@ const Search = (props) => {
                   // clearable
                   size="small"
                   fullWidth={false}
-                  className={classes.date1}
                   emptyLabel="Kì công"
                   views={["year", "month"]}
                   maxDate={MaxMonth}

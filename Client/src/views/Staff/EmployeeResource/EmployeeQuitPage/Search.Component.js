@@ -113,9 +113,7 @@ const Search = (props) => {
                 <TextField {...params} size="small" variant="outlined" />
               )}
               renderOption={(option) => (
-                <Typography
-                  noWrap
-                >{`${option.Code} - ${option.OrgStructureName}`}</Typography>
+                <Typography>{`${option.Code} - ${option.OrgStructureName}`}</Typography>
               )}
               onChange={(event, item) => {
                 if (0 < item.length) {

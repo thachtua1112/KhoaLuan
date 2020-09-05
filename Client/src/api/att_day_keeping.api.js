@@ -25,4 +25,10 @@ const synthesis = (params) => {
   return axiosClient.post(url, params);
 };
 
-export default { get, create, update, remove, synthesis };
+const uploadData = (data) => {
+  const url = "/day-keepings/upload";
+  console.log(data);
+  //return axiosClient.post(url, params);
+};
+
+export default { get, create, update, remove, synthesis, uploadData };

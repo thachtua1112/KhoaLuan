@@ -150,9 +150,7 @@ const Search = (props) => {
                 `${option.OrgStructureName}-${option.Code}`
               }
               renderOption={(option) => (
-                <Typography
-                  noWrap
-                >{`${option.Code} - ${option.OrgStructureName}`}</Typography>
+                <Typography>{`${option.Code} - ${option.OrgStructureName}`}</Typography>
               )}
               getOptionSelected={(option, value) => option.ID === value.ID}
               renderInput={(params) => (
@@ -187,9 +185,7 @@ const Search = (props) => {
                 }
                 getOptionSelected={(option, value) => option.ID === value.ID}
                 renderOption={(option) => (
-                  <Typography
-                    noWrap
-                  >{`${option.Code} - ${option.PositionName}`}</Typography>
+                  <Typography>{`${option.Code} - ${option.PositionName}`}</Typography>
                 )}
                 renderInput={(params) => (
                   <TextField {...params} size="small" variant="outlined" />
