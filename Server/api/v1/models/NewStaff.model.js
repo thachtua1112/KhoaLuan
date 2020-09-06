@@ -2,23 +2,24 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const NewStaffSchema = new Schema({
-  //ProfileID: { type: Schema.Types.String },
+  //ProfileID: { type: Schema.Types.String },//
   ProfileName: { type: Schema.Types.String },
   NameFamily: { type: Schema.Types.String },
   FirstName: { type: Schema.Types.String },
   NameEnglish: { type: Schema.Types.String },
- // CodeEmp: { type: Schema.Types.String },
-  CodeTax: { type: Schema.Types.String },
- // CodeAttendance: { type: Schema.Types.String },
-  StatusSyn: { type: Schema.Types.String },
-  DateHire: { type: Schema.Types.Date },
- // DateEndProbation: { type: Schema.Types.Date },
   Gender: { type: Schema.Types.String },
   DateOfBirth: { type: Schema.Types.Date },
   PlaceOfBirth: { type: Schema.Types.String },
   IDNo: { type: Schema.Types.String },
   IDDateOfIssue: { type: Schema.Types.Date },
   IDPlaceOfIssue: { type: Schema.Types.String },
+  CodeEmp: { type: Schema.Types.String },//
+  CodeTax: { type: Schema.Types.String },
+ //CodeAttendance: { type: Schema.Types.String },//
+  StatusSyn: { type: Schema.Types.String },
+  DateHire: { type: Schema.Types.Date },
+ //DateEndProbation: { type: Schema.Types.Date },//
+
   PassportNo: { type: Schema.Types.String },
   PassportDateOfExpiry: { type: Schema.Types.Date },
   PassportDateOfIssue: { type: Schema.Types.Date },
