@@ -1,4 +1,4 @@
-//const httpStatus = require("http-status");
+const httpStatus = require("http-status");
 
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -27,21 +27,19 @@ class AuthenticationController {
       const payload = {
         username: user.username,
         role: user.role,
-        ipUser: req.connection.remoteAddress,
       };
 
-      const accessToken = await jwt.sign(payload, AccessTokenSecretKey, {
+      const accessToken = jwt.sign(payload, AccessTokenSecretKey, {
         expiresIn: AccessTokenExpirationMinutes * 60 * 1000,
       });
 
-      const refreshToken = await jwt.sign(payload, RefreshTokenSecretKey, {
+      const refreshToken = jwt.sign(payload, RefreshTokenSecretKey, {
         expiresIn: RefreshTokenExpirationMinutes * 60 * 1000,
       });
 
       const newUserOnline = {
         expireAt: Date.now() + RefreshTokenExpirationMinutes * 60 * 1000,
         username: user.username,
-        ipLogin: req.connection.remoteAddress,
         refreshToken: refreshToken,
       };
 
@@ -50,13 +48,18 @@ class AuthenticationController {
       res.cookie("ACCESS_TOKEN", accessToken, {
         maxAge: AccessTokenExpirationMinutes * 60 * 1000,
         httpOnly: true,
+        sameSite: "None",
+        secure: true,
       });
       res.cookie("REFRESH_TOKEN", refreshToken, {
         maxAge: RefreshTokenExpirationMinutes * 60 * 1000,
+        sameSite: "None",
         httpOnly: true,
+        secure: true,
       });
       return res.json({
         message: "LOGIN_THANH_CONG",
+        Expire: RefreshTokenExpirationMinutes,
         data: {
           username,
           refreshToken,
@@ -86,17 +89,24 @@ class AuthenticationController {
     try {
       const { ACCESS_TOKEN, REFRESH_TOKEN } = req.cookies;
       if (ACCESS_TOKEN && REFRESH_TOKEN) {
-        const decode = await jwt.verify(REFRESH_TOKEN, RefreshTokenSecretKey);
-        if (decode.ipUser === req.connection.remoteAddress) {
+        const decoder = await jwt.verify(REFRESH_TOKEN, RefreshTokenSecretKey);
+        if (decoder) {
           return res.json({
+            decoder,
             message: "DA_DANG_NHAP",
             data: { IsLogged: true },
           });
         }
       }
-      res.json({ message: "CHUA_DANG_NHAP", data: { IsLogged: false } });
+      res.status(httpStatus.UNAUTHORIZED).json({
+        message: "CHUA_DANG_NHAP",
+        data: { IsLogged: false },
+      });
     } catch (error) {
-      res.json({ message: "CHUA_DANG_NHAP", data: { IsLogged: false } });
+      res.status(httpStatus.UNAUTHORIZED).json({
+        message: "CHUA_DANG_NHAP",
+        data: { IsLogged: false },
+      });
     }
   };
 }
