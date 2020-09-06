@@ -131,7 +131,8 @@ const EmployeeQuitPage = (props) => {
       </Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.toolbar}>
-          <ToolBar
+          <ToolBar data={ListProfile}
+          fields={fields}
             onSearch={onSearch}
             setShowNewAndDetail={setShowNewAndDetail}
             RowSelected={RowSelected}

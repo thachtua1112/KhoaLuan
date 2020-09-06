@@ -9,6 +9,7 @@ import SaveAltIcon from '@material-ui/icons/SaveAlt';
 
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import NoteAddIcon from "@material-ui/icons/NoteAdd";
+import { CSVLink } from "react-csv";
 
 
 
@@ -32,13 +33,12 @@ const useStyles = makeStyles((theme) => ({
     }
   }));
 
-
 const ToolBar = (props) => {
 
     const classes = useStyles();
 
   const {  onSearch ,
-    RowSelected ,
+    RowSelected ,data,fields,
     setConfimDelete,
     setShowNewAndDetail,
    } = props;
@@ -94,27 +94,33 @@ const ToolBar = (props) => {
        <FindInPageIcon />
        </Tooltip>
      </IconButton>
-    
-      
-    
+
+
+
   <IconButton onClick={()=>setConfimDelete(true)} disabled={JSON.stringify(RowSelected)===JSON.stringify({})?true:false}>
   <Tooltip title="Xóa">
    <DeleteOutlineIcon />
    </Tooltip>
  </IconButton>
 
-      
+
 
      </div>
      <div
      className={classes.setting}
      >
 
-        <IconButton>
-        <Tooltip title="Export">
-          <SaveAltIcon />
-          </Tooltip>
-        </IconButton>
+     <IconButton>
+     <Tooltip title="Export">
+       <CSVLink
+       headers={fields}
+       data={data}
+       filename={"danh-sach-nghi-viec.csv"}
+     >
+       <SaveAltIcon />
+     </CSVLink>
+       </Tooltip>
+     </IconButton>
 
         <IconButton>
         <Tooltip title="Cài đặt hiển thị">

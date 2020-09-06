@@ -20,6 +20,7 @@ import SettingsIcon from '@material-ui/icons/Settings';
 import SearchIcon from "@material-ui/icons/Search";
 
 import FileUpload from "./FileUpload.component"
+import { CSVLink } from "react-csv";
 
 
 
@@ -44,56 +45,57 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 
-
 const ToolBar = (props) => {
 
   const classes = useStyles();
 
   const [showFileUpload,setshowFileUpload]= useState(false)
 
-  const {  setConfimDelete,show, RowsSelected ,searchDataTimeKeeping,onCalculateTimeKeeping} = props;
+  const {  setConfimDelete,show, RowsSelected ,searchDataTimeKeeping,onCalculateTimeKeeping,
+  data,fields
+  } = props;
 
 
-  
+
   const checkCalculate=()=>{
     return RowsSelected.some((element)=>element.Status!=="DA_TINH_CONG")
   }
 
   return (
-   
+
       <Toolbar variant="dense" disableGutters className={classes.root} >
         <FileUpload showFileUpload={showFileUpload} setshowFileUpload={setshowFileUpload}/>
-      <div className={classes.left}> 
+      <div className={classes.left}>
          <Chip
             icon={<SearchIcon />}
             label="TÌM KIẾM"
             clickable
-            className={classes.search} 
+            className={classes.search}
             onClick={searchDataTimeKeeping}
-            color="primary" 
+            color="primary"
             />
             <Typography variant="h6" component="h2" style={{width:"200px"}}>
             { RowsSelected.length>0?`${RowsSelected.length} dòng đã chọn`:null
           }
             </Typography>
 
-          
-  
-    </div> 
-      
-     
-     <div className={classes.right}> 
-    
+
+
+    </div>
+
+
+     <div className={classes.right}>
+
 
     <div>
     <Chip
     onClick={onCalculateTimeKeeping}
     icon={<ExposureIcon />}
     label="TÍNH NGÀY CÔNG"
-    clickable 
+    clickable
     disabled={!checkCalculate()}
-    className={classes.search} 
-    color="primary" 
+    className={classes.search}
+    color="primary"
     />
 
 
@@ -101,9 +103,9 @@ const ToolBar = (props) => {
     onClick={()=>setshowFileUpload(true)}
     icon={<UnarchiveIcon />}
     label="Tải lên"
-    clickable 
-    className={classes.search} 
-    color="primary" 
+    clickable
+    className={classes.search}
+    color="primary"
     />
 
      <IconButton onClick={()=>show("update")} disabled={RowsSelected.length!==1?true:false}  >
@@ -111,28 +113,34 @@ const ToolBar = (props) => {
        <FindInPageIcon />
        </Tooltip>
      </IconButton>
-    
+
      <IconButton onClick={()=>show("new")}>
      <Tooltip title="Thêm dữ liệu chấm công">
        <NoteAddIcon />
        </Tooltip>
      </IconButton>
-      
+
        <IconButton onClick={()=>setConfimDelete(true)} disabled={RowsSelected.length!==1?true:false} >
        <Tooltip title="Xóa">
          <DeleteOutlineIcon />
-         </Tooltip> 
+         </Tooltip>
        </IconButton>
-     
+
      </div>
      <div
      className={classes.setting}
-     >     
-      <IconButton>
-        <Tooltip title="Export">
-          <SaveAltIcon />
-          </Tooltip>
-        </IconButton>
+     >
+     <IconButton>
+     <Tooltip title="Export">
+       <CSVLink
+       headers={fields}
+       data={data}
+       filename={"du-lieu-ngay-cong.csv"}
+     >
+       <SaveAltIcon />
+     </CSVLink>
+       </Tooltip>
+     </IconButton>
 
         <IconButton>
         <Tooltip title="Cài đặt hiển thị">
@@ -141,9 +149,9 @@ const ToolBar = (props) => {
         </IconButton>
       </div>
       </div>
-       
+
       </Toolbar>
-   
+
   );
 };
 export default ToolBar;

@@ -8,6 +8,7 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import FindInPageIcon from "@material-ui/icons/FindInPage";
 import SearchIcon from "@material-ui/icons/Search";
 import SaveAltIcon from '@material-ui/icons/SaveAlt';
+import { CSVLink } from "react-csv";
 
 //import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 //import NoteAddIcon from "@material-ui/icons/NoteAdd";
@@ -40,7 +41,7 @@ const ToolBar = (props) => {
 
   const history = useHistory();
 
-  const {  onSearch ,RowSelected ,
+  const {  onSearch ,RowSelected ,data,fields
     //setshowNewProfile
    } = props;
 
@@ -107,11 +108,17 @@ const ToolBar = (props) => {
      className={classes.setting}
      >
 
-        <IconButton>
-        <Tooltip title="Export">
-          <SaveAltIcon />
-          </Tooltip>
-        </IconButton>
+     <IconButton>
+     <Tooltip title="Export">
+       <CSVLink
+       headers={fields}
+       data={data}
+       filename={"danh-sach-nhan-vien.csv"}
+     >
+       <SaveAltIcon />
+     </CSVLink>
+       </Tooltip>
+     </IconButton>
 
         <IconButton>
         <Tooltip title="Cài đặt hiển thị">

@@ -105,6 +105,8 @@ const ListNewEmployeePage = (props) => {
         <Paper variant="outlined" className={classes.toolbar}>
           <ToolBar
             setshowNewProfile={setshowNewProfile}
+            data={ListProfile}
+            fields={defaultProfileFields}
             setShowFile={setShowFile}
             onSearch={onSearch}
             RowSelected={RowSelected}

@@ -130,7 +130,8 @@ const TimeKeepingDayPage = () => {
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar
+          <ToolBar data={ListDataTimeKeeping} fields={fields}
+
             setConfimDelete={setConfimDelete}
             show={setOption}
             onCalculateTimeKeeping={onCalculateTimeKeeping}

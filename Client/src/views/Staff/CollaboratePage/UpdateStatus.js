@@ -30,7 +30,7 @@ const StatusUptoDate=(props)=>{
 
   const classes = useStyles();
   const {showNewProfile, setshowNewProfile} =props
-  const [NewProfile, setNewProfile] = useState({})
+  const [NewProfile, setNewProfile] = useState({Accept:"Chưa duyệt"})
 
   const [Staff,setStaff] = useState([])
   const [IdProfile,setIdProfile]=useState([])
@@ -49,7 +49,7 @@ const StatusUptoDate=(props)=>{
     let i=IdProfile.length
     while(i>0)
     {
-      UpdaHreCollaboratesApi(IdProfile[i-1].ProfileID,qs.stringify(NewProfile))
+      UpdaHreCollaboratesApi(IdProfile[i-1]._id,qs.stringify(NewProfile))
       i--
     }
   }

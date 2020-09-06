@@ -125,7 +125,7 @@ const TimeKeepingGroupPage = () => {
       </Grid>
       <Grid item xs={12}>
         <Paper className={classes.toolbar} variant="outlined">
-          <ToolBar
+          <ToolBar  fields={fields} data={ListDataTimeKeeping}
             setConfimDelete={setConfimDelete}
             show={setShowDetail}
             onSearch={onSearch}

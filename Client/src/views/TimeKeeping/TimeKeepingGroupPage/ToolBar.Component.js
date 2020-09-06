@@ -15,6 +15,7 @@ import SearchIcon from "@material-ui/icons/Search";
 
 import SaveAltIcon from "@material-ui/icons/SaveAlt";
 import SettingsIcon from "@material-ui/icons/Settings";
+import { CSVLink } from "react-csv";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,11 +36,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(5),
   },
 }));
-
 const ToolBar = (props) => {
   const classes = useStyles();
 
-  const { setConfimDelete, RowsSelected, onSearch, show } = props;
+  const { setConfimDelete, RowsSelected, onSearch, show,fields,data } = props;
 
   return (
     <Toolbar variant="dense" disableGutters className={classes.root}>
@@ -79,11 +79,17 @@ const ToolBar = (props) => {
           </IconButton>
         </div>
         <div className={classes.setting}>
-          <IconButton>
-            <Tooltip title="Export">
-              <SaveAltIcon />
-            </Tooltip>
-          </IconButton>
+        <IconButton>
+        <Tooltip title="Export">
+          <CSVLink
+          headers={fields}
+          data={data}
+          filename={"tong-hop-cong.csv"}
+        >
+          <SaveAltIcon />
+        </CSVLink>
+          </Tooltip>
+        </IconButton>
 
           <IconButton>
             <Tooltip title="Cài đặt hiển thị">

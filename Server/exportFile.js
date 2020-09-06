@@ -13,9 +13,6 @@ routeExport1.post("/create-pdf", (req, res) => {
   });
 });
 routeExport1.get("/fetch-pdf", (req, res) => {
-  console.log("abc")
   res.sendFile(`${__dirname}/result1.pdf`);
-  console.log("123")
-
 });
 module.exports = routeExport1;

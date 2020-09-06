@@ -72,7 +72,6 @@ class Att_TimeKeepingDayController extends BaseController {
         {
           $match: filters,
         },
-
         {
           $sort: sort,
         },

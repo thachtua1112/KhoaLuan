@@ -90,7 +90,10 @@ const ListEmployeePage = (props) => {
       </Grid>
       <Grid item>
         <Paper variant="outlined" className={classes.toolbar}>
-          <ToolBar onSearch={onSearch} RowSelected={RowSelected} />
+          <ToolBar onSearch={onSearch} RowSelected={RowSelected}
+          data={ListProfile}
+          fields={defaultProfileFields}
+          />
         </Paper>
       </Grid>
       <Grid item>
